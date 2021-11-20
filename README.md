@@ -1,2 +1,2 @@
 # Prepa simulator
-Intègrer ou se suicider
+Intégrer ou se suicider
