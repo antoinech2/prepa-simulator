@@ -24,7 +24,7 @@ class Game :
         self.group.add(self.player) #player à la couche default_layer
 
         pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
-        pg.mixer.music.play()
+        pg.mixer.music.play(-1)
 
 
     def handle_input(self): # les flèches du clavier
