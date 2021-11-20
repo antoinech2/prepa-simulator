@@ -41,9 +41,9 @@ class Tilemap:
         self.map = np.zeros(size, dtype=int)
 
         h, w = self.size
-        self.image = pygame.Surface((32*w, 32*h))
+        self.image = pg.Surface((32*w, 32*h))
         if rect:
-            self.rect = pygame.Rect(rect)
+            self.rect = pg.Rect(rect)
         else:
             self.rect = self.image.get_rect()
 
