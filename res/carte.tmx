@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="113" height="109" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="15">
- <tileset firstgid="1" source="../../jeu video/jeu de tuiles.tsx"/>
+ <tileset firstgid="1" source="textures/tiles.tsx"/>
  <tileset firstgid="241" source="textures/tiles.tsx"/>
  <layer id="1" name="Calque de Tuiles 1" width="113" height="109">
   <data encoding="csv">
