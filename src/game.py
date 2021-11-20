@@ -2,6 +2,7 @@ import pygame as pg
 import pytmx
 import pyscroll
 from player import Player
+from npc import Npc
 
 class Game :
     def __init__(self):
@@ -20,8 +21,11 @@ class Game :
 
 
         # dessiner le grp de calques
-        self.group = pyscroll.PyscrollGroup(map_layer= map_layer , default_layer = 1)
+        self.group = pyscroll.PyscrollGroup(map_layer = map_layer , default_layer = 1)
         self.group.add(self.player) #player à la couche default_layer
+
+        #generation  d'un npc
+        self.group.add(Npc(300,130))
 
         pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
         #pg.mixer.music.play(-1)

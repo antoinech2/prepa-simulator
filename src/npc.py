@@ -1,8 +1,12 @@
 import pygame as pg
+import sqlite3 as sql
 
 class Npc(pg.sprite.Sprite):
-    def __init__(self, num):
-        self.sprite = pg.image.load(sprite)
-        with open(f'../res/text/dialogues/pnj{num}.txt','r') as a:
-            self.dial = a.readline().strip().split("__")
-            print(self.dial)
+    def __init__(self,x,y):
+        super().__init__()
+        self.sprite_sheet = pg.image.load('res/textures/player.png')
+        self.image = pg.Surface([32,32]) #creation d'une image
+        self.image.set_colorkey([0,0,0]) #transparence
+        self.rect = self.image.get_rect() #rectangle autour du joueur
+        self.rect.topleft = [x,y] #placement du npc
+        self.image.blit(self.sprite_sheet,(0,0),(0,0,32,32)) #affichage du npc
