@@ -23,6 +23,10 @@ class Game :
         self.group = pyscroll.PyscrollGroup(map_layer= map_layer , default_layer = 1)
         self.group.add(self.player) #player à la couche default_layer
 
+        pg.mixer.music.load('res/sounds/musique/proto_musique.mp3')
+        main_music.play()
+
+
     def handle_input(self): # les flèches du clavier
         pressed = pg.key.get_pressed()
         if pressed[pg.K_UP]:
