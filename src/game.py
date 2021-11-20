@@ -23,7 +23,7 @@ class Game :
         self.group = pyscroll.PyscrollGroup(map_layer= map_layer , default_layer = 1)
         self.group.add(self.player) #player à la couche default_layer
 
-        pg.mixer.music.load('res/sounds/musique/proto_musique.mp3')
+        pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
         pg.mixer.music.play()
 
 
