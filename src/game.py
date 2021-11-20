@@ -1,12 +1,12 @@
-import pygame
+import pygame as pg
 import pytmx
 import pyscroll
 from player import Player
 
 class Game :
     def __init__(self):
-        self.screen = pygame.display.set_mode((800,600)) # taille de la fenêtre
-        pygame.display.set_caption("jeu") # le petit nom du jeu
+        self.screen = pg.display.set_mode((800,600)) # taille de la fenêtre
+        pg.display.set_caption("jeu") # le petit nom du jeu
 
         # charger la carte
         tmx_data = pytmx.util_pygame.load_pygame('../res/carte.tmx' )
@@ -24,17 +24,17 @@ class Game :
         self.group.add(self.player) #player à la couche default_layer
 
     def handle_input(self): # les flèches du clavier
-        pressed = pygame.key.get_pressed()
-        if pressed[pygame.K_UP]:
+        pressed = pg.key.get_pressed()
+        if pressed[pg.K_UP]:
             self.player.move_up() # voir player
             self.player.change_animation('up') #voir player
-        elif pressed[pygame.K_DOWN]:
+        elif pressed[pg.K_DOWN]:
             self.player.move_down()
             self.player.change_animation('down')
-        elif pressed[pygame.K_LEFT]:
+        elif pressed[pg.K_LEFT]:
             self.player.move_left()
             self.player.change_animation('left')
-        elif pressed[pygame.K_RIGHT]:
+        elif pressed[pg.K_RIGHT]:
             self.player.move_right()
             self.player.change_animation('right')
         else :
@@ -45,7 +45,7 @@ class Game :
 
     def run(self):
 
-        clock = pygame.time.Clock()
+        clock = pg.time.Clock()
 
         running = True
 
@@ -55,10 +55,10 @@ class Game :
             self.group.update()
             self.group.center(self.player.rect)
             self.group.draw(self.screen)
-            pygame.display.flip()
+            pg.display.flip()
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT :
+            for event in pg.event.get():
+                if event.type == pg.QUIT :
                     running = False
             clock.tick(60) #60 fps psk ça va trop vite
-        pygame.quit()
+        pg.quit()
