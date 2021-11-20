@@ -37,6 +37,8 @@ class Game :
         elif pressed[pygame.K_RIGHT]:
             self.player.move_right()
             self.player.change_animation('right')
+        else :
+            self.player.is_animated = False
 
 
 
