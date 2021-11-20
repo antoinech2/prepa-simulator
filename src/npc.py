@@ -6,5 +6,3 @@ class Npc(pg.sprite.Sprite):
         with open(f'../res/text/dialogues/pnj{num}.txt','r') as a:
             self.dial = a.readline().strip().split("__")
             print(self.dial)
-
-a = Pnj('../res/textures/player.png', 1)
