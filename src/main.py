@@ -1,10 +1,10 @@
-import pygame
+import pygame as pg
 import os
 
 from game import *
 
 if __name__ == '__main__' :
     os.chdir("..")
-    pygame.init()
+    pg.init()
     game = Game()
     game.run()
