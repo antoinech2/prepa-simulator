@@ -9,7 +9,7 @@ class Game :
         pg.display.set_caption("jeu") # le petit nom du jeu
 
         # charger la carte
-        tmx_data = pytmx.util_pygame.load_pygame('../res/carte.tmx' )
+        tmx_data = pytmx.util_pygame.load_pygame('res/carte.tmx' )
         map_data = pyscroll.data.TiledMapData(tmx_data)
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data,self.screen.get_size())
         map_layer.zoom = 2

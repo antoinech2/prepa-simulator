@@ -4,12 +4,12 @@ class Player(pygame.sprite.Sprite):
     def __init__(self,x,y):
         super().__init__()
         self.is_animated = False
-        self.sprite_sheet = pg.image.load('../res/textures/player.png') 
+        self.sprite_sheet = pg.image.load('res/textures/player.png')
         self.image = self.get_image(0,0) # en bas par défaut
         self.image.set_colorkey([0,0,0]) # transparence
         self.rect = self.image.get_rect() # rectangle autour du joueur
         self.position = [x,y]
-        self.images = {  
+        self.images = {
             'down' : [ self.get_image(0,0), self.get_image(32,0) , self.get_image(64,0)],
             'left' : [self.get_image(0,32),self.get_image(32,32),self.get_image(64,32)],
             'right' : [self.get_image(0,64),self.get_image(32,64),self.get_image(64,64)],
@@ -23,27 +23,27 @@ class Player(pygame.sprite.Sprite):
             self.is_animated = True
             self.image = self.images[sens][ int(self.current_sprite)]
             self.image.set_colorkey([0,0,0]) #transparence
-            
-    def move_right(self): 
+
+    def move_right(self):
         self.position[0] += self.walk_speed
 
-    def move_left(self): 
+    def move_left(self):
         self.position[0] -= self.walk_speed
 
-    def move_down(self): 
+    def move_down(self):
         self.position[1] += self.walk_speed
 
-    def move_up(self): 
+    def move_up(self):
         self.position[1] -= self.walk_speed
 
-    def update(self) : #mettre à jour la position 
+    def update(self) : #mettre à jour la position
         self.rect.topleft = self.position
         if self.is_animated == True :
             self.current_sprite += self.animation_speed
             if self.current_sprite >= 3:
                 self.current_sprite = 0
-        
-    def get_image(self,x,y): # retourne un 'bout' de l'image 'player.png' en fonction de ses coordonées x,y 
+
+    def get_image(self,x,y): # retourne un 'bout' de l'image 'player.png' en fonction de ses coordonées x,y
         image = pg.Surface([32,32])
         image.blit(self.sprite_sheet,(0,0),(x,y,32,32))
         return image
