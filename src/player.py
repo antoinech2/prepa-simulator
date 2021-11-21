@@ -22,7 +22,6 @@ class Player(pg.sprite.Sprite):
         self.walk_speed = 1.5
         self.animation_speed = 0.2
         self.current_sprite = 0
-
     def change_animation(self,sens): #change l'image en fonction du sens 'sens'
             self.is_animated = True
             self.image = self.images[sens][ int(self.current_sprite)]
@@ -60,18 +59,23 @@ class Player(pg.sprite.Sprite):
         self.save_location()
         self.talk_npc()
 
+
     def move_back(self):
         self.position = self.old_position
         self.rect.topleft = self.position
         self.feet.midbottom = self.rect.midbottom
 
-    def can_talk(self,group_target):
-        if pg.sprite.spritecollide(self,group_target,False) and not self.is_talking: # si il est en collision avec un mec du groupe "group_target"
-            self.is_talking = True
+    def space_pressed(self):
+        self.can_talk()
+
+    def can_talk(self):
+        if pg.sprite.spritecollide(self,self.game.group_npc,False): # si il est en collision avec un mec du groupe "group_target"
+            self.is_talking = not(self.is_talking)
 
     def talk_npc(self):
         if self.is_talking:
             a = self.game.screen.get_size()[0]/2
             b = self.game.screen.get_size()[1]
-            self.game.screen.blit(self.game.talk_box_img,(a,b))
-            self.is_talking = False
+            c = self.game.talk_box_img.get_width()/2
+            d = self.game.talk_box_img.get_height()
+            self.game.screen.blit(self.game.talk_box_img,(a-c,b-d)) # afficher la dialogue box

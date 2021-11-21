@@ -38,7 +38,8 @@ class Game :
         self.group.add(npc_1)
         self.group_npc.add(npc_1)
 
-        self.talk_box_img = pg.image.load("res/textures/talk_box_next.png")
+        a = pg.image.load("res/textures/talk_box_next.png")
+        self.talk_box_img = pg.transform.scale(a,(a.get_width()*1.5,a.get_height()*1.5))
 
         pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
         #pg.mixer.music.play(-1)
@@ -91,6 +92,6 @@ class Game :
                     running = False
                 elif event.type == pg.KEYDOWN:
                     if event.key == pg.K_SPACE: #si Espace est pressée
-                        self.player.can_talk(self.group_npc)
+                        self.player.space_pressed()
             clock.tick(60) #60 fps psk ça va trop vite
         pg.quit()
