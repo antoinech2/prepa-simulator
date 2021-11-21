@@ -50,5 +50,6 @@ class Player(pg.sprite.Sprite):
         return image
 
     def can_talk(self,group_target):
-        if pg.sprite.spritecollide(self,group_targ,False): # si il est en collision avec un mec du groupe "group_target"
+        if pg.sprite.spritecollide(self,group_target,False): # si il est en collision avec un mec du groupe "group_target"
             #lancer script dialogue
+            pass
