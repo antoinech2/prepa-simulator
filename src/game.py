@@ -24,8 +24,14 @@ class Game :
         self.group = pyscroll.PyscrollGroup(map_layer = map_layer , default_layer = 1)
         self.group.add(self.player) #player à la couche default_layer
 
+        #generation du groupe qui contient les npc
+        self.group_npc = pg.sprite.Group()
         #generation  d'un npc
-        self.group.add(Npc(300,130))
+        npc_1 = Npc(120,470)
+        self.group.add(npc_1)
+        self.group_npc.add(npc_1)
+
+        talk_box_img = pg.image.load("res/textures/talk_box_next.png")
 
         pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
         #pg.mixer.music.play(-1)
@@ -33,21 +39,21 @@ class Game :
 
     def handle_input(self): # les flèches du clavier
         pressed = pg.key.get_pressed()
-        if pressed[pg.K_UP]:
-            self.player.move_up() # voir player
-            self.player.change_animation('up') #voir player
-        elif pressed[pg.K_DOWN]:
-            self.player.move_down()
-            self.player.change_animation('down')
-        elif pressed[pg.K_LEFT]:
-            self.player.move_left()
-            self.player.change_animation('left')
-        elif pressed[pg.K_RIGHT]:
-            self.player.move_right()
-            self.player.change_animation('right')
-        else :
-            self.player.is_animated = False
-
+        if not self.player.is_talking:
+            if pressed[pg.K_UP]:
+                self.player.move_up() # voir player
+                self.player.change_animation('up') #voir player
+            elif pressed[pg.K_DOWN]:
+                self.player.move_down()
+                self.player.change_animation('down')
+            elif pressed[pg.K_LEFT]:
+                self.player.move_left()
+                self.player.change_animation('left')
+            elif pressed[pg.K_RIGHT]:
+                self.player.move_right()
+                self.player.change_animation('right')
+            else :
+                self.player.is_animated = False
 
 
 
@@ -68,5 +74,8 @@ class Game :
             for event in pg.event.get():
                 if event.type == pg.QUIT :
                     running = False
+                elif event.type == pg.KEYDOWN:
+                    if event.key == pg.K_SPACE: #si Espace est pressée
+                        self.player.can_talk(self.group_npc)
             clock.tick(60) #60 fps psk ça va trop vite
         pg.quit()

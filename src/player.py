@@ -4,6 +4,7 @@ class Player(pg.sprite.Sprite):
     def __init__(self,x,y):
         super().__init__()
         self.is_animated = False
+        self.is_talking = False
         self.sprite_sheet = pg.image.load('res/textures/player.png')
         self.image = self.get_image(0,0) # en bas par défaut
         self.image.set_colorkey([0,0,0]) # transparence
@@ -47,3 +48,7 @@ class Player(pg.sprite.Sprite):
         image = pg.Surface([32,32])
         image.blit(self.sprite_sheet,(0,0),(x,y,32,32))
         return image
+
+    def can_talk(self,group_target):
+        if pg.sprite.spritecollide(self,group_targ,False): # si il est en collision avec un mec du groupe "group_target"
+            #lancer script dialogue

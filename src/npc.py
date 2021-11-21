@@ -10,3 +10,11 @@ class Npc(pg.sprite.Sprite):
         self.rect = self.image.get_rect() #rectangle autour du joueur
         self.rect.topleft = [x,y] #placement du npc
         self.image.blit(self.sprite_sheet,(0,0),(0,0,32,32)) #affichage du npc
+
+        #sql : recuperation des dialogues
+        self.connection = sql.connect("res/text/dialogues/dial_prepa_simulator.db")
+        self.crs = self.connection.cursor()
+        self.crs.execute("SELECT texte FROM npc_1 WHERE lieu = 'debut'")
+        self.dial = []
+        for d in self.crs:
+            self.dial.append(d[0])
