@@ -10,6 +10,7 @@ class Npc(pg.sprite.Sprite):
         self.rect = self.image.get_rect() #rectangle autour du joueur
         self.rect.topleft = [x,y] #placement du npc
         self.image.blit(self.sprite_sheet,(0,0),(0,0,32,32)) #affichage du npc
+        self.feet = pg.Rect(0,0, self.rect.width * 0.5 , 12) # by djessy , c'est necessaire pour la commande update
 
         #sql : recuperation des dialogues
         self.connection = sql.connect("res/text/dialogues/dial_prepa_simulator.db")

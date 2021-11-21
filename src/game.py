@@ -19,6 +19,12 @@ class Game :
         player_position = tmx_data.get_object_by_name("spawn")
         self.player = Player(player_position.x,player_position.y)
 
+        #affectation des murs de collision
+        self.walls = []
+        for obj in tmx_data.objects :
+            if obj.type == "mur" :
+                self.walls.append(pg.Rect(obj.x , obj.y , obj.width , obj.height ))
+
 
         # dessiner le grp de calques
         self.group = pyscroll.PyscrollGroup(map_layer = map_layer , default_layer = 1)
@@ -55,6 +61,12 @@ class Game :
             else :
                 self.player.is_animated = False
 
+    def update(self):
+        self.group.update()
+        #vérif collision
+        for sprite in self.group.sprites():
+            if sprite.feet.collidelist(self.walls) > -1:
+                sprite.move_back()
 
 
     def run(self):
@@ -64,9 +76,9 @@ class Game :
         running = True
 
         while running:
-
+            self.player.save_location()
             self.handle_input()
-            self.group.update()
+            self.update()
             self.group.center(self.player.rect)
             self.group.draw(self.screen)
             pg.display.flip()

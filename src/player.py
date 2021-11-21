@@ -10,6 +10,8 @@ class Player(pg.sprite.Sprite):
         self.image.set_colorkey([0,0,0]) # transparence
         self.rect = self.image.get_rect() # rectangle autour du joueur
         self.position = [x,y]
+        self.feet = pg.Rect(0,0, self.rect.width * 0.5 , 12)
+        self.old_position = self.position.copy()
         self.images = {
             'down' : [ self.get_image(0,0), self.get_image(32,0) , self.get_image(64,0)],
             'left' : [self.get_image(0,32),self.get_image(32,32),self.get_image(64,32)],
@@ -39,6 +41,7 @@ class Player(pg.sprite.Sprite):
 
     def update(self) : #mettre à jour la position
         self.rect.topleft = self.position
+        self.feet.midbottom = self.rect.midbottom
         if self.is_animated == True :
             self.current_sprite += self.animation_speed
             if self.current_sprite >= 3:
@@ -53,3 +56,11 @@ class Player(pg.sprite.Sprite):
         if pg.sprite.spritecollide(self,group_target,False): # si il est en collision avec un mec du groupe "group_target"
             #lancer script dialogue
             pass
+
+    def save_location(self):
+        self.old_position = self.position.copy()
+
+    def move_back(self):
+        self.position = self.old_position
+        self.rect.topleft = self.position
+        self.feet.midbottom = self.rect.midbottom
