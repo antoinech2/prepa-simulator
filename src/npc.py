@@ -19,3 +19,4 @@ class Npc(pg.sprite.Sprite):
         self.dial = []
         for d in self.crs:
             self.dial.append(d[0])
+        

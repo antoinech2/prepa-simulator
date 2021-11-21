@@ -1,8 +1,9 @@
 import pygame as pg
 
 class Player(pg.sprite.Sprite):
-    def __init__(self,x,y):
+    def __init__(self,x,y,game):
         super().__init__()
+        self.game = game
         self.is_animated = False
         self.is_talking = False
         self.sprite_sheet = pg.image.load('res/textures/player.png')
@@ -52,15 +53,25 @@ class Player(pg.sprite.Sprite):
         image.blit(self.sprite_sheet,(0,0),(x,y,32,32))
         return image
 
-    def can_talk(self,group_target):
-        if pg.sprite.spritecollide(self,group_target,False): # si il est en collision avec un mec du groupe "group_target"
-            #lancer script dialogue
-            pass
-
     def save_location(self):
         self.old_position = self.position.copy()
+
+    def update_player(self): # est appelée à chaques tick
+        self.save_location()
+        self.talk_npc()
 
     def move_back(self):
         self.position = self.old_position
         self.rect.topleft = self.position
         self.feet.midbottom = self.rect.midbottom
+
+    def can_talk(self,group_target):
+        if pg.sprite.spritecollide(self,group_target,False) and not self.is_talking: # si il est en collision avec un mec du groupe "group_target"
+            self.is_talking = True
+
+    def talk_npc(self):
+        if self.is_talking:
+            a = self.game.screen.get_size()[0]/2
+            b = self.game.screen.get_size()[1]
+            self.game.screen.blit(self.game.talk_box_img,(a,b))
+            self.is_talking = False

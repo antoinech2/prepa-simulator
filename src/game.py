@@ -17,7 +17,8 @@ class Game :
 
         #génération d'un joueur
         player_position = tmx_data.get_object_by_name("spawn")
-        self.player = Player(player_position.x,player_position.y)
+
+        self.player = Player(player_position.x,player_position.y,self)
 
         #affectation des murs de collision
         self.walls = []
@@ -33,11 +34,11 @@ class Game :
         #generation du groupe qui contient les npc
         self.group_npc = pg.sprite.Group()
         #generation  d'un npc
-        npc_1 = Npc(120,470)
+        npc_1 = Npc(300,100)
         self.group.add(npc_1)
         self.group_npc.add(npc_1)
 
-        talk_box_img = pg.image.load("res/textures/talk_box_next.png")
+        self.talk_box_img = pg.image.load("res/textures/talk_box_next.png")
 
         pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
         #pg.mixer.music.play(-1)
@@ -76,12 +77,14 @@ class Game :
         running = True
 
         while running:
-            self.player.save_location()
+
             self.handle_input()
             self.update()
             self.group.center(self.player.rect)
             self.group.draw(self.screen)
-            pg.display.flip()
+            self.player.update_player()
+            pg.display.flip() #update l'ecran
+
 
             for event in pg.event.get():
                 if event.type == pg.QUIT :
