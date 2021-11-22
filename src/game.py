@@ -39,7 +39,7 @@ class Game :
         self.group_npc.add(npc_1)
 
         a = pg.image.load("res/textures/talk_box_next.png")
-        self.talk_box_img = pg.transform.scale(a,(a.get_width()*1.5,a.get_height()*1.5))
+        self.talk_box_img = pg.transform.scale(a,(int(a.get_width()*1.5),int(a.get_height()*1.5)))
 
         pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
         #pg.mixer.music.play(-1)
