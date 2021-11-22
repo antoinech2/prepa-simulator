@@ -1,11 +1,15 @@
 import pygame as pg
 import pytmx
 import pyscroll
+import sqlite3 as sql
+
 from player import Player
 from npc import Npc
 
 class Game :
     def __init__(self):
+        self.db_connexion = sql.connect("res/text/dialogues/dial_prepa_simulator.db")
+        self.db_cursor = self.db_connexion.cursor()
         self.screen = pg.display.set_mode((800,600)) # taille de la fenêtre
         pg.display.set_caption("jeu") # le petit nom du jeu
 
@@ -34,7 +38,7 @@ class Game :
         #generation du groupe qui contient les npc
         self.group_npc = pg.sprite.Group()
         #generation  d'un npc
-        npc_1 = Npc(300,100)
+        npc_1 = Npc(self, 300,100)
         self.group.add(npc_1)
         self.group_npc.add(npc_1)
 
@@ -44,6 +48,10 @@ class Game :
         pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
         #pg.mixer.music.play(-1)
 
+    def CloseGame(self):
+        self.db_connexion.commit()
+        self.db_cursor.close()
+        self.db_connexion.close()
 
     def handle_input(self): # les flèches du clavier
         pressed = pg.key.get_pressed()

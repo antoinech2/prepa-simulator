@@ -2,8 +2,9 @@ import pygame as pg
 import sqlite3 as sql
 
 class Npc(pg.sprite.Sprite):
-    def __init__(self,x,y):
+    def __init__(self, game, x, y):
         super().__init__()
+        self.game = game
         self.sprite_sheet = pg.image.load('res/textures/player.png')
         self.image = pg.Surface([32,32]) #creation d'une image
         self.image.set_colorkey([0,0,0]) #transparence
@@ -13,10 +14,6 @@ class Npc(pg.sprite.Sprite):
         self.feet = pg.Rect(0,0, self.rect.width * 0.5 , 12) # by djessy , c'est necessaire pour la commande update
 
         #sql : recuperation des dialogues
-        self.connection = sql.connect("res/text/dialogues/dial_prepa_simulator.db")
-        self.crs = self.connection.cursor()
-        self.crs.execute("SELECT texte FROM npc_1 WHERE lieu = 'debut'")
         self.dial = []
-        for d in self.crs:
+        for d in self.game.db_cursor.execute("SELECT texte FROM npc_1 WHERE lieu = 'debut'"):
             self.dial.append(d[0])
-        
