@@ -5,6 +5,7 @@ import sqlite3 as sql
 
 from player import Player
 from npc import Npc
+import text
 
 class Game :
     def __init__(self):
@@ -22,6 +23,8 @@ class Game :
         map_data = pyscroll.data.TiledMapData(tmx_data)
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data,self.screen.get_size())
         map_layer.zoom = 2
+
+        self.dialogue = text.Dialogue(self)
 
         #génération d'un joueur
         # TODO: Calcul a faire en init joueur
@@ -48,11 +51,6 @@ class Game :
         npc_1 = Npc(self, 300,100)
         self.group.add(npc_1)
         self.group_npc.add(npc_1)
-
-        # TODO: --> Class NPC ou dialogue
-        a = pg.image.load("res/textures/talk_box_next.png")
-        self.talk_box_img = pg.transform.scale(a,(int(a.get_width()*1.5),int(a.get_height()*1.5)))
-
         pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
         #pg.mixer.music.play(-1)
 

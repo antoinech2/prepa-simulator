@@ -1,9 +1,11 @@
 import pygame as pg
+import text
 
 class Player(pg.sprite.Sprite):
     def __init__(self,x,y,game):
         super().__init__()
         self.game = game
+        self.dialogue = game.dialogue
         self.is_animated = False
         self.is_talking = False
         self.sprite_sheet = pg.image.load('res/textures/player.png')
@@ -71,11 +73,12 @@ class Player(pg.sprite.Sprite):
     def can_talk(self):
         if pg.sprite.spritecollide(self,self.game.group_npc,False): # si il est en collision avec un mec du groupe "group_target"
             self.is_talking = not(self.is_talking)
+            print(pg.sprite.spritecollide(self,self.game.group_npc,False))
 
     def talk_npc(self):
         if self.is_talking:
             a = self.game.screen.get_size()[0]/2
             b = self.game.screen.get_size()[1]
-            c = self.game.talk_box_img.get_width()/2
-            d = self.game.talk_box_img.get_height()
-            self.game.screen.blit(self.game.talk_box_img,(a-c,b-d)) # afficher la dialogue box
+            c = self.dialogue.talk_box_img.get_width()/2
+            d = self.dialogue.talk_box_img.get_height()
+            self.dialogue.show_talk_box(a-c,b-d)
