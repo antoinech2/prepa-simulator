@@ -4,6 +4,8 @@ import pyscroll
 from player import Player
 from npc import Npc
 
+
+
 class Game :
     def __init__(self):
         self.screen = pg.display.set_mode((800,600)) # taille de la fenêtre
