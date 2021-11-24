@@ -3,11 +3,12 @@ import pytmx
 import pyscroll
 import sqlite3 as sql
 
-from player import Player
-from npc import Npc
-import text
+from player import *
+from npc import *
+from text import * 
 
-class Game :
+
+class Game:
     def __init__(self):
         # BDD
         self.db_connexion = sql.connect("res/text/dialogues/dial_prepa_simulator.db")
@@ -24,7 +25,7 @@ class Game :
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data,self.screen.get_size())
         map_layer.zoom = 2
 
-        self.dialogue = text.Dialogue(self)
+        self.dialogue = Dialogue(self)
 
         #génération d'un joueur
         # TODO: Calcul a faire en init joueur
