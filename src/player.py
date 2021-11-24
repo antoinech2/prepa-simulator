@@ -67,7 +67,7 @@ class Player(pg.sprite.Sprite):
         self.rect.topleft = self.position
         self.feet.midbottom = self.rect.midbottom
 
-    def space_pressed(self):
+    def space_pressed(self):# quand espace est pressé
         self.can_talk()
 
     def can_talk(self):
