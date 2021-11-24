@@ -3,6 +3,7 @@ import pytmx
 import pyscroll
 from player import Player
 from npc import Npc
+import text
 
 class Game :
     def __init__(self):
@@ -14,6 +15,8 @@ class Game :
         map_data = pyscroll.data.TiledMapData(tmx_data)
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data,self.screen.get_size())
         map_layer.zoom = 2
+
+        self.dialogue = text.dialogue(self)
 
         #génération d'un joueur
         player_position = tmx_data.get_object_by_name("spawn")
@@ -34,7 +37,7 @@ class Game :
         #generation du groupe qui contient les npc
         self.group_npc = pg.sprite.Group()
         #generation  d'un npc
-        npc_1 = Npc(300,100)
+        npc_1 = Npc(300,100,self)
         self.group.add(npc_1)
         self.group_npc.add(npc_1)
 

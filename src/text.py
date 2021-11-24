@@ -1,4 +1,5 @@
 import pygame as pg
+import sqlite3 as sql
 
 
 
@@ -10,6 +11,9 @@ class dialogue():
         talk_box_y = int(talk_box_surf.get_height()*1.5)
         self.talk_box_img = pg.transform.scale(talk_box_surf,(talk_box_x,talk_box_y))
         self.game = game
+        self.connection = sql.connect("res/text/dialogues/dial_prepa_simulator.db")
+        self.crs = self.connection.cursor()
+
 
     def show_talk_box(self,x,y):
         self.game.screen.blit(self.talk_box_img,(x,y))
