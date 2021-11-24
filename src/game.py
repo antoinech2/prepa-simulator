@@ -1,16 +1,24 @@
 import pygame as pg
 import pytmx
 import pyscroll
+import sqlite3 as sql
+
 from player import Player
 from npc import Npc
 import text
 
 class Game :
     def __init__(self):
+        # BDD
+        self.db_connexion = sql.connect("res/text/dialogues/dial_prepa_simulator.db")
+        self.db_cursor = self.db_connexion.cursor()
+
+        # Gestion de l'écran
         self.screen = pg.display.set_mode((800,600)) # taille de la fenêtre
         pg.display.set_caption("jeu") # le petit nom du jeu
 
         # charger la carte
+        ## TODO: Passer avec une classe Map
         tmx_data = pytmx.util_pygame.load_pygame('res/carte.tmx' )
         map_data = pyscroll.data.TiledMapData(tmx_data)
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data,self.screen.get_size())
@@ -19,11 +27,13 @@ class Game :
         self.dialogue = text.Dialogue(self)
 
         #génération d'un joueur
+        # TODO: Calcul a faire en init joueur
         player_position = tmx_data.get_object_by_name("spawn")
 
         self.player = Player(player_position.x,player_position.y,self)
 
         #affectation des murs de collision
+        # TODO: --> Classe Map
         self.walls = []
         for obj in tmx_data.objects :
             if obj.type == "mur" :
@@ -37,14 +47,19 @@ class Game :
         #generation du groupe qui contient les npc
         self.group_npc = pg.sprite.Group()
         #generation  d'un npc
-        npc_1 = Npc(300,100,self)
+        # TODO: Npc chargé par la map
+        npc_1 = Npc(self, 300,100)
         self.group.add(npc_1)
         self.group_npc.add(npc_1)
-
         pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
         #pg.mixer.music.play(-1)
 
+    def CloseGame(self):
+        self.db_connexion.commit()
+        self.db_cursor.close()
+        self.db_connexion.close()
 
+    # TODO: A terme : classe Inputs pour gérer les clic et clavier
     def handle_input(self): # les flèches du clavier
         pressed = pg.key.get_pressed()
         if not self.player.is_talking:
@@ -66,6 +81,7 @@ class Game :
     def update(self):
         self.group.update()
         #vérif collision
+        # TODO: --> Classe Player
         for sprite in self.group.sprites():
             if sprite.feet.collidelist(self.walls) > -1:
                 sprite.move_back()
@@ -91,6 +107,7 @@ class Game :
                 if event.type == pg.QUIT :
                     running = False
                 elif event.type == pg.KEYDOWN:
+                    ## TODO: Classe inputs
                     if event.key == pg.K_SPACE: #si Espace est pressée
                         self.player.space_pressed()
             clock.tick(60) #60 fps psk ça va trop vite
