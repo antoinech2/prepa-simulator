@@ -16,7 +16,7 @@ class Game :
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data,self.screen.get_size())
         map_layer.zoom = 2
 
-        self.dialogue = text.dialogue(self)
+        self.dialogue = text.Dialogue(self)
 
         #génération d'un joueur
         player_position = tmx_data.get_object_by_name("spawn")
