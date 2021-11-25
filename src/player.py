@@ -82,3 +82,4 @@ class Player(pg.sprite.Sprite):
             c = self.dialogue.talk_box_img.get_width()/2
             d = self.dialogue.talk_box_img.get_height()
             self.dialogue.show_talk_box(a-c,b-d)
+            self.dialogue.ecrire("bite")
