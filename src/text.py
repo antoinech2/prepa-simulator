@@ -19,10 +19,13 @@ class Dialogue():
         self.connection = sql.connect("res/text/dialogues/dial_prepa_simulator.db")
         self.crs = self.connection.cursor()
         self.font = pg.font.SysFont("comic sans ms",16)
+        self.tw_sound = pg.mixer.music.load("res/sounds/sound_effect/typewriter.wav")
+        self.internal_clock = 0
 
     def update_dialogue(self):
         if self.game.player.is_talking:
             self.show_talk_box()
+            self.internal_clock = (self.internal_clock + 1)%60
 
     def show_talk_box(self):
         a = self.game.screen.get_size()[0]/2
@@ -37,7 +40,7 @@ class Dialogue():
         if self.current_text_id < len(self.current_npc.dial) - 1:
             self.current_text_id += 1
             self.current_text = self.current_npc.dial[self.current_text_id]
-            self.ecrire(self.current_text)
+            self.ecrire(self.current_text,30,100)
         else:
             self.current_text_id = 0
             self.game.player.is_talking = False
@@ -45,10 +48,9 @@ class Dialogue():
 
     def init_dial(self,target_npc):
         self.current_npc = target_npc
-        self.show_talk_box()
-        self.ecrire(self.current_npc.dial[self.current_text_id])
+        self.ecrire(self.current_npc.dial[self.current_text_id],30,100)
 
 
-    def ecrire(self,texte,color = (0,0,0)):
+    def ecrire(self,texte,x,y,color = (0,0,0)):
         text_affiche = self.font.render(texte,False,color)
-        self.talk_box_img.blit(text_affiche,(30,100))
+        self.talk_box_img.blit(text_affiche,(x,y))
