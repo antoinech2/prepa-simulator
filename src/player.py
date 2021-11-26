@@ -59,7 +59,7 @@ class Player(pg.sprite.Sprite):
 
     def update_player(self): # est appelée à chaques tick
         self.save_location()
-        self.talk_npc()
+        self.dialogue.update_dialogue()
 
 
     def move_back(self):
@@ -68,18 +68,17 @@ class Player(pg.sprite.Sprite):
         self.feet.midbottom = self.rect.midbottom
 
     def space_pressed(self):# quand espace est pressé
-        self.can_talk()
+        if self.is_talking:
+            self.dialogue.dial_suiv()
+        else:
+            self.can_talk()
+
 
     def can_talk(self):
         if pg.sprite.spritecollide(self,self.game.group_npc,False): # si il est en collision avec un mec du groupe "group_target"
-            self.is_talking = not(self.is_talking)
-            print(pg.sprite.spritecollide(self,self.game.group_npc,False))
+            self.is_talking = True
+            self.dialogue.init_dial(pg.sprite.Group.sprites(self.game.group_npc)[0])
 
     def talk_npc(self):
         if self.is_talking:
-            a = self.game.screen.get_size()[0]/2
-            b = self.game.screen.get_size()[1]
-            c = self.dialogue.talk_box_img.get_width()/2
-            d = self.dialogue.talk_box_img.get_height()
-            self.dialogue.show_talk_box(a-c,b-d)
-            self.dialogue.ecrire("bite")
+            self.dialogue.dial_suiv()

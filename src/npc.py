@@ -17,5 +17,4 @@ class Npc(pg.sprite.Sprite):
         self.dial = []
         for d in self.dialogue.crs:
             self.dial.append(d[0])
-
         
