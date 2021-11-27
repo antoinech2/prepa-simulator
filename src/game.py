@@ -148,11 +148,13 @@ class Game:
                 if event.type == pg.QUIT :
                     self.is_running = False
                 elif event.type == pg.KEYDOWN:
-                    if event.key == pg.K_F11: #Temporaire, à traiter ailleurs
+                    if event.key == pg.K_ESCAPE:
+                        self.is_running = False
+                    elif event.key == pg.K_F11: #Temporaire, à traiter ailleurs
                         size = pg.display.get_surface().get_size()
                         self.change_window_size(size[1], size[0], (not self.is_fullscreen))
                     ## TODO: Classe inputs
-                    if event.key == pg.K_SPACE: #si Espace est pressée
+                    elif event.key == pg.K_SPACE: #si Espace est pressée
                         self.player.space_pressed()
                 elif event.type == pg.VIDEORESIZE:
                     self.change_window_size(event.h, event.w)
