@@ -2,6 +2,8 @@ import pygame as pg
 import pytmx
 import pyscroll
 import sqlite3 as sql
+import yaml
+import os
 
 from player import *
 from npc import *
@@ -9,13 +11,27 @@ from text import *
 
 
 class Game:
+    CONFIGURATION_FILE_LOCATION = "sav/window.yaml"
+    DEFAULT_WINDOW_SIZE = (1000, 600) # FIXME: Passer en variable locale, trouver comment faire
+
     def __init__(self):
         # BDD
         self.db_connexion = sql.connect("res/text/dialogues/dial_prepa_simulator.db")
         self.db_cursor = self.db_connexion.cursor()
 
+        #Taille de l'écran
+        if os.path.isfile(self.CONFIGURATION_FILE_LOCATION):
+            window_config = yaml.safe_load(open(self.CONFIGURATION_FILE_LOCATION, 'r'))
+            self.window_size = (window_config.get("size").get("width"), window_config.get("size").get("height"))
+        else:
+            self.window_size = self.DEFAULT_WINDOW_SIZE
+            open(self.CONFIGURATION_FILE_LOCATION, 'w').close()
+            new_window_config = {"size" : {"width" : self.DEFAULT_WINDOW_SIZE[0], "height" : self.DEFAULT_WINDOW_SIZE[1]}}
+            with open(self.CONFIGURATION_FILE_LOCATION, 'w') as file:
+                yaml.dump(new_window_config, file)
+
         # Gestion de l'écran
-        self.screen = pg.display.set_mode((800,600)) # taille de la fenêtre
+        self.screen = pg.display.set_mode(self.window_size) # taille de la fenêtre
         pg.display.set_caption("jeu") # le petit nom du jeu
 
         # charger la carte
