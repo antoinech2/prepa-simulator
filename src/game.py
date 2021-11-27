@@ -5,7 +5,7 @@ import sqlite3 as sql
 
 from player import *
 from npc import *
-from text import * 
+from text import *
 
 
 class Game:
@@ -20,7 +20,7 @@ class Game:
 
         # charger la carte
         ## TODO: Passer avec une classe Map
-        tmx_data = pytmx.util_pygame.load_pygame('res/carte.tmx' )
+        tmx_data = pytmx.util_pygame.load_pygame('res/maps/carte.tmx' )
         map_data = pyscroll.data.TiledMapData(tmx_data)
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data,self.screen.get_size())
         map_layer.zoom = 2
