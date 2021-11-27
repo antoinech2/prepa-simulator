@@ -8,4 +8,6 @@ if __name__ == '__main__' :
     pg.init()
     game = Game()
     game.run()
-    game.CloseGame()
+    while game.restart:
+        game = Game()
+        game.run()

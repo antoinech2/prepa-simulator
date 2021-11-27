@@ -15,6 +15,11 @@ class Game:
     DEFAULT_WINDOW_SIZE = (1000, 600) # FIXME: Passer en variable locale, trouver comment faire
 
     def __init__(self):
+
+        self.restart = True
+        self.resizable = False
+        self.is_running = False
+
         # BDD
         self.db_connexion = sql.connect("res/text/dialogues/dial_prepa_simulator.db")
         self.db_cursor = self.db_connexion.cursor()
@@ -26,12 +31,10 @@ class Game:
         else:
             self.window_size = self.DEFAULT_WINDOW_SIZE
             open(self.CONFIGURATION_FILE_LOCATION, 'w').close()
-            new_window_config = {"size" : {"width" : self.DEFAULT_WINDOW_SIZE[0], "height" : self.DEFAULT_WINDOW_SIZE[1]}}
-            with open(self.CONFIGURATION_FILE_LOCATION, 'w') as file:
-                yaml.dump(new_window_config, file)
+            change_window_size(self.DEFAULT_WINDOW_SIZE)
 
         # Gestion de l'écran
-        self.screen = pg.display.set_mode(self.window_size) # taille de la fenêtre
+        self.screen = pg.display.set_mode(self.window_size, pg.RESIZABLE) # taille de la fenêtre
         pg.display.set_caption("jeu") # le petit nom du jeu
 
         # charger la carte
@@ -71,10 +74,23 @@ class Game:
         pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
         #pg.mixer.music.play(-1)
 
-    def CloseGame(self):
+    def quit_game(self):
+        self.is_running = False
+
+    def close_database(self):
         self.db_connexion.commit()
         self.db_cursor.close()
         self.db_connexion.close()
+
+    def change_window_size(self, height, width):
+        if self.resizable:
+            new_window_config = {"size" : {"width" : width, "height" : height}}
+            with open(self.CONFIGURATION_FILE_LOCATION, 'w') as file:
+                yaml.dump(new_window_config, file)
+            self.quit_game()
+            self.restart = True
+        else:
+            self.resizable = True
 
     # TODO: A terme : classe Inputs pour gérer les clic et clavier
     def handle_input(self): # les flèches du clavier
@@ -105,12 +121,12 @@ class Game:
 
 
     def run(self):
-
+        self.restart = False
         clock = pg.time.Clock()
 
-        running = True
+        self.is_running = True
 
-        while running:
+        while self.is_running:
 
             self.handle_input()
             self.update()
@@ -127,5 +143,7 @@ class Game:
                     ## TODO: Classe inputs
                     if event.key == pg.K_SPACE: #si Espace est pressée
                         self.player.space_pressed()
+                elif event.type == pg.VIDEORESIZE:
+                    self.change_window_size(event.h, event.w)
             clock.tick(60) #60 fps psk ça va trop vite
-        pg.quit()
+        self.close_database()
