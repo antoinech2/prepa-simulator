@@ -25,13 +25,16 @@ class Game:
         self.db_cursor = self.db_connexion.cursor()
 
         #Taille de l'écran
+        if not os.path.isdir("sav"):
+            os.makedirs("sav")
+
         if os.path.isfile(self.CONFIGURATION_FILE_LOCATION):
             window_config = yaml.safe_load(open(self.CONFIGURATION_FILE_LOCATION, 'r'))
             self.window_size = (window_config.get("size").get("width"), window_config.get("size").get("height"))
         else:
             self.window_size = self.DEFAULT_WINDOW_SIZE
             open(self.CONFIGURATION_FILE_LOCATION, 'w').close()
-            change_window_size(self.DEFAULT_WINDOW_SIZE)
+            self.change_window_size(self.DEFAULT_WINDOW_SIZE[1], self.DEFAULT_WINDOW_SIZE[0])
 
         # Gestion de l'écran
         self.screen = pg.display.set_mode(self.window_size, pg.RESIZABLE) # taille de la fenêtre
@@ -138,7 +141,7 @@ class Game:
 
             for event in pg.event.get():
                 if event.type == pg.QUIT :
-                    running = False
+                    self.is_running = False
                 elif event.type == pg.KEYDOWN:
                     ## TODO: Classe inputs
                     if event.key == pg.K_SPACE: #si Espace est pressée
