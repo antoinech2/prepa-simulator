@@ -31,13 +31,18 @@ class Game:
         if os.path.isfile(self.CONFIGURATION_FILE_LOCATION):
             window_config = yaml.safe_load(open(self.CONFIGURATION_FILE_LOCATION, 'r'))
             self.window_size = (window_config.get("size").get("width"), window_config.get("size").get("height"))
+            self.is_fullscreen = window_config.get("fullscreen")
         else:
             self.window_size = self.DEFAULT_WINDOW_SIZE
+            self.is_fullscreen = False
             open(self.CONFIGURATION_FILE_LOCATION, 'w').close()
             self.change_window_size(self.DEFAULT_WINDOW_SIZE[1], self.DEFAULT_WINDOW_SIZE[0])
 
         # Gestion de l'écran
-        self.screen = pg.display.set_mode(self.window_size, pg.RESIZABLE) # taille de la fenêtre
+        if self.is_fullscreen:
+            self.screen = pg.display.set_mode((0,0), pg.RESIZABLE | pg.FULLSCREEN) # taille de la fenêtre
+        else:
+            self.screen = pg.display.set_mode((self.window_size), pg.RESIZABLE) # taille de la fenêtre
         pg.display.set_caption("jeu") # le petit nom du jeu
 
         # charger la carte
@@ -85,9 +90,9 @@ class Game:
         self.db_cursor.close()
         self.db_connexion.close()
 
-    def change_window_size(self, height, width):
+    def change_window_size(self, height, width, fullscreen = False):
         if self.resizable:
-            new_window_config = {"size" : {"width" : width, "height" : height}}
+            new_window_config = {"size" : {"width" : width, "height" : height}, "fullscreen" : fullscreen}
             with open(self.CONFIGURATION_FILE_LOCATION, 'w') as file:
                 yaml.dump(new_window_config, file)
             self.quit_game()
@@ -143,6 +148,9 @@ class Game:
                 if event.type == pg.QUIT :
                     self.is_running = False
                 elif event.type == pg.KEYDOWN:
+                    if event.key == pg.K_F11: #Temporaire, à traiter ailleurs
+                        size = pg.display.get_surface().get_size()
+                        self.change_window_size(size[1], size[0], (not self.is_fullscreen))
                     ## TODO: Classe inputs
                     if event.key == pg.K_SPACE: #si Espace est pressée
                         self.player.space_pressed()
