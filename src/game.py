@@ -1,11 +1,11 @@
 import pygame as pg
-import pytmx
 import pyscroll
 import sqlite3 as sql
 
 from player import *
 from npc import *
 from text import *
+from maps import *
 
 
 class Game:
@@ -20,29 +20,26 @@ class Game:
 
         # charger la carte
         ## TODO: Passer avec une classe Map
-        tmx_data = pytmx.util_pygame.load_pygame('res/maps/carte.tmx' )
-        map_data = pyscroll.data.TiledMapData(tmx_data)
-        map_layer = pyscroll.orthographic.BufferedRenderer(map_data,self.screen.get_size())
-        map_layer.zoom = 2
+        self.map = Map(self, 'res/maps/carte.tmx')
 
         self.dialogue = Dialogue(self)
 
         #génération d'un joueur
         # TODO: Calcul a faire en init joueur
-        player_position = tmx_data.get_object_by_name("spawn")
+        player_position = self.map.tmx_data.get_object_by_name("spawn")
 
         self.player = Player(player_position.x,player_position.y,self)
 
         #affectation des murs de collision
         # TODO: --> Classe Map
         self.walls = []
-        for obj in tmx_data.objects :
+        for obj in self.map.tmx_data.objects :
             if obj.type == "mur" :
                 self.walls.append(pg.Rect(obj.x , obj.y , obj.width , obj.height ))
 
 
         # dessiner le grp de calques
-        self.group = pyscroll.PyscrollGroup(map_layer = map_layer , default_layer = 1)
+        self.group = pyscroll.PyscrollGroup(map_layer = self.map.map_layer , default_layer = 1)
         self.group.add(self.player) #player à la couche default_layer
 
         #generation du groupe qui contient les npc
