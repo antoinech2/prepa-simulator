@@ -148,5 +148,8 @@ class Game:
                         self.player.space_pressed()
                 elif event.type == pg.VIDEORESIZE:
                     self.change_window_size(event.h, event.w)
+                elif event.type == pg.VIDEOEXPOSE:
+                    size = pg.display.get_surface().get_size()
+                    self.change_window_size(size[1], size[0])
             clock.tick(60) #60 fps psk ça va trop vite
         self.close_database()
