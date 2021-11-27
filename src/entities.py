@@ -16,6 +16,7 @@ class Entity(pg.sprite.Sprite):
         super().__init__()
         
         self.game = game
+        self.spritesheet = pg.image.load('res/textures/player.png')
         self.rect = self.image.get_rect()
             
         
@@ -65,6 +66,10 @@ class Player(Entity):
 class Npc(Entity):
     def __init__(self, game):
         super().__init__(game)
+
+
+    def talk(self):
+        pass
 
         
         

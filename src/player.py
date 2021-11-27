@@ -1,8 +1,8 @@
 import pygame as pg
-import text
+from text import *
 
 class Player(pg.sprite.Sprite):
-    def __init__(self,x,y,game):
+    def __init__(self, x, y, game):
         super().__init__()
         self.game = game
         self.dialogue = game.dialogue
