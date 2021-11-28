@@ -23,8 +23,10 @@ class Game:
         self.screen = pg.display.set_mode((800, 600))  # taille de la fenêtre
         pg.display.set_caption("jeu")  # le petit nom du jeu
 
-        # charger la carte
+        # TODO: Les dialogues doivent etres rattachés au NPC, pas au jeu
         self.dialogue = Dialogue(self)
+
+        # charger la carte
         self.map = Map(self, 'res/maps/carte.tmx', [Npc(self,300, 100)])
 
 
