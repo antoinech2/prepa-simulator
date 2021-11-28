@@ -34,6 +34,8 @@ class Game:
 
         self.player = Player(player_position.x, player_position.y, self)
 
+        self.tick_count = 0
+
         # affectation des murs de collision
         # TODO: --> Classe Map
         self.walls = []
@@ -98,5 +100,6 @@ class Game:
                     # TODO: Classe inputs
                     if event.key == pg.K_SPACE:  # si Espace est pressée
                         self.player.space_pressed()
+            self.tick_count += 1
             clock.tick(60)  # 60 fps psk ça va trop vite
         pg.quit()

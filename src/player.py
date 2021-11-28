@@ -30,7 +30,7 @@ class Player(pg.sprite.Sprite):
             'up': [self.get_image(0, 96), self.get_image(32, 96), self.get_image(64, 96)]
         }
         self.walk_speed = 1.5
-        self.animation_speed = 0.2
+        self.animation_cooldown = 5
         self.current_sprite = 0
 
     def change_animation(self, sens):  # change l'image en fonction du sens 'sens'
@@ -63,9 +63,7 @@ class Player(pg.sprite.Sprite):
         self.rect.topleft = self.position
         self.feet.midbottom = self.rect.midbottom
         if self.is_animated == True:
-            self.current_sprite += self.animation_speed
-            if self.current_sprite >= 3:
-                self.current_sprite = 0
+            self.current_sprite = (int(self.game.tick_count/self.animation_cooldown) % 3)
 
     # retourne un 'bout' de l'image 'player.png' en fonction de ses coordonées x,y
     def get_image(self, x, y):
