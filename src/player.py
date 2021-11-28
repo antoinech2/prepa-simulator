@@ -9,9 +9,9 @@ from text import *
 class Player(pg.sprite.Sprite):
 
     SPEED_NORMALISATION = 1/(2**0.5)
-    BASE_WALK_SPEED = 1.5
-    SPRINT_WALK_SPEED_MULTIPLIER = 1.75
-    WALK_ANIMATION_COOLDOWN = 5
+    BASE_WALK_SPEED = 1.5 #Vitesse du joueur sans multiplicateur (en m/frame)
+    SPRINT_WALK_SPEED_MULTIPLIER = 1.75 #Multiplicateur de vitesse en cas de sprint
+    WALK_ANIMATION_COOLDOWN = 5 #Cooldown entre deux changements d'animations (en frames)
 
     def __init__(self, x, y, game):
         super().__init__()
