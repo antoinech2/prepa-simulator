@@ -27,6 +27,7 @@ class Map:  #Classe de données pour référencer les différentes cartes
     group : pyscroll.PyscrollGroup
     tmx_data : pytmx.TiledMap
     portals : list[Portal]
+    music : str
 
 class MapManager :  # aka le Patron ou bien Le Contre-Maître
 
@@ -35,14 +36,18 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         self.screen = screen
         self.maps = dict()   #les dictionnaires c'est bien, surtout pour y ranger des cates
         self.current_map = "carte"  # La map à charger par défault ( mais sert aussi d'indicateur sur la map actuellement utilisée)
-
-        self.register_map("niv_1", portals =[
+        self.current_music = "titleVer2"
+        self.music_manager()
+        self.register_map("niv_1", "spring",
+        portals =[
                 Portal (from_world = "niv_1", origin_point = "to_main", to_world = "carte", next_point = "sortie_lycée" )
         ] )  # référencement des différentes cartes (voir fonction d'après)
-        self.register_map("chambre", portals = [
+        self.register_map("chambre", "la_kro",
+        portals = [
                 Portal (from_world = "chambre", origin_point = "porte", to_world = "carte", next_point = "sortie_chambre")
         ])
-        self.register_map("carte", portals = [
+        self.register_map("carte", "titleVer2",
+        portals = [
                 Portal (from_world = "carte", origin_point = "to_lycée", to_world = "niv_1", next_point = "spawn_lycée") ,
                 Portal (from_world = "carte", origin_point = "to_chambre", to_world = "chambre", next_point = "spawn_chambre")
         ])
@@ -60,7 +65,9 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
                 if self.player.feet.colliderect(rect):
                     copy_portal = portal
                     self.current_map = portal.to_world
+                    self.current_music = self.get_music_from(portal.to_world)
                     self.teleport_player(copy_portal.next_point)
+                    self.music_manager()
         # murs
         for sprite in self.get_group().sprites():
             if sprite.feet.collidelist(self.get_walls()) > -1:
@@ -73,9 +80,9 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         self.player.position[1] = point.y
         self.player.save_location()
 
-    def register_map (self, name , portals = [] ):
+    def register_map (self, name_map , name_music, portals = [] ):
         #chargement normal des elts d'une carte sur Tiled
-        tmx_data = pytmx.util_pygame.load_pygame( f"res/maps/{name}.tmx")  # name doit bien entendu correspondre au nom du fichier
+        tmx_data = pytmx.util_pygame.load_pygame( f"res/maps/{name_map}.tmx")  # name doit bien entendu correspondre au nom du fichier
         map_data = pyscroll.data.TiledMapData(tmx_data)
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
         map_layer.zoom = 1.5
@@ -89,7 +96,12 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         group.add(self.player)
 
         # créer un obj map dans le dico maps
-        self.maps[name] = Map(name, walls, group, tmx_data, portals)
+        self.maps[name_map] = Map(name_map, walls, group, tmx_data, portals, name_music)
+
+    def music_manager(self):
+        pg.mixer.music.load(f"res/sounds/music/{self.current_music}.mp3")
+        pg.mixer.music.play(-1)
+
 
     def get_map(self):
         'renvoi la carte utilisée'
@@ -102,6 +114,10 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
     def get_walls(self):
         'renvoi la liste des murs affichés'
         return self.get_map().walls
+
+    def get_music_from(self,name):
+        'renvoi la musique d une carte'
+        return self.maps[name].music
 
     def get_object(self, name):
         'renvoi la liste d objets par nom'
