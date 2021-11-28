@@ -12,18 +12,18 @@ import sqlite3 as sql
 
 class Dialogue():
     def __init__(self, game):
-        talk_box_surf = pg.image.load(
+        self.talk_box_surf = pg.image.load(
             "res/textures/talk_box_next.png").convert()
         # FIXME C'est degueulasse d'utiliser int() #TG Matéo
-        talk_box_x = int(talk_box_surf.get_width()*0.75)
-        talk_box_y = int(talk_box_surf.get_height()*0.75)
+        self.talk_box_x = int(self.talk_box_surf.get_width()*0.75)
+        self.talk_box_y = int(self.talk_box_surf.get_height()*0.75)
         self.current_text = ""  # text actuel
         self.current_text_id = -1  # id du text actuel
         self.current_letter_id = -1  # lettre actuelle
         self.current_letter = ""  # id de la lettre actuelle
         self.current_npc = None  # npc actuel
         self.talk_box_img = pg.transform.scale(
-            talk_box_surf, (talk_box_x, talk_box_y))
+            self.talk_box_surf, (self.talk_box_x, self.talk_box_y))
         self.talk_box_img.set_colorkey([255, 255, 255])
         self.game = game
         self.connection = sql.connect(
@@ -53,8 +53,10 @@ class Dialogue():
         self.game.screen.blit(self.talk_box_img, (a-c, b-d))
 
     def dial_suiv(self):  # on passe au dialogue suivant
-        # on "efface" le dialogue precedent avec un rect gris
-        pg.draw.rect(self.talk_box_img, (195, 195, 195), (15, 100, 400, 75))
+        # on "efface" le dialogue precedent
+        self.talk_box_img = pg.transform.scale(
+            self.talk_box_surf, (self.talk_box_x, self.talk_box_y))
+        self.talk_box_img.set_colorkey([255, 255, 255])
         # dans la suite à chaques appels de cette fonction on ajoute 1 à l'id du dialogue actuel sauf si c'est le dernier
         # si c'est le dernier alors le player ne parle plus
         if self.current_text_id < len(self.current_npc.dial) - 1:
