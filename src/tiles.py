@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 
 
+"""
+"""
+
+
 import pygame as pg
 
 
@@ -16,14 +20,13 @@ class Tileset:
         self.tiles = []
         self.load()
 
-
     def load(self):
         self.tiles = []
         x0 = y0 = self.margin
         w, h = self.rect.size
         dx = self.size[0] + self.spacing
         dy = self.size[1] + self.spacing
-        
+
         for x in range(x0, w, dx):
             for y in range(y0, h, dy):
                 tile = pg.Surface(self.size)
@@ -39,7 +42,6 @@ class Tilemap:
         self.size = size
         self.tileset = tileset
         self.map = np.zeros(size, dtype=int)
-
         h, w = self.size
         self.image = pg.Surface((32*w, 32*h))
         if rect:

@@ -14,12 +14,11 @@ import pygame as pg
 class Entity(pg.sprite.Sprite):
     def __init__(self, game):
         super().__init__()
-        
+
         self.game = game
         self.spritesheet = pg.image.load('res/textures/player.png')
         self.rect = self.image.get_rect()
-            
-        
+
     def draw(self):
         self.game.screen.blit(self.image, self.rect)
 
@@ -27,23 +26,18 @@ class Entity(pg.sprite.Sprite):
 class Player(Entity):
     def __init__(self, game):
         super().__init__(game)
-        
-        
+
     def move_right(self):
         self.position[0] += self.walk_speed
-
 
     def move_left(self):
         self.position[0] -= self.walk_speed
 
-
     def move_down(self):
         self.position[1] += self.walk_speed
 
-
     def move_up(self):
         self.position[1] -= self.walk_speed
-
 
     def update(self):
         pressed_keys = pg.key.get_pressed()
@@ -59,18 +53,13 @@ class Player(Entity):
         elif pressed[pg.K_RIGHT]:
             self.player.move_right()
             self.player.change_animation('right')
-        else :
-                self.player.is_animated = False
+        else:
+            self.player.is_animated = False
 
 
 class Npc(Entity):
     def __init__(self, game):
         super().__init__(game)
 
-
     def talk(self):
         pass
-
-        
-        
-        
