@@ -16,40 +16,26 @@ class Game:
 
         # Gestion de l'écran
         self.screen = pg.display.set_mode((800,600)) # taille de la fenêtre
-        pg.display.set_caption("jeu") # le petit nom du jeu
+        pg.display.set_caption("Prepa Simulator") # le petit nom du jeu
 
-        # charger la carte
-        ## TODO: Passer avec une classe Map
-        self.map = Map(self, 'res/maps/carte.tmx')
 
         self.dialogue = Dialogue(self)
 
         #génération d'un joueur
         # TODO: Calcul a faire en init joueur
-        player_position = self.map.tmx_data.get_object_by_name("spawn")
+        #player_position = self.map.tmx_data.get_object_by_name("spawn")
 
-        self.player = Player(player_position.x,player_position.y,self)
-
-        #affectation des murs de collision
-        # TODO: --> Classe Map
-        self.walls = []
-        for obj in self.map.tmx_data.objects :
-            if obj.type == "mur" :
-                self.walls.append(pg.Rect(obj.x , obj.y , obj.width , obj.height ))
-
-
-        # dessiner le grp de calques
-        self.group = pyscroll.PyscrollGroup(map_layer = self.map.map_layer , default_layer = 1)
-        self.group.add(self.player) #player à la couche default_layer
+        self.player = Player(0, 0, self)
+        self.map_manager = MapManager(self.screen, self.player)
 
         #generation du groupe qui contient les npc
-        self.group_npc = pg.sprite.Group()
+        #self.group_npc = pg.sprite.Group()
         #generation  d'un npc
         # TODO: Npc chargé par la map
-        npc_1 = Npc(self, 300,100)
-        self.group.add(npc_1)
-        self.group_npc.add(npc_1)
-        pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
+        #npc_1 = Npc(self, 300,100)
+        #self.group.add(npc_1)
+        #self.group_npc.add(npc_1)
+        #pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
         #pg.mixer.music.play(-1)
 
     def CloseGame(self):
@@ -77,13 +63,7 @@ class Game:
                 self.player.is_animated = False
 
     def update(self):
-        self.group.update()
-        #vérif collision
-        # TODO: --> Classe Player
-        for sprite in self.group.sprites():
-            if sprite.feet.collidelist(self.walls) > -1:
-                sprite.move_back()
-
+        self.map_manager.update()
 
     def run(self):
 
@@ -95,8 +75,7 @@ class Game:
 
             self.handle_input()
             self.update()
-            self.group.center(self.player.rect)
-            self.group.draw(self.screen)
+            self.map_manager.draw
             self.player.update_player()
             pg.display.flip() #update l'ecran
 

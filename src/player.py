@@ -57,7 +57,7 @@ class Player(pg.sprite.Sprite):
     def save_location(self):
         self.old_position = self.position.copy()
 
-    def update_player(self): # est appelée à chaques tick
+    def update_player(self): # est appelée à chaque tick
         self.save_location()
         self.dialogue.update_dialogue()
 
