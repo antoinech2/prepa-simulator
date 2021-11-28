@@ -35,19 +35,14 @@ class Player(pg.sprite.Sprite):
         self.current_sprite = 0
 
     def change_animation(self, sens):  # change l'image en fonction du sens 'sens'
-        self.is_animated = True
         self.image = self.images[sens][int(self.current_sprite)]
         self.image.set_colorkey([0, 0, 0])  # transparence
 
     def move(self, list_directions, sprinting):
         number_directions = list_directions.count(True)
         speed_multiplier = self.SPRINT_WALK_SPEED_MULTIPLIER if sprinting else 1
-        if number_directions == 2:
-            speed_normalisation = self.SPEED_NORMALISATION
-        else:
-            speed_normalisation = 1
-        if number_directions == 0 or 4:
-            self.is_animated = False
+        speed_normalisation = self.SPEED_NORMALISATION if number_directions == 2 else 1
+        self.is_animated = False if number_directions in [0,4] else True
         if list_directions[0]: #Haut
             self.position[1] -= self.BASE_WALK_SPEED*speed_multiplier*speed_normalisation
             self.change_animation('up')
