@@ -9,6 +9,9 @@ from text import *
 class Player(pg.sprite.Sprite):
 
     SPEED_NORMALISATION = 1/(2**0.5)
+    BASE_WALK_SPEED = 1.5
+    SPRINT_WALK_SPEED_MULTIPLIER = 1.75
+    WALK_ANIMATION_COOLDOWN = 5
 
     def __init__(self, x, y, game):
         super().__init__()
@@ -29,8 +32,6 @@ class Player(pg.sprite.Sprite):
             'right': [self.get_image(0, 64), self.get_image(32, 64), self.get_image(64, 64)],
             'up': [self.get_image(0, 96), self.get_image(32, 96), self.get_image(64, 96)]
         }
-        self.walk_speed = 1.5
-        self.animation_cooldown = 5
         self.current_sprite = 0
 
     def change_animation(self, sens):  # change l'image en fonction du sens 'sens'
@@ -38,8 +39,9 @@ class Player(pg.sprite.Sprite):
         self.image = self.images[sens][int(self.current_sprite)]
         self.image.set_colorkey([0, 0, 0])  # transparence
 
-    def move(self, list_directions):
+    def move(self, list_directions, sprinting):
         number_directions = list_directions.count(True)
+        speed_multiplier = self.SPRINT_WALK_SPEED_MULTIPLIER if sprinting else 1
         if number_directions == 2:
             speed_normalisation = self.SPEED_NORMALISATION
         else:
@@ -47,23 +49,23 @@ class Player(pg.sprite.Sprite):
         if number_directions == 0 or 4:
             self.is_animated = False
         if list_directions[0]: #Haut
-            self.position[1] -= self.walk_speed*speed_normalisation
+            self.position[1] -= self.BASE_WALK_SPEED*speed_multiplier*speed_normalisation
             self.change_animation('up')
         if list_directions[1]: #Droite
-            self.position[0] += self.walk_speed*speed_normalisation
+            self.position[0] += self.BASE_WALK_SPEED*speed_multiplier*speed_normalisation
             self.change_animation('right')
         if list_directions[2]: #Bas
-            self.position[1] += self.walk_speed*speed_normalisation
+            self.position[1] += self.BASE_WALK_SPEED*speed_multiplier*speed_normalisation
             self.change_animation('down')
         if list_directions[3]: #Gauche
-            self.position[0] -= self.walk_speed*speed_normalisation
+            self.position[0] -= self.BASE_WALK_SPEED*speed_multiplier*speed_normalisation
             self.change_animation('left')
 
     def update(self):  # mettre à jour la position
         self.rect.topleft = self.position
         self.feet.midbottom = self.rect.midbottom
         if self.is_animated == True:
-            self.current_sprite = (int(self.game.tick_count/self.animation_cooldown) % 3)
+            self.current_sprite = (int(self.game.tick_count/self.WALK_ANIMATION_COOLDOWN) % 3)
 
     # retourne un 'bout' de l'image 'player.png' en fonction de ses coordonées x,y
     def get_image(self, x, y):
