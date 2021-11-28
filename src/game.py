@@ -68,7 +68,7 @@ class Game:
         pressed = pg.key.get_pressed()
         if not self.player.is_talking:
             # On envoie le statut des 4 touches de déplacement pour être traité
-            self.player.move([pressed[pg.K_UP], pressed[pg.K_RIGHT], pressed[pg.K_DOWN], pressed[pg.K_LEFT]], pressed[pg.K_RCTRL])
+            self.player.move([pressed[pg.K_UP], pressed[pg.K_RIGHT], pressed[pg.K_DOWN], pressed[pg.K_LEFT]], pressed[pg.K_RCTRL] or pressed[pg.K_LCTRL])
 
     def update(self):
         self.group.update()
