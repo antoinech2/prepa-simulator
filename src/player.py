@@ -88,10 +88,10 @@ class Player(pg.sprite.Sprite):
 
     def can_talk(self):
         # si il est en collision avec un mec du groupe "group_target"
-        if pg.sprite.spritecollide(self, self.game.group_npc, False):
+        if pg.sprite.spritecollide(self, self.game.map.group_npc, False):
             self.is_talking = True
             self.dialogue.init_dial(
-                pg.sprite.Group.sprites(self.game.group_npc)[0])
+                self.game.map.group_npc.sprites()[0])
 
     def talk_npc(self):
         if self.is_talking:

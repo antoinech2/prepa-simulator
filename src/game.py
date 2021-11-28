@@ -24,9 +24,9 @@ class Game:
         pg.display.set_caption("jeu")  # le petit nom du jeu
 
         # charger la carte
-        self.map = Map(self, 'res/maps/carte.tmx')
-
         self.dialogue = Dialogue(self)
+        self.map = Map(self, 'res/maps/carte.tmx', [Npc(self,300, 100)])
+
 
         # génération d'un joueur
         # TODO: Calcul a faire en init joueur
@@ -42,12 +42,9 @@ class Game:
         self.group.add(self.player)  # player à la couche default_layer
 
         # generation du groupe qui contient les npc
-        self.group_npc = pg.sprite.Group()
         # generation  d'un npc
         # TODO: Npc chargé par la map
-        npc_1 = Npc(self, 300, 100)
-        self.group.add(npc_1)
-        self.group_npc.add(npc_1)
+        self.group.add(self.map.group_npc.sprites()[0])
         pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
         # pg.mixer.music.play(-1)
 

@@ -11,7 +11,7 @@ class Npc(pg.sprite.Sprite):
         self.game = game
         self.sprite_sheet = pg.image.load('res/textures/player.png')
         self.game = game
-        self.dialogue = game.dialogue
+        self.dialogue = self.game.dialogue
         self.image = pg.Surface([32, 32])  # creation d'une image
         self.image.set_colorkey([0, 0, 0])  # transparence
         self.rect = self.image.get_rect()  # rectangle autour du joueur
