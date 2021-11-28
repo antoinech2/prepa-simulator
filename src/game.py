@@ -36,13 +36,6 @@ class Game:
 
         self.tick_count = 0
 
-        # affectation des murs de collision
-        # TODO: --> Classe Map
-        self.walls = []
-        for obj in self.map.tmx_data.objects:
-            if obj.type == "mur":
-                self.walls.append(pg.Rect(obj.x, obj.y, obj.width, obj.height))
-
         # dessiner le grp de calques
         self.group = pyscroll.PyscrollGroup(
             map_layer=self.map.map_layer, default_layer=1)
@@ -75,7 +68,7 @@ class Game:
         # vérif collision
         # TODO: --> Classe Player
         for sprite in self.group.sprites():
-            if sprite.feet.collidelist(self.walls) > -1:
+            if sprite.feet.collidelist(self.map.walls) > -1:
                 sprite.move_back()
 
     def run(self):
