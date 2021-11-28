@@ -75,7 +75,7 @@ class Game:
 
             self.handle_input()
             self.update()
-            self.map_manager.draw
+            self.map_manager.draw()
             self.player.update_player()
             pg.display.flip() #update l'ecran
 
