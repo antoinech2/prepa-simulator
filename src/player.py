@@ -7,6 +7,9 @@ from text import *
 
 
 class Player(pg.sprite.Sprite):
+
+    SPEED_NORMALISATION = 1/(2**0.5)
+
     def __init__(self, x, y, game):
         super().__init__()
         self.game = game
@@ -35,17 +38,26 @@ class Player(pg.sprite.Sprite):
         self.image = self.images[sens][int(self.current_sprite)]
         self.image.set_colorkey([0, 0, 0])  # transparence
 
-    def move_right(self):
-        self.position[0] += self.walk_speed
-
-    def move_left(self):
-        self.position[0] -= self.walk_speed
-
-    def move_down(self):
-        self.position[1] += self.walk_speed
-
-    def move_up(self):
-        self.position[1] -= self.walk_speed
+    def move(self, list_directions):
+        number_directions = list_directions.count(True)
+        if number_directions == 2:
+            speed_normalisation = self.SPEED_NORMALISATION
+        else:
+            speed_normalisation = 1
+        if number_directions == 0 or 4:
+            self.is_animated = False
+        if list_directions[0]: #Haut
+            self.position[1] -= self.walk_speed*speed_normalisation
+            self.change_animation('up')
+        if list_directions[1]: #Droite
+            self.position[0] += self.walk_speed*speed_normalisation
+            self.change_animation('right')
+        if list_directions[2]: #Bas
+            self.position[1] += self.walk_speed*speed_normalisation
+            self.change_animation('down')
+        if list_directions[3]: #Gauche
+            self.position[0] -= self.walk_speed*speed_normalisation
+            self.change_animation('left')
 
     def update(self):  # mettre à jour la position
         self.rect.topleft = self.position

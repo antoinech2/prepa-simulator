@@ -65,20 +65,8 @@ class Game:
     def handle_input(self):  # les flèches du clavier
         pressed = pg.key.get_pressed()
         if not self.player.is_talking:
-            if pressed[pg.K_UP]:
-                self.player.move_up()  # voir player
-                self.player.change_animation('up')  # voir player
-            elif pressed[pg.K_DOWN]:
-                self.player.move_down()
-                self.player.change_animation('down')
-            elif pressed[pg.K_LEFT]:
-                self.player.move_left()
-                self.player.change_animation('left')
-            elif pressed[pg.K_RIGHT]:
-                self.player.move_right()
-                self.player.change_animation('right')
-            else:
-                self.player.is_animated = False
+            # On envoie le statut des 4 touches de déplacement pour être traité
+            self.player.move([pressed[pg.K_UP], pressed[pg.K_RIGHT], pressed[pg.K_DOWN], pressed[pg.K_LEFT]])
 
     def update(self):
         self.group.update()
