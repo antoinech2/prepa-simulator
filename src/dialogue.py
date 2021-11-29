@@ -3,6 +3,7 @@
 
 
 """
+Gestion des dialogues entre le joueur et les NPC
 """
 
 
@@ -26,9 +27,9 @@ class Dialogue():
             self.talk_box_surf, (self.talk_box_x, self.talk_box_y))
         self.talk_box_img.set_colorkey([255, 255, 255])
         self.game = game
-        self.connection = sql.connect(
+        self.db_connexion = sql.connect(
             "res/text/dialogues/dial_prepa_simulator.db")
-        self.crs = self.connection.cursor()
+        self.db_cursor = self.db_connexion.cursor()
         self.font = pg.font.SysFont("comic sans ms", 16)
         self.tw_sound = pg.mixer.Sound(
             "res/sounds/sound_effect/typewriter.wav")

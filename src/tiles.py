@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# WIP, A IMPLEMENTER
+
 
 """
+Gère les cases du jeu (tiles)
 """
 
 

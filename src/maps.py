@@ -3,9 +3,7 @@
 
 
 """
-Aucune idee de comment fonctionne cette classe
-J'ai juste recopie ce qu'il y avait dans game.py
-Si quelqu'un veut commenter c'est pas de refus
+Gère les différentes cartes du jeu et ses accès respectifs
 """
 
 

@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""Gère le joueur"""
 
 import pygame as pg
-from text import *
+from dialogue import *
 
 
 class Player(pg.sprite.Sprite):

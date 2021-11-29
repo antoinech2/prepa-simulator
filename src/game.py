@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""Gère le jeu dans sa globalité, notemment la boucle principale"""
 
 import pygame as pg
 import pyscroll
@@ -8,17 +9,12 @@ import sqlite3 as sql
 
 from player import *
 from npc import *
-from text import *
+from dialogue import *
 from maps import *
 
 
 class Game:
     def __init__(self):
-        # BDD
-        self.db_connexion = sql.connect(
-            "res/text/dialogues/dial_prepa_simulator.db")
-        self.db_cursor = self.db_connexion.cursor()
-
         # Gestion de l'écran
         self.screen = pg.display.set_mode((800, 600))  # taille de la fenêtre
         pg.display.set_caption("jeu")  # le petit nom du jeu

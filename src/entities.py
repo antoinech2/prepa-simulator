@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
+# WIP, A IMPLEMENTER
 """
-Ces classes ne sont pas fonctionnelles
-Ce fichier a pour vocation de remplacer 'player.py' et 'npc.py'
+Gère la classe primaire des entités du jeu, tels que le joueur et les NPC
 """
 
 
