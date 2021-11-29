@@ -81,10 +81,7 @@ class Player(pg.sprite.Sprite):
         self.feet.midbottom = self.rect.midbottom
 
     def space_pressed(self):  # quand espace est pressé
-        if self.is_talking:
-            self.dialogue.dial_suiv()
-        else:
-            self.can_talk()
+        self.dialogue.input_from_player()
 
     def can_talk(self):
         # si il est en collision avec un mec du groupe "group_target"
@@ -92,7 +89,3 @@ class Player(pg.sprite.Sprite):
             self.is_talking = True
             self.dialogue.init_dial(
                 self.game.map.group_npc.sprites()[0])
-
-    def talk_npc(self):
-        if self.is_talking:
-            self.dialogue.dial_suiv()

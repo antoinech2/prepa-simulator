@@ -36,6 +36,19 @@ class Dialogue():
         self.is_writing = False
         self.frequence = 0
 
+
+    def input_from_player(self):
+        if self.game.player.is_talking:
+            if self.is_writing:
+                self.is_writing = False
+                self.current_letter_id = -1
+                self.ecrire(self.current_text,30,100)
+            else:
+                self.dial_suiv()
+        else:
+            self.game.player.can_talk()
+
+
     def update_dialogue(self):  # cette fonction s'execute à chaques ticks
         if self.game.player.is_talking:  # si le joueur est en train de parler :
             self.show_talk_box()  # on affiche limage de la boite de dialgue
