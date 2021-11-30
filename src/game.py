@@ -11,6 +11,7 @@ import player
 import npc
 import maps
 import dialogue
+import inputs
 
 
 class Game:
@@ -51,13 +52,6 @@ class Game:
         self.db_cursor.close()
         self.db_connexion.close()
 
-    # TODO: A terme : classe Inputs pour gérer les clic et clavier
-    def handle_input(self):  # les flèches du clavier
-        pressed = pg.key.get_pressed()
-        if not self.player.is_talking:
-            # On envoie le statut des 4 touches de déplacement pour être traité
-            self.player.move([pressed[pg.K_UP], pressed[pg.K_RIGHT], pressed[pg.K_DOWN], pressed[pg.K_LEFT]], pressed[pg.K_RCTRL] or pressed[pg.K_LCTRL])
-
     def update(self):
         self.group.update()
         # vérif collision
@@ -74,7 +68,7 @@ class Game:
 
         while running:
 
-            self.handle_input()
+            inputs.handle_pressed_key(self)
             self.update()
             self.group.center(self.player.rect)
             self.group.draw(self.screen)
@@ -85,9 +79,7 @@ class Game:
                 if event.type == pg.QUIT:
                     running = False
                 elif event.type == pg.KEYDOWN:
-                    # TODO: Classe inputs
-                    if event.key == pg.K_SPACE:  # si Espace est pressée
-                        self.player.space_pressed()
+                    inputs.handle_key_down_event(self, event)
             self.tick_count += 1
             clock.tick(60)  # 60 fps psk ça va trop vite
         pg.quit()
