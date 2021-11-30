@@ -10,8 +10,6 @@ Gère les différentes cartes du jeu et ses accès respectifs
 import pygame as pg
 from pytmx import *
 from pyscroll import *
-from npc import *
-
 
 class Map:
     def __init__(self, game, mapTiles: str, npcList: list):

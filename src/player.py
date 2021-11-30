@@ -4,8 +4,6 @@
 """Gère le joueur"""
 
 import pygame as pg
-from dialogue import *
-
 
 class Player(pg.sprite.Sprite):
 

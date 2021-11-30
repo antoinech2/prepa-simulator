@@ -7,10 +7,10 @@ import pygame as pg
 import pyscroll
 import sqlite3 as sql
 
-from player import *
-from npc import *
-from dialogue import *
-from maps import *
+import player
+import npc
+import maps
+import dialogue
 
 
 class Game:
@@ -20,17 +20,17 @@ class Game:
         pg.display.set_caption("jeu")  # le petit nom du jeu
 
         # TODO: Les dialogues doivent etres rattachés au NPC, pas au jeu
-        self.dialogue = Dialogue(self)
+        self.dialogue = dialogue.Dialogue(self)
 
         # charger la carte
-        self.map = Map(self, 'res/maps/carte.tmx', [Npc(self,300, 100)])
+        self.map = maps.Map(self, 'res/maps/carte.tmx', [npc.Npc(self,300, 100)])
 
 
         # génération d'un joueur
         # TODO: Calcul a faire en init joueur
         player_position = self.map.tmx_data.get_object_by_name("spawn")
 
-        self.player = Player(player_position.x, player_position.y, self)
+        self.player = player.Player(player_position.x, player_position.y, self)
 
         self.tick_count = 0
 
