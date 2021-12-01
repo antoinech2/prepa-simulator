@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="32" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="10">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="32" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="13">
  <tileset firstgid="1" source="../textures/tiles.tsx"/>
  <layer id="1" name="floor_tiles" width="32" height="60">
   <data encoding="csv">
@@ -130,7 +130,7 @@
 </data>
  </layer>
  <objectgroup id="3" name="objects">
-  <object id="1" name="spawn_test" x="512" y="1024">
+  <object id="1" name="spawn_test" x="513.333" y="642.667">
    <point/>
   </object>
   <object id="2" type="mur" x="416" y="672" width="64" height="704"/>
@@ -143,6 +143,11 @@
    <point/>
   </object>
   <object id="9" name="scène des craies" x="576" y="1568">
+   <point/>
+  </object>
+  <object id="10" name="entre_chambre" type="portal" x="539.5" y="976.25" width="17.75" height="47.25"/>
+  <object id="11" name="vers_carte" x="412" y="538" width="71" height="17.5"/>
+  <object id="12" name="sortie_chambre" x="511.5" y="1072">
    <point/>
   </object>
  </objectgroup>
