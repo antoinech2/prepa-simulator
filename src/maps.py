@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import pygame as pg
-import pytmx , pyscroll
+import pytmx, pyscroll
 from dataclasses import dataclass
 
 """
@@ -9,10 +9,8 @@ Aucune idee de comment fonctionne cette classe
 J'ai juste recopie ce qu'il y avait dans game.py
 Si quelqu'un veut commenter c'est pas de refus
 """
-"""
- cc c'est djess je suis là pour le ménage
 
-"""
+
 @dataclass  # classe de donées, pas besoin de faire d'__init__
 class Portal:            # les poratilles entre les mondes
     from_world : str     # monde d'origine

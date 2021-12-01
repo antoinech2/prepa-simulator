@@ -10,18 +10,14 @@ from maps import *
 
 class Game:
     def __init__(self):
-        # BDD
-        self.db_connexion = sql.connect("res/text/dialogues/dial_prepa_simulator.db")
-        self.db_cursor = self.db_connexion.cursor()
-
         # Gestion de l'écran
         self.screen = pg.display.set_mode((800,600)) # taille de la fenêtre
         pg.display.set_caption("Prepa Simulator") # le petit nom du jeu
 
-
+        self.tick_count = 0
         self.dialogue = Dialogue(self)
 
-        #génération d'un joueur
+        # génération d'un joueur
         # TODO: Calcul a faire en init joueur
         #player_position = self.map.tmx_data.get_object_by_name("spawn")
 
