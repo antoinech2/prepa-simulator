@@ -91,7 +91,7 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         'enregistre une carte sur le ditionnaire self.maps de la classe MapManager'
 
         # chargement normal des elts d'une carte sur Tiled
-        tmx_data = pytmx.util_pygame.load_pygame( f"res/maps/{name_map}.tmx")    # name_map doit bien entendu correspondre au nom du fichier tmx (resp pour name_music en mp3)
+        tmx_data = pytmx.util_pygame.load_pygame(f"res/maps/{name_map}.tmx")    # name_map doit bien entendu correspondre au nom du fichier tmx (resp pour name_music en mp3)
         map_data = pyscroll.data.TiledMapData(tmx_data)
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
         map_layer.zoom = 1.5
@@ -144,21 +144,3 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         'appelée, elle met à jour les elts suivants'
         self.get_group().update()
         self.check_collision()
-
-class Map:
-    def __init__(self, game, mapTiles: str, npcList: list):
-        self.game = game
-        self.tmx_data = util_pygame.load_pygame(mapTiles)
-        self.map_data = data.TiledMapData(self.tmx_data)
-        self.map_layer = orthographic.BufferedRenderer(self.map_data,
-                                                       self.game.screen.get_size())
-        self.map_layer.zoom = 2
-
-        self.walls = []
-        for obj in self.tmx_data.objects:
-            if obj.type == "mur":
-                self.walls.append(pg.Rect(obj.x, obj.y, obj.width, obj.height))
-
-        self.group_npc = pg.sprite.Group()
-        for npc in npcList:
-            self.group_npc.add(npc)

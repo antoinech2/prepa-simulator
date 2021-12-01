@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="5">
  <tileset firstgid="1" source="../textures/tiles.tsx"/>
- <tileset firstgid="241" source="../../../../Documents/prepa-simulator/res/textures/tiles.tsx"/>
+ <tileset firstgid="241" source="../textures/tiles.tsx"/>
  <layer id="1" name="floor_layer" width="30" height="30">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
