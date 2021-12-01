@@ -1,11 +1,17 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""Gère le jeu dans sa globalité, notemment la boucle principale"""
+
 import pygame as pg
 import pyscroll
 import sqlite3 as sql
 
-from player import *
-from npc import *
-from text import *
-from maps import *
+import player
+import npc
+import maps
+import dialogue
+import inputs
 
 
 class Game:
@@ -15,14 +21,14 @@ class Game:
         pg.display.set_caption("Prepa Simulator") # le petit nom du jeu
 
         self.tick_count = 0
-        self.dialogue = Dialogue(self)
+        self.dialogue = dialogue.Dialogue(self)
 
         # génération d'un joueur
         # TODO: Calcul a faire en init joueur
         #player_position = self.map.tmx_data.get_object_by_name("spawn")
 
-        self.player = Player(0, 0, self)
-        self.map_manager = MapManager(self.screen, self.player)
+        self.player = player.Player(0, 0, self)
+        self.map_manager = maps.MapManager(self.screen, self.player)
 
         #generation du groupe qui contient les npc
         #self.group_npc = pg.sprite.Group()
@@ -39,25 +45,6 @@ class Game:
         self.db_cursor.close()
         self.db_connexion.close()
 
-    # TODO: A terme : classe Inputs pour gérer les clic et clavier
-    def handle_input(self): # les flèches du clavier
-        pressed = pg.key.get_pressed()
-        if not self.player.is_talking:
-            if pressed[pg.K_UP]:
-                self.player.move_up() # voir player
-                self.player.change_animation('up') #voir player
-            elif pressed[pg.K_DOWN]:
-                self.player.move_down()
-                self.player.change_animation('down')
-            elif pressed[pg.K_LEFT]:
-                self.player.move_left()
-                self.player.change_animation('left')
-            elif pressed[pg.K_RIGHT]:
-                self.player.move_right()
-                self.player.change_animation('right')
-            else :
-                self.player.is_animated = False
-
     def update(self):
         self.map_manager.update()
 
@@ -69,19 +56,17 @@ class Game:
 
         while running:
 
-            self.handle_input()
+            inputs.handle_pressed_key(self)
             self.update()
             self.map_manager.draw()
             self.player.update_player()
-            pg.display.flip() #update l'ecran
-
+            pg.display.flip()  # update l'ecran
 
             for event in pg.event.get():
-                if event.type == pg.QUIT :
+                if event.type == pg.QUIT:
                     running = False
                 elif event.type == pg.KEYDOWN:
-                    ## TODO: Classe inputs
-                    if event.key == pg.K_SPACE: #si Espace est pressée
-                        self.player.space_pressed()
-            clock.tick(60) #60 fps psk ça va trop vite
+                    inputs.handle_key_down_event(self, event)
+            self.tick_count += 1
+            clock.tick(60)  # 60 fps psk ça va trop vite
         pg.quit()
