@@ -31,7 +31,7 @@ class Game:
         self.map_manager = maps.MapManager(self.screen, self.player)
 
         #generation du groupe qui contient les npc
-        #self.group_npc = pg.sprite.Group()
+        self.group_npc = pg.sprite.Group()
         #generation  d'un npc
         # TODO: Npc chargé par la map
         #npc_1 = Npc(self, 300,100)

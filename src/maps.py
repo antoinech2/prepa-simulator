@@ -114,7 +114,6 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         pg.mixer.music.load(f"res/sounds/music/{self.current_music}.mp3")
         pg.mixer.music.play(-1) # boucle musicale
 
-
     def get_map(self):
         'renvoie la carte utilisée'
         return self.maps[self.current_map]
