@@ -26,7 +26,6 @@ class Game:
         # charger la carte
         self.map = maps.Map(self, 'res/maps/carte.tmx', [npc.Npc(self,300, 100)])
 
-
         # génération d'un joueur
         # TODO: Calcul a faire en init joueur
         player_position = self.map.tmx_data.get_object_by_name("spawn")
@@ -46,11 +45,6 @@ class Game:
         self.group.add(self.map.group_npc.sprites()[0])
         pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
         # pg.mixer.music.play(-1)
-
-    def CloseGame(self):
-        self.db_connexion.commit()
-        self.db_cursor.close()
-        self.db_connexion.close()
 
     def update(self):
         self.group.update()

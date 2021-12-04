@@ -13,4 +13,3 @@ if __name__ == '__main__' :
     pg.init()
     game = game.Game()
     game.run()
-    game.CloseGame()
