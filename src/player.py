@@ -10,13 +10,15 @@ class Player(pg.sprite.Sprite):
     SPEED_NORMALISATION = 1/(2**0.5)
     BASE_WALK_SPEED = 1.5 #Vitesse du joueur sans multiplicateur (en m/frame)
     SPRINT_WALK_SPEED_MULTIPLIER = 1.75 #Multiplicateur de vitesse en cas de sprint
-    WALK_ANIMATION_COOLDOWN = 5 #Cooldown entre deux changements d'animations (en frames)
+    WALK_ANIMATION_COOLDOWN = 8 #Cooldown entre deux changements d'animations (en frames)
+    SPRINT_ANIMATION_COOLDOWN = 3 #Cooldown entre deux changements d'animations (en frames)
 
     def __init__(self, x, y, game):
         super().__init__()
         self.game = game
         self.dialogue = game.dialogue
         self.is_animated = False
+        self.is_sprinting = False
         self.is_talking = False
         self.sprite_sheet = pg.image.load('res/textures/player.png')
         self.image = self.get_image(0, 0)  # en bas par défaut
@@ -40,6 +42,7 @@ class Player(pg.sprite.Sprite):
     def move(self, list_directions, sprinting):
         number_directions = list_directions.count(True)
         speed_multiplier = self.SPRINT_WALK_SPEED_MULTIPLIER if sprinting else 1
+        self.is_sprinting = True if sprinting else False
         speed_normalisation = self.SPEED_NORMALISATION if number_directions == 2 else 1
         self.is_animated = False if number_directions in [0,4] else True
         if list_directions[0]: #Haut
@@ -58,8 +61,9 @@ class Player(pg.sprite.Sprite):
     def update(self):  # mettre à jour la position
         self.rect.topleft = self.position
         self.feet.midbottom = self.rect.midbottom
+        animation_cooldown = self.SPRINT_ANIMATION_COOLDOWN if self.is_sprinting else self.WALK_ANIMATION_COOLDOWN
         if self.is_animated == True:
-            self.current_sprite = (int(self.game.tick_count/self.WALK_ANIMATION_COOLDOWN) % 3)
+            self.current_sprite = (int(self.game.tick_count/animation_cooldown) % 3)
 
     # retourne un 'bout' de l'image 'player.png' en fonction de ses coordonées x,y
     def get_image(self, x, y):
