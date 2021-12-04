@@ -36,8 +36,11 @@ class Game:
         #pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
         #pg.mixer.music.play(-1)
 
-    def update(self):
+    def tick(self):
+        inputs.handle_pressed_key(self)
         self.map_manager.update()
+        self.map_manager.draw()
+        self.player.update_player()
 
     def run(self):
 
@@ -47,10 +50,7 @@ class Game:
 
         while running:
 
-            inputs.handle_pressed_key(self)
-            self.update()
-            self.map_manager.draw()
-            self.player.update_player()
+            self.tick()
             pg.display.flip()  # update l'ecran
 
             for event in pg.event.get():
