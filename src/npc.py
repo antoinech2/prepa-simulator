@@ -18,7 +18,6 @@ class Npc(pg.sprite.Sprite):
         self.rect.topleft = [x, y]  # placement du npc
         self.image.blit(self.sprite_sheet, (0, 0),
                         (0, 0, 32, 32))  # affichage du npc
-        # by djessy , c'est necessaire pour la commande update
         self.feet = pg.Rect(0, 0, self.rect.width * 0.5, 12)
         # sql : recuperation des dialogues
         self.dial = []

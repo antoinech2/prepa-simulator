@@ -23,10 +23,6 @@ class Game:
         self.tick_count = 0
         self.dialogue = dialogue.Dialogue(self)
 
-        # génération d'un joueur
-        # TODO: Calcul a faire en init joueur
-        #player_position = self.map.tmx_data.get_object_by_name("spawn")
-
         self.player = player.Player(0, 0, self)
         self.map_manager = maps.MapManager(self.screen, self.player)
 
@@ -39,11 +35,6 @@ class Game:
         #self.group_npc.add(npc_1)
         #pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
         #pg.mixer.music.play(-1)
-
-    def CloseGame(self):
-        self.db_connexion.commit()
-        self.db_cursor.close()
-        self.db_connexion.close()
 
     def update(self):
         self.map_manager.update()

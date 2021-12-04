@@ -37,6 +37,9 @@ class Dialogue():
         self.is_writing = False
         self.frequence = 0
 
+    def close(self):
+        self.db_cursor.close()
+        self.db_connexion.close()
 
     def input_from_player(self):
         if self.game.player.is_talking:
