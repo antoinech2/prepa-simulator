@@ -36,28 +36,37 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
                                             # référencement des différentes cartes (voir fonction d'après)
         self.register_map("niv_1", "spring",
         portals =[
-                Portal (from_world = "niv_1", origin_point = "to_main", to_world = "carte", next_point = "sortie_lycée" ),
-                Portal (from_world = "niv_1", origin_point = "vers_l101", to_world = "l101", next_point = "spawn_test" )
-        ] )
+                Portal (from_world = "niv_1", origin_point = "to_main", to_world = "carte", next_point = "spawn_lycée"),
+                Portal (from_world = "niv_1", origin_point = "to_l101", to_world = "l101", next_point = "spawn_l101_main"),
+                Portal (from_world = "niv_1", origin_point = "to_i105", to_world = "i105", next_point = "spawn_i105"),
+                Portal (from_world = "niv_1", origin_point = "to_i108", to_world = "i108", next_point = "spawn_i108")
+        ])
         self.register_map("chambre", "la_kro",
         portals = [
-                Portal (from_world = "chambre", origin_point = "porte", to_world = "dk3", next_point = "sortie_chambre")
+                Portal (from_world = "chambre", origin_point = "to_dk3", to_world = "dk3", next_point = "spawn_chambre")
         ])
         self.register_map("carte", "titleVer2",
         portals = [
                 Portal (from_world = "carte", origin_point = "to_lycée", to_world = "niv_1", next_point = "spawn_lycée") ,
-                Portal (from_world = "carte", origin_point = "vers_dk3", to_world = "dk3", next_point = "spawn_test")
+                Portal (from_world = "carte", origin_point = "to_dk3", to_world = "dk3", next_point = "spawn_test")
         ])
         self.register_map( "dk3", "proto_musique",
         portals = [
-                Portal (from_world = "dk3", origin_point = "entre_chambre", to_world = "chambre", next_point = "spawn_chambre" ),
-                Portal (from_world = "dk3", origin_point = "vers_carte", to_world = "carte", next_point = "sortie_dk3" )
+                Portal (from_world = "dk3", origin_point = "to_chambre", to_world = "chambre", next_point = "spawn_chambre"),
+                Portal (from_world = "dk3", origin_point = "to_carte", to_world = "carte", next_point = "spawn_dk3")
         ])
         self.register_map( "l101", "la_kro",
         portals = [
-                Portal (from_world = "l101", origin_point = "vers_couloir", to_world = "niv_1", next_point = "spawn_couloir" )
-        ]
-        )
+                Portal (from_world = "l101", origin_point = "to_niv1", to_world = "niv_1", next_point = "exit_l101" )
+        ])
+        self.register_map("i105", "la_kro",
+        portals = [
+                Portal (from_world = "i105", origin_point = "to_niv1", to_world = "niv_1", next_point = "exit_i105")
+        ])
+        self.register_map("i108", "trk8",
+        portals = [
+                Portal (from_world = "i108", origin_point = "to_niv1", to_world = "niv_1", next_point = "exit_i108")
+        ])
 
         self.teleport_player("spawn_1")    # Tp le j au spawn de base ( soit ici celui de carte.tmx)
 

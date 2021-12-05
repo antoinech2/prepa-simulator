@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="5">
+<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="6">
  <tileset firstgid="1" source="../textures/tiles.tsx"/>
- <tileset firstgid="241" source="../textures/tiles.tsx"/>
  <layer id="1" name="floor_layer" width="30" height="30">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -37,12 +36,12 @@
 </data>
  </layer>
  <objectgroup id="2" name="objects">
-  <object id="1" name="spawn_test" x="640" y="352">
+  <object id="1" name="spawn_l101_main" x="629.75" y="255.75">
    <point/>
   </object>
   <object id="2" type="mur" x="224" y="160" width="64" height="576"/>
   <object id="3" type="mur" x="672" y="160" width="64" height="576"/>
-  <object id="4" name="vers_couloir" type="portal" x="664.5" y="240" width="15" height="47.3636"/>
+  <object id="5" name="to_niv1" x="672" y="256" width="32" height="32"/>
  </objectgroup>
  <layer id="3" name="object_layer" width="30" height="30">
   <data encoding="csv">
