@@ -37,11 +37,18 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         self.register_map("niv_1", "spring",
         portals =[
                 Portal (from_world = "niv_1", origin_point = "to_main", to_world = "carte", next_point = "spawn_lycée"),
+                Portal (from_world = "niv_1", origin_point = "to_niv2_i", to_world = "niv_2", next_point = "spawn_niv2_i"),
+                Portal (from_world = "niv_1", origin_point = "to_niv2_n", to_world = "niv_2", next_point = "spawn_niv2_n"),
                 Portal (from_world = "niv_1", origin_point = "to_l101", to_world = "l101", next_point = "spawn_l101_main"),
                 Portal (from_world = "niv_1", origin_point = "to_i104", to_world = "i104", next_point = "spawn_i104"),
                 Portal (from_world = "niv_1", origin_point = "to_i105", to_world = "i105", next_point = "spawn_i105"),
                 Portal (from_world = "niv_1", origin_point = "to_i108", to_world = "i108", next_point = "spawn_i108"),
                 Portal (from_world = "niv_1", origin_point = "to_i109", to_world = "i109", next_point = "spawn_i109")
+        ])
+        self.register_map("niv_2", "spring",
+        portals =[
+                Portal (from_world = "niv_2", origin_point = "to_niv1_i", to_world = "niv_1", next_point = "spawn_niv1_i"),
+                Portal (from_world = "niv_2", origin_point = "to_niv1_n", to_world = "niv_1", next_point = "spawn_niv1_n")
         ])
         self.register_map("chambre", "la_kro",
         portals = [
