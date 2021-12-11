@@ -9,9 +9,7 @@ import sqlite3 as sql
 
 import player
 import maps
-import dialogue
 import inputs
-
 
 class Game:
     def __init__(self):
@@ -20,16 +18,18 @@ class Game:
         pg.display.set_caption("Prepa Simulator") # le petit nom du jeu
 
         self.tick_count = 0
-        self.dialogue = dialogue.Dialogue(self)
 
         self.player = player.Player(0, 0, self)
-        self.map_manager = maps.MapManager(self.screen, self.player)
+        self.map_manager = maps.MapManager(self.screen, self)
+        self.dialogue = None
 
     def tick(self):
         inputs.handle_pressed_key(self)
         self.map_manager.update()
         self.map_manager.draw()
         self.player.update_player()
+        if self.dialogue != None:
+            self.dialogue.update()
 
     def run(self):
 

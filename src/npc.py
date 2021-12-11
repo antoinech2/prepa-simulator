@@ -4,6 +4,7 @@
 """Gère les NPC du jeu"""
 
 import pygame as pg
+import dialogue
 
 #Temporaire : liste des npc
 NPC_LIST = [{"map" : "carte", "coords" : (1500, 1200)}]
@@ -11,11 +12,18 @@ NPC_LIST = [{"map" : "carte", "coords" : (1500, 1200)}]
 class NpcManager():
     def __init__(self, map):
         self.npc_group = pg.sprite.Group()
+        self.map = map
         for npc in NPC_LIST:
             if npc["map"] == map.current_map:
                 new_npc = Npc(map, npc["coords"])
-                self.npc_group.add()
-                map.get_group().add(new_npc)
+                self.npc_group.add(new_npc)
+                self.map.get_group().add(new_npc)
+
+    def check_talk(self):
+        npc_collide_list = pg.sprite.spritecollide(self.map.game.player, self.npc_group, False)
+        if len(npc_collide_list) != 0:
+            self.map.game.dialogue = dialogue.Dialogue(self.map.game, npc_collide_list[0])
+
 
 class Npc(pg.sprite.Sprite):
     def __init__(self, map, coords):

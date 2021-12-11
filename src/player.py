@@ -16,7 +16,6 @@ class Player(pg.sprite.Sprite):
     def __init__(self, x, y, game):
         super().__init__()
         self.game = game
-        self.dialogue = game.dialogue
         self.is_animated = False
         self.is_sprinting = False
         self.is_talking = False
@@ -40,23 +39,24 @@ class Player(pg.sprite.Sprite):
         self.image.set_colorkey([0, 0, 0])  # transparence
 
     def move(self, list_directions, sprinting):
-        number_directions = list_directions.count(True)
-        speed_multiplier = self.SPRINT_WALK_SPEED_MULTIPLIER if sprinting else 1
-        self.is_sprinting = True if sprinting else False
-        speed_normalisation = self.SPEED_NORMALISATION if number_directions == 2 else 1
-        self.is_animated = False if number_directions in [0,4] else True
-        if list_directions[0]: #Haut
-            self.position[1] -= self.BASE_WALK_SPEED*speed_multiplier*speed_normalisation
-            self.change_animation('up')
-        if list_directions[1]: #Droite
-            self.position[0] += self.BASE_WALK_SPEED*speed_multiplier*speed_normalisation
-            self.change_animation('right')
-        if list_directions[2]: #Bas
-            self.position[1] += self.BASE_WALK_SPEED*speed_multiplier*speed_normalisation
-            self.change_animation('down')
-        if list_directions[3]: #Gauche
-            self.position[0] -= self.BASE_WALK_SPEED*speed_multiplier*speed_normalisation
-            self.change_animation('left')
+        if not self.is_talking:
+            number_directions = list_directions.count(True)
+            speed_multiplier = self.SPRINT_WALK_SPEED_MULTIPLIER if sprinting else 1
+            self.is_sprinting = True if sprinting else False
+            speed_normalisation = self.SPEED_NORMALISATION if number_directions == 2 else 1
+            self.is_animated = False if number_directions in [0,4] else True
+            if list_directions[0]: #Haut
+                self.position[1] -= self.BASE_WALK_SPEED*speed_multiplier*speed_normalisation
+                self.change_animation('up')
+            if list_directions[1]: #Droite
+                self.position[0] += self.BASE_WALK_SPEED*speed_multiplier*speed_normalisation
+                self.change_animation('right')
+            if list_directions[2]: #Bas
+                self.position[1] += self.BASE_WALK_SPEED*speed_multiplier*speed_normalisation
+                self.change_animation('down')
+            if list_directions[3]: #Gauche
+                self.position[0] -= self.BASE_WALK_SPEED*speed_multiplier*speed_normalisation
+                self.change_animation('left')
 
     def update(self):  # mettre à jour la position
         self.rect.topleft = self.position
@@ -76,19 +76,8 @@ class Player(pg.sprite.Sprite):
 
     def update_player(self):  # est appelée à chaques tick
         self.save_location()
-        self.dialogue.update_dialogue()
 
     def move_back(self):
         self.position = self.old_position
         self.rect.topleft = self.position
         self.feet.midbottom = self.rect.midbottom
-
-    def space_pressed(self):  # quand espace est pressé
-        self.dialogue.input_from_player()
-
-    def can_talk(self):
-        # si il est en collision avec un mec du groupe "group_target"
-        if pg.sprite.spritecollide(self, self.game.group_npc, False):
-            self.is_talking = True
-            self.dialogue.init_dial(
-                self.game.map.group_npc.sprites()[0])

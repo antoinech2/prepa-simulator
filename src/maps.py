@@ -28,8 +28,8 @@ class Map:  # Classe de données pour référencer les différentes cartes
 
 class MapManager :  # aka le Patron ou bien Le Contre-Maître
 
-    def __init__ (self,screen,player):
-        self.player = player
+    def __init__ (self,screen,game):
+        self.game = game
         self.screen = screen
         self.maps = dict()                  # les dictionnaires c'est bien, surtout pour y ranger des cates
         self.current_map = "carte"          # La map à charger par défault ( mais sert aussi d'indicateur sur la map actuellement utilisée)
@@ -93,7 +93,7 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
                 point = self.get_object(portal.origin_point)
                 rect = pg.Rect(point.x, point.y, point.width, point.height)
 
-                if self.player.feet.colliderect(rect):                           # le joueur entre dans un portal
+                if self.game.player.feet.colliderect(rect):                           # le joueur entre dans un portal
                     copy_portal = portal                                         # comme on va changer de portal, on garde les données en mémoire
                     self.current_map = portal.to_world                           # changement de monde
                     self.current_music = self.get_music_from(portal.to_world)    # changement de musique
@@ -108,9 +108,9 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
     def teleport_player(self, name):
         'tp le joueur sur les coordonées de l objet name'
         point = self.get_object(name)
-        self.player.position[0] = point.x       # réaffectation des coordonées
-        self.player.position[1] = point.y
-        self.player.save_location()             # pour éviter les bugs de loop de tp
+        self.game.player.position[0] = point.x       # réaffectation des coordonées
+        self.game.player.position[1] = point.y
+        self.game.player.save_location()             # pour éviter les bugs de loop de tp
 
     def register_map (self, name_map , name_music, portals = [] ):
         'enregistre une carte sur le ditionnaire self.maps de la classe MapManager'
@@ -129,7 +129,7 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
 
         # groupe de calques
         group = pyscroll.PyscrollGroup(map_layer = map_layer , default_layer = 1)
-        group.add(self.player)
+        group.add(self.game.player)
 
         # créer un obj map dans le dico maps
         self.maps[name_map] = Map(name_map, walls, group, tmx_data, portals, name_music)
@@ -163,7 +163,7 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
     def draw(self):
         'affiche la carte et la centre sur le joueur'
         self.get_group().draw(self.screen)
-        self.get_group().center(self.player.rect.center)
+        self.get_group().center(self.game.player.rect.center)
 
     def update(self):
         'appelée, elle met à jour les elts suivants'

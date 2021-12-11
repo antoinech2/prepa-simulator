@@ -12,53 +12,60 @@ import sqlite3 as sql
 
 
 class Dialogue():
-    def __init__(self, game):
+    DATABASE_LOCATION = "res/text/dialogues/dial_prepa_simulator.db"
+    def __init__(self, game, npc):
+        self.game = game
+
+        #Graphique
         self.talk_box_surf = pg.image.load(
             "res/textures/talk_box_next.png").convert()
-        # FIXME C'est degueulasse d'utiliser int() #TG Matéo
+        # FIXME Passage en relatif
         self.talk_box_x = int(self.talk_box_surf.get_width()*0.75)
         self.talk_box_y = int(self.talk_box_surf.get_height()*0.75)
+        self.talk_box_img = pg.transform.scale(
+            self.talk_box_surf, (self.talk_box_x, self.talk_box_y))
+        self.talk_box_img.set_colorkey([255, 255, 255])
+
+        #Texte
+        self.frequence = 20
+        self.current_npc = npc
         self.current_text = ""  # text actuel
         self.current_text_id = -1  # id du text actuel
         self.current_letter_id = -1  # lettre actuelle
         self.current_letter = ""  # id de la lettre actuelle
-        self.current_npc = None  # npc actuel
-        self.talk_box_img = pg.transform.scale(
-            self.talk_box_surf, (self.talk_box_x, self.talk_box_y))
-        self.talk_box_img.set_colorkey([255, 255, 255])
-        self.game = game
-        self.db_connexion = sql.connect(
-            "res/text/dialogues/dial_prepa_simulator.db")
+
+        #BDD
+        self.db_connexion = sql.connect(self.DATABASE_LOCATION)
         self.db_cursor = self.db_connexion.cursor()
+
+        #Police
         self.font = pg.font.SysFont("comic sans ms", 16)
+
+
         self.tw_sound = pg.mixer.Sound(
             "res/sounds/sound_effect/typewriter.wav")
         self.internal_clock = 0  # horloge interne
         self.is_writing = False
-        self.frequence = 0
+        self.game.player.is_talking = True
 
     def close(self):
         self.db_cursor.close()
         self.db_connexion.close()
 
-    def input_from_player(self):
-        if self.game.player.is_talking:
-            if self.is_writing:
-                self.is_writing = False
-                self.current_letter_id = -1
-                self.ecrire(self.current_text,30,100)
-            else:
-                self.dial_suiv()
+    def next_dialogue(self):
+        if self.is_writing:
+            self.is_writing = False
+            self.current_letter_id = -1
+            self.ecrire(self.current_text,30,100)
         else:
-            self.game.player.can_talk()
+            self.dial_suiv()
 
 
-    def update_dialogue(self):  # cette fonction s'execute à chaques ticks
-        if self.game.player.is_talking:  # si le joueur est en train de parler :
-            self.show_talk_box()  # on affiche limage de la boite de dialgue
-            if self.is_writing:  # si l'animation machine à ecrire est en cours :
-                # on appelle la fonction sequencer qui sert à executer un truc à une certaine frequence
-                self.sequencer()
+    def update(self):  # cette fonction s'execute à chaques ticks
+        self.show_talk_box()  # on affiche limage de la boite de dialgue
+        if self.is_writing:  # si l'animation machine à ecrire est en cours :
+            # on appelle la fonction sequencer qui sert à executer un truc à une certaine frequence
+            self.sequencer()
         # on definit l'horloge interne comme l'ensemble Z/60Z
         self.internal_clock = (self.internal_clock + 1) % 60
 
