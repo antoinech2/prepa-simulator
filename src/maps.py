@@ -131,6 +131,7 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
     def music_manager(self):
         'Le DJ qui change de son quand on lui fait coucou'
         pg.mixer.music.load(f"res/sounds/music/{self.current_music}.mp3")
+        pg.mixer.music.set_volume(0.1)
         pg.mixer.music.play(-1) # boucle musicale
 
     def get_map(self):
