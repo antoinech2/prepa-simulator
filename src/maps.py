@@ -11,12 +11,12 @@ Gère les différentes cartes du jeu et ses accès respectifs
 @dataclass  # classe de donées, pas besoin de faire d'__init__
 class Portal:            # les poratilles entre les mondes
     from_world : str     # monde d'origine
-    origin_point : str   #coordonées du portail du monde d'origine
+    origin_point : str   # coordonées du portail du monde d'origine
     to_world : str       # monde d'arrivé
-    next_point : str     #coordonées du spawn d'arrivé
+    next_point : str     # coordonées du spawn d'arrivé
 
 @dataclass
-class Map:  #Classe de données pour référencer les différentes cartes
+class Map:  # Classe de données pour référencer les différentes cartes
     name : str                      # nom de la map
     walls : list[pg.Rect]           # murs de la map
     group : pyscroll.PyscrollGroup  # claques de la map
@@ -29,8 +29,8 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
     def __init__ (self,screen,player):
         self.player = player
         self.screen = screen
-        self.maps = dict()                  #les dictionnaires c'est bien, surtout pour y ranger des cates
-        self.current_map = "carte"         # La map à charger par défault ( mais sert aussi d'indicateur sur la map actuellement utilisée)
+        self.maps = dict()                  # les dictionnaires c'est bien, surtout pour y ranger des cates
+        self.current_map = "carte"          # La map à charger par défault ( mais sert aussi d'indicateur sur la map actuellement utilisée)
         self.current_music = "titleVer2"    # resp musique
         self.music_manager()                # lancement de la musique
                                             # référencement des différentes cartes (voir fonction d'après)
@@ -38,8 +38,10 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         portals =[
                 Portal (from_world = "niv_1", origin_point = "to_main", to_world = "carte", next_point = "spawn_lycée"),
                 Portal (from_world = "niv_1", origin_point = "to_l101", to_world = "l101", next_point = "spawn_l101_main"),
+                Portal (from_world = "niv_1", origin_point = "to_i104", to_world = "i104", next_point = "spawn_i104"),
                 Portal (from_world = "niv_1", origin_point = "to_i105", to_world = "i105", next_point = "spawn_i105"),
-                Portal (from_world = "niv_1", origin_point = "to_i108", to_world = "i108", next_point = "spawn_i108")
+                Portal (from_world = "niv_1", origin_point = "to_i108", to_world = "i108", next_point = "spawn_i108"),
+                Portal (from_world = "niv_1", origin_point = "to_i109", to_world = "i109", next_point = "spawn_i109")
         ])
         self.register_map("chambre", "la_kro",
         portals = [
@@ -50,14 +52,18 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
                 Portal (from_world = "carte", origin_point = "to_lycée", to_world = "niv_1", next_point = "spawn_lycée") ,
                 Portal (from_world = "carte", origin_point = "to_dk3", to_world = "dk3", next_point = "spawn_test")
         ])
-        self.register_map( "dk3", "proto_musique",
+        self.register_map("dk3", "proto_musique",
         portals = [
                 Portal (from_world = "dk3", origin_point = "to_chambre", to_world = "chambre", next_point = "spawn_chambre"),
                 Portal (from_world = "dk3", origin_point = "to_carte", to_world = "carte", next_point = "spawn_dk3")
         ])
-        self.register_map( "l101", "la_kro",
+        self.register_map("l101", "la_kro",
         portals = [
                 Portal (from_world = "l101", origin_point = "to_niv1", to_world = "niv_1", next_point = "exit_l101" )
+        ])
+        self.register_map("i104", "la_kro",
+        portals = [
+                Portal (from_world = "i104", origin_point = "to_niv1", to_world = "niv_1", next_point = "exit_i104")
         ])
         self.register_map("i105", "la_kro",
         portals = [
@@ -67,6 +73,10 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         portals = [
                 Portal (from_world = "i108", origin_point = "to_niv1", to_world = "niv_1", next_point = "exit_i108")
         ])
+        self.register_map("i109", "la_kro",
+        portals = [
+                Portal (from_world = "i109", origin_point = "to_niv1", to_world = "niv_1", next_point = "exit_i109")
+        ])
 
         self.teleport_player("spawn_1")    # Tp le j au spawn de base ( soit ici celui de carte.tmx)
 
@@ -74,7 +84,7 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         'condition de colision'
         # aux portals
         for portal in self.get_map().portals :
-            if portal.from_world == self.current_map :                           #enregistrement des coordonées des portal de la current_map
+            if portal.from_world == self.current_map :                           # enregistrement des coordonées des portal de la current_map
                 point = self.get_object(portal.origin_point)
                 rect = pg.Rect(point.x, point.y, point.width, point.height)
 
@@ -105,13 +115,13 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
         map_layer.zoom = 1.5
 
-        #liste des murs
+        # liste des murs
         walls = []
         for obj in tmx_data.objects:
             if obj.type == "mur":
                 walls.append(pg.Rect(obj.x , obj.y , obj.width , obj.height ))
 
-        #groupe de calques
+        # groupe de calques
         group = pyscroll.PyscrollGroup(map_layer = map_layer , default_layer = 1)
         group.add(self.player)
 
@@ -128,7 +138,7 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         return self.maps[self.current_map]
 
     def get_group(self):
-        'renvoie le groupe de claque utilisé'
+        'renvoie le groupe de calque utilisé'
         return self.get_map().group
 
     def get_walls(self):
