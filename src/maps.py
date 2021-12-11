@@ -4,6 +4,8 @@ import pygame as pg
 import pytmx, pyscroll
 from dataclasses import dataclass
 
+import npc
+
 """
 Gère les différentes cartes du jeu et ses accès respectifs
 """
@@ -80,6 +82,9 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
 
         self.teleport_player("spawn_1")    # Tp le j au spawn de base ( soit ici celui de carte.tmx)
 
+        self.npc_manager = npc.NpcManager(self)
+
+
     def check_collision(self):
         'condition de colision'
         # aux portals
@@ -92,6 +97,7 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
                     copy_portal = portal                                         # comme on va changer de portal, on garde les données en mémoire
                     self.current_map = portal.to_world                           # changement de monde
                     self.current_music = self.get_music_from(portal.to_world)    # changement de musique
+                    self.npc_manager = npc.NpcManager(self)
                     self.teleport_player(copy_portal.next_point)                 # on téléporte le j sur le spawn d'arriver
                     self.music_manager()                                         # le Dj fait son taf ( TODO : peut être metttre un décompte pour changer de musique moins brusquement)
         # aux murs

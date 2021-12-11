@@ -8,7 +8,6 @@ import pyscroll
 import sqlite3 as sql
 
 import player
-import npc
 import maps
 import dialogue
 import inputs
@@ -25,16 +24,6 @@ class Game:
 
         self.player = player.Player(0, 0, self)
         self.map_manager = maps.MapManager(self.screen, self.player)
-
-        #generation du groupe qui contient les npc
-        self.group_npc = pg.sprite.Group()
-        #generation  d'un npc
-        # TODO: Npc chargé par la map
-        #npc_1 = Npc(self, 300,100)
-        #self.group.add(npc_1)
-        #self.group_npc.add(npc_1)
-        #pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
-        #pg.mixer.music.play(-1)
 
     def tick(self):
         inputs.handle_pressed_key(self)
