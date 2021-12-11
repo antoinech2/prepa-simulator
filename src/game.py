@@ -17,42 +17,30 @@ import inputs
 class Game:
     def __init__(self):
         # Gestion de l'écran
-        self.screen = pg.display.set_mode((800, 600))  # taille de la fenêtre
-        pg.display.set_caption("jeu")  # le petit nom du jeu
-
-        # TODO: Les dialogues doivent etres rattachés au NPC, pas au jeu
-        self.dialogue = dialogue.Dialogue(self)
-
-        # charger la carte
-        self.map = maps.Map(self, 'res/maps/carte.tmx', [npc.Npc(self,300, 100)])
-
-        # génération d'un joueur
-        # TODO: Calcul a faire en init joueur
-        player_position = self.map.tmx_data.get_object_by_name("spawn")
-
-        self.player = player.Player(player_position.x, player_position.y, self)
+        self.screen = pg.display.set_mode((800,600)) # taille de la fenêtre
+        pg.display.set_caption("Prepa Simulator") # le petit nom du jeu
 
         self.tick_count = 0
+        self.dialogue = dialogue.Dialogue(self)
 
-        # dessiner le grp de calques
-        self.group = pyscroll.PyscrollGroup(
-            map_layer=self.map.map_layer, default_layer=1)
-        self.group.add(self.player)  # player à la couche default_layer
+        self.player = player.Player(0, 0, self)
+        self.map_manager = maps.MapManager(self.screen, self.player)
 
-        # generation du groupe qui contient les npc
-        # generation  d'un npc
+        #generation du groupe qui contient les npc
+        self.group_npc = pg.sprite.Group()
+        #generation  d'un npc
         # TODO: Npc chargé par la map
-        self.group.add(self.map.group_npc.sprites()[0])
-        pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
-        # pg.mixer.music.play(-1)
+        #npc_1 = Npc(self, 300,100)
+        #self.group.add(npc_1)
+        #self.group_npc.add(npc_1)
+        #pg.mixer.music.load('res/sounds/music/proto_musique.mp3')
+        #pg.mixer.music.play(-1)
 
-    def update(self):
-        self.group.update()
-        # vérif collision
-        # TODO: --> Classe Player
-        for sprite in self.group.sprites():
-            if sprite.feet.collidelist(self.map.walls) > -1:
-                sprite.move_back()
+    def tick(self):
+        inputs.handle_pressed_key(self)
+        self.map_manager.update()
+        self.map_manager.draw()
+        self.player.update_player()
 
     def run(self):
 
@@ -62,11 +50,7 @@ class Game:
 
         while running:
 
-            inputs.handle_pressed_key(self)
-            self.update()
-            self.group.center(self.player.rect)
-            self.group.draw(self.screen)
-            self.player.update_player()
+            self.tick()
             pg.display.flip()  # update l'ecran
 
             for event in pg.event.get():
