@@ -1,22 +1,27 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 """
 Gestion des dialogues entre le joueur et les NPC
 """
-
 
 import pygame as pg
 import sqlite3 as sql
 import numpy as np
 
-
 class Dialogue():
     DATABASE_LOCATION = "res/text/dialogues.db"
     IMAGE_LOCATION = "res/textures/talk_box_next.png"
+
+    TEXT_POSITION = (30, 100)
+
     def __init__(self, game, npc):
         self.game = game
+        self.current_npc = npc
+
+        #Etat
+        self.is_writing = True
+        self.game.player.is_talking = True
 
         #Graphique
         self.talk_box_surf = pg.image.load(self.IMAGE_LOCATION).convert()
@@ -24,6 +29,8 @@ class Dialogue():
         self.talk_box_y = int(self.talk_box_surf.get_height()*0.75)
         self.talk_box_img = pg.transform.scale(self.talk_box_surf, (self.talk_box_x, self.talk_box_y))
         self.talk_box_img.set_colorkey([255, 255, 255])
+        self.tw_sound = pg.mixer.Sound(
+            "res/sounds/sound_effect/typewriter.wav")
 
         #BDD
         self.db_connexion = sql.connect(self.DATABASE_LOCATION)
@@ -31,7 +38,6 @@ class Dialogue():
 
         #Gestion de l'affichage partiel du texte
         self.lettre_cooldown = 5
-        self.current_npc = npc
         self.current_text = ""  # text actuel
         self.current_text_id = -1  # id du text actuel
         self.current_letter_id = -1  # lettre actuelle
@@ -41,11 +47,6 @@ class Dialogue():
         #Police
         self.font = pg.font.SysFont("comic sans ms", 16)
 
-
-        self.tw_sound = pg.mixer.Sound(
-            "res/sounds/sound_effect/typewriter.wav")
-        self.is_writing = True
-        self.game.player.is_talking = True
         self.new_line()
 
     def close(self):
@@ -67,7 +68,7 @@ class Dialogue():
         if self.is_writing:
             self.is_writing = False
             self.current_letter_id = -1
-            self.ecrire(self.current_text,30,100)
+            self.ecrire(self.current_text, self.TEXT_POSITION)
         else:
             self.new_line()
 
@@ -90,16 +91,16 @@ class Dialogue():
         """Affiche une nouvelle lettre du texte"""
         if self.current_letter_id < len(self.current_text) - 1:
             self.current_letter_id += 1
-            self.ecrire(self.current_text[:self.current_letter_id+1], 30, 100)
+            self.ecrire(self.current_text[:self.current_letter_id+1], self.TEXT_POSITION)
             pg.mixer.Sound.play(self.tw_sound)
         else:
             self.current_letter_id = -1
             self.is_writing = False
 
-    def ecrire(self, texte, x, y, color=(0, 0, 0)):
+    def ecrire(self, texte, pos, color=(0, 0, 0)):
         """Affiche le texte sur le cadre de dialogue"""
         text_affiche = self.font.render(texte, False, color)
-        self.talk_box_img.blit(text_affiche, (x, y))
+        self.talk_box_img.blit(text_affiche, pos)
 
     def show_talk_box(self):
         """Affichage graphique de la boîte"""

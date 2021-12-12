@@ -19,26 +19,25 @@ class Game:
 
         self.tick_count = 0
 
+        #Objets associés
         self.player = player.Player(0, 0, self)
         self.map_manager = maps.MapManager(self.screen, self)
         self.dialogue = None
 
     def tick(self):
+        """Fonction principale de calcul du tick"""
         inputs.handle_pressed_key(self)
-        self.map_manager.update()
+        self.map_manager.tick()
         self.map_manager.draw()
-        self.player.update_player()
         if self.dialogue != None:
             self.dialogue.update()
 
     def run(self):
-
+        """Boucle principale"""
         clock = pg.time.Clock()
-
         running = True
 
         while running:
-
             self.tick()
             pg.display.flip()  # update l'ecran
 
@@ -47,6 +46,9 @@ class Game:
                     running = False
                 elif event.type == pg.KEYDOWN:
                     inputs.handle_key_down_event(self, event)
+
             self.tick_count += 1
+            if self.tick_count % 60 == 0:
+                print("Running...", self.tick_count/60, end="\r")
             clock.tick(60)  # 60 fps psk ça va trop vite
         pg.quit()

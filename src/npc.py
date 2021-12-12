@@ -13,6 +13,8 @@ class NpcManager():
     def __init__(self, map):
         self.npc_group = pg.sprite.Group()
         self.map = map
+
+        #On charge les Npc de la map
         for npc in NPC_LIST:
             if npc["map"] == map.current_map:
                 new_npc = Npc(map, npc["id"], npc["coords"])
@@ -26,12 +28,15 @@ class NpcManager():
 
 
 class Npc(pg.sprite.Sprite):
+    TEXTURE_FILE_LOCATION = 'res/textures/player.png'
+
     def __init__(self, map, id, coords):
         super().__init__()
         self.map = map
         self.id = id
-        self.sprite_sheet = pg.image.load('res/textures/player.png')
-        #self.dialogue = self.game.dialogue
+
+        #Graphique
+        self.sprite_sheet = pg.image.load(self.TEXTURE_FILE_LOCATION)
         self.image = pg.Surface([32, 32])  # creation d'une image
         self.image.set_colorkey([0, 0, 0])  # transparence
         self.rect = self.image.get_rect()  # rectangle autour du joueur

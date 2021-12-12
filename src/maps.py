@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 import pygame as pg
 import pytmx, pyscroll
 from dataclasses import dataclass
@@ -31,11 +32,23 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
     def __init__ (self,screen,game):
         self.game = game
         self.screen = screen
-        self.maps = dict()                  # les dictionnaires c'est bien, surtout pour y ranger des cates
+
+        #Etat
         self.current_map = "carte"          # La map à charger par défault ( mais sert aussi d'indicateur sur la map actuellement utilisée)
         self.current_music = "titleVer2"    # resp musique
+
+        self.maps = dict()                  # les dictionnaires c'est bien, surtout pour y ranger des cates
         self.music_manager()                # lancement de la musique
-                                            # référencement des différentes cartes (voir fonction d'après)
+
+        self.register_all_maps()
+
+        #Objets associés
+        self.npc_manager = npc.NpcManager(self)
+
+        self.teleport_player("spawn_1")    # Tp le j au spawn de base ( soit ici celui de carte.tmx)
+
+    def register_all_maps(self):
+        # référencement des différentes cartes (voir fonction d'après)
         self.register_map("niv_1", "spring",
         portals =[
                 Portal (from_world = "niv_1", origin_point = "to_main", to_world = "carte", next_point = "spawn_lycée"),
@@ -80,11 +93,6 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
                 Portal (from_world = "i109", origin_point = "to_niv1", to_world = "niv_1", next_point = "exit_i109")
         ])
 
-        self.teleport_player("spawn_1")    # Tp le j au spawn de base ( soit ici celui de carte.tmx)
-
-        self.npc_manager = npc.NpcManager(self)
-
-
     def check_collision(self):
         'condition de colision'
         # aux portals
@@ -100,19 +108,14 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
                     self.npc_manager = npc.NpcManager(self)
                     self.teleport_player(copy_portal.next_point)                 # on téléporte le j sur le spawn d'arriver
                     self.music_manager()                                         # le Dj fait son taf ( TODO : peut être metttre un décompte pour changer de musique moins brusquement)
-        # aux murs
-        for sprite in self.get_group().sprites():
-            if sprite.feet.collidelist(self.get_walls()) > -1:
-                sprite.move_back()
 
     def teleport_player(self, name):
         'tp le joueur sur les coordonées de l objet name'
         point = self.get_object(name)
         self.game.player.position[0] = point.x       # réaffectation des coordonées
         self.game.player.position[1] = point.y
-        self.game.player.save_location()             # pour éviter les bugs de loop de tp
 
-    def register_map (self, name_map , name_music, portals = [] ):
+    def register_map(self, name_map , name_music, portals = [] ):
         'enregistre une carte sur le ditionnaire self.maps de la classe MapManager'
 
         # chargement normal des elts d'une carte sur Tiled
@@ -165,7 +168,7 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         self.get_group().draw(self.screen)
         self.get_group().center(self.game.player.rect.center)
 
-    def update(self):
+    def tick(self):
         'appelée, elle met à jour les elts suivants'
         self.get_group().update()
         self.check_collision()
