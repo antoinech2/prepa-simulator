@@ -94,10 +94,14 @@ class Dialogue():
 
     def next_dialogue(self):
         """Passe au dialogue suivant lorsque le joueur presse la touche"""
+        self.talk_box_img = pg.transform.scale(
+            self.talk_box_surf, (self.talk_box_x, self.talk_box_y))
+        self.talk_box_img.set_colorkey([255, 255, 255])
         if self.is_writing:
             self.is_writing = False
             self.current_letter_id = -1
             self.current_row = 0
+            self.refresh_text_position()
             for line in range(len(self.current_text)):
                 self.ecrire(self.current_text[line], self.text_position)
                 self.current_row += 1
