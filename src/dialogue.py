@@ -43,7 +43,8 @@ class Dialogue():
         self.current_letter_id = -1  # lettre actuelle
 
         #Texte
-        self.texts = np.array(self.db_cursor.execute("SELECT texte FROM npc_dialogue WHERE id_npc = ? AND id_dialogue = ? ORDER BY ligne_dialogue ASC", (self.current_npc.id, 1)).fetchall())[:,0]
+        self.dialogue_id = 1 #TEMPORAIRE
+        self.texts = np.array(self.db_cursor.execute("SELECT texte FROM npc_dialogue WHERE id_npc = ? AND id_dialogue = ? ORDER BY ligne_dialogue ASC", (self.current_npc.id, self.dialogue_id)).fetchall())[:,0]
         #Police
         self.font = pg.font.SysFont("comic sans ms", 16)
 
