@@ -48,7 +48,5 @@ class Game:
                     inputs.handle_key_down_event(self, event)
 
             self.tick_count += 1
-            if self.tick_count % 60 == 0:
-                print("Running...", self.tick_count/60, end="\r")
             clock.tick(60)  # 60 fps psk ça va trop vite
         pg.quit()
