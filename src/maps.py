@@ -99,7 +99,7 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         for portal in self.get_map().portals :
             if portal.from_world == self.current_map :                           # enregistrement des coordonées des portal de la current_map
                 point = self.get_object(portal.origin_point)
-                rect = pg.Rect(point.x, point.y, point.width, point.height)
+                rect = pg.Rect(point.x-2, point.y-2, point.width+4, point.height+4)
 
                 if self.game.player.feet.colliderect(rect):                           # le joueur entre dans un portal
                     copy_portal = portal                                         # comme on va changer de portal, on garde les données en mémoire
