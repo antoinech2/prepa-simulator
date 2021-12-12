@@ -13,8 +13,6 @@ class Dialogue():
     DATABASE_LOCATION = "res/text/dialogues.db"
     IMAGE_LOCATION = "res/textures/talk_box_next.png"
 
-    TEXT_POSITION = (30, 100)
-
     def __init__(self, game, npc):
         self.game = game
         self.current_npc = npc
@@ -38,17 +36,47 @@ class Dialogue():
 
         #Gestion de l'affichage partiel du texte
         self.lettre_cooldown = 5
-        self.current_text = ""  # text actuel
-        self.current_text_id = -1  # id du text actuel
-        self.current_letter_id = -1  # lettre actuelle
+        self.current_text = ""                                   # text actuel
+        self.current_text_id = -1                                # id du text actuel
+        self.current_letter_id = -1                              # lettre actuelle
+        self.current_row = 0                                     # ligne actuelle
 
         #Texte
         self.dialogue_id = 1 #TEMPORAIRE
         self.texts = np.array(self.db_cursor.execute("SELECT texte FROM npc_dialogue WHERE id_npc = ? AND id_dialogue = ? ORDER BY ligne_dialogue ASC", (self.current_npc.id, self.dialogue_id)).fetchall())[:,0]
         #Police
-        self.font = pg.font.SysFont("comic sans ms", 16)
+        self.font_size = 16
+        self.font = pg.font.SysFont("consolas", self.font_size)
+        self.font_width = max([metric[1] for metric in self.font.metrics("azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN")]) # Chasse maximale pour la police choisie
+        self.row_length = self.talk_box_x / self.font_width - 7       # longueur max d'une ligne de texte. TODO enlever le -7, solution temporaire
+        self.row_height = self.font.get_linesize()
+        self.text_position = [30, 100 + self.current_row * self.row_height]        # position du texte à afficher
 
         self.new_line()
+
+    def refresh_text_position(self):
+        """Actualisation de la position du texte à afficher"""
+        self.text_position = [30, 100 + self.current_row * self.row_height]
+    
+    def format(self, text):
+        """Découpage d'un texte en plusieurs lignes de taille adéquate"""
+        formatted_text = []
+        splitted_text = text.split()
+        text_line = ""
+        line_length = 0
+        while splitted_text != []:
+            word_length = len(splitted_text[0])
+            if line_length + word_length > self.row_length:
+                formatted_text.append(text_line)
+                text_line = ""
+                line_length = 0
+            text_line += splitted_text[0] + " "
+            line_length += word_length + 1
+            del(splitted_text[0])
+        formatted_text.append(text_line)       
+        return(formatted_text)
+    
+    
 
     def close(self):
         """Fermeture du dialogue"""
@@ -69,7 +97,10 @@ class Dialogue():
         if self.is_writing:
             self.is_writing = False
             self.current_letter_id = -1
-            self.ecrire(self.current_text, self.TEXT_POSITION)
+            for line in range(len(self.current_text)):
+                self.ecrire(self.current_text[line], self.text_position)
+                self.current_row += 1
+                self.refresh_text_position()
         else:
             self.new_line()
 
@@ -83,17 +114,23 @@ class Dialogue():
         # si c'est le dernier alors le player ne parle plus
         if self.current_text_id < len(self.texts) - 1:
             self.current_text_id += 1
-            self.current_text = self.texts[self.current_text_id]
+            self.current_text = self.format(self.texts[self.current_text_id])
+            self.current_row = 0
+            self.refresh_text_position()
             self.is_writing = True
         else:
             self.close()
 
     def new_letter(self):
         """Affiche une nouvelle lettre du texte"""
-        if self.current_letter_id < len(self.current_text) - 1:
+        if self.current_letter_id < len(self.current_text[self.current_row]) - 1:
             self.current_letter_id += 1
-            self.ecrire(self.current_text[:self.current_letter_id+1], self.TEXT_POSITION)
+            self.ecrire(self.current_text[self.current_row][:self.current_letter_id+1], self.text_position)
             pg.mixer.Sound.play(self.tw_sound)
+            if self.current_letter_id >= len(self.current_text[self.current_row]) - 1 and self.current_row < len(self.current_text) - 1:
+                self.current_letter_id = 0
+                self.current_row += 1
+                self.refresh_text_position()
         else:
             self.current_letter_id = -1
             self.is_writing = False

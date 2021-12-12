@@ -7,7 +7,11 @@ import pygame as pg
 import dialogue
 
 #Temporaire : liste des npc
-NPC_LIST = [{"id" : 1, "map" : "carte", "coords" : (1500, 1200)}]
+NPC_LIST = [
+        {"id" : 1, "map" : "carte", "coords" : (1500, 1200)},
+        {"id" : 2, "map" : "carte", "coords" : (1500, 1300)},
+        {"id" : 3, "map" : "carte", "coords" : (1500, 1400)}
+        ]
 
 class NpcManager():
     def __init__(self, map):
