@@ -7,7 +7,7 @@ import pygame as pg
 import dialogue
 
 #Temporaire : liste des npc
-NPC_LIST = [{"map" : "carte", "coords" : (1500, 1200)}]
+NPC_LIST = [{"id" : 1, "map" : "carte", "coords" : (1500, 1200)}]
 
 class NpcManager():
     def __init__(self, map):
@@ -15,7 +15,7 @@ class NpcManager():
         self.map = map
         for npc in NPC_LIST:
             if npc["map"] == map.current_map:
-                new_npc = Npc(map, npc["coords"])
+                new_npc = Npc(map, npc["id"], npc["coords"])
                 self.npc_group.add(new_npc)
                 self.map.get_group().add(new_npc)
 
@@ -26,9 +26,10 @@ class NpcManager():
 
 
 class Npc(pg.sprite.Sprite):
-    def __init__(self, map, coords):
+    def __init__(self, map, id, coords):
         super().__init__()
         self.map = map
+        self.id = id
         self.sprite_sheet = pg.image.load('res/textures/player.png')
         #self.dialogue = self.game.dialogue
         self.image = pg.Surface([32, 32])  # creation d'une image
@@ -38,7 +39,3 @@ class Npc(pg.sprite.Sprite):
         self.image.blit(self.sprite_sheet, (0, 0),
                         (0, 0, 32, 32))  # affichage du npc
         self.feet = pg.Rect(0, 0, self.rect.width * 0.5, 12)
-        # sql : recuperation des dialogues
-        self.dial = []
-        #for d in self.dialogue.db_cursor.execute("SELECT texte FROM npc_1 WHERE lieu = 'debut'"):
-        #    self.dial.append(d[0])
