@@ -97,6 +97,7 @@ class Dialogue():
         if self.is_writing:
             self.is_writing = False
             self.current_letter_id = -1
+            self.current_row = 0
             for line in range(len(self.current_text)):
                 self.ecrire(self.current_text[line], self.text_position)
                 self.current_row += 1
