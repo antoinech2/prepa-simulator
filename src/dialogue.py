@@ -46,6 +46,7 @@ class Dialogue():
         self.row_length = self.talk_box_x / self.font_width - 7       # longueur max d'une ligne de texte. TODO enlever le -7, solution temporaire
         self.row_height = self.font.get_linesize()
         self.text_position = [30, 100 + self.current_row * self.row_height]        # position du texte à afficher
+        self.nametag_position = [30, 45]            # position du nom du npc
 
         self.new_line()
 
@@ -78,7 +79,8 @@ class Dialogue():
 
     def update(self):
         """Fonction de mise à jour générale"""
-        self.show_talk_box()  # on affiche limage de la boite de dialgue
+        self.show_talk_box()            # on affiche limage de la boite de dialgue
+        self.ecrire(self.current_npc.name, self.nametag_position)             # écriture du nom du npc FIXME : clignotement lors du rafraîchissement de la boîte de dialogue
         if self.is_writing:
             if self.game.tick_count % self.lettre_cooldown == 0:
                 self.new_letter()
