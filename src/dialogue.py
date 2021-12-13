@@ -57,7 +57,7 @@ class Dialogue():
     def refresh_text_position(self):
         """Actualisation de la position du texte à afficher"""
         self.text_position = [30, 100 + self.current_row * self.row_height]
-    
+
     def format(self, text):
         """Découpage d'un texte en plusieurs lignes de taille adéquate"""
         formatted_text = []
@@ -73,10 +73,8 @@ class Dialogue():
             text_line += splitted_text[0] + " "
             line_length += word_length + 1
             del(splitted_text[0])
-        formatted_text.append(text_line)       
+        formatted_text.append(text_line)
         return(formatted_text)
-    
-    
 
     def close(self):
         """Fermeture du dialogue"""
