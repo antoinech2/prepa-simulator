@@ -12,6 +12,8 @@ Gère les différentes cartes du jeu et ses accès respectifs
 """
 
 class MapManager :  # aka le Patron ou bien Le Contre-Maître
+    ZOOM = 1.5
+    VOLUME = 0.1
 
     def __init__ (self,screen,game):
         self.game = game
@@ -30,7 +32,7 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         self.tmx_data = pytmx.util_pygame.load_pygame(f"res/maps/{map_file}.tmx")
         map_data = pyscroll.data.TiledMapData(self.tmx_data)
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
-        map_layer.zoom = 1.5
+        map_layer.zoom = self.ZOOM
 
         # liste des murs
         self.walls = []
@@ -74,7 +76,7 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
     def music_manager(self):
         'Le DJ qui change de son quand on lui fait coucou'
         pg.mixer.music.load(f"res/sounds/music/{self.music_file}.mp3")
-        pg.mixer.music.set_volume(0.1)
+        pg.mixer.music.set_volume(self.VOLUME)
         pg.mixer.music.play(-1) # boucle musicale
 
     def draw(self):

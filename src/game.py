@@ -13,11 +13,12 @@ import inputs
 
 class Game:
     DATABASE_LOCATION = "res/game_data.db"
+    GAME_NAME = "Prepa Simulator"
 
     def __init__(self):
         # Gestion de l'écran
         self.screen = pg.display.set_mode((800,600)) # taille de la fenêtre
-        pg.display.set_caption("Prepa Simulator") # le petit nom du jeu
+        pg.display.set_caption(self.GAME_NAME) # le petit nom du jeu
 
         #BDD
         self.db_connexion = sql.connect(self.DATABASE_LOCATION)

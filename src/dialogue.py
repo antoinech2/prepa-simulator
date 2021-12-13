@@ -12,6 +12,7 @@ import numpy as np
 class Dialogue():
     IMAGE_LOCATION = "res/textures/talk_box_next.png"
     SOUND_LOCATION = "res/sounds/sound_effect/typewriter.wav"
+    TEXT_POSITION = (30, 100)
 
     def __init__(self, game, npc):
         self.game = game
@@ -45,13 +46,13 @@ class Dialogue():
         self.font_width = max([metric[1] for metric in self.font.metrics("azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN")]) # Chasse maximale pour la police choisie
         self.row_length = self.talk_box_x / self.font_width - 7       # longueur max d'une ligne de texte. TODO enlever le -7, solution temporaire
         self.row_height = self.font.get_linesize()
-        self.text_position = [30, 100 + self.current_row * self.row_height]        # position du texte à afficher
+        self.text_position = [self.TEXT_POSITION[0], self.TEXT_POSITION[1] + self.current_row * self.row_height]        # position du texte à afficher
 
         self.new_line()
 
     def refresh_text_position(self):
         """Actualisation de la position du texte à afficher"""
-        self.text_position = [30, 100 + self.current_row * self.row_height]
+        self.text_position = [self.TEXT_POSITION[0], self.TEXT_POSITION[1] + self.current_row * self.row_height]
 
     def format(self, text):
         """Découpage d'un texte en plusieurs lignes de taille adéquate"""
