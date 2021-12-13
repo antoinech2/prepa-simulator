@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 import pygame as pg
 import pytmx, pyscroll
 from dataclasses import dataclass
+
+import npc
 
 """
 Gère les différentes cartes du jeu et ses accès respectifs
@@ -26,14 +29,26 @@ class Map:  # Classe de données pour référencer les différentes cartes
 
 class MapManager :  # aka le Patron ou bien Le Contre-Maître
 
-    def __init__ (self,screen,player):
-        self.player = player
+    def __init__ (self,screen,game):
+        self.game = game
         self.screen = screen
-        self.maps = dict()                  # les dictionnaires c'est bien, surtout pour y ranger des cates
+
+        #Etat
         self.current_map = "carte"          # La map à charger par défault ( mais sert aussi d'indicateur sur la map actuellement utilisée)
         self.current_music = "titleVer2"    # resp musique
+
+        self.maps = dict()                  # les dictionnaires c'est bien, surtout pour y ranger des cates
         self.music_manager()                # lancement de la musique
-                                            # référencement des différentes cartes (voir fonction d'après)
+
+        self.register_all_maps()
+
+        #Objets associés
+        self.npc_manager = npc.NpcManager(self)
+
+        self.teleport_player("spawn_1")    # Tp le j au spawn de base ( soit ici celui de carte.tmx)
+
+    def register_all_maps(self):
+        # référencement des différentes cartes (voir fonction d'après)
         self.register_map("niv_1", "spring",
         portals =[
                 Portal (from_world = "niv_1", origin_point = "to_main", to_world = "carte", next_point = "spawn_lycée"),
@@ -85,35 +100,29 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
                 Portal (from_world = "i109", origin_point = "to_niv1", to_world = "niv_1", next_point = "exit_i109")
         ])
 
-        self.teleport_player("spawn_1")    # Tp le j au spawn de base ( soit ici celui de carte.tmx)
-
     def check_collision(self):
         'condition de colision'
         # aux portals
         for portal in self.get_map().portals :
             if portal.from_world == self.current_map :                           # enregistrement des coordonées des portal de la current_map
                 point = self.get_object(portal.origin_point)
-                rect = pg.Rect(point.x, point.y, point.width, point.height)
+                rect = pg.Rect(point.x-2, point.y-2, point.width+4, point.height+4)
 
-                if self.player.feet.colliderect(rect):                           # le joueur entre dans un portal
+                if self.game.player.feet.colliderect(rect):                           # le joueur entre dans un portal
                     copy_portal = portal                                         # comme on va changer de portal, on garde les données en mémoire
                     self.current_map = portal.to_world                           # changement de monde
                     self.current_music = self.get_music_from(portal.to_world)    # changement de musique
+                    self.npc_manager = npc.NpcManager(self)
                     self.teleport_player(copy_portal.next_point)                 # on téléporte le j sur le spawn d'arriver
                     self.music_manager()                                         # le Dj fait son taf ( TODO : peut être metttre un décompte pour changer de musique moins brusquement)
-        # aux murs
-        for sprite in self.get_group().sprites():
-            if sprite.feet.collidelist(self.get_walls()) > -1:
-                sprite.move_back()
 
     def teleport_player(self, name):
         'tp le joueur sur les coordonées de l objet name'
         point = self.get_object(name)
-        self.player.position[0] = point.x       # réaffectation des coordonées
-        self.player.position[1] = point.y
-        self.player.save_location()             # pour éviter les bugs de loop de tp
+        self.game.player.position[0] = point.x       # réaffectation des coordonées
+        self.game.player.position[1] = point.y
 
-    def register_map (self, name_map , name_music, portals = [] ):
+    def register_map(self, name_map , name_music, portals = [] ):
         'enregistre une carte sur le ditionnaire self.maps de la classe MapManager'
 
         # chargement normal des elts d'une carte sur Tiled
@@ -130,7 +139,7 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
 
         # groupe de calques
         group = pyscroll.PyscrollGroup(map_layer = map_layer , default_layer = 1)
-        group.add(self.player)
+        group.add(self.game.player)
 
         # créer un obj map dans le dico maps
         self.maps[name_map] = Map(name_map, walls, group, tmx_data, portals, name_music)
@@ -164,9 +173,9 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
     def draw(self):
         'affiche la carte et la centre sur le joueur'
         self.get_group().draw(self.screen)
-        self.get_group().center(self.player.rect.center)
+        self.get_group().center(self.game.player.rect.center)
 
-    def update(self):
+    def tick(self):
         'appelée, elle met à jour les elts suivants'
         self.get_group().update()
         self.check_collision()
