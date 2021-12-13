@@ -10,8 +10,8 @@ import sqlite3 as sql
 import numpy as np
 
 class Dialogue():
-    DATABASE_LOCATION = "res/text/dialogues.db"
     IMAGE_LOCATION = "res/textures/talk_box_next.png"
+    SOUND_LOCATION = "res/sounds/sound_effect/typewriter.wav"
 
     def __init__(self, game, npc):
         self.game = game
@@ -27,12 +27,7 @@ class Dialogue():
         self.talk_box_y = int(self.talk_box_surf.get_height()*0.75)
         self.talk_box_img = pg.transform.scale(self.talk_box_surf, (self.talk_box_x, self.talk_box_y))
         self.talk_box_img.set_colorkey([255, 255, 255])
-        self.tw_sound = pg.mixer.Sound(
-            "res/sounds/sound_effect/typewriter.wav")
-
-        #BDD
-        self.db_connexion = sql.connect(self.DATABASE_LOCATION)
-        self.db_cursor = self.db_connexion.cursor()
+        self.tw_sound = pg.mixer.Sound(self.SOUND_LOCATION)
 
         #Gestion de l'affichage partiel du texte
         self.lettre_cooldown = 5
@@ -43,7 +38,7 @@ class Dialogue():
 
         #Texte
         self.dialogue_id = 1 #TEMPORAIRE
-        self.texts = np.array(self.db_cursor.execute("SELECT texte FROM npc_dialogue WHERE id_npc = ? AND id_dialogue = ? ORDER BY ligne_dialogue ASC", (self.current_npc.id, self.dialogue_id)).fetchall())[:,0]
+        self.texts = np.array(self.game.game_data_db.execute("SELECT texte FROM npc_dialogue WHERE id_npc = ? AND id_dialogue = ? ORDER BY ligne_dialogue ASC", (self.current_npc.id, self.dialogue_id)).fetchall())[:,0]
         #Police
         self.font_size = 16
         self.font = pg.font.SysFont("consolas", self.font_size)
@@ -78,8 +73,6 @@ class Dialogue():
 
     def close(self):
         """Fermeture du dialogue"""
-        self.db_cursor.close()
-        self.db_connexion.close()
         self.game.player.is_talking = False
         self.game.dialogue = None
 

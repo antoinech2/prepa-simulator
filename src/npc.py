@@ -6,24 +6,18 @@
 import pygame as pg
 import dialogue
 
-#Temporaire : liste des npc
-NPC_LIST = [
-        {"id" : 1, "map" : "carte", "coords" : (1500, 1200)},
-        {"id" : 2, "map" : "carte", "coords" : (1500, 1300)},
-        {"id" : 3, "map" : "carte", "coords" : (1500, 1400)}
-        ]
-
 class NpcManager():
     def __init__(self, map):
         self.npc_group = pg.sprite.Group()
         self.map = map
 
         #On charge les Npc de la map
-        for npc in NPC_LIST:
-            if npc["map"] == map.current_map:
-                new_npc = Npc(map, npc["id"], npc["coords"])
-                self.npc_group.add(new_npc)
-                self.map.get_group().add(new_npc)
+        npcs = self.map.game.game_data_db.execute("SELECT npc.id, x_coord, y_coord FROM npc JOIN maps ON npc.map_id = maps.id WHERE maps.file = ?", (map.current_map,)).fetchall()
+
+        for npc in npcs:
+            new_npc = Npc(map, npc[0], (npc[1], npc[2]))
+            self.npc_group.add(new_npc)
+            self.map.get_group().add(new_npc)
 
     def check_talk(self):
         npc_collide_list = pg.sprite.spritecollide(self.map.game.player, self.npc_group, False)
