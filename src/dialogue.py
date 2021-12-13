@@ -12,6 +12,7 @@ import numpy as np
 class Dialogue():
     IMAGE_LOCATION = "res/textures/talk_box_next.png"
     SOUND_LOCATION = "res/sounds/sound_effect/typewriter.wav"
+    NAMETAG_POSITION = (30, 45)
     TEXT_POSITION = (30, 100)
 
     def __init__(self, game, npc):
@@ -79,7 +80,8 @@ class Dialogue():
 
     def update(self):
         """Fonction de mise à jour générale"""
-        self.show_talk_box()  # on affiche limage de la boite de dialgue
+        self.show_talk_box()            # on affiche limage de la boite de dialgue
+        self.ecrire(self.current_npc.name, self.NAMETAG_POSITION)             # écriture du nom du npc FIXME : clignotement lors du rafraîchissement de la boîte de dialogue
         if self.is_writing:
             if self.game.tick_count % self.lettre_cooldown == 0:
                 self.new_letter()
