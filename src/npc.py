@@ -12,12 +12,12 @@ class NpcManager():
         self.map = map
 
         #On charge les Npc de la map
-        npcs = self.map.game.game_data_db.execute("SELECT npc.id, x_coord, y_coord FROM npc JOIN maps ON npc.map_id = maps.id WHERE maps.file = ?", (map.current_map,)).fetchall()
+        npcs = self.map.game.game_data_db.execute("SELECT npc.id, x_coord, y_coord FROM npc JOIN maps ON npc.map_id = maps.id WHERE maps.id = ?", (map.map_id,)).fetchall()
 
         for npc in npcs:
             new_npc = Npc(map, npc[0], (npc[1], npc[2]))
             self.npc_group.add(new_npc)
-            self.map.get_group().add(new_npc)
+            self.map.object_group.add(new_npc)
 
     def check_talk(self):
         npc_collide_list = pg.sprite.spritecollide(self.map.game.player, self.npc_group, False)
