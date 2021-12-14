@@ -15,6 +15,8 @@ class Player(pg.sprite.Sprite):
     WALK_ANIMATION_COOLDOWN = 8 #Cooldown entre deux changements d'animations (en frames)
     SPRINT_ANIMATION_COOLDOWN = 3 #Cooldown entre deux changements d'animations (en frames)
 
+    FEET_SIZE = 12
+
     ANIMATION_DICT = {
     "1,1" : "down-right",
     "1,0" : "right",
@@ -41,7 +43,7 @@ class Player(pg.sprite.Sprite):
         self.image = self.get_image(0, 0)  # en bas par défaut
         self.image.set_colorkey([0, 0, 0])  # transparence
         self.rect = self.image.get_rect()  # rectangle autour du joueur
-        self.feet = pg.Rect(0, 0, self.rect.width * 0.5, 12)
+        self.feet = pg.Rect(0, 0, self.rect.width * 0.5, self.FEET_SIZE)
 
         self.current_sprite = 0
 
@@ -63,7 +65,7 @@ class Player(pg.sprite.Sprite):
         self.image.set_colorkey([0, 0, 0])  # transparence
 
     def is_colliding(self):
-        return True if self.feet.collidelist(self.game.map_manager.get_walls()) > -1 else False
+        return True if self.feet.collidelist(self.game.map_manager.walls) > -1 else False
 
     def move(self, list_directions, sprinting):
         if list_directions.count(True) > 0:
