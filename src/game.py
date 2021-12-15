@@ -21,6 +21,10 @@ class Game:
 
     def __init__(self):
         # Gestion de l'écran
+        self.restart = True #Pour gérer la redimension
+        self.resizable = False #La fenêtre peut être redimensionnée
+
+        self.is_running = False #Statut général
 
         #Taille de l'écran
         #Création du dossier de sauvegarde s'il n'existe pas
@@ -53,10 +57,12 @@ class Game:
         self.game_data_db = self.db_connexion.cursor()
 
         self.tick_count = 0
-        self.restart = True #Pour gérer la redimension
-        self.resizable = False #La fenêtre peut être redimensionnée
 
-        self.is_running = False #Statut général
+        #Objets associés
+        self.player = player.Player(0, 0, self)
+        self.map_manager = maps.MapManager(self.screen, self)
+        self.dialogue = None
+
 
     def change_window_size(self, height, width, fullscreen = False):
         if self.resizable:
@@ -68,11 +74,9 @@ class Game:
             self.restart = True
         else:
             self.resizable = True
-    
-        #Objets associés
-        self.player = player.Player(0, 0, self)
-        self.map_manager = maps.MapManager(self.screen, self)
-        self.dialogue = None
+
+    def quit_game(self):
+        self.is_running = False
 
     def tick(self):
         """Fonction principale de calcul du tick"""
@@ -85,9 +89,9 @@ class Game:
     def run(self):
         """Boucle principale"""
         clock = pg.time.Clock()
-        running = True
+        self.is_running = True
 
-        while running:
+        while self.is_running:
             self.tick()
             pg.display.flip()  # update l'ecran
 
@@ -99,13 +103,11 @@ class Game:
                     if event.key == pg.K_F11: #Temporaire, à traiter ailleurs
                         size = pg.display.get_surface().get_size()
                         self.change_window_size(size[1], size[0], (not self.is_fullscreen))
-                    elif event.key == pg.K_SPACE: #si Espace est pressée
-                        self.player.space_pressed()
                 elif event.type == pg.VIDEORESIZE:
                     self.change_window_size(event.h, event.w)
-                elif event.type == pg.VIDEOEXPOSE:
-                    size = pg.display.get_surface().get_size()
-                    self.change_window_size(size[1], size[0])
+                #elif event.type == pg.VIDEOEXPOSE:
+                #    size = pg.display.get_surface().get_size()
+                #    self.change_window_size(size[1], size[0])
             self.tick_count += 1
             clock.tick(60)  # 60 fps psk ça va trop vite
         pg.quit()
