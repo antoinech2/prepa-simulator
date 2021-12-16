@@ -121,7 +121,9 @@ class Dialogue():
             self.close()
 
     def new_letter(self):
-        """Affiche une nouvelle lettre du texte"""
+        """
+        Affiche une nouvelle lettre du texte
+        """
         if self.current_letter_id < len(self.current_text[self.current_row]) - 1:
             self.current_letter_id += 1
             self.ecrire(self.current_text[self.current_row][:self.current_letter_id+1], self.text_position)
@@ -135,8 +137,11 @@ class Dialogue():
             self.is_writing = False
 
     def ecrire(self, texte, pos, color=(0, 0, 0)):
-        """Affiche le texte sur le cadre de dialogue"""
-        text_affiche = self.font.render(texte, False, color)
+        """
+        Affiche le texte sur le cadre de dialogue
+        """
+        # FIXME: Empecher l'accumulation de texte
+        text_affiche = self.font.render(texte, True, color)
         self.talk_box_img.blit(text_affiche, pos)
 
     def show_talk_box(self):
