@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="3">
- <tileset firstgid="1" source="../../../../../Downloads/prepa-simulator-maps/res/textures/tiles.tsx"/>
+<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="13">
+ <tileset firstgid="1" source="../textures/tiles.tsx"/>
  <layer id="1" name="floor_tiles" width="150" height="150">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -160,6 +160,20 @@
    <point/>
   </object>
   <object id="2" name="atelier et salle des PSI*" x="2688" y="2176">
+   <point/>
+  </object>
+  <object id="3" type="mur" x="1632" y="2176" width="1280" height="96"/>
+  <object id="4" type="mur" x="1632" y="2176" width="64" height="256"/>
+  <object id="5" type="mur" x="1632" y="2368" width="1280" height="64"/>
+  <object id="6" type="mur" x="2912" y="2400" width="160" height="32"/>
+  <object id="7" type="mur" x="3008" y="2176" width="64" height="160"/>
+  <object id="8" type="mur" x="2976" y="2176" width="96" height="64"/>
+  <object id="9" name="to_dk3" x="2912" y="2208" width="64" height="32"/>
+  <object id="10" name="to_niv2" x="3072" y="2336" width="32" height="64"/>
+  <object id="11" name="spawn_dk3" x="2912" y="2240">
+   <point/>
+  </object>
+  <object id="12" name="spawn_niv2" x="3008" y="2336">
    <point/>
   </object>
  </objectgroup>

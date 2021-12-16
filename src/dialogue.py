@@ -134,7 +134,6 @@ class Dialogue():
         """
         if self.current_letter_id < len(self.current_text[self.current_row]) - 1:
             self.current_letter_id += 1
-            self.empty_box()
             self.nametag_show()     # FIXME Ne pas appeler la fonction à chaque lettre
             self.ecrire(self.current_text[self.current_row][:self.current_letter_id+1], self.text_position)
             pg.mixer.Sound.play(self.tw_sound)
@@ -150,6 +149,7 @@ class Dialogue():
         """
         Affiche le texte sur le cadre de dialogue
         """
+        # FIXME Empêcher l'accumulation de texte
         text_affiche = self.font.render(texte, True, color)
         self.talk_box_img.blit(text_affiche, pos)
 
