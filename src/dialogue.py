@@ -150,7 +150,6 @@ class Dialogue():
         """
         Affiche le texte sur le cadre de dialogue
         """
-        # FIXME: Empecher l'accumulation de texte
         text_affiche = self.font.render(texte, True, color)
         self.talk_box_img.blit(text_affiche, pos)
 
