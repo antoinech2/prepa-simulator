@@ -97,7 +97,8 @@ class Game:
 
             for event in pg.event.get():
                 if event.type == pg.QUIT:
-                    running = False
+                    self.restart = False
+                    self.is_running = False
                 elif event.type == pg.KEYDOWN:
                     inputs.handle_key_down_event(self, event)
                     if event.key == pg.K_F11: #Temporaire, à traiter ailleurs
