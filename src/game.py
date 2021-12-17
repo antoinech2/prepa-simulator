@@ -21,7 +21,6 @@ class Game:
     def __init__(self):
         # Gestion de l'écran
         self.restart = True #Pour gérer la redimension
-        self.resizable = False #La fenêtre peut être redimensionnée
 
         self.is_running = False #Statut général
 
@@ -37,9 +36,11 @@ class Game:
         # Gestion de l'écran
         if self.is_fullscreen:
             #Mode plein écran
+            self.resizable = False #La fenêtre peut être redimensionnée
             self.screen = pg.display.set_mode((0,0), pg.RESIZABLE | pg.FULLSCREEN) # taille de la fenêtre
         else:
             #Mode normal
+            self.resizable = True
             self.screen = pg.display.set_mode((self.window_size), pg.RESIZABLE) # taille de la fenêtre
         pg.display.set_caption("Prepa Simulator") # le petit nom du jeu
 
