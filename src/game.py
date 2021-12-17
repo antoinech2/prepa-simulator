@@ -12,10 +12,9 @@ import os
 import player
 import maps
 import inputs
+import save
 
 class Game:
-    CONFIGURATION_FILE_LOCATION = "sav/window.yaml"
-    DEFAULT_WINDOW_SIZE = (1000, 600) # FIXME: Passer en variable locale, trouver comment faire
     DATABASE_LOCATION = "res/game_data.db"
     GAME_NAME = "Prepa Simulator"
 
@@ -31,17 +30,9 @@ class Game:
         if not os.path.isdir("sav"):
             os.makedirs("sav")
 
-        if os.path.isfile(self.CONFIGURATION_FILE_LOCATION):
-            # On charge la configuration de l'écran
-            window_config = yaml.safe_load(open(self.CONFIGURATION_FILE_LOCATION, 'r'))
-            self.window_size = (window_config.get("size").get("width"), window_config.get("size").get("height"))
-            self.is_fullscreen = window_config.get("fullscreen")
-        else:
-            # Creation d'une nouvelle configuration vierge
-            self.window_size = self.DEFAULT_WINDOW_SIZE
-            self.is_fullscreen = False
-            open(self.CONFIGURATION_FILE_LOCATION, 'w').close()
-            self.change_window_size(self.DEFAULT_WINDOW_SIZE[1], self.DEFAULT_WINDOW_SIZE[0])
+        config = save.load_config("window")
+        self.window_size = config["size"]
+        self.is_fullscreen = config["fullscreen"]
 
         # Gestion de l'écran
         if self.is_fullscreen:
@@ -50,7 +41,7 @@ class Game:
         else:
             #Mode normal
             self.screen = pg.display.set_mode((self.window_size), pg.RESIZABLE) # taille de la fenêtre
-        pg.display.set_caption("jeu") # le petit nom du jeu
+        pg.display.set_caption("Prepa Simulator") # le petit nom du jeu
 
         #BDD
         self.db_connexion = sql.connect(self.DATABASE_LOCATION)
@@ -64,12 +55,9 @@ class Game:
         self.dialogue = None
 
 
-    def change_window_size(self, height, width, fullscreen = False):
+    def change_window_size(self, size = None, fullscreen = None):
         if self.resizable:
-            # On modifier la configuration
-            new_window_config = {"size" : {"width" : width, "height" : height}, "fullscreen" : fullscreen}
-            with open(self.CONFIGURATION_FILE_LOCATION, 'w') as file:
-                yaml.dump(new_window_config, file) #Ecriture du fichier de config
+            save.save_window_config(size, fullscreen)
             self.is_running = False #On redémarre le jeu
             self.restart = True
         else:
@@ -105,10 +93,9 @@ class Game:
                 elif event.type == pg.KEYDOWN:
                     inputs.handle_key_down_event(self, event)
                     if event.key == pg.K_F11: #Temporaire, à traiter ailleurs
-                        size = pg.display.get_surface().get_size()
-                        self.change_window_size(size[1], size[0], (not self.is_fullscreen))
+                        self.change_window_size(fullscreen = (not self.is_fullscreen))
                 elif event.type == pg.VIDEORESIZE:
-                    self.change_window_size(event.h, event.w)
+                    self.change_window_size(size = (event.w, event.h))
                 #elif event.type == pg.VIDEOEXPOSE:
                 #    size = pg.display.get_surface().get_size()
                 #    self.change_window_size(size[1], size[0])
