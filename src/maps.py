@@ -20,7 +20,7 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         self.game = game
         self.screen = screen
 
-        config = save.load_player_config()
+        config = save.load_config("player")
         self.load_map(config["map_id"])
 
     def load_map(self, map_id):

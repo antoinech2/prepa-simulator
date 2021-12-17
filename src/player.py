@@ -36,7 +36,7 @@ class Player(pg.sprite.Sprite):
         self.is_sprinting = False
         self.is_talking = False
 
-        config = save.load_player_config()
+        config = save.load_config("player")
         self.position = config["position"]
         self.base_walk_speed = config["speed"] #Vitesse du joueur sans multiplicateur (en pixel/frame)
 
