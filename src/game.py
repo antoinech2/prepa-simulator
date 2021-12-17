@@ -97,9 +97,6 @@ class Game:
                         self.change_window_size(fullscreen = (not self.is_fullscreen))
                 elif event.type == pg.VIDEORESIZE:
                     self.change_window_size(size = (event.w, event.h))
-                #elif event.type == pg.VIDEOEXPOSE:
-                #    size = pg.display.get_surface().get_size()
-                #    self.change_window_size(size[1], size[0])
             self.tick_count += 1
             clock.tick(60)  # 60 fps psk ça va trop vite
         self.quit_game()
