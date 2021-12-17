@@ -59,7 +59,7 @@ class Game:
         self.tick_count = 0
 
         #Objets associés
-        self.player = player.Player(0, 0, self)
+        self.player = player.Player(self)
         self.map_manager = maps.MapManager(self.screen, self)
         self.dialogue = None
 
@@ -70,13 +70,16 @@ class Game:
             new_window_config = {"size" : {"width" : width, "height" : height}, "fullscreen" : fullscreen}
             with open(self.CONFIGURATION_FILE_LOCATION, 'w') as file:
                 yaml.dump(new_window_config, file) #Ecriture du fichier de config
-            self.quit_game() #On redémarre le jeu
+            self.is_running = False #On redémarre le jeu
             self.restart = True
         else:
             self.resizable = True
 
     def quit_game(self):
-        self.is_running = False
+        pg.quit()
+        self.game_data_db.close()
+        self.db_connexion.close()
+        self.player.close()
 
     def tick(self):
         """Fonction principale de calcul du tick"""
@@ -111,6 +114,4 @@ class Game:
                 #    self.change_window_size(size[1], size[0])
             self.tick_count += 1
             clock.tick(60)  # 60 fps psk ça va trop vite
-        pg.quit()
-        self.game_data_db.close()
-        self.db_connexion.close()
+        self.quit_game()

@@ -6,6 +6,7 @@ import pytmx, pyscroll
 from dataclasses import dataclass
 
 import npc
+import save
 
 """
 Gère les différentes cartes du jeu et ses accès respectifs
@@ -19,8 +20,8 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         self.game = game
         self.screen = screen
 
-        self.load_map(1)
-        self.teleport_player("spawn_1")    # Tp le j au spawn de base ( soit ici celui de carte.tmx)
+        config = save.load_player_config()
+        self.load_map(config["map_id"])
 
     def load_map(self, map_id):
         self.map_id = map_id
