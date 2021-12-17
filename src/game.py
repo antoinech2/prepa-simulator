@@ -20,7 +20,7 @@ class Game:
 
     def __init__(self):
         # Gestion de l'écran
-        self.restart = True #Pour gérer la redimension
+        self.restart = False #Pour gérer la redimension
 
         self.is_running = False #Statut général
 
@@ -93,8 +93,6 @@ class Game:
                     self.is_running = False
                 elif event.type == pg.KEYDOWN:
                     inputs.handle_key_down_event(self, event)
-                    if event.key == pg.K_F11: #Temporaire, à traiter ailleurs
-                        self.change_window_size(fullscreen = (not self.is_fullscreen))
                 elif event.type == pg.VIDEORESIZE:
                     self.change_window_size(size = (event.w, event.h))
             self.tick_count += 1
