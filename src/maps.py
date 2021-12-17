@@ -6,6 +6,7 @@ import pytmx, pyscroll
 from dataclasses import dataclass
 
 import npc
+import objects
 import save
 
 """
@@ -57,6 +58,7 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
 
         # Gérant des NPC
         self.npc_manager = npc.NpcManager(self)
+        self.object_manager = objects.ObjectManager(self)
         self.music_manager() # le Dj fait son taf ( TODO : peut être metttre un décompte pour changer de musique moins brusquement)
 
     def check_collision(self):
