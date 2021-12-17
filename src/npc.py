@@ -13,7 +13,6 @@ class NpcManager():
 
         #On charge les Npc de la map
         npcs = self.map.game.game_data_db.execute("SELECT npc.id, npc.nom, x_coord, y_coord, default_dia FROM npc JOIN maps ON npc.map_id = maps.id WHERE maps.id = ?", (map.map_id,)).fetchall()
-
         for npc in npcs:
             new_npc = Npc(map, npc[0], npc[1], (npc[2], npc[3]), npc[4])
             self.npc_group.add(new_npc)

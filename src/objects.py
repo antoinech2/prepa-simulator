@@ -12,7 +12,7 @@ class ObjectManager():
         self.map = map
 
         # Chargement de la liste des objets
-        obj_list = self.map.game.game_data_db.execute("select objects.id, objects.name, x_coord, y_coord from objects join maps on objects.map_id where maps.id = ?", (map.map_id,)).fetchall()
+        obj_list = self.map.game.game_data_db.execute("select objects.id, objects.name, x_coord, y_coord from objects join maps on objects.map_id = maps.id where maps.id = ?", (map.map_id,)).fetchall()
         for obj in obj_list:
             new_object = Object(map, obj[0], obj[1], (obj[2], obj[3]))
             self.obj_group.add(new_object)
@@ -44,4 +44,4 @@ class Object(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = coords
         self.image.blit(self.overworld_sprite, (0, 0),
-                        (0, 0, 16, 16))
+                        (0, 0, 16, 16))                             # Affichage du sprite sur la carte
