@@ -6,6 +6,8 @@ import pytmx, pyscroll
 from dataclasses import dataclass
 
 import npc
+import objects
+import save
 
 """
 Gère les différentes cartes du jeu et ses accès respectifs
@@ -19,8 +21,8 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
         self.game = game
         self.screen = screen
 
-        self.load_map(1)
-        self.teleport_player("spawn_1")    # Tp le j au spawn de base ( soit ici celui de carte.tmx)
+        config = save.load_config("player")
+        self.load_map(config["map_id"])
 
     def load_map(self, map_id):
         self.map_id = map_id
@@ -56,6 +58,7 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
 
         # Gérant des NPC
         self.npc_manager = npc.NpcManager(self)
+        self.object_manager = objects.ObjectManager(self)
         self.music_manager() # le Dj fait son taf ( TODO : peut être metttre un décompte pour changer de musique moins brusquement)
 
     def check_collision(self):

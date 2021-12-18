@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Gestion des dialogues entre le joueur et les NPC
+Gestion de l'affichage de bulles de texte
 """
 
 import pygame as pg
@@ -10,7 +10,7 @@ import sqlite3 as sql
 import numpy as np
 
 class Dialogue():
-    IMAGE_LOCATION = "res/textures/talk_box_next.png"
+    IMAGE_LOCATION = "res/textures/talk_box_next.png" # TODO Transformer en variable locale pour faire des infobulles (ie. sans interlocuteur)
     SOUND_LOCATION = "res/sounds/sound_effect/typewriter.wav"
     NAMETAG_POSITION = (30, 45)
     TEXT_POSITION = (30, 100)
@@ -40,7 +40,7 @@ class Dialogue():
         self.current_row = 0                                     # ligne actuelle
 
         #Texte
-        self.dialogue_id = 1 #TEMPORAIRE
+        self.dialogue_id = self.current_npc.default_dia #TEMPORAIRE
         self.texts = np.array(self.game.game_data_db.execute("SELECT texte FROM npc_dialogue WHERE id_npc = ? AND id_dialogue = ? ORDER BY ligne_dialogue ASC", (self.current_npc.id, self.dialogue_id)).fetchall())[:,0]
         #Police
         self.font_size = 16

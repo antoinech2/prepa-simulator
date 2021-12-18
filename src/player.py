@@ -4,13 +4,13 @@
 """Gère le joueur"""
 
 import pygame as pg
+import save
 
 class Player(pg.sprite.Sprite):
 
     TEXTURE_FILE_LOCATION = 'res/textures/player.png'
 
     SPEED_NORMALISATION = 1/(2**0.5)
-    BASE_WALK_SPEED = 1.5 #Vitesse du joueur sans multiplicateur (en m/frame)
     SPRINT_WALK_SPEED_MULTIPLIER = 1.75 #Multiplicateur de vitesse en cas de sprint
     WALK_ANIMATION_COOLDOWN = 8 #Cooldown entre deux changements d'animations (en frames)
     SPRINT_ANIMATION_COOLDOWN = 3 #Cooldown entre deux changements d'animations (en frames)
@@ -27,7 +27,7 @@ class Player(pg.sprite.Sprite):
     "-1,0" : "left",
     "-1,-1" : "up-left"}
 
-    def __init__(self, x, y, game):
+    def __init__(self, game):
         super().__init__()
         self.game = game
 
@@ -36,7 +36,9 @@ class Player(pg.sprite.Sprite):
         self.is_sprinting = False
         self.is_talking = False
 
-        self.position = [x, y]
+        config = save.load_config("player")
+        self.position = config["position"]
+        self.base_walk_speed = config["speed"] #Vitesse du joueur sans multiplicateur (en pixel/frame)
 
         #Graphique
         self.sprite_sheet = pg.image.load(self.TEXTURE_FILE_LOCATION)
@@ -58,6 +60,8 @@ class Player(pg.sprite.Sprite):
         'up-right': [self.get_image(0, 96), self.get_image(32, 96), self.get_image(64, 96)]
         }
 
+    def close(self):
+        save.save_player_config(self.game.map_manager.map_id, self.position, self.base_walk_speed)
 
     def change_animation(self, direction):  # change l'image en fonction du sens 'sens'
         animation = self.ANIMATION_DICT[str(direction[0])+","+str(direction[1])]
@@ -90,13 +94,13 @@ class Player(pg.sprite.Sprite):
                         speed_normalisation = 1
 
                     for coord_id in [0, 1]:
-                        self.position[coord_id] += deplacement[coord_id]*self.BASE_WALK_SPEED*speed_multiplier*speed_normalisation
+                        self.position[coord_id] += deplacement[coord_id]*self.base_walk_speed*speed_multiplier*speed_normalisation
                         self.rect.topleft = self.position
                         self.feet.midbottom = self.rect.midbottom
 
                         # Si il y a collision, on annule le dernier déplacement
                         if self.is_colliding():
-                            self.position[coord_id] -= deplacement[coord_id]*self.BASE_WALK_SPEED*speed_multiplier*speed_normalisation
+                            self.position[coord_id] -= deplacement[coord_id]*self.base_walk_speed*speed_multiplier*speed_normalisation
 
                             self.rect.topleft = self.position
                             self.feet.midbottom = self.rect.midbottom
