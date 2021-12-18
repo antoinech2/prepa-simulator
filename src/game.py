@@ -56,9 +56,9 @@ class Game:
         self.dialogue = None
 
 
-    def change_window_size(self, size = None, fullscreen = None):
+    def change_window_size(self, **args):
         if self.resizable:
-            save.save_config("window", size = size, fullscreen = fullscreen)
+            save.save_config("window", **args)
             self.is_running = False #On redémarre le jeu
             self.restart = True
         else:
