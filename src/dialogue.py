@@ -73,6 +73,12 @@ class Dialogue():
             del(splitted_text[0])
         formatted_text.append(text_line)
         return(formatted_text)
+    
+    def empty_box(self):
+        """Suppression de tout texte présent dans la boîte de dialogue"""
+        self.talk_box_img = pg.transform.scale(
+            self.talk_box_surf, (self.talk_box_x, self.talk_box_y))
+        self.talk_box_img.set_colorkey([255, 255, 255])
 
     def close(self):
         """Fermeture du dialogue"""
@@ -81,17 +87,20 @@ class Dialogue():
 
     def update(self):
         """Fonction de mise à jour générale"""
-        self.show_talk_box()            # on affiche limage de la boite de dialgue
-        self.ecrire(self.current_npc.name, self.NAMETAG_POSITION)             # écriture du nom du npc FIXME : clignotement lors du rafraîchissement de la boîte de dialogue
+        self.show_talk_box()            # on affiche limage de la boite de dialgue          
         if self.is_writing:
             if self.game.tick_count % self.lettre_cooldown == 0:
                 self.new_letter()
+    
+    def nametag_show(self):
+        """écriture du nom du NPC"""
+        self.ecrire(self.current_npc.name, self.NAMETAG_POSITION)
+        # FIXME : clignotement lors du rafraîchissement de la boîte de dialogue
 
     def next_dialogue(self):
         """Passe au dialogue suivant lorsque le joueur presse la touche"""
-        self.talk_box_img = pg.transform.scale(
-            self.talk_box_surf, (self.talk_box_x, self.talk_box_y))
-        self.talk_box_img.set_colorkey([255, 255, 255])
+        self.empty_box()
+        self.nametag_show()
         if self.is_writing:
             self.is_writing = False
             self.current_letter_id = -1
@@ -107,9 +116,8 @@ class Dialogue():
     def new_line(self):
         """Passe à la ligne suivante du dialogue"""
         # on "efface" le dialogue precedent
-        self.talk_box_img = pg.transform.scale(
-            self.talk_box_surf, (self.talk_box_x, self.talk_box_y))
-        self.talk_box_img.set_colorkey([255, 255, 255])
+        self.empty_box()
+        self.nametag_show()
         # dans la suite à chaques appels de cette fonction on ajoute 1 à l'id du dialogue actuel sauf si c'est le dernier
         # si c'est le dernier alors le player ne parle plus
         if self.current_text_id < len(self.texts) - 1:
@@ -122,9 +130,12 @@ class Dialogue():
             self.close()
 
     def new_letter(self):
-        """Affiche une nouvelle lettre du texte"""
+        """
+        Affiche une nouvelle lettre du texte
+        """
         if self.current_letter_id < len(self.current_text[self.current_row]) - 1:
             self.current_letter_id += 1
+            self.nametag_show()     # FIXME Ne pas appeler la fonction à chaque lettre
             self.ecrire(self.current_text[self.current_row][:self.current_letter_id+1], self.text_position)
             pg.mixer.Sound.play(self.tw_sound)
             if self.current_letter_id >= len(self.current_text[self.current_row]) - 1 and self.current_row < len(self.current_text) - 1:
@@ -136,8 +147,11 @@ class Dialogue():
             self.is_writing = False
 
     def ecrire(self, texte, pos, color=(0, 0, 0)):
-        """Affiche le texte sur le cadre de dialogue"""
-        text_affiche = self.font.render(texte, False, color)
+        """
+        Affiche le texte sur le cadre de dialogue
+        """
+        # FIXME Empêcher l'accumulation de texte
+        text_affiche = self.font.render(texte, True, color)
         self.talk_box_img.blit(text_affiche, pos)
 
     def show_talk_box(self):
