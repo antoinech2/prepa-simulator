@@ -10,24 +10,28 @@ class ObjectManager():
     def __init__(self, map):
         self.obj_group = pg.sprite.Group()
         self.map = map
+        self.total_object_count = self.map.game.game_data_db.execute("select count(*) from objects;")
 
         # Chargement de la liste des objets
         obj_list = self.map.game.game_data_db.execute("select objects.id, objects.name, x_coord, y_coord from objects join maps on objects.map_id = maps.id where maps.id = ?", (map.map_id,)).fetchall()
         for obj in obj_list:
             new_object = Object(map, obj[0], obj[1], (obj[2], obj[3]))
-            self.obj_group.add(new_object)
-            self.map.object_group.add(new_object)
-    
+            if new_object.exists:
+                self.obj_group.add(new_object)
+                self.map.object_group.add(new_object)
+
     def pickup_check(self):
         obj_collide_list = pg.sprite.spritecollide(self.map.game.player, self.obj_group, False)
+        for obj in obj_collide_list:
+            if not obj.exists:
+                obj_collide_list.remove(obj)
         if len(obj_collide_list) != 0:
-            pass        # TODO Ramasser l'objet s'il existe, et le mettre dans le Sac
-
+            self.map.game.player.bag.pickup_object(obj_collide_list[0])
 
 class Object(pg.sprite.Sprite):
     OBJ_TEX_FOLDER = "res/textures/objects/"
     OVERWORLD_TEX = "res/textures/objects/overworld.png"
-    
+
     def __init__(self, map, id, name, coords, exists = True):
         super().__init__()
         self.map = map
@@ -43,5 +47,6 @@ class Object(pg.sprite.Sprite):
         self.image.set_colorkey([0, 0, 0])
         self.rect = self.image.get_rect()
         self.rect.topleft = coords
-        self.image.blit(self.overworld_sprite, (0, 0),
-                        (0, 0, 16, 16))                             # Affichage du sprite sur la carte
+        if self.exists:
+            self.image.blit(self.overworld_sprite, (0, 0),
+                            (0, 0, 16, 16))                             # Affichage du sprite sur la carte

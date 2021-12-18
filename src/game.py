@@ -13,6 +13,7 @@ import player
 import maps
 import inputs
 import save
+import bag
 
 class Game:
     DATABASE_LOCATION = "res/game_data.db"
@@ -51,9 +52,10 @@ class Game:
         self.tick_count = 0
 
         #Objets associés
-        self.player = player.Player(self)
+        self.player = player.Player(self, bag.Bag())
         self.map_manager = maps.MapManager(self.screen, self)
         self.dialogue = None
+        self.player.objects_state = save.load_config("objects")
 
 
     def change_window_size(self, size = None, fullscreen = None):

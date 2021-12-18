@@ -1,10 +1,12 @@
 
 import yaml
 import os
+import objects
 
 CONFIGURATION_FILES = {
     "player" : "sav/player.yaml",
-    "window" : "sav/window.yaml"
+    "window" : "sav/window.yaml",
+    "objects" : "sav/objects.yaml"
     }
 
 def load_config(object):
@@ -21,6 +23,8 @@ def create_default_config(object):
         config = {"map_id" : 1, "position" : [1600,1200], "speed" : 1.5}
     elif object == "window":
         config = {"size" : (1000, 600), "fullscreen" : False}
+    elif object == "objects":
+        config = {1 : True} # Temporaire. TODO faire une entrée pour chaque objet existant dans le jeu
     with open(CONFIGURATION_FILES[object], 'w') as file:
         yaml.dump(config, file) #Ecriture du fichier de config
 

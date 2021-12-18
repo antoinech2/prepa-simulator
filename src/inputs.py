@@ -11,6 +11,7 @@ def handle_key_down_event(game, event):
     """Transmet l'évènement d'une toucher qui vient d'être pressée"""
     if event.key == pg.K_SPACE:  # si Espace est pressée
         if game.dialogue == None:
+            game.map_manager.object_manager.pickup_check()
             game.map_manager.npc_manager.check_talk()
         else:
             game.dialogue.next_dialogue()
