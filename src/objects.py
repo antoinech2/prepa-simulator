@@ -27,6 +27,13 @@ class ObjectManager():
                 obj_collide_list.remove(obj)
         if len(obj_collide_list) != 0:
             self.map.game.player.bag.pickup_object(obj_collide_list[0])
+        self.refresh_objects()
+        
+    def refresh_objects(self):
+        """Suppression du sprite des objets ramassés"""
+        for obj in self.obj_group:
+            if not obj.exists:
+                self.map.object_group.remove(obj)                     # Affichage du sprite de l'objet sur la carte
 
 class Object(pg.sprite.Sprite):
     OBJ_TEX_FOLDER = "res/textures/objects/"
@@ -37,8 +44,8 @@ class Object(pg.sprite.Sprite):
         self.map = map
         self.id = id
         self.name = name
-        self.path = f"{self.OBJ_TEX_FOLDER}placeholder.png"         # TODO à remplacer par {self.name}.png lorsque le Sac sera implémenté
-        self.exists = True # Temporaire. TODO Fichier events.yaml recensant les objets, ainsi self.exists pourra varier
+        self.path = f"{self.OBJ_TEX_FOLDER}placeholder.png"         # Chemin de l'icône dans le Sac de l'objet TODO à remplacer par {self.name}.png lorsque le Sac sera implémenté
+        self.exists = exists # Temporaire. TODO Fichier events.yaml recensant les objets, ainsi self.exists pourra varier
 
         # Affichage du sprite, les variables sont similaires à celles de la classe Npc
         self.bag_sprite = pg.image.load(self.path)                  # Le sprite dans le sac
@@ -47,6 +54,5 @@ class Object(pg.sprite.Sprite):
         self.image.set_colorkey([0, 0, 0])
         self.rect = self.image.get_rect()
         self.rect.topleft = coords
-        if self.exists:
-            self.image.blit(self.overworld_sprite, (0, 0),
-                            (0, 0, 16, 16))                             # Affichage du sprite sur la carte
+        self.image.blit(self.overworld_sprite, (0, 0),
+                        (0, 0, 16, 16))
