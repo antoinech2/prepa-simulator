@@ -6,10 +6,14 @@
 import pygame as pg
 import os
 
-import game
+import game as g
 
 if __name__ == '__main__' :
     os.chdir("..")
     pg.init()
-    game = game.Game()
+    game = g.Game()
     game.run()
+    while game.restart:
+        pg.init()
+        game = g.Game()
+        game.run()
