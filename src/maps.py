@@ -177,5 +177,6 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
 
     def tick(self):
         'appelée, elle met à jour les elts suivants'
+        self.npc_manager.tick()
         self.get_group().update()
         self.check_collision()

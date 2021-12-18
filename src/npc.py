@@ -21,7 +21,7 @@ class NpcManager():
         #On charge les Npc de la map
         for npc in NPC_LIST:
             if npc["map"] == map.current_map:
-                new_npc = Npc(map, npc["id"], npc["coords"])
+                new_npc = Npc(map, npc["id"], npc["coords"],)
                 self.npc_group.add(new_npc)
                 self.map.get_group().add(new_npc)
 
@@ -29,6 +29,10 @@ class NpcManager():
         npc_collide_list = pg.sprite.spritecollide(self.map.game.player, self.npc_group, False)
         if len(npc_collide_list) != 0:
             self.map.game.dialogue = dialogue.Dialogue(self.map.game, npc_collide_list[0])
+
+    def tick(self):
+        for npc in self.npc_group:
+            npc.tick()
 
 
 class Npc(pg.sprite.Sprite):
@@ -38,13 +42,57 @@ class Npc(pg.sprite.Sprite):
         super().__init__()
         self.map = map
         self.id = id
+        self.is_moving = False
+        self.position = coords
+        self.vitesse = 1
+        self.moving_list = []
 
         #Graphique
         self.sprite_sheet = pg.image.load(self.TEXTURE_FILE_LOCATION)
         self.image = pg.Surface([32, 32])  # creation d'une image
         self.image.set_colorkey([0, 0, 0])  # transparence
         self.rect = self.image.get_rect()  # rectangle autour du joueur
-        self.rect.topleft = coords  # placement du npc
+        self.rect.topleft = self.position  # placement du npc
         self.image.blit(self.sprite_sheet, (0, 0),
                         (0, 0, 32, 32))  # affichage du npc
         self.feet = pg.Rect(0, 0, self.rect.width * 0.5, 12)
+        #temporaire
+        if self.id == 1:
+            self.points(self.position[0], self.position[1], [(50,-50),(-50,0),(50,50),(-50,0)])
+
+
+    def goto(self, x0 = 0, y0 = 0, x = 0, y = 0, relative = True):
+        self.moving_list.append({"initx":x0, "inity":y0, "targetx":x, "targety":y, "relative":True})
+
+
+    def avance(self):
+        if self.boule_fermee((self.moving_list[0]["targetx"],self.moving_list[0]["targety"]), 1, self.position):
+            del self.moving_list[0]
+            if not self.moving_list:
+                self.is_moving = False
+        else:
+            a = self.moving_list[0]["targetx"] - self.moving_list[0]["initx"]
+            b = self.moving_list[0]["targety"] - self.moving_list[0]["inity"]
+            l = (a**2 + b**2)**(0.5)
+            new_x = self.position[0] + self.vitesse*a/l
+            new_y = self.position[1] + self.vitesse*b/l
+            self.position = (new_x, new_y)
+            self.rect.topleft = self.position
+
+
+    def tick(self):
+        if self.is_moving:
+            self.avance()
+
+    def boule_fermee(self,c,r,vect):
+        return (vect[0] >= c[0]-r) and (vect[0] <= c[0]+r) and (vect[1] >= c[1]-r) and (vect[1] <= c[1]+r)
+
+    def points(self, x0, y0, pts, relative = True):
+        self.goto(self.position[0], self.position[1], x0, y0)
+        for i in range(len(pts)):
+            x = int(relative)*self.position[0] + sum(pts[j][0] for j in range(i+1))
+            y = int(relative)*self.position[1] + sum(pts[j][1] for j in range(i+1))
+            a = x - pts[i][0]
+            b = y - pts[i][1]
+            self.goto(a, b, x, y)
+        self.is_moving = True
