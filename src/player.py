@@ -61,7 +61,7 @@ class Player(pg.sprite.Sprite):
         }
 
     def close(self):
-        save.save_player_config(self.game.map_manager.map_id, self.position, self.base_walk_speed)
+        save.save_config("player", map_id = self.game.map_manager.map_id, position = self.position, speed = self.base_walk_speed)
 
     def change_animation(self, direction):  # change l'image en fonction du sens 'sens'
         animation = self.ANIMATION_DICT[str(direction[0])+","+str(direction[1])]
