@@ -21,10 +21,10 @@ class SideMenu():
     SIDEMENU_POSITION = (30, 100)
     TEXTURE_LOCATION = "res/textures/menu/sidemenu.png"
     SIDEMENU_OFFSET = (20, 20) # Temporaire, à passer en relatif
+    ARROW_TEX = "res/textures/menu/arrow.png"
 
     def __init__(self, game):
         self.submenu_list = []
-        self.submenu_no = 0     # Submenu en cours de sélection
         self.game = game
         self.onscreen = False
 
@@ -35,11 +35,41 @@ class SideMenu():
         self.texture = pg.transform.scale(self.texture_surf, (self.tex_x, self.tex_y))
         self.texture.set_colorkey([255, 255, 255])
 
+        # Flèche
+        self.arrow_pos = 0 # Submenu en cours de sélection
+        # Texture de la flèche
+        self.arrow_tex_surf = pg.image.load(self.ARROW_TEX).convert()
+        self.arrow_tex_x = int(self.arrow_tex_surf.get_width()*0.75)
+        self.arrow_tex_y = int(self.arrow_tex_surf.get_height()*0.75)
+        self.arrow_tex = pg.transform.scale(self.arrow_tex_surf, (self.arrow_tex_x, self.arrow_tex_y))
+        self.arrow_tex.set_colorkey([255, 255, 255])
+
 
     def show_sidemenu(self):
         """Affichage du menu latéral"""
         rect = self.texture.get_rect(topright=(self.game.screen.get_size()[0] - self.SIDEMENU_OFFSET[0], self.SIDEMENU_OFFSET[1]))
         self.game.screen.blit(self.texture, rect)
+
+    def show_arrow(self):
+        """Affichage de la flèche"""
+        rect = self.arrow_tex.get_rect(topright = self.submenu_list[self.arrow_pos].icon_position)
+        self.texture.blit(self.arrow_tex, rect)
+    
+    def menu_move_down(self):
+        """Utilisation de la touche ↓"""
+        # TODO Changements lorsqu'une fenêtre est ouverte
+        if self.arrow_pos < len(self.submenu_list) - 1:
+            self.arrow_pos += 1
+    
+    def menu_move_up(self):
+        """Utilisation de la touche ↑"""
+        if self.arrow_pos >= 1:
+            self.arrow_pos -= 1
+    
+    def clear(self):
+        """Suppression du contenu du menu latéral"""
+        self.texture = pg.transform.scale(self.texture_surf, (self.tex_x, self.tex_y))
+        self.texture.set_colorkey([255, 255, 255])
 
 
 class SubMenu():
@@ -53,6 +83,7 @@ class SubMenu():
         self.sidemenu.submenu_list.append(self)
         self.icon_path = f"{self.SUBMENU_ICON_PATH}{self.name}.png"
         self.icon_position = iconpos
+        self.is_open = False
 
         # Graphiques
         self.icon_surf = pg.image.load(self.icon_path).convert()
@@ -69,7 +100,7 @@ class SubMenu():
 
 class BagSubMenu(SubMenu):
     """Classe du sous-menu du Sac"""
-    BAGICON_POSITION = (20, 100) # Temporaire
+    BAGICON_POSITION = (30, 100) # Temporaire
     
     def __init__(self, sidemenu):
         super().__init__("bag", "SAC", sidemenu, self.BAGICON_POSITION)
@@ -78,7 +109,7 @@ class BagSubMenu(SubMenu):
 
 class SaveSubMenu(SubMenu):
     """Classe du sous-menu de sauvegarde"""
-    SAVEICON_POSITION = (20, 200) # Temporaire
+    SAVEICON_POSITION = (30, 200) # Temporaire
     def __init__(self, sidemenu):
         super().__init__("save", "SAUVER", sidemenu, self.SAVEICON_POSITION)
     # TODO Implémenter une fonction de sauvegarde des données
@@ -111,3 +142,13 @@ class MenuManager():
             self.sidemenu.show_sidemenu()
             for submenu in self.sidemenu.submenu_list:
                 submenu.show_on_sidebar()
+            self.sidemenu.show_arrow()
+    
+    def menu_move(self, direction):
+        """Déplacement dans un menu"""
+        # TODO Cas d'un submenu ouvert
+        self.sidemenu.clear() # Effacement de l'ancienne position de la flèche
+        if direction == "up":
+            self.sidemenu.menu_move_up()
+        elif direction == "down":
+            self.sidemenu.menu_move_down()
