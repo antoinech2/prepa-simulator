@@ -16,6 +16,8 @@ def handle_key_down_event(game, event):
             game.map_manager.npc_manager.check_talk()
         else:
             game.dialogue.next_dialogue()
+    elif event.key == ctrl.MENU_SHOW_SIDEBAR:
+        game.menu_manager.toggle_sidemenu()
     elif event.key == ctrl.GAME_FULLSCREEN:
         game.change_window_size(fullscreen = (not game.is_fullscreen))
     elif event.key == ctrl.GAME_TERMINATE:

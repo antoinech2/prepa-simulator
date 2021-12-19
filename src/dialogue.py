@@ -23,6 +23,7 @@ class Dialogue():
         #Etat
         self.is_writing = True
         self.game.player.is_talking = True
+        self.game.player.can_move = False
 
         #Graphique
         self.talk_box_surf = pg.image.load(self.IMAGE_LOCATION).convert()
@@ -83,6 +84,7 @@ class Dialogue():
     def close(self):
         """Fermeture du dialogue"""
         self.game.player.is_talking = False
+        self.game.player.can_move = True
         self.game.dialogue = None
 
     def update(self):

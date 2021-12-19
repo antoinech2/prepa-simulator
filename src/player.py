@@ -36,6 +36,7 @@ class Player(pg.sprite.Sprite):
         self.is_animated = False
         self.is_sprinting = False
         self.is_talking = False
+        self.can_move = True
 
         config = save.load_config("player")
         self.position = config["position"]
@@ -74,7 +75,7 @@ class Player(pg.sprite.Sprite):
 
     def move(self, list_directions, sprinting):
         if list_directions.count(True) > 0:
-            if not self.is_talking:
+            if self.can_move:
                 speed_multiplier = self.SPRINT_WALK_SPEED_MULTIPLIER if sprinting else 1
                 self.is_sprinting = True if sprinting else False
                 deplacement = [0, 0]

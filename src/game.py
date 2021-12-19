@@ -14,6 +14,7 @@ import maps
 import inputs
 import save
 import bag
+import menu
 
 class Game:
     DATABASE_LOCATION = "res/game_data.db"
@@ -54,6 +55,7 @@ class Game:
         #Objets associés
         self.player = player.Player(self, bag.Bag())
         self.map_manager = maps.MapManager(self.screen, self)
+        self.menu_manager = menu.MenuManager(self.screen, self)
         self.dialogue = None
         self.player.objects_state = save.load_config("objects")
 
@@ -77,6 +79,7 @@ class Game:
         inputs.handle_pressed_key(self)
         self.map_manager.tick()
         self.map_manager.draw()
+        self.menu_manager.draw()
         if self.dialogue != None:
             self.dialogue.update()
 
