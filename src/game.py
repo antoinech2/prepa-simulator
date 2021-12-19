@@ -19,6 +19,7 @@ import menu
 class Game:
     DATABASE_LOCATION = "res/game_data.db"
     GAME_NAME = "Prepa Simulator"
+    DEFAULT_FONT = menu.Font("consolas")
 
     def __init__(self):
         # Gestion de l'écran

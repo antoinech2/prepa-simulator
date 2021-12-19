@@ -9,12 +9,14 @@ import pygame as pg
 import sqlite3 as sql
 import numpy as np
 
+import menu
+
 class Dialogue():
     IMAGE_LOCATION = "res/textures/talk_box_next.png" # TODO Transformer en variable locale pour faire des infobulles (ie. sans interlocuteur)
     SOUND_LOCATION = "res/sounds/sound_effect/typewriter.wav"
     NAMETAG_POSITION = (30, 45)
     TEXT_POSITION = (30, 100)
-    FONT = "consolas"
+    FONT = "consolas" # TODO Appel de la police depuis menu
 
     def __init__(self, game, npc):
         self.game = game
@@ -43,10 +45,11 @@ class Dialogue():
         #Texte
         self.dialogue_id = self.current_npc.default_dia #TEMPORAIRE
         self.texts = np.array(self.game.game_data_db.execute("SELECT texte FROM npc_dialogue WHERE id_npc = ? AND id_dialogue = ? ORDER BY ligne_dialogue ASC", (self.current_npc.id, self.dialogue_id)).fetchall())[:,0]
-        #Police
+        #Police TODO Utilisation de la classe Font (menu)
         self.font_size = 16
         self.font = pg.font.SysFont(self.FONT, self.font_size)
         self.font_width = max([metric[1] for metric in self.font.metrics("azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN")]) # Chasse maximale pour la police choisie
+        
         self.row_length = self.talk_box_x / self.font_width - 7       # longueur max d'une ligne de texte. TODO enlever le -7, solution temporaire
         self.row_height = self.font.get_linesize()
         self.text_position = [self.TEXT_POSITION[0], self.TEXT_POSITION[1] + self.current_row * self.row_height]        # position du texte à afficher
