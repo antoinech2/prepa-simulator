@@ -49,7 +49,7 @@ class MapManager :  # aka le Patron ou bien Le Contre-Maître
 
         for portal in portals :
             point = self.tmx_data.get_object_by_name(portal[1])
-            self.portals.append(pg.Rect(point.x-2, point.y-2, point.width+4, point.height+4))
+            self.portals.append(pg.Rect(point.x, point.y, point.width, point.height))
             self.portals_id.append(portal[0])
 
         # groupe de calques
