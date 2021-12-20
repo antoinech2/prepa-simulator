@@ -18,6 +18,10 @@ def handle_key_down_event(game, event):
             game.dialogue.next_dialogue()
     elif event.key == ctrl.MENU_SHOW_SIDEBAR:
         game.menu_manager.toggle_sidemenu()
+    elif event.key == ctrl.MENU_INTERACT and game.player.menu_is_open:
+        game.menu_manager.open_menu()
+    elif event.key == ctrl.MENU_CANCEL:
+        game.menu_manager.close_menu()
     elif event.key == ctrl.MENU_MOVE_UP:
         game.menu_manager.menu_move("up")
     elif event.key == ctrl.MENU_MOVE_DOWN:
