@@ -33,11 +33,16 @@ class Game:
         # Création du dossier de sauvegarde s'il n'existe pas
         if not os.path.isdir("sav"):
             os.makedirs("sav")
+        # Dossier de paramètres
+        if not os.path.isdir("stg"):
+            os.makedirs("stg")
 
         # Chargement de la configuration de l'écran
         config = save.load_config("window")
         self.window_size = config["size"]
         self.is_fullscreen = config["fullscreen"]
+
+        inputs.init()
 
         # Gestion de l'écran
         if self.is_fullscreen:
