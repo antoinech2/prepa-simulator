@@ -5,6 +5,7 @@
 Gestion de l'affichage de bulles de texte
 """
 
+# Import externe
 import pygame as pg
 import sqlite3 as sql
 import numpy as np
@@ -19,15 +20,16 @@ class Dialogue():
     FONT = "consolas" # TODO Appel de la police depuis menu
 
     def __init__(self, game, npc):
+        # Objets liés
         self.game = game
         self.current_npc = npc
 
-        #Etat
+        # Etat
         self.is_writing = True
         self.game.player.is_talking = True
         self.game.player.can_move = False
 
-        #Graphique
+        # Graphique
         self.talk_box_surf = pg.image.load(self.IMAGE_LOCATION).convert()
         self.talk_box_x = int(self.talk_box_surf.get_width()*0.75)
         self.talk_box_y = int(self.talk_box_surf.get_height()*0.75)
@@ -35,25 +37,27 @@ class Dialogue():
         self.talk_box_img.set_colorkey([255, 255, 255])
         self.tw_sound = pg.mixer.Sound(self.SOUND_LOCATION)
 
-        #Gestion de l'affichage partiel du texte
+        # Gestion de l'affichage partiel du texte
         self.lettre_cooldown = 5
-        self.current_text = ""                                   # text actuel
-        self.current_text_id = -1                                # id du text actuel
+        self.current_text = ""                                   # texte actuel
+        self.current_text_id = -1                                # id du texte actuel
         self.current_letter_id = -1                              # lettre actuelle
         self.current_row = 0                                     # ligne actuelle
 
-        #Texte
+        # Texte
         self.dialogue_id = self.current_npc.default_dia #TEMPORAIRE
         self.texts = np.array(self.game.game_data_db.execute("SELECT texte FROM npc_dialogue WHERE id_npc = ? AND id_dialogue = ? ORDER BY ligne_dialogue ASC", (self.current_npc.id, self.dialogue_id)).fetchall())[:,0]
-        #Police TODO Utilisation de la classe Font (menu)
+
+        # Police TODO Utilisation de la classe Font (menu)
         self.font_size = 16
         self.font = pg.font.SysFont(self.FONT, self.font_size)
         self.font_width = max([metric[1] for metric in self.font.metrics("azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN")]) # Chasse maximale pour la police choisie
-        
+
         self.row_length = self.talk_box_x / self.font_width - 7       # longueur max d'une ligne de texte. TODO enlever le -7, solution temporaire
         self.row_height = self.font.get_linesize()
         self.text_position = [self.TEXT_POSITION[0], self.TEXT_POSITION[1] + self.current_row * self.row_height]        # position du texte à afficher
 
+        #Affichage du début du texte
         self.new_line()
 
     def refresh_text_position(self):
@@ -77,7 +81,7 @@ class Dialogue():
             del(splitted_text[0])
         formatted_text.append(text_line)
         return(formatted_text)
-    
+
     def empty_box(self):
         """Suppression de tout texte présent dans la boîte de dialogue"""
         self.talk_box_img = pg.transform.scale(
@@ -92,21 +96,25 @@ class Dialogue():
 
     def update(self):
         """Fonction de mise à jour générale"""
-        self.show_talk_box()            # on affiche limage de la boite de dialgue          
+        # Affichage de la boîte de dialogue
+        self.show_talk_box()
         if self.is_writing:
+            # Affichage d'une nouvelle lettre à la fin du cooldown
             if self.game.tick_count % self.lettre_cooldown == 0:
                 self.new_letter()
-    
+
     def nametag_show(self):
-        """écriture du nom du NPC"""
+        """Ecrit le nom du NPC dans la case au dessus de la boîte de dialogue"""
         self.ecrire(self.current_npc.name, self.NAMETAG_POSITION)
         # FIXME : clignotement lors du rafraîchissement de la boîte de dialogue
 
     def next_dialogue(self):
         """Passe au dialogue suivant lorsque le joueur presse la touche"""
+        # Efface le texte précédent
         self.empty_box()
         self.nametag_show()
         if self.is_writing:
+            # Cas où le texte est encore en cours d'écriture : on affiche toute la ligne d'un coup
             self.is_writing = False
             self.current_letter_id = -1
             self.current_row = 0
@@ -116,38 +124,39 @@ class Dialogue():
                 self.current_row += 1
                 self.refresh_text_position()
         else:
+            # Cas où tout le texte est écrit : on passe au dialogue suivant
             self.new_line()
 
     def new_line(self):
         """Passe à la ligne suivante du dialogue"""
-        # on "efface" le dialogue precedent
+        # Efface le texte précédent
         self.empty_box()
         self.nametag_show()
-        # dans la suite à chaques appels de cette fonction on ajoute 1 à l'id du dialogue actuel sauf si c'est le dernier
-        # si c'est le dernier alors le player ne parle plus
         if self.current_text_id < len(self.texts) - 1:
+            # Passage à la ligne de texte suivante
             self.current_text_id += 1
             self.current_text = self.format(self.texts[self.current_text_id])
             self.current_row = 0
             self.refresh_text_position()
             self.is_writing = True
         else:
+            # Plus de texte, on ferme la boîte de dialogue
             self.close()
 
     def new_letter(self):
-        """
-        Affiche une nouvelle lettre du texte
-        """
+        """Affiche une nouvelle lettre du texte"""
         if self.current_letter_id < len(self.current_text[self.current_row]) - 1:
+            # Nouvelle lettre sur la ligne
             self.current_letter_id += 1
-            self.nametag_show()     # FIXME Ne pas appeler la fonction à chaque lettre
             self.ecrire(self.current_text[self.current_row][:self.current_letter_id+1], self.text_position)
+
             pg.mixer.Sound.play(self.tw_sound)
             if self.current_letter_id >= len(self.current_text[self.current_row]) - 1 and self.current_row < len(self.current_text) - 1:
                 self.current_letter_id = 0
                 self.current_row += 1
                 self.refresh_text_position()
         else:
+            # Tout le texte est écrit, on arrête d'écrire
             self.current_letter_id = -1
             self.is_writing = False
 

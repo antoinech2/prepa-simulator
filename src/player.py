@@ -7,15 +7,16 @@ import pygame as pg
 import save
 
 class Player(pg.sprite.Sprite):
+    """Représente le joueur"""
 
     TEXTURE_FILE_LOCATION = 'res/textures/player.png'
 
     SPEED_NORMALISATION = 1/(2**0.5)
-    SPRINT_WALK_SPEED_MULTIPLIER = 1.75 #Multiplicateur de vitesse en cas de sprint
-    WALK_ANIMATION_COOLDOWN = 8 #Cooldown entre deux changements d'animations (en frames)
-    SPRINT_ANIMATION_COOLDOWN = 3 #Cooldown entre deux changements d'animations (en frames)
+    SPRINT_WALK_SPEED_MULTIPLIER = 1.75 # Multiplicateur de vitesse en cas de sprint
+    WALK_ANIMATION_COOLDOWN = 8 # Cooldown entre deux changements d'animations (en frames)
+    SPRINT_ANIMATION_COOLDOWN = 3 # Cooldown entre deux changements d'animations (en frames)
 
-    FEET_SIZE = 12
+    FEET_SIZE = 12 # Hauteur de la zone de collision (en pixels)
 
     ANIMATION_DICT = {
     "1,1" : "down-right",
@@ -32,13 +33,14 @@ class Player(pg.sprite.Sprite):
         self.game = game
         self.bag = bag
 
-        #Etat
+        # Variables d'état
         self.is_animated = False
         self.is_sprinting = False
         self.is_talking = False
         self.can_move = True
         self.menu_is_open = False
 
+        # Chargement de la position dans la sauvegarde
         config = save.load_config("player")
         self.position = config["position"]
         self.base_walk_speed = config["speed"] #Vitesse du joueur sans multiplicateur (en pixel/frame)
@@ -49,7 +51,6 @@ class Player(pg.sprite.Sprite):
         self.image.set_colorkey([0, 0, 0])  # transparence
         self.rect = self.image.get_rect()  # rectangle autour du joueur
         self.feet = pg.Rect(0, 0, self.rect.width * 0.5, self.FEET_SIZE)
-
         self.current_sprite = 0
 
         self.IMAGES = {
@@ -63,22 +64,38 @@ class Player(pg.sprite.Sprite):
         'up-right': [self.get_image(0, 96), self.get_image(32, 96), self.get_image(64, 96)]
         }
 
-    def close(self):
-        save.save_player_config(self.game.map_manager.map_id, self.position, self.base_walk_speed)
+    def save(self):
+        """Sauvegarde lors de la fermeture du jeu"""
+        save.save_config("player", map_id = self.game.map_manager.map_id, position = self.position, speed = self.base_walk_speed)
 
     def change_animation(self, direction):  # change l'image en fonction du sens 'sens'
+        """Change l'image de l'animation du joueur"""
         animation = self.ANIMATION_DICT[str(direction[0])+","+str(direction[1])]
         self.image = self.IMAGES[animation][int(self.current_sprite)]
         self.image.set_colorkey([0, 0, 0])  # transparence
 
     def is_colliding(self):
-        return True if self.feet.collidelist(self.game.map_manager.walls) > -1 else False
+        """Vérifie la collision avec un mur ou un portail"""
+        # Collision avec un portail
+        index = self.feet.collidelist(self.game.map_manager.portals)
+        if index >= 0:   # Le joueur est dans un portail
+            # On récupère l'endroit où téléporter le joueur
+            [to_world, to_point] = self.game.game_data_db.execute("SELECT to_world, to_point FROM portals WHERE id = ?", (self.game.map_manager.portals_id[index],)).fetchall()[0]
+            self.game.map_manager.load_map(to_world) # On charge la nouvelle carte
+            self.game.map_manager.teleport_player(to_point)  # on téléporte le joueur à la destination
+            return True
+        else:
+            # Collision avec les murs
+            return True if self.feet.collidelist(self.game.map_manager.walls) > -1 else False
 
     def move(self, list_directions, sprinting):
-        if list_directions.count(True) > 0:
-            if self.can_move:
+        """Méthode de déplacement du joueur"""
+        if list_directions.count(True) > 0: # Si au moins une touche de déplacement est préssée
+            if self.can_move: # Le joueur n'est pas en dialogue
                 speed_multiplier = self.SPRINT_WALK_SPEED_MULTIPLIER if sprinting else 1
                 self.is_sprinting = True if sprinting else False
+
+                # On calcule le déplacement potentiel en x et en y en fonction des touche préssées
                 deplacement = [0, 0]
                 if list_directions[0]: #Haut
                     deplacement[1] -= 1
@@ -89,14 +106,17 @@ class Player(pg.sprite.Sprite):
                 if list_directions[3]: #Gauche
                     deplacement[0] -= 1
 
-                if deplacement[0] != 0 or deplacement[1] != 0:
+                if deplacement[0] != 0 or deplacement[1] != 0: # Si le déplacement n'est pas nul
 
+                    # Si le déplacement est non nul selon les deux coordonées, on se déplace en diagonale, il faut normaliser le vecteur déplacement
                     if deplacement[0] != 0 and deplacement[1] != 0:
                         speed_normalisation = self.SPEED_NORMALISATION
                     else:
                         speed_normalisation = 1
 
+                    # On traite les deux coordonées x et y
                     for coord_id in [0, 1]:
+                        # On déplace le sprite et on recalcule la position
                         self.position[coord_id] += deplacement[coord_id]*self.base_walk_speed*speed_multiplier*speed_normalisation
                         self.rect.topleft = self.position
                         self.feet.midbottom = self.rect.midbottom
@@ -104,7 +124,6 @@ class Player(pg.sprite.Sprite):
                         # Si il y a collision, on annule le dernier déplacement
                         if self.is_colliding():
                             self.position[coord_id] -= deplacement[coord_id]*self.base_walk_speed*speed_multiplier*speed_normalisation
-
                             self.rect.topleft = self.position
                             self.feet.midbottom = self.rect.midbottom
                     else:
@@ -113,16 +132,18 @@ class Player(pg.sprite.Sprite):
             else:
                 self.is_animated = False
 
-    def update(self):  # mettre à jour la position
+    def update(self):
+        """Mise à jour graphique"""
         self.rect.topleft = self.position
         self.feet.midbottom = self.rect.midbottom
 
+        # Recalcul de l'image à utiliser
         animation_cooldown = self.SPRINT_ANIMATION_COOLDOWN if self.is_sprinting else self.WALK_ANIMATION_COOLDOWN
         if self.is_animated == True:
             self.current_sprite = (int(self.game.tick_count/animation_cooldown) % 3)
 
-    # retourne un 'bout' de l'image 'player.png' en fonction de ses coordonées x,y
     def get_image(self, x, y):
+        """Retourne une partie de l'image du joueur"""
         image = pg.Surface([32, 32])
         image.blit(self.sprite_sheet, (0, 0), (x, y, 32, 32))
         return image
