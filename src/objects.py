@@ -83,7 +83,7 @@ class Object():
         self.id = id
         self.name = name
         self.category = category
-        self.path = f"{self.OBJ_TEX_FOLDER}{self.name}.png"         # Chemin de l'icône dans le Sac de l'objet
+        self.path = f"{self.OBJ_TEX_FOLDER}object{self.id}.png"         # Chemin de l'icône dans le Sac de l'objet
 
         # Graphismes
         try:

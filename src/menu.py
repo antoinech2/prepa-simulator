@@ -169,7 +169,7 @@ class Arrow1D():
     def __init__(self, parent, upper_limit, can_loop, line_height, origin_coords):
         self.parent = parent
         self.arrow_pos = 0 # Option courante
-        self.upper_limit = upper_limit
+        self.upper_limit = upper_limit - 1 # Les positions commencent à 0
         self.can_loop = can_loop
         self.line_height = line_height
         self.origin_coords = origin_coords
@@ -213,7 +213,7 @@ class BagSubMenu(SubMenu):
     """Classe du sous-menu du Sac"""
     BAGICON_POSITION = (30, 100)        # Temporaire
     BAG_UPPERLEFT_CORNER = (80, 20)     # Coin haut gauche du Sac pour placer la première icône. Temporaire
-    ONSCREEN_OBJECTS = 8                # Nombre d'objets affichés à l'écran
+    ONSCREEN_OBJECTS = 5                # Nombre d'objets affichés à l'écran
     NAME_ICON_OFFSET = (40, -4)         # Espace entre l'icône d'un objet et son nom. Temporaire
     AMOUNT_ICON_OFFSET = (40, 8)        # Espace entre l'icône d'un objet et sa quantité. Temporaire
     KEYITEM_OFFSET = (40, 2)            # Espace entre l'icône d'un objet clé et son nom. temporaire
@@ -253,6 +253,16 @@ class BagSubMenu(SubMenu):
         for row in range(len(self.groups[self.onscreen_group])):
             self.show_object_row(self.groups[self.onscreen_group][row], row)
 
+    def previous_group(self):
+        if self.onscreen_group > 0:
+            self.onscreen_group -= 1
+            self.arrow.arrow_pos = 0
+    
+    def next_group(self):
+        if self.onscreen_group < len(self.groups) - 1:
+            self.onscreen_group += 1
+            self.arrow.arrow_pos = 0
+
     def refresh_groups(self):
         """Rafraîchissement des objets à afficher à l'écran"""
         self.groups = self.sidemenu.game.player.bag.separate(self.ONSCREEN_OBJECTS)
@@ -275,7 +285,7 @@ class OptionsSubMenu(SubMenu):
 
 class MenuManager():
     MISSIONS_ORIGIN_COORDS = (-1, -1)       # WIP
-    BAG_SUBMENU_HEIGHT = 8
+    BAG_SUBMENU_HEIGHT = 5
     BAG_LINE_HEIGHT = 40                    # Hauteur d'une ligne de texte
     BAG_ORIGIN_COORDS = (60, 20)            # Coordonnées initiales de la flèche (Sac)
     SAVE_ORIGIN_COORDS = (-1, -1)           # WIP
@@ -335,8 +345,12 @@ class MenuManager():
                     bagmenu.arrow.move_up()
                 elif direction == "down":
                     bagmenu.arrow.move_down()
+                elif direction == "left":
+                    bagmenu.previous_group()
+                elif direction == "right":
+                    bagmenu.next_group()
+                bagmenu.refresh_groups() # Rafraîchissement pour prendre en compte les nouveaux objets affichés à l'écran
 
-    
     def open_menu(self):
         """Ouverture d'un sous-menu"""
         if self.sidemenu.currently_opened_submenu() is None:

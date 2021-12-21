@@ -33,6 +33,10 @@ def handle_key_down_event(game, event):
         game.menu_manager.menu_move("up")
     elif event.key == controls["MENU_MOVE_DOWN"]:
         game.menu_manager.menu_move("down")
+    elif event.key == controls["MENU_MOVE_LEFT"]:
+        game.menu_manager.menu_move("left")
+    elif event.key == controls["MENU_MOVE_RIGHT"]:
+        game.menu_manager.menu_move("right")
     elif event.key == controls["GAME_FULLSCREEN"]:
         game.change_window_size(fullscreen = (not game.is_fullscreen))
     elif event.key == controls["GAME_TERMINATE"]:
