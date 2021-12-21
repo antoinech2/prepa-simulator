@@ -20,6 +20,7 @@ def handle_key_down_event(game, event):
         if game.dialogue == None:
             game.map_manager.object_manager.pickup_check()
             game.map_manager.npc_manager.check_talk()
+            game.menu_manager.sidemenu.bagmenu.refresh_groups() # Augmentation de la capacité affichée à l'écran de l'objet
         else:
             game.dialogue.next_dialogue()
     elif event.key == controls["MENU_SHOW_SIDEBAR"]:

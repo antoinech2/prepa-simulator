@@ -3,6 +3,7 @@
 
 import pygame as pg
 import pyscroll
+import numpy as np
 
 
 # TODO Uniformisation des dialogues sous le module menu
@@ -18,8 +19,12 @@ class Font():
 
 class SideMenu():
     """Classe du menu latéral"""
-    OPEN_MENU_SFX_PATH = "res/sounds/sound_effect/open_menu.wav"
-    # pour l'instant ce son est le même que celui de la machine à écrire
+    # Constantes sonores
+    OPEN_MENU_SFX_PATH = "res/sounds/sound_effect/open_menu.mp3"
+    CLOSE_MENU_SFX_PATH = "res/sounds/sound_effect/close_menu.mp3"
+    MOVE_ARROW_SFX_PATH = "res/sounds/sound_effect/typewriter.wav"
+
+    # Constantes graphiques
     SIDEMENU_POSITION = (30, 100)
     TEXTURE_LOCATION = "res/textures/menu/sidemenu.png"
     SIDEMENU_OFFSET = (20, 20) # Temporaire, à passer en relatif
@@ -30,7 +35,10 @@ class SideMenu():
         self.game = game
         self.onscreen = False
 
+        # Effets sonores
         self.open_sfx = pg.mixer.Sound(self.OPEN_MENU_SFX_PATH)
+        self.close_sfx = pg.mixer.Sound(self.CLOSE_MENU_SFX_PATH)
+        self.move_sfx = pg.mixer.Sound(self.MOVE_ARROW_SFX_PATH)
 
         # Texture du menu latéral
         self.texture_surf = pg.image.load(self.TEXTURE_LOCATION).convert()
@@ -120,13 +128,20 @@ class SubMenu():
         self.box_y = int(self.box_surf.get_height()*0.75)
         self.box = pg.transform.scale(self.box_surf, (self.box_x, self.box_y))
         self.box.set_colorkey([255, 255, 255])
+    
+    def clear(self):
+        """Suppression du contenu du sous_menu"""
+        self.box = pg.transform.scale(self.box_surf, (self.box_x, self.box_y))
+        self.box.set_colorkey([255, 255, 255])
 
     def show_on_sidebar(self):
+        """Affichage de l'icône et du nom du sous-menu dans le menu latéral"""
         text_affiche = self.sidemenu.game.DEFAULT_FONT.font.render(self.ingame_name, True, (0, 0, 0)) # à changer en variable globale
         self.sidemenu.texture.blit(self.icon, self.icon_position) # Affichage de l'icône
-        self.sidemenu.texture.blit(text_affiche, (self.icon_position[0] + self.ICON_TEXT_SPACING[0], self.icon_position[1] + self.ICON_TEXT_SPACING[1]))
+        self.sidemenu.texture.blit(text_affiche, (self.icon_position[0] + self.ICON_TEXT_SPACING[0], self.icon_position[1] + self.ICON_TEXT_SPACING[1])) # Affichage du nom du sous-menu avec un offset
 
     def open(self):
+        """Ouverture du sous-menu"""
         rect = self.box.get_rect(center = (self.sidemenu.game.screen.get_size()[0] / 2, self.sidemenu.game.screen.get_size()[1] / 2))
         self.sidemenu.game.screen.blit(self.box, rect)
 
@@ -135,12 +150,50 @@ class MissionsSubMenu(SubMenu):
     MISSICON_POSITION = (30, 50) # Temporaire
     def __init__(self, sidemenu):
         super().__init__("missions", "MISSIONS", sidemenu, self.MISSICON_POSITION)
+
 class BagSubMenu(SubMenu):
     """Classe du sous-menu du Sac"""
-    BAGICON_POSITION = (30, 100) # Temporaire
-    
+    BAGICON_POSITION = (30, 100)        # Temporaire
+    BAG_UPPERLEFT_CORNER = (60, 20)     # Coin haut gauche du Sac pour placer la première icône. Temporaire
+    ONSCREEN_OBJECTS = 8                # Nombre d'objets affichés à l'écran
+    LINE_HEIGHT = 40                    # Hauteur d'une ligne de texte
+    NAME_ICON_OFFSET = (40, 0)          # Espace entre l'icône d'un objet et son nom. Temporaire
+    AMOUNT_ICON_OFFSET = (40, 12)       # Espace entre l'icône d'un objet et sa quantité. Temporaire
+
     def __init__(self, sidemenu):
         super().__init__("bag", "SAC", sidemenu, self.BAGICON_POSITION)
+        self.groups = self.sidemenu.game.player.bag.separate(self.ONSCREEN_OBJECTS) # Groupes ("pages") d'objets de taille ONSCREEN_OBJECTS
+        print(self.groups)
+        self.onscreen_group = 0 # ID du groupe à l'écran
+
+    def show_object_row(self, object_couple, row):
+        """Affiche un objet à la rangée choisie avec sa quantité"""
+        # Affichage de l'icône
+        icon_coords = (self.BAG_UPPERLEFT_CORNER[0], self.BAG_UPPERLEFT_CORNER[1] + row*self.LINE_HEIGHT)
+        icon = self.sidemenu.game.map_manager.object_manager.list_of_objects[object_couple[0]].bag_sprite
+        rect = icon.get_rect(topleft = icon_coords)
+        self.box.blit(icon, rect)
+        
+        # Affichage du nom
+        obj_nametag = self.sidemenu.game.DEFAULT_FONT.font.render(self.sidemenu.game.map_manager.object_manager.list_of_objects[object_couple[0]].name, True, (0, 0, 0))
+        nametag_rect = obj_nametag.get_rect(topleft = np.array(icon_coords) + np.array(self.NAME_ICON_OFFSET))
+        self.box.blit(obj_nametag, nametag_rect)
+
+        # Affichage de la quantité
+        qty_tag = self.sidemenu.game.DEFAULT_FONT.font.render(f"x{object_couple[1]}", True, (0, 0, 0))
+        qty_rect = qty_tag.get_rect(topleft = np.array(icon_coords) + np.array(self.AMOUNT_ICON_OFFSET))
+        self.box.blit(qty_tag, qty_rect)
+
+    def print_menu_contents(self):
+        """Affichage du contenu du Sac"""
+        # TODO Faire des onglets (ie classificat° des objets), cette fonction est encore rudimentaire
+        for row in range(len(self.groups[self.onscreen_group])):
+            self.show_object_row(self.groups[self.onscreen_group][row], row)
+
+    def refresh_groups(self):
+        """Rafraîchissement des objets à afficher à l'écran"""
+        self.groups = self.sidemenu.game.player.bag.separate(self.ONSCREEN_OBJECTS)
+        print(self.groups)
 
 class SaveSubMenu(SubMenu):
     """Classe du sous-menu de sauvegarde"""
@@ -180,6 +233,8 @@ class MenuManager():
             self.game.player.menu_is_open = not self.game.player.menu_is_open
             if self.game.player.menu_is_open:
                 pg.mixer.Sound.play(self.sidemenu.open_sfx) # Joue un son lorsqu'on ouvre le menu
+            else:
+                pg.mixer.Sound.play(self.sidemenu.close_sfx) # lorsqu'on ferme le menu
 
     def draw(self):
         """Affiche le menu latéral s'il est ouvert"""
@@ -190,23 +245,30 @@ class MenuManager():
             self.sidemenu.show_arrow()
             if self.sidemenu.currently_opened_submenu() is not None:
                 self.sidemenu.submenu_list[self.sidemenu.currently_opened_submenu()].open()
+                if self.sidemenu.currently_opened_submenu() == self.sidemenu.submenu_list.index(self.sidemenu.bagmenu):
+                    self.sidemenu.bagmenu.print_menu_contents()
     
     def menu_move(self, direction):
         """Déplacement dans un menu"""
         # TODO Cas d'un submenu ouvert
-        if self.sidemenu.currently_opened_submenu() is None: # si aucun menu n'est ouvert : déplacement dans le menu latéral
-            self.sidemenu.clear() # Effacement de l'ancienne position de la flèche
-            if direction == "up":
-                self.sidemenu.menu_move_up()
-            elif direction == "down":
-                self.sidemenu.menu_move_down()
+        if self.sidemenu.onscreen:
+            if self.sidemenu.currently_opened_submenu() is None: # si aucun menu n'est ouvert : déplacement dans le menu latéral
+                self.sidemenu.clear() # Effacement de l'ancienne position de la flèche
+                if direction == "up":
+                    self.sidemenu.menu_move_up()
+                elif direction == "down":
+                    self.sidemenu.menu_move_down()
+                pg.mixer.Sound.play(self.sidemenu.move_sfx)
     
     def open_menu(self):
         """Ouverture d'un sous-menu"""
-        self.sidemenu.submenu_list[self.sidemenu.arrow_pos].is_open = True
+        if self.sidemenu.currently_opened_submenu() is None:
+            self.sidemenu.submenu_list[self.sidemenu.arrow_pos].is_open = True
+            pg.mixer.Sound.play(self.sidemenu.open_sfx)
     
     def close_menu(self):
         """Fermeture d'un sous-menu"""
         # La fonction ne ferme pas le menu latéral, seulement le sous-menu
         if self.sidemenu.currently_opened_submenu() is not None:
             self.sidemenu.submenu_list[self.sidemenu.currently_opened_submenu()].is_open = False
+            pg.mixer.Sound.play(self.sidemenu.close_sfx)
