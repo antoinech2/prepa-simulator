@@ -44,7 +44,7 @@ class Npc(pg.sprite.Sprite):
         self.id = id
         self.is_moving = False
         self.position = coords
-        self.vitesse = 1
+        self.vitesse = 2
         self.moving_list = []
 
         #Graphique
@@ -58,24 +58,37 @@ class Npc(pg.sprite.Sprite):
         self.feet = pg.Rect(0, 0, self.rect.width * 0.5, 12)
         #temporaire
         if self.id == 1:
-            self.points(self.position[0], self.position[1], [(50,-50),(-50,0),(50,50),(-50,0)])
+            self.points([(50,-50),(-50,0),(50,50),(-50,0)])
+        elif self.id == 3:
+            self.goto(1500,1300)
+        else:
+            self.points(self.make_cercle(1500,1300,50), False)
+
+    def make_cercle(self, x0, y0, R):
+        bas = lambda x: (R**2 - (x-x0)**2)**0.5 + y0
+        haut = lambda x: -(R**2 - (x-x0)**2)**0.5 + y0
+        return [(x,round(bas(x))) for x in range(x0-R,x0+R+1)] + [(x,round(haut(x))) for x in range(x0+R,x0-R-1,-1)]
 
 
-    def goto(self, x0 = 0, y0 = 0, x = 0, y = 0, relative = True):
-        self.moving_list.append({"initx":x0, "inity":y0, "targetx":x, "targety":y, "relative":True})
+    def goto(self, x, y, x0 = None, y0 = None, relative = True):
+        if x0 is None:
+            self.moving_list.append({"initx":self.position[0], "inity":self.position[1], "targetx":x, "targety":y, "relative":True})
+        else:
+            self.moving_list.append({"initx":x0, "inity":y0, "targetx":x, "targety":y, "relative":True})
+        self.is_moving = True
 
 
     def avance(self):
-        if self.boule_fermee((self.moving_list[0]["targetx"],self.moving_list[0]["targety"]), 1, self.position):
+        if self.boule_fermee((self.moving_list[0].get("targetx"),self.moving_list[0].get("targety")), 3, self.position):
             del self.moving_list[0]
             if not self.moving_list:
                 self.is_moving = False
         else:
-            a = self.moving_list[0]["targetx"] - self.moving_list[0]["initx"]
-            b = self.moving_list[0]["targety"] - self.moving_list[0]["inity"]
-            l = (a**2 + b**2)**(0.5)
-            new_x = self.position[0] + self.vitesse*a/l
-            new_y = self.position[1] + self.vitesse*b/l
+            xway = self.moving_list[0].get("targetx") - self.moving_list[0].get("initx")
+            yway = self.moving_list[0].get("targety") - self.moving_list[0].get("inity")
+            l = (xway**2 + yway**2)**(0.5)
+            new_x = self.position[0] + self.vitesse*xway/l
+            new_y = self.position[1] + self.vitesse*yway/l
             self.position = (new_x, new_y)
             self.rect.topleft = self.position
 
@@ -87,12 +100,19 @@ class Npc(pg.sprite.Sprite):
     def boule_fermee(self,c,r,vect):
         return (vect[0] >= c[0]-r) and (vect[0] <= c[0]+r) and (vect[1] >= c[1]-r) and (vect[1] <= c[1]+r)
 
-    def points(self, x0, y0, pts, relative = True):
-        self.goto(self.position[0], self.position[1], x0, y0)
+    def points(self, pts, relative = True, x0 = None, y0 = None):
         for i in range(len(pts)):
-            x = int(relative)*self.position[0] + sum(pts[j][0] for j in range(i+1))
-            y = int(relative)*self.position[1] + sum(pts[j][1] for j in range(i+1))
-            a = x - pts[i][0]
-            b = y - pts[i][1]
-            self.goto(a, b, x, y)
-        self.is_moving = True
+            if relative:
+                a = self.position[0] + sum(pts[j][0] for j in range(i+1))
+                b = self.position[1] + sum(pts[j][1] for j in range(i+1))
+                c = a - pts[i][0]
+                d = b - pts[i][1]
+            else:
+                a, b = pts[i]
+                if i != 0:
+                    c, d = pts[i-1]
+                elif x0 is not None:
+                    c, d = (x0, y0)
+                else:
+                    c, d = (None, None)
+            self.goto(a, b, c, d)
