@@ -27,7 +27,7 @@ class NpcManager():
 
     def check_talk(self):
         npc_collide_list = pg.sprite.spritecollide(self.map.game.player, self.npc_group, False)
-        if len(npc_collide_list) != 0:
+        if len(npc_collide_list) != 0 and not npc_collide_list[0].is_moving:
             self.map.game.dialogue = dialogue.Dialogue(self.map.game, npc_collide_list[0])
 
     def tick(self):
@@ -61,8 +61,10 @@ class Npc(pg.sprite.Sprite):
             self.points([(50,-50),(-50,0),(50,50),(-50,0)])
         elif self.id == 3:
             self.goto(1500,1300)
+            self.goto(1500,1400)
+            self.goto(1500,1300)
         else:
-            self.points(self.make_cercle(1500,1300,50), False)
+            self.points(self.make_cercle(1500,1300,50), relative = False)
 
     def make_cercle(self, x0, y0, R):
         bas = lambda x: (R**2 - (x-x0)**2)**0.5 + y0
@@ -71,10 +73,12 @@ class Npc(pg.sprite.Sprite):
 
 
     def goto(self, x, y, x0 = None, y0 = None, relative = True):
-        if x0 is None:
-            self.moving_list.append({"initx":self.position[0], "inity":self.position[1], "targetx":x, "targety":y, "relative":True})
-        else:
+        if x0 is not None:
             self.moving_list.append({"initx":x0, "inity":y0, "targetx":x, "targety":y, "relative":True})
+        elif self.moving_list:
+            self.moving_list.append({"initx":self.moving_list[-1].get("targetx"), "inity":self.moving_list[-1].get("targety"), "targetx":x, "targety":y, "relative":True})
+        else:
+            self.moving_list.append({"initx":self.position[0], "inity":self.position[1], "targetx":x, "targety":y, "relative":True})
         self.is_moving = True
 
 

@@ -63,7 +63,7 @@ class Player(pg.sprite.Sprite):
         self.image.set_colorkey([0, 0, 0])  # transparence
 
     def is_colliding(self):
-        return True if self.feet.collidelist(self.game.map_manager.get_walls()) > -1 else False
+        return (self.feet.collidelist(self.game.map_manager.get_walls()) > -1)
 
     def move(self, list_directions, sprinting):
         if list_directions.count(True) > 0:
