@@ -309,7 +309,7 @@ class MenuManager():
 
     def toggle_sidemenu(self):
         """Commute l'affichage du menu latéral"""
-        if self.game.player.can_move and self.sidemenu.currently_opened_submenu() is None:
+        if self.sidemenu.currently_opened_submenu() is None:
             self.sidemenu.onscreen = not self.sidemenu.onscreen
             self.game.player.can_move = not self.game.player.can_move
             self.game.menu_is_open = not self.game.menu_is_open
