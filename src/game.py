@@ -29,6 +29,7 @@ class Game:
         self.is_running = False #Statut général
         self.tick_count = 0 # Compteur général de tick
         self.debug = False
+        self.menu_is_open = False
 
         self.restart = False #Si le jeu doit redémarrer suite à un redimensionnement de la fenêtre
 

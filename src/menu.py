@@ -67,7 +67,7 @@ class SideMenu():
         """Affichage de la flèche"""
         rect = self.arrow_tex.get_rect(topright = self.submenu_list[self.arrow_pos].icon_position)
         self.texture.blit(self.arrow_tex, rect)
-    
+
     def menu_move_down(self):
         """Utilisation de la touche ↓"""
         # TODO Changements lorsqu'une fenêtre est ouverte
@@ -75,21 +75,21 @@ class SideMenu():
             self.arrow_pos = 0
         elif self.arrow_pos < len(self.submenu_list) - 1:
             self.arrow_pos += 1
-        
-    
+
+
     def menu_move_up(self):
         """Utilisation de la touche ↑"""
         if self.arrow_pos == 0:
             self.arrow_pos = len(self.submenu_list) - 1
         elif self.arrow_pos >= 1:
             self.arrow_pos -= 1
-        
-    
+
+
     def clear(self):
         """Suppression du contenu du menu latéral"""
         self.texture = pg.transform.scale(self.texture_surf, (self.tex_x, self.tex_y))
         self.texture.set_colorkey([255, 255, 255])
-    
+
     def currently_opened_submenu(self):
         """Identifiant du sous-menu actuellement ouvert, None si aucun menu n'est ouvert"""
         for submenu_id in range(len(self.submenu_list)):
@@ -103,7 +103,7 @@ class SubMenu():
     SUBMENU_BOX_PATH = "res/textures/menu/boxes/"
     ICON_TEXT_SPACING = (30, 6) # Temporaire
     DEFAULT_BOX_PATH = "res/textures/menu/boxes/default.png" # à enlever une fois que tous les menus seront implémentés
-    
+
     def __init__(self, name, ingame_name, sidemenu, iconpos, boundary, can_loop, line_height, initial_coords):
         self.name = name
         self.ingame_name = ingame_name
@@ -133,7 +133,7 @@ class SubMenu():
         self.box_y = int(self.box_surf.get_height()*0.75)
         self.box = pg.transform.scale(self.box_surf, (self.box_x, self.box_y))
         self.box.set_colorkey([255, 255, 255])
-    
+
     def clear(self):
         """Suppression du contenu du sous_menu"""
         self.box = pg.transform.scale(self.box_surf, (self.box_x, self.box_y))
@@ -149,7 +149,7 @@ class SubMenu():
         """Ouverture du sous-menu"""
         rect = self.box.get_rect(center = (self.sidemenu.game.screen.get_size()[0] / 2, self.sidemenu.game.screen.get_size()[1] / 2))
         self.sidemenu.game.screen.blit(self.box, rect)
-    
+
     def draw(self):
         """Rafraîchissement de l'affichage"""
         self.show_on_sidebar()
@@ -158,7 +158,7 @@ class SubMenu():
             self.arrow.draw()
             if type(self) == BagSubMenu:
                 self.sidemenu.bagmenu.print_menu_contents()
-    
+
 
 class Arrow1D():
     """Classe des flèches à un degré de liberté"""
@@ -180,7 +180,7 @@ class Arrow1D():
         self.arrow_tex_y = int(self.arrow_tex_surf.get_height()*0.75)
         self.arrow_tex = pg.transform.scale(self.arrow_tex_surf, (self.arrow_tex_x, self.arrow_tex_y))
         self.arrow_tex.set_colorkey([255, 255, 255])
-    
+
     def move_down(self):
         """Déplacement de la flèche vers le bas"""
         if self.arrow_pos < self.upper_limit:
@@ -194,7 +194,7 @@ class Arrow1D():
             self.arrow_pos -= 1
         elif self.arrow_pos <= 0 and self.can_loop:
             self.arrow_pos = self.upper_limit
-    
+
     def draw(self):
         """Affichage à l'écran de la flèche"""
         rect = self.arrow_tex.get_rect(topleft = (self.origin_coords[0], self.origin_coords[1] + self.arrow_pos*self.line_height))
@@ -232,7 +232,7 @@ class BagSubMenu(SubMenu):
         icon = parentobj.bag_sprite
         rect = icon.get_rect(topleft = icon_coords)
         self.box.blit(icon, rect)
-        
+
         # Affichage du nom
         obj_nametag = self.sidemenu.game.DEFAULT_FONT.font.render(self.sidemenu.game.map_manager.object_manager.list_of_objects[object_couple[0]].name, True, (0, 0, 0))
         if parentobj.category == "key_item":
@@ -257,7 +257,7 @@ class BagSubMenu(SubMenu):
         if self.onscreen_group > 0:
             self.onscreen_group -= 1
             self.arrow.arrow_pos = 0
-    
+
     def next_group(self):
         if self.onscreen_group < len(self.groups) - 1:
             self.onscreen_group += 1
@@ -296,24 +296,24 @@ class MenuManager():
     def __init__(self, screen, game):
         self.screen = screen
         self.game = game
-        
+
         # Menu latéral
         self.sidemenu = SideMenu(self.game)
-        self.sidemenu.missionsmenu = MissionsSubMenu(self.sidemenu, -1, True, -1, self.MISSIONS_ORIGIN_COORDS)   # valeur numérique arbitraire, sera implémentée correctement une fois ce menu implémenté        
+        self.sidemenu.missionsmenu = MissionsSubMenu(self.sidemenu, -1, True, -1, self.MISSIONS_ORIGIN_COORDS)   # valeur numérique arbitraire, sera implémentée correctement une fois ce menu implémenté
         self.sidemenu.bagmenu = BagSubMenu(self.sidemenu, self.BAG_SUBMENU_HEIGHT, True, self.BAG_LINE_HEIGHT, self.BAG_ORIGIN_COORDS)
         self.sidemenu.savemenu = SaveSubMenu(self.sidemenu, -1, True, -1, self.SAVE_ORIGIN_COORDS)           # même remarque
         self.sidemenu.optionsmenu = OptionsSubMenu(self.sidemenu, -1, True, -1, self.OPTIONS_ORIGIN_COORDS)     # même remarque
-        
+
         # Menus secondaires
         pass
 
     def toggle_sidemenu(self):
         """Commute l'affichage du menu latéral"""
-        if not self.game.player.is_talking and self.sidemenu.currently_opened_submenu() is None:
+        if self.game.player.can_move and self.sidemenu.currently_opened_submenu() is None:
             self.sidemenu.onscreen = not self.sidemenu.onscreen
             self.game.player.can_move = not self.game.player.can_move
-            self.game.player.menu_is_open = not self.game.player.menu_is_open
-            if self.game.player.menu_is_open:
+            self.game.menu_is_open = not self.game.menu_is_open
+            if self.game.menu_is_open:
                 pg.mixer.Sound.play(self.sidemenu.open_sfx) # Joue un son lorsqu'on ouvre le menu
             else:
                 pg.mixer.Sound.play(self.sidemenu.close_sfx) # lorsqu'on ferme le menu
@@ -356,7 +356,7 @@ class MenuManager():
         if self.sidemenu.currently_opened_submenu() is None:
             self.sidemenu.submenu_list[self.sidemenu.arrow_pos].is_open = True
             pg.mixer.Sound.play(self.sidemenu.open_sfx)
-    
+
     def close_menu(self):
         """Fermeture d'un sous-menu"""
         # La fonction ne ferme pas le menu latéral, seulement le sous-menu

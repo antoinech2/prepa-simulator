@@ -37,7 +37,6 @@ class Player(pg.sprite.Sprite):
         self.is_animated = False
         self.is_sprinting = False
         self.can_move = True
-        self.menu_is_open = False
 
         # Chargement de la position dans la sauvegarde
         config = save.load_config("player")
