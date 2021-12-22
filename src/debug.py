@@ -1,5 +1,6 @@
 
 import pygame as pg
+import shutil
 
 """Affichage du menu de débug"""
 
@@ -21,3 +22,13 @@ Talking : {}, Can Move : {}".format(game.tick_count, game.dialogue is not None, 
     splited_text = text.split("\n")
     for (number, cur_text) in enumerate(splited_text):
         game.screen.blit(pg.font.SysFont(FONT, FONT_SIZE).render(cur_text, True, (255, 255, 255)), (0,number*(FONT_SIZE + 5)))
+
+def reset_config(game):
+    shutil.rmtree("stg")
+    game.is_running = False
+    game.restart = True
+
+def reset_save(game):
+    shutil.rmtree("sav")
+    game.is_running = False
+    game.restart = True

@@ -40,7 +40,11 @@ DEFAULT_CONFIG = {
         # Contrôle de la fenêtre
         "GAME_FULLSCREEN" : "F11",
         "GAME_TERMINATE" : "ESCAPE",
-        "DEBUG" : "F3"
+
+        # Debug du jeu
+        "DEBUG" : "F3",
+        "RESET_CONFIG" : "F5",
+        "RESET_SAVE" : "F6"
         },
     "objects" : {1 : True} # Temporaire
     }
@@ -64,7 +68,10 @@ def create_default_config(object):
 
 def save_config(object, **args):
     """Sauvegarde en modifiant les données passées en paramètres"""
-    config = load_config(object)
+    try:
+        config = load_config(object)
+    except FileNotFoundError:
+        return
     for arg in args.items():
         config[arg[0]] = arg[1]
     with open(CONFIGURATION_FILES[object], 'w') as file:

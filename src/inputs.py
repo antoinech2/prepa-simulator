@@ -1,6 +1,7 @@
 
 import pygame as pg
 import save
+import debug
 
 def init():
     global controls
@@ -43,3 +44,7 @@ def handle_key_down_event(game, event):
         game.is_running = False
     elif event.key == controls["DEBUG"]:
         game.debug = not game.debug
+    elif event.key == controls["RESET_CONFIG"] and event.mod & pg.KMOD_SHIFT and event.mod & pg.KMOD_CTRL:#controls["CONFIRM_DEBUG_KEY"]:
+        debug.reset_config(game)
+    elif event.key == controls["RESET_SAVE"] and event.mod & pg.KMOD_SHIFT and event.mod & pg.KMOD_CTRL:#controls["CONFIRM_DEBUG_KEY"]:
+        debug.reset_save(game)
