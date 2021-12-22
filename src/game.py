@@ -17,6 +17,7 @@ import inputs
 import save
 import bag
 import menu
+import debug
 
 class Game:
     DATABASE_LOCATION = "res/game_data.db"
@@ -27,6 +28,7 @@ class Game:
     def __init__(self):
         self.is_running = False #Statut général
         self.tick_count = 0 # Compteur général de tick
+        self.debug = False
 
         self.restart = False #Si le jeu doit redémarrer suite à un redimensionnement de la fenêtre
 
@@ -97,10 +99,12 @@ class Game:
         self.player.update()
         if self.dialogue != None:
             self.dialogue.update() # Met à jour le dialogue
+        if self.debug:
+            debug.show_debug_menu(self)
 
     def run(self):
         """Boucle principale"""
-        clock = pg.time.Clock()
+        self.clock = pg.time.Clock()
         self.is_running = True
 
         while self.is_running:
@@ -118,6 +122,6 @@ class Game:
                     self.change_window_size(size = (event.w, event.h))
 
             self.tick_count += 1
-            clock.tick(self.TICK_PER_SECOND)  # Attente jusqu'à la prochaine image
+            self.clock.tick(self.TICK_PER_SECOND)  # Attente jusqu'à la prochaine image
 
         self.quit_game() # Fermeture du jeu

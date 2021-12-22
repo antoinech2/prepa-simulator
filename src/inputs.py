@@ -41,3 +41,5 @@ def handle_key_down_event(game, event):
         game.change_window_size(fullscreen = (not game.is_fullscreen))
     elif event.key == controls["GAME_TERMINATE"]:
         game.is_running = False
+    elif event.key == controls["DEBUG"]:
+        game.debug = not game.debug
