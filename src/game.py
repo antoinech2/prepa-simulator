@@ -67,7 +67,8 @@ class Game:
         self.tick_count = 0
 
         #Objets associés
-        self.player = player.Player(self, bag.Bag())
+        self.player = player.Player(self)
+        self.bag = bag.Bag()
         self.map_manager = maps.MapManager(self.screen, self)
         self.menu_manager = menu.MenuManager(self.screen, self)
         self.dialogue = None # Contient le dialogue s'il existe

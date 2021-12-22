@@ -220,7 +220,7 @@ class BagSubMenu(SubMenu):
 
     def __init__(self, sidemenu, boundary, can_loop, line_height, initial_coords):
         super().__init__("bag", "SAC", sidemenu, self.BAGICON_POSITION, boundary, can_loop, line_height, initial_coords)
-        self.groups = self.sidemenu.game.player.bag.separate(self.ONSCREEN_OBJECTS) # Groupes ("pages") d'objets de taille ONSCREEN_OBJECTS
+        self.groups = self.sidemenu.game.bag.separate(self.ONSCREEN_OBJECTS) # Groupes ("pages") d'objets de taille ONSCREEN_OBJECTS
         print(self.groups)
         self.onscreen_group = 0 # ID du groupe à l'écran
 
@@ -265,7 +265,7 @@ class BagSubMenu(SubMenu):
 
     def refresh_groups(self):
         """Rafraîchissement des objets à afficher à l'écran"""
-        self.groups = self.sidemenu.game.player.bag.separate(self.ONSCREEN_OBJECTS)
+        self.groups = self.sidemenu.game.bag.separate(self.ONSCREEN_OBJECTS)
         self.arrow.upper_limit = len(self.groups[self.onscreen_group]) - 1
 
 class SaveSubMenu(SubMenu):

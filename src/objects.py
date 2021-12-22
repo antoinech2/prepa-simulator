@@ -31,7 +31,7 @@ class ObjectManager():
             if not obj.exists:
                 obj_collide_list.remove(obj)    # Seuls les objets non ramassés sont pris en compte
         if len(obj_collide_list) != 0:
-            self.map.game.player.bag.pickup_object(obj_collide_list[0])
+            self.map.game.bag.pickup_object(obj_collide_list[0])
         self.refresh_objects()
         
     def refresh_objects(self):

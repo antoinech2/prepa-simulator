@@ -28,10 +28,9 @@ class Player(pg.sprite.Sprite):
     "-1,0" : "left",
     "-1,-1" : "up-left"}
 
-    def __init__(self, game, bag):
+    def __init__(self, game):
         super().__init__()
         self.game = game
-        self.bag = bag
 
         # Variables d'état
         self.is_animated = False
