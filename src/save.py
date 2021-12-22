@@ -39,7 +39,8 @@ DEFAULT_CONFIG = {
 
         # Contrôle de la fenêtre
         "GAME_FULLSCREEN" : "F11",
-        "GAME_TERMINATE" : "ESCAPE"
+        "GAME_TERMINATE" : "ESCAPE",
+        "DEBUG" : "F3"
         },
     "objects" : {1 : True} # Temporaire
     }

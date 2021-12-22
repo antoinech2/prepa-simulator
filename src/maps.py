@@ -31,10 +31,10 @@ class MapManager :
         self.map_id = map_id
 
         # Récupération du fichier de la carte et la musique associée
-        [map_file, self.music_file] = self.game.game_data_db.execute("SELECT file, music FROM maps WHERE id = ?", (self.map_id,)).fetchall()[0]
+        [self.map_file, self.music_file] = self.game.game_data_db.execute("SELECT file, music FROM maps WHERE id = ?", (self.map_id,)).fetchall()[0]
 
         # Chargement de la map avec Tiled
-        self.tmx_data = pytmx.util_pygame.load_pygame(f"res/maps/{map_file}.tmx")
+        self.tmx_data = pytmx.util_pygame.load_pygame(f"res/maps/{self.map_file}.tmx")
         map_data = pyscroll.data.TiledMapData(self.tmx_data)
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
         map_layer.zoom = self.ZOOM
