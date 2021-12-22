@@ -3,8 +3,9 @@
 
 # Import externe
 import yaml
-import os
-import objects
+import sqlite3 as sql
+
+SAVE_DATABASE_LOCATION = "sav/save.db"
 
 CONFIGURATION_FILES = {
     "player" : "sav/player.yaml",
@@ -76,3 +77,8 @@ def save_config(object, **args):
         config[arg[0]] = arg[1]
     with open(CONFIGURATION_FILES[object], 'w') as file:
         yaml.dump(config, file) #Ecriture du fichier de config
+
+def init_save_database():
+    db = sql.connect(SAVE_DATABASE_LOCATION)
+    db.cursor().execute('CREATE TABLE IF NOT EXISTS "bag" ("id_item" INTEGER NOT NULL PRIMARY KEY, "quantity" INTEGER NOT NULL)')
+    return db

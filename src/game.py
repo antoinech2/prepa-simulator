@@ -46,6 +46,7 @@ class Game:
         self.is_fullscreen = config["fullscreen"]
 
         inputs.init()
+        self.save = save.init_save_database()
 
         # Gestion de l'écran
         if self.is_fullscreen:
@@ -68,7 +69,7 @@ class Game:
 
         #Objets associés
         self.player = player.Player(self)
-        self.bag = bag.Bag()
+        self.bag = bag.Bag(self.save)
         self.map_manager = maps.MapManager(self.screen, self)
         self.menu_manager = menu.MenuManager(self.screen, self)
         self.dialogue = None # Contient le dialogue s'il existe
@@ -89,7 +90,10 @@ class Game:
         """Ferme le jeu"""
         pg.quit()
         self.player.save()
+        self.bag.save()
         # Fermeture de la base de donnée
+        self.save.commit()
+        self.save.close()
         self.game_data_db.close()
         self.db_connexion.close()
 

@@ -6,12 +6,14 @@ Gestion du Sac et de l'inventaire
 """
 
 import objects
+import numpy as np
 
 class Bag():
 
-    def __init__(self):
-        self.contents = {} # Temporaire
-        self.object_count = len(self.contents)
+    def __init__(self, save):
+        self.save_db = save
+        data = np.array(self.save_db.cursor().execute("SELECT * FROM bag").fetchall())
+        self.contents = dict(zip(data[:,0], data[:,1])) if data != [] else {}
 
     def pickup_object(self, mapobject):
         """Incrémentation de la quantité d'un objet lorsqu'il est ramassé"""
@@ -21,7 +23,13 @@ class Bag():
             self.contents[mapobject.parent.id] += 1
         mapobject.exists = False
         print(self.contents)
-    
+
+    def save(self):
+        """Sauvegarde le contenu du sac dans la base de données"""
+        cursor = self.save_db.cursor()
+        for item, count in self.contents.items():
+            cursor.execute("INSERT OR REPLACE INTO bag VALUES (?, ?)", (item, count))
+
     def separate(self, interval):
         """Séparation du contenu du Sac en groupes (listes)"""
         objects = list(self.contents.keys())
