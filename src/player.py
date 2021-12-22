@@ -36,7 +36,6 @@ class Player(pg.sprite.Sprite):
         # Variables d'état
         self.is_animated = False
         self.is_sprinting = False
-        self.is_talking = False
         self.can_move = True
         self.menu_is_open = False
 
