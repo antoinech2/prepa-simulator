@@ -221,7 +221,6 @@ class BagSubMenu(SubMenu):
     def __init__(self, sidemenu, boundary, can_loop, line_height, initial_coords):
         super().__init__("bag", "SAC", sidemenu, self.BAGICON_POSITION, boundary, can_loop, line_height, initial_coords)
         self.groups = self.sidemenu.game.bag.separate(self.ONSCREEN_OBJECTS) # Groupes ("pages") d'objets de taille ONSCREEN_OBJECTS
-        print(self.groups)
         self.onscreen_group = 0 # ID du groupe à l'écran
 
     def show_object_row(self, object_couple, row):

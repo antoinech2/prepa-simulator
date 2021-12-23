@@ -22,13 +22,12 @@ class Bag():
         else:
             self.contents[mapobject.parent.id] += 1
         mapobject.exists = False
-        print(self.contents)
 
     def save(self):
         """Sauvegarde le contenu du sac dans la base de données"""
         cursor = self.save_db.cursor()
         for item, count in self.contents.items():
-            cursor.execute("INSERT OR REPLACE INTO bag VALUES (?, ?)", (item, count))
+            cursor.execute("INSERT OR REPLACE INTO bag VALUES (?, ?)", (int(item), int(count)))
 
     def separate(self, interval):
         """Séparation du contenu du Sac en groupes (listes)"""
