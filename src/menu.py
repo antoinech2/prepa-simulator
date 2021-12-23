@@ -141,7 +141,7 @@ class SubMenu():
 
     def show_on_sidebar(self):
         """Affichage de l'icône et du nom du sous-menu dans le menu latéral"""
-        text_affiche = self.sidemenu.game.DEFAULT_FONT.font.render(self.ingame_name, True, (0, 0, 0)) # à changer en variable globale
+        text_affiche = self.sidemenu.game.default_font.font.render(self.ingame_name, True, (0, 0, 0)) # à changer en variable globale
         self.sidemenu.texture.blit(self.icon, self.icon_position) # Affichage de l'icône
         self.sidemenu.texture.blit(text_affiche, (self.icon_position[0] + self.ICON_TEXT_SPACING[0], self.icon_position[1] + self.ICON_TEXT_SPACING[1])) # Affichage du nom du sous-menu avec un offset
 
@@ -233,7 +233,7 @@ class BagSubMenu(SubMenu):
         self.box.blit(icon, rect)
 
         # Affichage du nom
-        obj_nametag = self.sidemenu.game.DEFAULT_FONT.font.render(self.sidemenu.game.map_manager.object_manager.list_of_objects[object_couple[0]].name, True, (0, 0, 0))
+        obj_nametag = self.sidemenu.game.default_font.font.render(self.sidemenu.game.map_manager.object_manager.list_of_objects[object_couple[0]].name, True, (0, 0, 0))
         if parentobj.category == "key_item":
             nametag_rect = obj_nametag.get_rect(topleft = np.array(icon_coords) + np.array(self.KEYITEM_OFFSET))
         else:
@@ -242,7 +242,7 @@ class BagSubMenu(SubMenu):
 
         # Affichage de la quantité
         if parentobj.category != "key_item":
-            qty_tag = self.sidemenu.game.DEFAULT_FONT.font.render(f"x{object_couple[1]}", True, (0, 0, 0))
+            qty_tag = self.sidemenu.game.default_font.font.render(f"x{object_couple[1]}", True, (0, 0, 0))
             qty_rect = qty_tag.get_rect(topleft = np.array(icon_coords) + np.array(self.AMOUNT_ICON_OFFSET))
             self.box.blit(qty_tag, qty_rect)
 

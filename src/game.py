@@ -23,13 +23,14 @@ class Game:
     DATABASE_LOCATION = "res/game_data.db"
     GAME_NAME = "Prepa Simulator"
     TICK_PER_SECOND = 60
-    DEFAULT_FONT = menu.Font("consolas")
 
     def __init__(self):
         self.is_running = False #Statut général
         self.tick_count = 0 # Compteur général de tick
         self.debug = False
         self.menu_is_open = False
+
+        self.default_font = menu.Font("consolas")
 
         self.restart = False #Si le jeu doit redémarrer suite à un redimensionnement de la fenêtre
 
@@ -88,7 +89,6 @@ class Game:
 
     def quit_game(self):
         """Ferme le jeu"""
-        pg.quit()
         try:
             self.player.save()
             self.bag.save()
@@ -99,6 +99,8 @@ class Game:
             self.db_connexion.close()
         except sql.ProgrammingError:
             print("Impossible d'accéder à la base de donnée lors de la sauvegarde. Cela peut être dû à une réinitialisation des données...")
+        pg.display.quit()
+        pg.quit()
 
     def tick(self):
         """Fonction principale de calcul du tick"""
