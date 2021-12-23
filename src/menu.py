@@ -9,8 +9,8 @@ import numpy as np
 
 # TODO Uniformisation des dialogues sous le module menu
 class Font():
-    pg.font.init()
     """Classe de la police d'écriture"""
+    pg.font.init()
     def __init__(self, font_name):
         self.font_name = font_name
         self.font_size = 16
@@ -49,6 +49,7 @@ class SideMenu():
         self.texture.set_colorkey([255, 255, 255])
 
         # Flèche
+        # TODO : Passage à un objet Arrow1D
         self.arrow_pos = 0 # Submenu en cours de sélection
         # Texture de la flèche
         self.arrow_tex_surf = pg.image.load(self.ARROW_TEX).convert()
@@ -70,12 +71,10 @@ class SideMenu():
 
     def menu_move_down(self):
         """Utilisation de la touche ↓"""
-        # TODO Changements lorsqu'une fenêtre est ouverte
         if self.arrow_pos == len(self.submenu_list) - 1:
             self.arrow_pos = 0
         elif self.arrow_pos < len(self.submenu_list) - 1:
             self.arrow_pos += 1
-
 
     def menu_move_up(self):
         """Utilisation de la touche ↑"""
@@ -83,7 +82,6 @@ class SideMenu():
             self.arrow_pos = len(self.submenu_list) - 1
         elif self.arrow_pos >= 1:
             self.arrow_pos -= 1
-
 
     def clear(self):
         """Suppression du contenu du menu latéral"""
@@ -240,7 +238,7 @@ class BagSubMenu(SubMenu):
             nametag_rect = obj_nametag.get_rect(topleft = np.array(icon_coords) + np.array(self.NAME_ICON_OFFSET))
         self.box.blit(obj_nametag, nametag_rect)
 
-        # Affichage de la quantité
+        # Affichage de la quantité si l'objet n'est pas un objet-clé (ie. disponible en un seul exemplaire)
         if parentobj.category != "key_item":
             qty_tag = self.sidemenu.game.default_font.font.render(f"x{object_couple[1]}", True, (0, 0, 0))
             qty_rect = qty_tag.get_rect(topleft = np.array(icon_coords) + np.array(self.AMOUNT_ICON_OFFSET))
@@ -248,16 +246,18 @@ class BagSubMenu(SubMenu):
 
     def print_menu_contents(self):
         """Affichage du contenu du Sac"""
-        # TODO Faire des onglets (ie classificat° des objets), cette fonction est encore rudimentaire
+        # TODO Faire des onglets pour séparer les objets par catégorie
         for row in range(len(self.groups[self.onscreen_group])):
             self.show_object_row(self.groups[self.onscreen_group][row], row)
 
     def previous_group(self):
+        """Décrémente le groupe actuellement affiché à l'écran"""
         if self.onscreen_group > 0:
             self.onscreen_group -= 1
             self.arrow.arrow_pos = 0
 
     def next_group(self):
+        """Incrémente le groupe actuellement affiché à l'écran"""
         if self.onscreen_group < len(self.groups) - 1:
             self.onscreen_group += 1
             self.arrow.arrow_pos = 0

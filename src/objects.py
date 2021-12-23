@@ -26,6 +26,7 @@ class ObjectManager():
                 self.map.object_group.add(new_object)
 
     def pickup_check(self):
+        """Vérification de l'existence d'un objet avant ramassage"""
         obj_collide_list = pg.sprite.spritecollide(self.map.game.player, self.obj_group, False)
         for obj in obj_collide_list:            # Liste de tous les objets autour du joueur, inclut les objets déjà ramassés
             if not obj.exists:

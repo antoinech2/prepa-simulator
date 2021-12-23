@@ -9,7 +9,7 @@ import objects
 import numpy as np
 
 class Bag():
-
+    """Classe du Sac du joueur"""
     def __init__(self, save):
         self.save_db = save
         data = np.array(self.save_db.cursor().execute("SELECT * FROM bag").fetchall())
