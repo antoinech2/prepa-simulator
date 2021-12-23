@@ -89,13 +89,16 @@ class Game:
     def quit_game(self):
         """Ferme le jeu"""
         pg.quit()
-        self.player.save()
-        self.bag.save()
-        # Fermeture de la base de donnée
-        self.save.commit()
-        self.save.close()
-        self.game_data_db.close()
-        self.db_connexion.close()
+        try:
+            self.player.save()
+            self.bag.save()
+            # Fermeture de la base de donnée
+            self.save.commit()
+            self.save.close()
+            self.game_data_db.close()
+            self.db_connexion.close()
+        except sql.ProgrammingError:
+            print("Impossible d'accéder à la base de donnée lors de la sauvegarde. Cela peut être dû à une réinitialisation des données...")
 
     def tick(self):
         """Fonction principale de calcul du tick"""

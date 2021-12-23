@@ -72,6 +72,7 @@ def save_config(object, **args):
     try:
         config = load_config(object)
     except FileNotFoundError:
+        print("Impossible d'accéder au fichier de {} lors de la sauvegarde. Cela peut être dû à une réinitialisation des données...".format(object))
         return
     for arg in args.items():
         config[arg[0]] = arg[1]

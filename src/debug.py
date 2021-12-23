@@ -29,6 +29,7 @@ def reset_config(game):
     game.restart = True
 
 def reset_save(game):
+    game.save.close()
     shutil.rmtree("sav")
     game.is_running = False
     game.restart = True
