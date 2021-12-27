@@ -35,7 +35,7 @@ class Player(pg.sprite.Sprite):
         # Variables d'état
         self.is_animated = False
         self.is_sprinting = False
-        self.is_talking = False
+        self.can_move = True
 
         # Chargement de la position dans la sauvegarde
         config = save.load_config("player")
@@ -88,7 +88,7 @@ class Player(pg.sprite.Sprite):
     def move(self, list_directions, sprinting):
         """Méthode de déplacement du joueur"""
         if list_directions.count(True) > 0: # Si au moins une touche de déplacement est préssée
-            if not self.is_talking: # Le joueur n'est pas en dialogue
+            if self.can_move: # Le joueur n'est pas en dialogue
                 speed_multiplier = self.SPRINT_WALK_SPEED_MULTIPLIER if sprinting else 1
                 self.is_sprinting = True if sprinting else False
 

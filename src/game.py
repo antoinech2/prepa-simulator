@@ -15,6 +15,9 @@ import player
 import maps
 import inputs
 import save
+import bag
+import menu
+import debug
 
 class Game:
     DATABASE_LOCATION = "res/game_data.db"
@@ -24,17 +27,27 @@ class Game:
     def __init__(self):
         self.is_running = False #Statut général
         self.tick_count = 0 # Compteur général de tick
+        self.debug = False
+        self.menu_is_open = False
+
+        self.default_font = menu.Font("consolas")
 
         self.restart = False #Si le jeu doit redémarrer suite à un redimensionnement de la fenêtre
 
         # Création du dossier de sauvegarde s'il n'existe pas
         if not os.path.isdir("sav"):
             os.makedirs("sav")
+        # Dossier de paramètres
+        if not os.path.isdir("stg"):
+            os.makedirs("stg")
 
         # Chargement de la configuration de l'écran
         config = save.load_config("window")
         self.window_size = config["size"]
         self.is_fullscreen = config["fullscreen"]
+
+        inputs.init()
+        self.save = save.init_save_database()
 
         # Gestion de l'écran
         if self.is_fullscreen:
@@ -53,10 +66,16 @@ class Game:
         self.db_connexion = sql.connect(self.DATABASE_LOCATION)
         self.game_data_db = self.db_connexion.cursor()
 
-        # Objets associés
+        self.tick_count = 0
+
+        #Objets associés
         self.player = player.Player(self)
+        self.bag = bag.Bag(self.save)
         self.map_manager = maps.MapManager(self.screen, self)
+        self.menu_manager = menu.MenuManager(self.screen, self)
         self.dialogue = None # Contient le dialogue s'il existe
+        self.player.objects_state = save.load_config("objects")
+
 
     def change_window_size(self, **args):
         """Redimensionne la fenêtre"""
@@ -70,23 +89,33 @@ class Game:
 
     def quit_game(self):
         """Ferme le jeu"""
+        try:
+            self.player.save()
+            self.bag.save()
+            # Fermeture de la base de donnée
+            self.save.commit()
+            self.save.close()
+            self.game_data_db.close()
+            self.db_connexion.close()
+        except sql.ProgrammingError:
+            print("Impossible d'accéder à la base de donnée lors de la sauvegarde. Cela peut être dû à une réinitialisation des données...")
+        pg.display.quit()
         pg.quit()
-        self.player.save()
-        # Fermeture de la base de donnée
-        self.game_data_db.close()
-        self.db_connexion.close()
 
     def tick(self):
         """Fonction principale de calcul du tick"""
         inputs.handle_pressed_key(self) # Gestion de toutes les touches préssées
         self.map_manager.draw()
+        self.menu_manager.draw()
         self.player.update()
         if self.dialogue != None:
             self.dialogue.update() # Met à jour le dialogue
+        if self.debug:
+            debug.show_debug_menu(self)
 
     def run(self):
         """Boucle principale"""
-        clock = pg.time.Clock()
+        self.clock = pg.time.Clock()
         self.is_running = True
 
         while self.is_running:
@@ -104,6 +133,6 @@ class Game:
                     self.change_window_size(size = (event.w, event.h))
 
             self.tick_count += 1
-            clock.tick(self.TICK_PER_SECOND)  # Attente jusqu'à la prochaine image
+            self.clock.tick(self.TICK_PER_SECOND)  # Attente jusqu'à la prochaine image
 
         self.quit_game() # Fermeture du jeu
