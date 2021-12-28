@@ -3,7 +3,6 @@
 
 # Import externe
 import pygame as pg
-from yaml.tokens import ScalarToken
 
 # Import interne
 import dialogue
