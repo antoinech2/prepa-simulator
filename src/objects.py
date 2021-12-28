@@ -89,6 +89,6 @@ class Object():
         # Graphismes
         try:
             self.bag_sprite = pg.image.load(self.path)
-        except FileNotFoundError: # à remplacer lorsque tous les objets auront des icônes
+        except FileNotFoundError: # TODO à remplacer lorsque tous les objets auront des icônes
             self.bag_sprite = pg.image.load(self.PLACEHOLDER_TEX_PATH)
         self.overworld_sprite = pg.image.load(self.OVERWORLD_TEX)

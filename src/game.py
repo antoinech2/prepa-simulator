@@ -18,6 +18,7 @@ import save
 import bag
 import menu
 import debug
+import scriptmanager as sm
 
 class Game:
     DATABASE_LOCATION = "res/game_data.db"
@@ -71,8 +72,10 @@ class Game:
         #Objets associés
         self.player = player.Player(self)
         self.bag = bag.Bag(self.save)
+        self.script_manager = sm.ScriptManager(self)
         self.map_manager = maps.MapManager(self.screen, self)
         self.menu_manager = menu.MenuManager(self.screen, self)
+
         self.dialogue = None # Contient le dialogue s'il existe
         self.player.objects_state = save.load_config("objects")
 
