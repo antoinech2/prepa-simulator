@@ -31,6 +31,10 @@ class Game:
         self.debug = False
         self.menu_is_open = False
 
+        # Variables du script courant
+        self.running_script = None
+        self.executing_moving_script = False
+
         self.default_font = menu.Font("consolas")
 
         self.restart = False #Si le jeu doit redémarrer suite à un redimensionnement de la fenêtre
@@ -111,6 +115,7 @@ class Game:
         self.map_manager.draw()
         self.menu_manager.draw()
         self.player.update()
+        self.script_manager.update() # Actualisation du mouvement d'un script : toutes commandes bloquées
         if self.dialogue != None:
             self.dialogue.update() # Met à jour le dialogue
         if self.debug:

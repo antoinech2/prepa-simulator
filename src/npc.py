@@ -32,8 +32,8 @@ class NpcManager():
         npc_collide_list = pg.sprite.spritecollide(self.map.game.player, self.npc_group, False)
         if len(npc_collide_list) > 0:
             first_npc = npc_collide_list[0]
-            self.map.game.script_manager.execute_script(first_npc.script)
             self.map.game.dialogue = dialogue.Dialogue(self.map.game, first_npc)  # TODO à unifier avec les scripts
+            self.map.game.script_manager.execute_script(first_npc.script)
 
 
 class Npc(pg.sprite.Sprite):

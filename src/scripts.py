@@ -29,5 +29,9 @@ def get_script_contents(name):
 
 # Définition des différents scripts
 def dummyScript():
-    return(["self.get_object(1, 500)"])
-    #return(["""self.displacement("down", 100)"""])
+    #return(["self.get_object(1, 500)"])
+    return(["""self.movingscript("down", 40)""",
+            """self.movingscript("right", 20)""",
+            """self.movingscript("down", 10)"""])
+
+# TODO : Enlever le self à chaque instruction pour le rajouter lors du traitement, pour un script plus lisible

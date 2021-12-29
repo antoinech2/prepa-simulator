@@ -6,12 +6,18 @@
 import pygame as pg
 
 import scripts
+from copy import copy
 
 class ScriptManager():
     """Classe de gestion des scripts du jeu"""
     def __init__(self, game):
         self.game = game
         self.list_of_scripts = []
+        self.current_command = 0
+
+        # Caractéristiques du script de mouvement
+        self.movement_boundary = None # Longueur du déplacement
+        self.moving_direction = None
 
         # Chargement de la liste des scripts
         raw_scripts = self.game.game_data_db.execute("select id, name, is_rerunnable from scripts;").fetchall()
@@ -34,38 +40,41 @@ class ScriptManager():
     def execute_script(self, script):
         """Exécution d'un script"""
         assert type(script) is scripts.Script, "Erreur : l'objet source n'est pas un script"
-        for function_str in script.contents:
-            eval(function_str)
+        self.game.running_script = script
     
     # Définition des fonctions utilisées dans les scripts
-    def displacement(self, direction, pix, sprint = False):
-        """Déplacement du joueur dans la direction voulue en degrés, sur une distance donnée"""
-        initial_x = self.game.player.position[0]
-        initial_y = self.game.player.position[1]
-        if direction == "up":
-            pass
-        if direction == "upright":
-            pass
-        if direction == "right":
-            pass
-        if direction == "downright":
-            pass
-        if direction == "down":
-            while self.game.player.position[0] - initial_x < pix:
-                self.game.player.move([False, False, True, False], sprint)
-                # TODO Trouver un moyen d'animer le mouvement du joueur
-        if direction == "downleft":
-            pass
-        if direction == "left":
-            pass
-        if direction == "upleft":
-            pass
-        
+    def movingscript(self, direction, pix, sprint = False):
+        """Exécution d'un script de déplacement"""
+        self.game.executing_moving_script = True
+        self.initial_coords = copy(self.game.player.position)
+        self.moving_direction = direction
+        self.movement_boundary = pix
+        self.sprint_during_script = sprint
     
-    def infobox(self,text):
+    def exit_movingscript(self):
+        """Terminaison d'un script de déplacement"""
+        self.game.executing_moving_script = False
+
+    def update(self):
+        if self.game.running_script is not None:
+            if self.game.executing_moving_script:
+                if self.moving_direction == "right":
+                    self.game.player.move([False, True, False, False], self.sprint_during_script)
+                if self.moving_direction == "down":
+                    self.game.player.move([False, False, True, False], self.sprint_during_script)
+                dist = ((self.initial_coords[0] - self.game.player.position[0])**2 + (self.initial_coords[1] - self.game.player.position[1])**2) ** 0.5 # Distance totale parcourue pendant le script
+                if dist > self.movement_boundary:
+                    self.exit_movingscript()
+            elif self.current_command >= len(self.game.running_script.contents):
+                self.game.running_script = None # Fin du script atteinte
+            else: # Le jeu est disponible pour passer à l'étape suivante
+                eval(self.game.running_script.contents[self.current_command])
+                self.current_command += 1
+
+    def infobox(self, text):
         """Ouverture d'une infobulle"""
         pass
 
-    def get_object(self,object_id, qty):
+    def get_object(self, object_id, qty):
         """Obtention d'un objet en une quantité donnée"""
         self.game.bag.increment_item(object_id, qty)
