@@ -20,10 +20,11 @@ class Dialogue():
     FONT = "consolas" # TODO Appel de la police depuis menu
     FONT_SIZE = 16
 
-    def __init__(self, game, npc):
+    def __init__(self, game, npc, dialogue_id = 2):
         # Objets liés
         self.game = game
         self.current_npc = npc
+        self.dialogue_id = dialogue_id
 
         # Etat
         self.is_writing = True
@@ -45,8 +46,9 @@ class Dialogue():
         self.current_row = 0                                     # ligne actuelle
 
         # Texte
-        self.dialogue_id = self.current_npc.default_dia #TEMPORAIRE
         self.texts = np.array(self.game.game_data_db.execute("SELECT texte FROM npc_dialogue WHERE id_npc = ? AND id_dialogue = ? ORDER BY ligne_dialogue ASC", (self.current_npc.id, self.dialogue_id)).fetchall())[:,0]
+        if len(self.texts) == 0: # Le dialogue demandé n'existe pas
+            raise ValueError(f"Erreur : le dialogue d'ID {self.dialogue_id} du NPC {self.current_npc.id} n'existe pas ou est vide")
 
         # Police TODO Utilisation de la classe Font (menu)
         self.font = pg.font.SysFont(self.FONT, self.FONT_SIZE)

@@ -4,9 +4,11 @@
 """Gestion des scripts"""
 
 import pygame as pg
+from copy import copy
+from random import randint
 
 import scripts
-from copy import copy
+import dialogue as dia
 
 class ScriptManager():
     """Classe de gestion des scripts du jeu"""
@@ -14,6 +16,11 @@ class ScriptManager():
         self.game = game
         self.list_of_scripts = []
         self.current_command = 0
+        self.current_npc = None
+
+        # Mémoire interne du gestionnaire de scripts
+        self.boolacc = False # Accumulateur booléen utilisé lors des comparaisons
+        self.acc = 0 # Accumulateur entier
 
         # Caractéristiques du script de mouvement
         self.movement_boundary = None # Longueur du déplacement
@@ -37,12 +44,12 @@ class ScriptManager():
         pos = [script.name for script in self.list_of_scripts].index(name)
         return(self.list_of_scripts[pos])
 
-    def execute_script(self, script):
+    def execute_script(self, script, npc = None):
         """Exécution d'un script"""
         assert type(script) is scripts.Script, "Erreur : l'objet source n'est pas un script"
+        self.current_npc = npc
         self.game.running_script = script
     
-    # Définition des fonctions utilisées dans les scripts
     def movingscript(self, direction, pix, sprint = False):
         """Exécution d'un script de déplacement"""
         self.game.executing_moving_script = True
@@ -67,14 +74,61 @@ class ScriptManager():
                     self.exit_movingscript()
             elif self.current_command >= len(self.game.running_script.contents):
                 self.game.running_script = None # Fin du script atteinte
+                self.current_command = 0
             else: # Le jeu est disponible pour passer à l'étape suivante
                 eval(self.game.running_script.contents[self.current_command])
                 self.current_command += 1
+
+    ###################################
+    # Définition du langage des scripts
 
     def infobox(self, text):
         """Ouverture d'une infobulle"""
         pass
 
+    def dialogue(self, talking, dialogue_id):
+        """Ouverture d'une boîte de dialogue"""
+        self.game.dialogue = dia.Dialogue(self.game, talking, dialogue_id)
+
     def get_object(self, object_id, qty):
         """Obtention d'un objet en une quantité donnée"""
         self.game.bag.increment_item(object_id, qty)
+    
+    # Fonctions avec l'accumulateur booléen
+
+    def compare_obj_qty(self, obj_id, operator, qty):
+        """Opération logique sur la quantité d'un objet. Le résultat est stocké dans l'accumulateur sous forme de booléen"""
+        if obj_id not in self.game.bag.contents:
+            self.boolacc = False
+        else:
+            comp = self.game.bag.contents[obj_id]
+            if operator == "sup":
+                self.boolacc = True if comp >= qty else False
+            elif operator == "inf":
+                self.boolacc = True if comp <= qty else False
+            elif operator == "eq":
+                self.boolacc = True if comp == qty else False
+    
+    def iftrue(self, command):
+        """Exécution d'une commande si l'accumulateur booléen est True"""
+        if self.boolacc:
+            eval(command)
+    
+    def iffalse(self, command):
+        """Exécution d'une commande si l'accumulateur booléen est False"""
+        if not self.boolacc:
+            eval(command)
+    
+    # Fonctions avec l'accumulateur numérique
+    def ran(self, inf, sup):
+        """Place un entier aléatoire dans l'accumulateur"""
+        self.acc = randint(inf, sup)
+    
+    def compare(self, operator, qty):
+        """Opération logique sur la valeur de acc. Le résultat est stocké dans l'accumulateur booléen"""
+        if operator == "sup":
+            self.boolacc = (self.acc >= qty)
+        elif operator == "inf":
+            self.boolacc = (self.acc <= qty)
+        elif operator == "eq":
+            self.boolacc = (self.acc == qty)
