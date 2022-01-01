@@ -33,9 +33,10 @@ class Player(pg.sprite.Sprite):
         self.game = game
 
         # Variables d'état
-        self.is_animated = False
-        self.is_sprinting = False
-        self.can_move = True
+        self.is_animated = False        # Le sprite du joueur défile
+        self.is_sprinting = False       # Le joueur sprinte
+        self.can_move = True            # Le joueur est capable de bouger
+        self.boop = False               # Le joueur est en collision
 
         # Chargement de la position dans la sauvegarde
         config = save.load_config("player")
@@ -89,6 +90,7 @@ class Player(pg.sprite.Sprite):
         """Méthode de déplacement du joueur"""
         if list_directions.count(True) > 0: # Si au moins une touche de déplacement est préssée
             if self.can_move: # Le joueur n'est pas en dialogue
+                self.boop = False # Le joueur a de nouveau bougé depuis la dernière collision
                 speed_multiplier = self.SPRINT_WALK_SPEED_MULTIPLIER if sprinting else 1
                 self.is_sprinting = True if sprinting else False
 
@@ -120,6 +122,7 @@ class Player(pg.sprite.Sprite):
 
                         # Si il y a collision, on annule le dernier déplacement
                         if self.is_colliding():
+                            self.boop = True # Enregistrement de la collision
                             self.position[coord_id] -= deplacement[coord_id]*self.base_walk_speed*speed_multiplier*speed_normalisation
                             self.rect.topleft = self.position
                             self.feet.midbottom = self.rect.midbottom

@@ -29,29 +29,38 @@ def get_script_contents(name):
     return(eval(name)())
 
 # Définition des différents scripts
+def ordinaryNpc():
+    """Script des NPC banals"""
+    return(["""dialogue(self.current_npc, 1)"""])
+
 def dummyScript():
     #return(["self.get_object(1, 500)"])
     #return(["""self.movingscript("down", 40)""",
     #        """self.movingscript("right", 20)""",
     #        """self.movingscript("down", 10)"""])
-    return(["""self.compare_obj_qty(1, "sup", 1)""",
-            """self.iffalse(\"\"\"self.dialogue(self.current_npc, 1)\"\"\")""",
-            """self.iftrue(\"\"\"self.dialogue(self.current_npc, 2)\"\"\")"""
+    return(["""compare_obj_qty(1, "sup", 1)""",
+                """iffalse('dialogue(self.current_npc, 1)')""",
+                """iftrue('dialogue(self.current_npc, 2)')""",
+            """movingscript("up", 60)""",
+            """movingscript("right", 800)"""
             ])
 
-# TODO : Enlever le self à chaque instruction pour le rajouter lors du traitement, pour un script plus lisible
-
 def randomdummy():
-    return(["""self.ran(1, 4)""",
-            """self.compare("eq", 1)""",
-            """self.iftrue(\"\"\"self.dialogue(self.current_npc, 1)\"\"\")""",
-            """self.compare("eq", 2)""",
-            """self.iftrue(\"\"\"self.dialogue(self.current_npc, 2)\"\"\")""",
-            """self.compare("eq", 3)""",
-            """self.iftrue(\"\"\"self.dialogue(self.current_npc, 3)\"\"\")""",
-            """self.compare("eq", 4)""",
-            """self.iftrue(\"\"\"self.dialogue(self.current_npc, 4)\"\"\")"""])
+    return(["""ran(1, 4)""",
+            """compare("eq", 1)""",
+                """iftrue('dialogue(self.current_npc, 1)')""",
+            """compare("eq", 2)""",
+                """iftrue('dialogue(self.current_npc, 2)')""",
+            """compare("eq", 3)""",
+                """iftrue('dialogue(self.current_npc, 3)')""",
+            """compare("eq", 4)""",
+                """iftrue('dialogue(self.current_npc, 4)')"""
+            ])
 
-def ordinaryNpc():
-    """Script des NPC banals"""
-    return(["""self.dialogue(self.game, self.current_npc)"""])
+def getitemtest():
+    return(["""checkflag(self.current_npc, 0)""",
+                """iffalse('dialogue(self.current_npc, 1)')""",
+                """iffalse('setflag(self.current_npc, 0, True)')""",
+                """iffalse('get_object(0, 1)')""",
+                """iftrue('dialogue(self.current_npc, 2)')"""
+            ])

@@ -65,18 +65,23 @@ class ScriptManager():
     def update(self):
         if self.game.running_script is not None:
             if self.game.executing_moving_script:
+                if self.moving_direction == "up":
+                    self.game.player.move([True, False, False, False], self.sprint_during_script)
                 if self.moving_direction == "right":
                     self.game.player.move([False, True, False, False], self.sprint_during_script)
                 if self.moving_direction == "down":
                     self.game.player.move([False, False, True, False], self.sprint_during_script)
+                if self.moving_direction == "left":
+                    self.game.player.move([False, False, False, True], self.sprint_during_script)
                 dist = ((self.initial_coords[0] - self.game.player.position[0])**2 + (self.initial_coords[1] - self.game.player.position[1])**2) ** 0.5 # Distance totale parcourue pendant le script
-                if dist > self.movement_boundary:
+                if dist > self.movement_boundary or self.game.player.boop: # Le mouvement s'est déroulé normalement ou le joueur s'est pris un mur
                     self.exit_movingscript()
             elif self.current_command >= len(self.game.running_script.contents):
                 self.game.running_script = None # Fin du script atteinte
                 self.current_command = 0
             else: # Le jeu est disponible pour passer à l'étape suivante
-                eval(self.game.running_script.contents[self.current_command])
+                command = "self." + self.game.running_script.contents[self.current_command] # Correction syntaxique
+                eval(command)
                 self.current_command += 1
 
 
@@ -113,12 +118,14 @@ class ScriptManager():
     def iftrue(self, command):
         """Exécution d'une commande si l'accumulateur booléen est True"""
         if self.boolacc:
-            eval(command)
+            corrected_comm = "self." + command
+            eval(corrected_comm)
     
     def iffalse(self, command):
         """Exécution d'une commande si l'accumulateur booléen est False"""
         if not self.boolacc:
-            eval(command)
+            corrected_comm = "self." + command
+            eval(corrected_comm)
     
     # Fonctions avec l'accumulateur numérique
     def ran(self, inf, sup):
@@ -142,3 +149,13 @@ class ScriptManager():
     def sfx(self, fx):
         """Joue un effet sonore"""
         self.game.map_manager.sound_manager.play_sfx(fx)
+    
+
+    # Fonctions des NPC
+    def checkflag(self, npc, flag_id):
+        """Vérification d'un flag d'un NPC"""
+        self.boolacc = npc.flags[flag_id]
+    
+    def setflag(self, npc, flag_id, state):
+        """Mise à jour du flag d'un NPC"""
+        npc.flags[flag_id] = state
