@@ -14,7 +14,7 @@ import menu
 
 class Dialogue():
     IMAGE_LOCATION = "res/textures/talk_box_next.png" # TODO Transformer en variable locale pour faire des infobulles (ie. sans interlocuteur)
-    SOUND_LOCATION = "res/sounds/sound_effect/typewriter.wav"
+    SOUND_LOCATION = "res/sounds/fx/typewriter.wav"
     NAMETAG_POSITION = (30, 45)
     TEXT_POSITION = (30, 100)
     FONT = "consolas" # TODO Appel de la police depuis menu

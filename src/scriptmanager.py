@@ -79,6 +79,7 @@ class ScriptManager():
                 eval(self.game.running_script.contents[self.current_command])
                 self.current_command += 1
 
+
     ###################################
     # Définition du langage des scripts
 
@@ -132,3 +133,12 @@ class ScriptManager():
             self.boolacc = (self.acc <= qty)
         elif operator == "eq":
             self.boolacc = (self.acc == qty)
+    
+    # Fonctions sonores
+    def chg_music(self, track):
+        """Changement de la musique courante"""
+        self.game.map_manager.sound_manager.play_music(track)
+    
+    def sfx(self, fx):
+        """Joue un effet sonore"""
+        self.game.map_manager.sound_manager.play_sfx(fx)

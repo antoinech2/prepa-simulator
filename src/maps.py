@@ -10,14 +10,15 @@ from dataclasses import dataclass
 import npc
 import objects
 import save
+import sound as sd # Pour éviter la confusion avec le module Sound de pg
 
 """
 Gère les différentes cartes du jeu et ses accès respectifs
 """
 
-class MapManager :
+class MapManager:
+    """Gestionnaire des maps et de leurs éléments"""
     ZOOM = 1.5
-    VOLUME = 0.1 #Volume général du son
 
     def __init__ (self,screen,game):
         self.game = game
@@ -63,7 +64,7 @@ class MapManager :
         self.npc_manager = npc.NpcManager(self)
         # Gérant des objets
         self.object_manager = objects.ObjectManager(self)
-        self.music_manager()
+        self.sound_manager = sd.SoundManager(self)
         # TODO : peut être metttre un décompte pour changer de musique moins brusquement
 
     def teleport_player(self, name):
@@ -72,11 +73,6 @@ class MapManager :
         self.game.player.position[0] = point.x
         self.game.player.position[1] = point.y
 
-    def music_manager(self):
-        """Joue la musique dans la carte"""
-        pg.mixer.music.load(f"res/sounds/music/{self.music_file}.mp3")
-        pg.mixer.music.set_volume(self.VOLUME)
-        pg.mixer.music.play(-1) # Boucle la musique
 
     def draw(self):
         """Met à jour l'affichage de la carte"""

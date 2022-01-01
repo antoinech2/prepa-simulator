@@ -21,9 +21,9 @@ class Font():
 class SideMenu():
     """Classe du menu latéral"""
     # Constantes sonores
-    OPEN_MENU_SFX_PATH = "res/sounds/sound_effect/open_menu.mp3"
-    CLOSE_MENU_SFX_PATH = "res/sounds/sound_effect/close_menu.mp3"
-    MOVE_ARROW_SFX_PATH = "res/sounds/sound_effect/typewriter.wav"
+    OPEN_MENU_SFX_PATH = "res/sounds/fx/open_menu.mp3"
+    CLOSE_MENU_SFX_PATH = "res/sounds/fx/close_menu.mp3"
+    MOVE_ARROW_SFX_PATH = "res/sounds/fx/typewriter.wav"
 
     # Constantes graphiques
     SIDEMENU_POSITION = (30, 100)
