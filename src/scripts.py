@@ -47,6 +47,7 @@ def dummyScript():
 
 def randomdummy():
     return(["""ran(1, 4)""",
+            """get_object(0, 1)""",
             """compare("eq", 1)""",
                 """iftrue('dialogue(self.current_npc, 1)')""",
             """compare("eq", 2)""",
@@ -58,9 +59,8 @@ def randomdummy():
             ])
 
 def getitemtest():
-    return(["""checkflag(self.current_npc, 0)""",
-                """iffalse('dialogue(self.current_npc, 1)')""",
-                """iffalse('setflag(self.current_npc, 0, True)')""",
-                """iffalse('get_object(0, 1)')""",
-                """iftrue('dialogue(self.current_npc, 2)')"""
+    return(["""compare_obj_qty(0, "sup", 1)""",
+                """iftrue('dialogue(self.current_npc, 1)')""",
+                """iftrue('toss_object(0, 1)')""",
+                """iffalse('dialogue(self.current_npc, 2)')"""
             ])

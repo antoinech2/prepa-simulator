@@ -26,6 +26,8 @@ class Bag():
             self.contents[object_id] = qty
         else:
             self.contents[object_id] += qty
+        if self.contents[object_id] <= 0:
+            del(self.contents[object_id]) # Plus d'objets de ce type
 
     def save(self):
         """Sauvegarde le contenu du sac dans la base de données"""

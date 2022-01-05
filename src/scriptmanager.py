@@ -96,10 +96,6 @@ class ScriptManager():
         """Ouverture d'une boîte de dialogue"""
         self.game.dialogue = dia.Dialogue(self.game, talking, dialogue_id)
 
-    def get_object(self, object_id, qty):
-        """Obtention d'un objet en une quantité donnée"""
-        self.game.bag.increment_item(object_id, qty)
-    
     # Fonctions avec l'accumulateur booléen
 
     def compare_obj_qty(self, obj_id, operator, qty):
@@ -159,3 +155,13 @@ class ScriptManager():
     def setflag(self, npc, flag_id, state):
         """Mise à jour du flag d'un NPC"""
         npc.flags[flag_id] = state
+    
+    # Fonctions des objets
+    def get_object(self, object_id, qty):
+        """Obtention d'un objet en une quantité donnée"""
+        self.game.bag.increment_item(object_id, qty)
+    
+    def toss_object(self, object_id, qty):
+        """Destruction d'un objet en une quantité donnée, ne fait rien s'il n'y en a pas assez"""
+        if self.game.bag.contents[object_id] >= qty:
+            self.game.bag.increment_item(object_id, -qty)
