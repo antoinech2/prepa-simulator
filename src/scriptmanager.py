@@ -90,11 +90,11 @@ class ScriptManager():
 
     def infobox(self, text):
         """Ouverture d'une infobulle"""
-        pass
+        self.game.dialogue = dia.Dialogue(self.game, None, True, -1, text)
 
     def dialogue(self, talking, dialogue_id):
         """Ouverture d'une boîte de dialogue"""
-        self.game.dialogue = dia.Dialogue(self.game, talking, dialogue_id)
+        self.game.dialogue = dia.Dialogue(self.game, talking, False, dialogue_id)
 
     # Fonctions avec l'accumulateur booléen
 

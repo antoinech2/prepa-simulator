@@ -23,10 +23,6 @@ class SoundManager():
     
     def play_sfx(self, sfx_file, channel = 1):
         """Joue un effet sonore"""
-        pg.mixer.music.pause()
         sfx = pg.mixer.Sound(f"{self.SOUNDS_FOLDER}fx/{sfx_file}.mp3")
         self.channel1.set_volume(self.VOLUME)
         self.channel1.play(sfx)
-        while self.channel1.get_busy():
-            print(0, end = "") # TODO Trouver un moyen de jouer un son sans faire planter le jeu. Enlever cette ligne provoque un plantage
-        pg.mixer.music.unpause()

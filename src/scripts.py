@@ -64,3 +64,7 @@ def getitemtest():
                 """iftrue('toss_object(0, 1)')""",
                 """iffalse('dialogue(self.current_npc, 2)')"""
             ])
+
+def mightybutton():
+    return(["""infobox("Je suis le Père Noël ! lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch ")""",
+            """sfx("mighty_button")"""])
