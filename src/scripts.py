@@ -66,5 +66,7 @@ def getitemtest():
             ])
 
 def mightybutton():
-    return(["""infobox("Je suis le Père Noël ! lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch ")""",
+    return(["""loadtext("Je suis le Père Noël ! lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch ")""",
+            """loadtext("lentsch lentsch")""",
+            """infobox()""",
             """sfx("mighty_button")"""])

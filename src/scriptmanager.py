@@ -21,6 +21,7 @@ class ScriptManager():
         # Mémoire interne du gestionnaire de scripts
         self.boolacc = False # Accumulateur booléen utilisé lors des comparaisons
         self.acc = 0 # Accumulateur entier
+        self.infobox_contents = [] # Accumulateur de l'infobox, pourra être modifié si un script nécessite une accumulation d'éléments
 
         # Caractéristiques du script de mouvement
         self.movement_boundary = None # Longueur du déplacement
@@ -88,9 +89,14 @@ class ScriptManager():
     ###################################
     # Définition du langage des scripts
 
-    def infobox(self, text):
+    def loadtext(self, text):
+        """Chargement du texte d'une infobox dans la mémoire"""
+        self.infobox_contents.append(text)
+
+    def infobox(self):
         """Ouverture d'une infobulle"""
-        self.game.dialogue = dia.Dialogue(self.game, None, True, -1, text)
+        self.game.dialogue = dia.Dialogue(self.game, None, True, -1, self.infobox_contents)
+        self.infobox_contents = []
 
     def dialogue(self, talking, dialogue_id):
         """Ouverture d'une boîte de dialogue"""
