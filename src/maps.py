@@ -11,6 +11,7 @@ import npc
 import objects
 import save
 import sound as sd # Pour éviter la confusion avec le module Sound de pg
+import scripts as sc
 
 """
 Gère les différentes cartes du jeu et ses accès respectifs
@@ -18,7 +19,7 @@ Gère les différentes cartes du jeu et ses accès respectifs
 
 class MapManager:
     """Gestionnaire des maps et de leurs éléments"""
-    ZOOM = 1.5
+    ZOOM = 1.8
 
     def __init__ (self,screen,game):
         self.game = game
@@ -30,6 +31,15 @@ class MapManager:
     def load_map(self, map_id):
         """Charge une carte"""
         self.map_id = map_id
+        self.map_name = self.game.game_data_db.execute("select file from maps where id = ?;", (self.map_id,)).fetchall()[0][0]
+        
+        # Chargement du script de la map courante
+        try:
+            self.map_script = self.game.script_manager.find_script_from_name(f"{self.map_name}_mapscript")
+        except:
+            self.map_script = None
+        print(self.map_script)
+        self.script_is_rerunnable = self.game.game_data_db.execute("select script_is_rerunnable from maps where id = ?;", (self.map_id,)).fetchall()[0][0]
 
         # Récupération du fichier de la carte et la musique associée
         [self.map_file, self.music_file] = self.game.game_data_db.execute("SELECT file, music FROM maps WHERE id = ?", (self.map_id,)).fetchall()[0]
@@ -66,6 +76,10 @@ class MapManager:
         self.object_manager = objects.ObjectManager(self)
         self.sound_manager = sd.SoundManager(self)
         # TODO : peut être metttre un décompte pour changer de musique moins brusquement
+
+        # Exécution du script en entrée de la map
+        if self.map_script is not None:
+            self.game.script_manager.execute_script(self.map_script)
 
     def teleport_player(self, name):
         """Téléporte le joueur à un objet de Tiled"""

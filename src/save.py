@@ -5,6 +5,7 @@
 import yaml
 import sqlite3 as sql
 
+DATA_DATABASE_LOCATION = "res/game_data.db"
 SAVE_DATABASE_LOCATION = "sav/save.db"
 
 CONFIGURATION_FILES = {
@@ -80,6 +81,17 @@ def save_config(object, **args):
         yaml.dump(config, file) #Ecriture du fichier de config
 
 def init_save_database():
-    db = sql.connect(SAVE_DATABASE_LOCATION)
-    db.cursor().execute('CREATE TABLE IF NOT EXISTS "bag" ("id_item" INTEGER NOT NULL PRIMARY KEY, "quantity" INTEGER NOT NULL)')
-    return db
+    """Création du fichier de sauvegarde"""
+    data_db = sql.connect(DATA_DATABASE_LOCATION)
+    map_list = data_db.cursor().execute('select id from maps;').fetchall()
+    print(map_list)
+    save_db = sql.connect(SAVE_DATABASE_LOCATION)
+    save_db.cursor().execute('CREATE TABLE IF NOT EXISTS "bag" ("id_item" INTEGER NOT NULL PRIMARY KEY, "quantity" INTEGER NOT NULL)')
+    save_db.cursor().execute('create table if not exists "mapscripts" ("map_id" integer not null primary key,\
+                                                                  "marked" integer not null);')
+    if save_db.cursor().execute('select * from mapscripts;') == []:
+        for map in map_list:
+            save_db.cursor().execute('insert into mapscripts values (?, 0);', (map[0],))
+    
+    data_db.close()
+    return save_db

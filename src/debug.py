@@ -29,6 +29,7 @@ def reset_config(game):
     game.restart = True
 
 def reset_save(game):
+    # FIXME Bug lors de la fermeture de la connexion avec la BDD
     game.save.close()
     shutil.rmtree("sav")
     game.is_running = False

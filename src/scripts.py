@@ -28,7 +28,7 @@ def get_script_contents(name):
     """Obtention du contenu d'un script étant donné son nom"""
     return(eval(name)())
 
-# Définition des différents scripts
+# Définition des scripts ponctuels
 def ordinaryNpc():
     """Script des NPC banals"""
     return(["""dialogue(self.current_npc, 1)"""])
@@ -70,3 +70,9 @@ def mightybutton():
             """loadtext("lentsch lentsch")""",
             """infobox()""",
             """sfx("mighty_button")"""])
+
+
+# Définition des scripts de surface (pouvant se déclencher lorsque le joueur marche desus)
+def i104_mapscript():
+    return(["""loadtext("aaaaaaaaaa")""",
+            """infobox()"""])

@@ -47,7 +47,8 @@ class ScriptManager():
 
     def execute_script(self, script, npc = None):
         """Exécution d'un script"""
-        assert type(script) is scripts.Script, "Erreur : l'objet source n'est pas un script"
+        if type(script) is not scripts.Script:
+            raise TypeError("Erreur : l'objet source n'est pas un script")
         self.current_npc = npc
         self.game.running_script = script
     
