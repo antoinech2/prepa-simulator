@@ -71,6 +71,21 @@ def mightybutton():
             """infobox()""",
             """sfx("mighty_button")"""])
 
+def brrr():
+    """Script exemple pour Skler"""
+    return(["""dialogue(self.current_npc, 2)""",
+            """loadtext("ln(1-1/n) est équivalent à 1-1/n.")""",
+            """loadtext("Oh non !")""",
+            """infobox()""",
+            """dialogue(self.current_npc, 3)""",
+            """runscript('denis_brogniart')""",
+            """movingscript('right', 8000, True)"""])
+
+def denis_brogniart():
+    return(["""sfx("mighty_button")""",
+            """loadtext("AH !")""",
+            """infobox()"""])
+
 
 # Définition des scripts de surface (pouvant se déclencher lorsque le joueur marche desus)
 def i104_mapscript():

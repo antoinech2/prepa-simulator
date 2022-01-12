@@ -12,7 +12,7 @@ class Player(pg.sprite.Sprite):
     TEXTURE_FILE_LOCATION = 'res/textures/player.png'
 
     SPEED_NORMALISATION = 1/(2**0.5)
-    SPRINT_WALK_SPEED_MULTIPLIER = 1.75 # Multiplicateur de vitesse en cas de sprint
+    SPRINT_WALK_SPEED_MULTIPLIER = 8 # Multiplicateur de vitesse en cas de sprint
     WALK_ANIMATION_COOLDOWN = 8 # Cooldown entre deux changements d'animations (en frames)
     SPRINT_ANIMATION_COOLDOWN = 3 # Cooldown entre deux changements d'animations (en frames)
 

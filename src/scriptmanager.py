@@ -50,7 +50,7 @@ class ScriptManager():
         if type(script) is not scripts.Script:
             raise TypeError("Erreur : l'objet source n'est pas un script")
         self.current_npc = npc
-        self.game.running_script = script
+        self.game.script_tree.append([script, 0])
     
     def movingscript(self, direction, pix, sprint = False):
         """Exécution d'un script de déplacement"""
@@ -63,9 +63,16 @@ class ScriptManager():
     def exit_movingscript(self):
         """Terminaison d'un script de déplacement"""
         self.game.executing_moving_script = False
+    
+    def current_script_command(self):
+        """N° de la commande en cours d'exécution dans le script courant"""
+        return(self.game.script_tree[-1][1])
 
     def update(self):
+        if self.game.running_script is None and self.game.script_tree != []:
+            self.game.running_script = self.game.script_tree[0][0] # Premier élément de la liste qui en comporte un seul à l'appel d'un script
         if self.game.running_script is not None:
+            self.game.running_script = self.game.script_tree[-1][0] # Vérification de l'appel ou non d'un sous-script
             if self.game.executing_moving_script:
                 if self.moving_direction == "up":
                     self.game.player.move([True, False, False, False], self.sprint_during_script)
@@ -78,17 +85,29 @@ class ScriptManager():
                 dist = ((self.initial_coords[0] - self.game.player.position[0])**2 + (self.initial_coords[1] - self.game.player.position[1])**2) ** 0.5 # Distance totale parcourue pendant le script
                 if dist > self.movement_boundary or self.game.player.boop: # Le mouvement s'est déroulé normalement ou le joueur s'est pris un mur
                     self.exit_movingscript()
-            elif self.current_command >= len(self.game.running_script.contents):
-                self.game.running_script = None # Fin du script atteinte
-                self.current_command = 0
+            elif self.game.dialogue is not None:    # On laisse le dialogue défiler s'il existe
+                pass
+            elif self.current_script_command() >= len(self.game.running_script.contents): # Le script courant est terminé
+                del(self.game.script_tree[-1])
+                if len(self.game.script_tree) > 0: # Le script a appelé un autre script entretemps
+                    self.game.running_script = self.game.script_tree[-1]
+                    self.game.script_tree[-1][1] += 1
+                else: # Fin des appels de scripts
+                    self.game.running_script = None # Fin du script de départ atteinte
             else: # Le jeu est disponible pour passer à l'étape suivante
-                command = "self." + self.game.running_script.contents[self.current_command] # Correction syntaxique
+                command = "self." + self.game.running_script.contents[self.current_script_command()] # Correction syntaxique
                 eval(command)
-                self.current_command += 1
+                self.game.script_tree[-1][1] += 1 # Augmentation du n° de la commande courante
 
 
     ###################################
     # Définition du langage des scripts
+
+    # Fonctions générales
+    def runscript(self, script):
+        self.execute_script(self.find_script_from_name(script))
+
+    # Fonctions de texte
 
     def loadtext(self, text):
         """Chargement du texte d'une infobox dans la mémoire"""

@@ -27,6 +27,7 @@ class Dialogue():
         self.game = game
         self.current_npc = npc # TODO Implémenter mieux les infobox, au lieu de passer en argument un NPC "fantôme"
         self.dialogue_id = dialogue_id # TODO Dialogue "fantôme"
+        # TODO Mettre le contenu des infobox en BDD
         self.is_infobox = is_infobox
 
         # Etat

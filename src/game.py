@@ -26,14 +26,16 @@ class Game:
     TICK_PER_SECOND = 60
 
     def __init__(self):
-        self.is_running = False #Statut général
+        self.is_running = False # Statut général
         self.tick_count = 0 # Compteur général de tick
-        self.debug = False
-        self.menu_is_open = False
+        self.debug = False  # Etat du menu de debug
+        self.menu_is_open = False   # Etat du menu latéral
 
-        # Variables du script courant
-        self.running_script = None
-        self.executing_moving_script = False
+        # Variables de scripting
+        self.script_tree = []   # Arbre d'appel des scripts composé des listes [script_courant, commande_en_cours_d_exécution]
+                                # le dernier élément est celui en cours de traitement
+        self.running_script = None  # Script courant
+        self.executing_moving_script = False    # Le joueur est en train de bouger suite à un script
 
         self.default_font = menu.Font("consolas")
 
