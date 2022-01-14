@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="6">
+<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="8">
  <tileset firstgid="1" source="../textures/tiles.tsx"/>
  <layer id="1" name="floor_layer" width="30" height="30">
   <data encoding="csv">
@@ -42,6 +42,8 @@
   <object id="2" type="mur" x="224" y="160" width="64" height="576"/>
   <object id="3" type="mur" x="672" y="160" width="64" height="576"/>
   <object id="5" name="to_niv1" x="672" y="256" width="32" height="32"/>
+  <object id="6" type="mur" x="224" y="96" width="512" height="128"/>
+  <object id="7" type="mur" x="624" y="213.5" width="62.125" height="26.625"/>
  </objectgroup>
  <layer id="3" name="object_layer" width="30" height="30">
   <data encoding="csv">

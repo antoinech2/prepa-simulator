@@ -82,10 +82,22 @@ def brrr():
             """movingscript('right', 8000, True)"""])
 
 def denis_brogniart():
-    return(["""sfx("mighty_button")""",
-            """loadtext("AH !")""",
+    return(["""loadtext("AH !")""",
+            """infobox()""",
+            """sfx("mighty_button")"""])
+
+def infinitepower():
+    return(["""put(2)""",
+            """math("/", 0)"""])
+
+def accprint():
+    return(["""loadtext(f'{self.acc}')""",
             """infobox()"""])
 
+def lionelisation():
+    return(["""runscript('accprint')""",
+            """runscript('infinitepower')""",
+            """runscript('accprint')"""])
 
 # Définition des scripts de surface (pouvant se déclencher lorsque le joueur marche desus)
 def i104_mapscript():

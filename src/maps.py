@@ -19,7 +19,7 @@ Gère les différentes cartes du jeu et ses accès respectifs
 
 class MapManager:
     """Gestionnaire des maps et de leurs éléments"""
-    ZOOM = 1.8
+    ZOOM = 1.9
 
     def __init__ (self,screen,game):
         self.game = game

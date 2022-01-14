@@ -91,14 +91,16 @@ class ScriptManager():
                 del(self.game.script_tree[-1])
                 if len(self.game.script_tree) > 0: # Le script a appelé un autre script entretemps
                     self.game.running_script = self.game.script_tree[-1]
-                    self.game.script_tree[-1][1] += 1
                 else: # Fin des appels de scripts
                     self.game.running_script = None # Fin du script de départ atteinte
             else: # Le jeu est disponible pour passer à l'étape suivante
+                start = self.game.running_script
                 command = "self." + self.game.running_script.contents[self.current_script_command()] # Correction syntaxique
                 eval(command)
-                self.game.script_tree[-1][1] += 1 # Augmentation du n° de la commande courante
-
+                if self.game.script_tree[-1][0] == start: # Le script en cours de traitement est le même
+                    self.game.script_tree[-1][1] += 1 # Augmentation du n° de la commande courante
+                else: # Le script en cours de traitement vient d'être appelé
+                    self.game.script_tree[-2][1] += 1
 
     ###################################
     # Définition du langage des scripts
@@ -112,6 +114,7 @@ class ScriptManager():
     def loadtext(self, text):
         """Chargement du texte d'une infobox dans la mémoire"""
         self.infobox_contents.append(text)
+        print(self.infobox_contents)
 
     def infobox(self):
         """Ouverture d'une infobulle"""
@@ -154,6 +157,10 @@ class ScriptManager():
         """Place un entier aléatoire dans l'accumulateur"""
         self.acc = randint(inf, sup)
     
+    def put(self, value):
+        """Place un entier défini dans l'accumulateur"""
+        self.acc = value
+    
     def compare(self, operator, qty):
         """Opération logique sur la valeur de acc. Le résultat est stocké dans l'accumulateur booléen"""
         if operator == "sup":
@@ -162,6 +169,14 @@ class ScriptManager():
             self.boolacc = (self.acc <= qty)
         elif operator == "eq":
             self.boolacc = (self.acc == qty)
+    
+    def math(self, operator, operand):
+        """Opération arithmétique sur la valeur de acc"""
+        if operator == "/" and operand == 0:
+            self.acc = 10**30 # Valeur arbitraire pour désigner l'infini
+            print(self.acc)
+        else:
+            eval(f"self.acc {operator}= {operand}")
     
     # Fonctions sonores
     def chg_music(self, track):
