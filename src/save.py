@@ -84,7 +84,6 @@ def init_save_database():
     """Création du fichier de sauvegarde"""
     data_db = sql.connect(DATA_DATABASE_LOCATION)
     map_list = data_db.cursor().execute('select id from maps;').fetchall()
-    print(map_list)
     save_db = sql.connect(SAVE_DATABASE_LOCATION)
     save_db.cursor().execute('CREATE TABLE IF NOT EXISTS "bag" ("id_item" INTEGER NOT NULL PRIMARY KEY, "quantity" INTEGER NOT NULL)')
     save_db.cursor().execute('create table if not exists "mapscripts" ("map_id" integer not null primary key,\

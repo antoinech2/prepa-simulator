@@ -33,6 +33,10 @@ def ordinaryNpc():
     """Script des NPC banals"""
     return(["""dialogue(self.current_npc, 1)"""])
 
+def debug():
+    return(["""loadtext('→')""",
+            """infobox()"""])
+
 def dummyScript():
     #return(["self.get_object(1, 500)"])
     #return(["""self.movingscript("down", 40)""",
@@ -98,6 +102,15 @@ def lionelisation():
     return(["""runscript('accprint')""",
             """runscript('infinitepower')""",
             """runscript('accprint')"""])
+
+
+def sign1():
+    """Panneau en sortie de l'escalier de la I, niveau 1"""
+    return(["""loadtext("↑ COUR D'HONNEUR")""",
+            """loadtext("← SALLES I104 À I110")""",
+            """loadtext("→ SALLES H009 À H010 - T001 À T003")""",
+            """loadtext("↓ SALLE L101 - VIE SCOLAIRE")""",
+            """infobox()"""])
 
 # Définition des scripts de surface (pouvant se déclencher lorsque le joueur marche desus)
 def i104_mapscript():

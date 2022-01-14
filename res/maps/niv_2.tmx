@@ -191,7 +191,7 @@
   <object id="24" name="spawn_niv2_n" x="2656" y="3040">
    <point/>
   </object>
-  <object id="25" name="spawn_niv2_i" x="2723" y="1911.5">
+  <object id="25" name="spawn_niv2_i" x="2720" y="1920">
    <point/>
   </object>
   <object id="26" type="mur" x="2688" y="1952" width="64" height="32"/>
