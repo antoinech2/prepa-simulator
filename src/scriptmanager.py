@@ -114,7 +114,6 @@ class ScriptManager():
     def loadtext(self, text):
         """Chargement du texte d'une infobox dans la mémoire"""
         self.infobox_contents.append(text)
-        print(self.infobox_contents)
 
     def infobox(self):
         """Ouverture d'une infobulle"""

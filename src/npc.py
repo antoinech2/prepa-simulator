@@ -4,9 +4,6 @@
 # Import externe
 import pygame as pg
 
-# Import interne
-import dialogue
-
 """Gère les NPC du jeu"""
 
 

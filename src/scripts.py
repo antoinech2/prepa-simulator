@@ -28,6 +28,7 @@ def get_script_contents(name):
     """Obtention du contenu d'un script étant donné son nom"""
     return(eval(name)())
 
+
 # Définition des scripts ponctuels
 def ordinaryNpc():
     """Script des NPC banals"""
@@ -104,6 +105,7 @@ def lionelisation():
             """runscript('accprint')"""])
 
 
+# Scripts des panneaux
 def sign1():
     """Panneau en sortie de l'escalier de la I, niveau 1"""
     return(["""loadtext("↑ COUR D'HONNEUR")""",
