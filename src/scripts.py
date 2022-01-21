@@ -109,7 +109,7 @@ def lionelisation():
 def sign1():
     """Panneau en sortie de l'escalier de la I, niveau 1"""
     return(["""loadtext("↑ COUR D'HONNEUR")""",
-            """loadtext("← SALLES I104 À I110")""",
+            """loadtext("← SALLES I104 À I109 - SALLE DES DEVOIRS")""",
             """loadtext("→ SALLES H009 À H010 - T001 À T003")""",
             """loadtext("↓ SALLE L101 - VIE SCOLAIRE")""",
             """infobox()"""])
