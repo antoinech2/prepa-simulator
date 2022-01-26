@@ -35,7 +35,7 @@ def ordinaryNpc():
     return(["""dialogue(self.current_npc, 1)"""])
 
 def debug():
-    return(["""loadtext('→')""",
+    return(["""loadtext(1)""",
             """infobox()"""])
 
 def dummyScript():
@@ -71,23 +71,23 @@ def getitemtest():
             ])
 
 def mightybutton():
-    return(["""loadtext("Je suis le Père Noël ! lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch ")""",
-            """loadtext("lentsch lentsch")""",
+    return(["""loadtext(2)""",
+            """loadtext(3)""",
             """infobox()""",
             """sfx("mighty_button")"""])
 
 def brrr():
     """Script exemple pour Skler"""
     return(["""dialogue(self.current_npc, 2)""",
-            """loadtext("ln(1-1/n) est équivalent à 1-1/n.")""",
-            """loadtext("Oh non !")""",
+            """loadtext(4)""",
+            """loadtext(5)""",
             """infobox()""",
             """dialogue(self.current_npc, 3)""",
             """runscript('denis_brogniart')""",
             """movingscript('right', 8000, True)"""])
 
 def denis_brogniart():
-    return(["""loadtext("AH !")""",
+    return(["""loadtext(6)""",
             """infobox()""",
             """sfx("mighty_button")"""])
 
@@ -96,8 +96,7 @@ def infinitepower():
             """math("/", 0)"""])
 
 def accprint():
-    return(["""loadtext(f'{self.acc}')""",
-            """infobox()"""])
+    return([])
 
 def lionelisation():
     return(["""runscript('accprint')""",
@@ -108,13 +107,13 @@ def lionelisation():
 # Scripts des panneaux
 def sign1():
     """Panneau en sortie de l'escalier de la I, niveau 1"""
-    return(["""loadtext("↑ COUR D'HONNEUR")""",
-            """loadtext("← SALLES I104 À I109 - SALLE DES DEVOIRS")""",
-            """loadtext("→ SALLES H009 À H010 - T001 À T003")""",
-            """loadtext("↓ SALLE L101 - VIE SCOLAIRE")""",
+    return(["""loadtext(7)""",
+            """loadtext(8)""",
+            """loadtext(9)""",
+            """loadtext(10)""",
             """infobox()"""])
 
 # Définition des scripts de surface (pouvant se déclencher lorsque le joueur marche desus)
 def i104_mapscript():
-    return(["""loadtext("aaaaaaaaaa")""",
+    return(["""loadtext(1)""",
             """infobox()"""])

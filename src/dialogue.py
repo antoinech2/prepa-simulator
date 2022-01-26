@@ -10,7 +10,8 @@ import pygame as pg
 import sqlite3 as sql
 import numpy as np
 
-import menu
+import locale
+
 
 class Dialogue():
     TALKBOX_TEX_LOCATION = "res/textures/talk_box_next.png"
@@ -22,7 +23,7 @@ class Dialogue():
     FONT = "consolas" # TODO Appel de la police depuis menu
     FONT_SIZE = 16
 
-    def __init__(self, game, npc, is_infobox, dialogue_id = 2, infobox_text = ""):
+    def __init__(self, game, npc, is_infobox, dialogue_id = 2, infobox_text = []):
         # Objets liés
         self.game = game
         self.current_npc = npc # TODO Implémenter mieux les infobox, au lieu de passer en argument un NPC "fantôme"
@@ -54,9 +55,12 @@ class Dialogue():
 
         # Texte
         if self.is_infobox:
-            self.texts = infobox_text
+            self.texts = [locale.getstring_infobox(line) for line in infobox_text]
         else:
-            self.texts = np.array(self.game.game_data_db.execute("SELECT texte FROM npc_dialogue WHERE id_npc = ? AND id_dialogue = ? ORDER BY ligne_dialogue ASC", (self.current_npc.id, self.dialogue_id)).fetchall())[:,0]
+            self.texts = self.game.game_data_db.execute("SELECT text_id FROM npc_dialogue WHERE id_npc = ? AND id_dialogue = ? ORDER BY ligne_dialogue ASC", (self.current_npc.id, self.dialogue_id)).fetchall()
+            for id in range(len(self.texts)):
+                text = locale.getstring_dialogue(self.texts[id][0])
+                self.texts[id] = text  # Conversion de l'ID en texte
             if len(self.texts) == 0: # Le dialogue demandé n'existe pas
                 raise ValueError(f"Erreur : le dialogue d'ID {self.dialogue_id} du NPC {self.current_npc.id} n'existe pas ou est vide")
 
