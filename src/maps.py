@@ -67,7 +67,7 @@ class MapManager:
             self.portals_id.append(portal[0])
 
         # Création des groupes calques
-        self.object_group = pyscroll.PyscrollGroup(map_layer = map_layer , default_layer = 1)
+        self.object_group = pyscroll.PyscrollGroup(map_layer = map_layer, default_layer = 1)
         self.object_group.add(self.game.player)
 
         # Objets associés
@@ -87,6 +87,8 @@ class MapManager:
         self.game.player.position[0] = point.x
         self.game.player.position[1] = point.y
 
+    def player_layer(self, layer):
+        self.object_group.change_layer(self.game.player, layer)
 
     def draw(self):
         """Met à jour l'affichage de la carte"""

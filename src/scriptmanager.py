@@ -107,10 +107,20 @@ class ScriptManager():
 
     # Fonctions générales
     def runscript(self, script):
+        """Exécution d'un autre script"""
         self.execute_script(self.find_script_from_name(script))
+    
+
+    # Fonctions graphiques
+    def changelayer(self, layer):
+        """Déplacement du sprite du joueur sur un nouveau calque"""
+        if layer == "bg":
+            self.game.map_manager.player_layer(-9)
+        if layer == "fg":
+            self.game.map_manager.player_layer(1)
+
 
     # Fonctions de texte
-
     def loadtext(self, text):
         """Chargement du texte d'une infobox dans la mémoire"""
         self.infobox_contents.append(text)
@@ -124,8 +134,8 @@ class ScriptManager():
         """Ouverture d'une boîte de dialogue"""
         self.game.dialogue = dia.Dialogue(self.game, talking, False, dialogue_id)
 
-    # Fonctions avec l'accumulateur booléen
 
+    # Fonctions avec l'accumulateur booléen
     def compare_obj_qty(self, obj_id, operator, qty):
         """Opération logique sur la quantité d'un objet. Le résultat est stocké dans l'accumulateur sous forme de booléen"""
         if obj_id not in self.game.bag.contents:
@@ -150,7 +160,8 @@ class ScriptManager():
         if not self.boolacc:
             corrected_comm = "self." + command
             eval(corrected_comm)
-    
+
+
     # Fonctions avec l'accumulateur numérique
     def ran(self, inf, sup):
         """Place un entier aléatoire dans l'accumulateur"""
@@ -176,7 +187,8 @@ class ScriptManager():
             print(self.acc)
         else:
             eval(f"self.acc {operator}= {operand}")
-    
+
+
     # Fonctions sonores
     def chg_music(self, track):
         """Changement de la musique courante"""
@@ -195,7 +207,8 @@ class ScriptManager():
     def setflag(self, npc, flag_id, state):
         """Mise à jour du flag d'un NPC"""
         npc.flags[flag_id] = state
-    
+
+
     # Fonctions des objets
     def get_object(self, object_id, qty):
         """Obtention d'un objet en une quantité donnée"""

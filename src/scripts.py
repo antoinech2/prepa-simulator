@@ -29,6 +29,7 @@ def get_script_contents(name):
     return(eval(name)())
 
 
+
 # Définition des scripts ponctuels
 def ordinaryNpc():
     """Script des NPC banals"""
@@ -102,6 +103,15 @@ def lionelisation():
     return(["""runscript('accprint')""",
             """runscript('infinitepower')""",
             """runscript('accprint')"""])
+
+
+def testporte():
+    return(["""loadtext("background")""",
+            """infobox()""",
+            """changelayer("bg")""",
+            """loadtext("foreground")""",
+            """infobox()""",
+            """changelayer("fg")"""])
 
 
 # Scripts des panneaux

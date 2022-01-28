@@ -45,6 +45,7 @@ class Player(pg.sprite.Sprite):
         self.base_walk_speed = config["speed"] #Vitesse du joueur sans multiplicateur (en pixel/frame)
 
         #Graphique
+        self.drawing_layer = 1
         self.sprite_sheet = pg.image.load(self.TEXTURE_FILE_LOCATION)
         self.image = self.get_image(0, 0)  # en bas par défaut
         self.image.set_colorkey([0, 0, 0])  # transparence
