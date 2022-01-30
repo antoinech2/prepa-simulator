@@ -28,7 +28,7 @@ class MapManager:
         config = save.load_config("player")
         self.load_map(config["map_id"]) # Charge la carte où est le joueur
 
-    def load_map(self, map_id):
+    def load_map(self, map_id, old_bgm = None):
         """Charge une carte"""
         self.map_id = map_id
         self.map_name = self.game.game_data_db.execute("select file from maps where id = ?;", (self.map_id,)).fetchall()[0][0]
@@ -74,7 +74,7 @@ class MapManager:
         self.npc_manager = npc.NpcManager(self)
         # Gérant des objets
         self.object_manager = objects.ObjectManager(self)
-        self.sound_manager = sd.SoundManager(self)
+        self.sound_manager = sd.SoundManager(self, old_bgm)
         # TODO : peut être metttre un décompte pour changer de musique moins brusquement
 
         # Exécution du script en entrée de la map
@@ -88,6 +88,7 @@ class MapManager:
         self.game.player.position[1] = point.y
 
     def player_layer(self, layer):
+        """Change le calque d'affichage du joueur. Arguments possibles : "bg" pour l'arrière-plan, "fg" pour le premier plan"""
         self.object_group.change_layer(self.game.player, layer)
 
     def draw(self):

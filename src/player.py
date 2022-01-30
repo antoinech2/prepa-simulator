@@ -4,6 +4,7 @@
 """Gère le joueur"""
 
 import pygame as pg
+from copy import deepcopy
 
 import save
 
@@ -81,7 +82,8 @@ class Player(pg.sprite.Sprite):
         if index >= 0:   # Le joueur est dans un portail
             # On récupère l'endroit où téléporter le joueur
             [to_world, to_point] = self.game.game_data_db.execute("SELECT to_world, to_point FROM portals WHERE id = ?", (self.game.map_manager.portals_id[index],)).fetchall()[0]
-            self.game.map_manager.load_map(to_world) # On charge la nouvelle carte
+            old_bgm = self.game.map_manager.sound_manager.music_file
+            self.game.map_manager.load_map(to_world, old_bgm) # On charge la nouvelle carte
             self.game.map_manager.teleport_player(to_point)  # on téléporte le joueur à la destination
             return True
         else:

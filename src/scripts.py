@@ -79,7 +79,9 @@ def mightybutton():
 
 def brrr():
     """Script exemple pour Skler"""
-    return(["""dialogue(self.current_npc, 2)""",
+    return(["""movingscript('right', 50)""",
+            """movingscript('up', 200)""",
+            """dialogue(self.current_npc, 2)""",
             """loadtext(4)""",
             """loadtext(5)""",
             """infobox()""",
