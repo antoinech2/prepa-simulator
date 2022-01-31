@@ -18,7 +18,7 @@ class SoundManager():
 
     def play_music(self, music_file, old_bgm):
         """Joue une nouvelle musique"""
-        if old_bgm == None or old_bgm != self.music_file:     # Même bande sonore ou première map chargée pendant la session
+        if old_bgm is None or old_bgm != self.music_file:     # Même bande sonore ou première map chargée pendant la session
             pg.mixer.music.load(f"{self.SOUNDS_FOLDER}music/{music_file}.mp3")
             pg.mixer.music.set_volume(self.VOLUME)
             pg.mixer.music.play(-1) # Boucle la musique
