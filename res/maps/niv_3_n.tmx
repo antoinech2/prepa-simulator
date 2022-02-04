@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="55">
+<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="58">
  <tileset firstgid="1" source="../textures/tiles.tsx"/>
  <layer id="1" name="floor_tiles" width="150" height="150">
   <data encoding="csv">
@@ -187,9 +187,6 @@
   <object id="29" name="N304" x="2192.67" y="2385.33">
    <point/>
   </object>
-  <object id="31" name="N306" x="1905" y="2385.5">
-   <point/>
-  </object>
   <object id="32" name="N309 amicale des anciens" x="2860" y="2424">
    <point/>
   </object>
@@ -232,5 +229,12 @@
   <object id="54" name="spawn_from3_p" x="3136" y="3392">
    <point/>
   </object>
+  <object id="55" name="Fermé" x="1963.33" y="2350.33">
+   <point/>
+  </object>
+  <object id="56" name="exit_n306" x="1824" y="2304">
+   <point/>
+  </object>
+  <object id="57" name="to_n306" x="1824" y="2336" width="32" height="32"/>
  </objectgroup>
 </map>

@@ -5,7 +5,7 @@ import pygame as pg
 
 class SoundManager():
     """Gestionnaire des sons"""
-    VOLUME = 0.1 #Volume général du son
+    VOLUME = 0.2 #Volume général du son
     SOUNDS_FOLDER = "res/sounds/"
 
     def __init__(self, map, old_bgm):
