@@ -219,11 +219,11 @@ class ScriptManager():
     
 
     # Fonctions des NPC
-    def checkflag(self, npc, flag_id):
+    def checknpcflag(self, npc, flag_id):
         """Vérification d'un flag d'un NPC"""
         self.boolacc = npc.flags[flag_id]
     
-    def setflag(self, npc, flag_id, state):
+    def setnpcflag(self, npc, flag_id, state):
         """Mise à jour du flag d'un NPC"""
         npc.flags[flag_id] = state
 
