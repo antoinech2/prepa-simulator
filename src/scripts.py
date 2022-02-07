@@ -31,6 +31,10 @@ def get_script_contents(name):
 
 
 # Définition des scripts ponctuels
+def void():
+    """Script vide"""
+    return([])
+
 def ordinaryNpc():
     """Script des NPC banals"""
     return(["""dialogue(self.current_npc, 1)"""])
@@ -44,15 +48,15 @@ def dummyScript():
     #return(["""self.movingscript("down", 40)""",
     #        """self.movingscript("right", 20)""",
     #        """self.movingscript("down", 10)"""])
-    return(["""compare_obj_qty(1, "sup", 1)""",
-                """iffalse('dialogue(self.current_npc, 1)')""",
-                """iftrue('dialogue(self.current_npc, 2)')""",
-            """movingscript("up", 60)""",
-            """movingscript("right", 800)"""
+    return(["""testflag(12101, 0)""",
+                """iftrue("loadtext('''Le flag 0 de la L101 a été levé''')")""",
+                """iffalse("loadtext('''Le flag 0 de la L101 est encore baissé''')")""",
+            """infobox()"""
             ])
 
 def randomdummy():
     return(["""ran(1, 4)""",
+            """interrupt()""",
             """get_object(0, 1)""",
             """compare("eq", 1)""",
                 """iftrue('dialogue(self.current_npc, 1)')""",
@@ -114,6 +118,14 @@ def testporte():
             """loadtext("foreground")""",
             """infobox()""",
             """changelayer("fg")"""])
+
+def flaginator():
+    return(["""testflag(-1,0)""",
+                """iftrue("lowerflag(-1,0)")""",
+                """iftrue("loadtext('''Le flag 0 de la L101 va être baissé''')")""",
+                """iffalse("raiseflag(-1,0)")""",
+                """iffalse("loadtext('''Le flag 0 de la L101 va être levé''')")""",
+            """infobox()"""])
 
 
 # Scripts des panneaux

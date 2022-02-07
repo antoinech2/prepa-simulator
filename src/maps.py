@@ -88,7 +88,8 @@ class MapManager:
         self.game.player.position[1] = point.y
 
     def player_layer(self, layer):
-        """Change le calque d'affichage du joueur. Arguments possibles : "bg" pour l'arrière-plan, "fg" pour le premier plan"""
+        """Change le calque d'affichage du joueur.
+        Arguments possibles : "bg" pour l'arrière-plan, "fg" pour le premier plan"""
         self.object_group.change_layer(self.game.player, layer)
 
     def draw(self):

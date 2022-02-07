@@ -18,6 +18,8 @@ class ScriptManager():
         self.current_command = 0
         self.current_npc = None
 
+        self.abort = False # Arrêt forcé d'un script
+
         # Mémoire interne du gestionnaire de scripts
         self.boolacc = False # Accumulateur booléen utilisé lors des comparaisons
         self.acc = 0 # Accumulateur entier
@@ -51,6 +53,19 @@ class ScriptManager():
             raise TypeError("Erreur : l'objet source n'est pas un script")
         self.current_npc = npc
         self.game.script_tree.append([script, 0])
+        
+    def get_flags(self, map_id):
+        """Obtient l'état des flags de la map d'ID donnée. -1 pour la map actuelle"""
+        corrected_map_id = self.game.map_manager.map_id if map_id == -1 else map_id
+        return(eval(self.game.save.execute("select flags from maps where map_id = ?;", (corrected_map_id,)).fetchall()[0][0]))
+    
+    def write_flags(self, map_id, flag_id, value):
+        """Modifie la valeur d'un flag d'une map donnée"""
+        mapscript_trig = self.game.save.execute("select mapscript_triggered from maps where map_id = ?;", (map_id,)).fetchall()[0][0] # Valeur inchangée
+        new_flags = [self.get_flags(map_id)[flag] if flag != flag_id else value for flag in range(len(self.get_flags(map_id)))]
+        print(new_flags)
+        self.game.save.execute("replace into maps values (?,?,?);", (map_id, mapscript_trig, f"{new_flags}"))
+        self.game.save.commit()
     
     def movingscript(self, direction, pix, sprint = False):
         """Exécution d'un script de déplacement"""
@@ -87,12 +102,13 @@ class ScriptManager():
                     self.exit_movingscript()
             elif self.game.dialogue is not None:    # On laisse le dialogue défiler s'il existe
                 pass
-            elif self.current_script_command() >= len(self.game.running_script.contents): # Le script courant est terminé
+            elif self.current_script_command() >= len(self.game.running_script.contents) or self.abort: # Le script courant est terminé ou on force l'arrêt
                 del(self.game.script_tree[-1])
                 if len(self.game.script_tree) > 0: # Le script a appelé un autre script entretemps
                     self.game.running_script = self.game.script_tree[-1]
                 else: # Fin des appels de scripts
                     self.game.running_script = None # Fin du script de départ atteinte
+                    self.abort = False
             else: # Le jeu est disponible pour passer à l'étape suivante
                 start = self.game.running_script
                 command = "self." + self.game.running_script.contents[self.current_script_command()] # Correction syntaxique
@@ -110,6 +126,9 @@ class ScriptManager():
         """Exécution d'un autre script"""
         self.execute_script(self.find_script_from_name(script))
     
+    def interrupt(self):
+        """Interruption de l'exécution du script courant"""
+        self.abort = True
 
     # Fonctions graphiques
     def changelayer(self, layer):
@@ -218,3 +237,31 @@ class ScriptManager():
         """Destruction d'un objet en une quantité donnée, ne fait rien s'il n'y en a pas assez"""
         if self.game.bag.contents[object_id] >= qty:
             self.game.bag.increment_item(object_id, -qty)
+    
+    
+    # Fonctions des drapeaux
+    def testflag(self, map_id, flag_id):
+        """Obtention de l'état d'un drapeau\n
+        Passer -1 en tant que valeur de map_id retourne l'état du flag de la map actuelle"""
+        if map_id == -1:
+            self.boolacc = True if self.get_flags(self.game.map_manager.map_id)[flag_id] == 1 else False
+        else:
+            self.boolacc = True if self.get_flags(map_id)[flag_id] == 1 else False
+    
+    def raiseflag(self, map_id, flag_id):
+        """Lève le drapeau d'une salle\n
+        Passer -1 en tant que valeur de map_id lève le drapeau de la map actuelle\n
+        Sans effet sur les flags déjà levés"""
+        if map_id == -1:
+            self.write_flags(self.game.map_manager.map_id, flag_id, 1)
+        else:
+            self.write_flags(map_id, flag_id, 1)
+    
+    def lowerflag(self, map_id, flag_id):
+        """Baisse le drapeau d'une salle\n
+        Passer -1 en tant que valeur de map_id baisse le drapeau de la map actuelle\n
+        Sans effet sur les flags déjà baissés"""
+        if map_id == -1:
+            self.write_flags(self.game.map_manager.map_id, flag_id, 0)
+        else:
+            self.write_flags(map_id, flag_id, 0)
