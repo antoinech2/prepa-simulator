@@ -85,6 +85,7 @@ def init_save_database():
     data_db = sql.connect(DATA_DATABASE_LOCATION)
     map_list = data_db.cursor().execute('select id from maps;').fetchall()
     npc_list = data_db.cursor().execute('select * from npc;').fetchall()
+    mapobj_list = data_db.cursor().execute('select id from objects;').fetchall()
     save_db = sql.connect(SAVE_DATABASE_LOCATION)
     save_db.cursor().execute('CREATE TABLE IF NOT EXISTS "bag" ("id_item" INTEGER NOT NULL PRIMARY KEY, "quantity" INTEGER NOT NULL)')
     save_db.cursor().execute('create table if not exists "maps" ("map_id" integer not null primary key,\
@@ -92,6 +93,8 @@ def init_save_database():
                                                                  "flags" text);')
     save_db.cursor().execute('create table if not exists "npc" ("npc_id" integer not null primary key,\
                                                                 "flags" text);')
+    save_db.cursor().execute('create table if not exists "mapobjects" ("mapobj_id" integer not null primary key,\
+                                                                       "obtained" integer);')
 
     # Création de la sauvegarde des maps
     if save_db.cursor().execute('select * from maps;').fetchall() == []:
@@ -102,6 +105,10 @@ def init_save_database():
     if save_db.cursor().execute('select * from npc;').fetchall() == []:
         for npc in npc_list:
             save_db.cursor().execute('insert into npc values (?, "[0,0,0,0]");', (npc[0],))     # Même proposition
+    # Création de la sauvegarde des objets sur la carte
+    if save_db.cursor().execute('select * from mapobjects;').fetchall() == []:
+        for mapobj in mapobj_list:
+            save_db.cursor().execute('insert into mapobjects values (?, 0);', (mapobj[0],))
     save_db.commit()
     data_db.close()
     return save_db
