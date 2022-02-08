@@ -84,14 +84,24 @@ def init_save_database():
     """Création du fichier de sauvegarde"""
     data_db = sql.connect(DATA_DATABASE_LOCATION)
     map_list = data_db.cursor().execute('select id from maps;').fetchall()
+    npc_list = data_db.cursor().execute('select * from npc;').fetchall()
     save_db = sql.connect(SAVE_DATABASE_LOCATION)
     save_db.cursor().execute('CREATE TABLE IF NOT EXISTS "bag" ("id_item" INTEGER NOT NULL PRIMARY KEY, "quantity" INTEGER NOT NULL)')
     save_db.cursor().execute('create table if not exists "maps" ("map_id" integer not null primary key,\
-                                                                  "mapscript_triggered" integer not null,\
-                                                                  "flags" text);')
+                                                                 "mapscript_triggered" integer not null,\
+                                                                 "flags" text);')
+    save_db.cursor().execute('create table if not exists "npc" ("npc_id" integer not null primary key,\
+                                                                "flags" text);')
+
+    # Création de la sauvegarde des maps
     if save_db.cursor().execute('select * from maps;').fetchall() == []:
         for map in map_list:
             save_db.cursor().execute('insert into maps values (?, 0, "[0,0,0,0]");', (map[0],)) # Temporaire : 4 flags par map
                                                                                               # Proposition : passer en binaire (ordre des flags inversé, l'état "flags 3 et 1 levés" est alors symbolisé par l'entier 10)
+    # Création de la sauvegarde des PNJ
+    if save_db.cursor().execute('select * from npc;').fetchall() == []:
+        for npc in npc_list:
+            save_db.cursor().execute('insert into npc values (?, "[0,0,0,0]");', (npc[0],))     # Même proposition
+    save_db.commit()
     data_db.close()
     return save_db

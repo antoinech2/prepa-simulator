@@ -54,7 +54,7 @@ class ScriptManager():
         self.current_npc = npc
         self.game.script_tree.append([script, 0])
         
-    def get_flags(self, map_id):
+    def read_flags(self, map_id):
         """Obtient l'état des flags de la map d'ID donnée. -1 pour la map actuelle"""
         corrected_map_id = self.game.map_manager.map_id if map_id == -1 else map_id
         return(eval(self.game.save.execute("select flags from maps where map_id = ?;", (corrected_map_id,)).fetchall()[0][0]))
@@ -62,9 +62,18 @@ class ScriptManager():
     def write_flags(self, map_id, flag_id, value):
         """Modifie la valeur d'un flag d'une map donnée"""
         mapscript_trig = self.game.save.execute("select mapscript_triggered from maps where map_id = ?;", (map_id,)).fetchall()[0][0] # Valeur inchangée
-        new_flags = [self.get_flags(map_id)[flag] if flag != flag_id else value for flag in range(len(self.get_flags(map_id)))]
-        print(new_flags)
+        new_flags = [self.read_flags(map_id)[flag] if flag != flag_id else value for flag in range(len(self.read_flags(map_id)))]
         self.game.save.execute("replace into maps values (?,?,?);", (map_id, mapscript_trig, f"{new_flags}"))
+        self.game.save.commit()
+    
+    def read_npcflags(self, npc_id):
+        """Obtient l'état des flags du PNJ d'ID donné"""
+        return(eval(self.game.save.execute("select flags from npc where npc_id = ?;", (npc_id,)).fetchall()[0][0]))
+    
+    def write_npcflags(self, npc_id, flag_id, value):
+        """Modifie la valeur d'un flag d'un NPC donné"""
+        new_flags = [self.read_npcflags(npc_id)[flag] if flag != flag_id else value for flag in range(len(self.read_npcflags(npc_id)))]
+        self.game.save.execute("replace into npc values (?,?);", (npc_id, f"{new_flags}"))
         self.game.save.commit()
     
     def movingscript(self, direction, pix, sprint = False):
@@ -216,17 +225,6 @@ class ScriptManager():
     def sfx(self, fx):
         """Joue un effet sonore"""
         self.game.map_manager.sound_manager.play_sfx(fx)
-    
-
-    # Fonctions des NPC
-    def checknpcflag(self, npc, flag_id):
-        """Vérification d'un flag d'un NPC"""
-        self.boolacc = npc.flags[flag_id]
-    
-    def setnpcflag(self, npc, flag_id, state):
-        """Mise à jour du flag d'un NPC"""
-        npc.flags[flag_id] = state
-
 
     # Fonctions des objets
     def get_object(self, object_id, qty):
@@ -239,14 +237,14 @@ class ScriptManager():
             self.game.bag.increment_item(object_id, -qty)
     
     
-    # Fonctions des drapeaux
+    # Fonctions des drapeaux des salles
     def testflag(self, map_id, flag_id):
         """Obtention de l'état d'un drapeau\n
         Passer -1 en tant que valeur de map_id retourne l'état du flag de la map actuelle"""
         if map_id == -1:
-            self.boolacc = True if self.get_flags(self.game.map_manager.map_id)[flag_id] == 1 else False
+            self.boolacc = True if self.read_flags(self.game.map_manager.map_id)[flag_id] == 1 else False
         else:
-            self.boolacc = True if self.get_flags(map_id)[flag_id] == 1 else False
+            self.boolacc = True if self.read_flags(map_id)[flag_id] == 1 else False
     
     def raiseflag(self, map_id, flag_id):
         """Lève le drapeau d'une salle\n
@@ -265,3 +263,12 @@ class ScriptManager():
             self.write_flags(self.game.map_manager.map_id, flag_id, 0)
         else:
             self.write_flags(map_id, flag_id, 0)
+    
+    # Fonctions des PNJ
+    def checknpcflag(self, npc, flag_id):
+        """Vérification d'un flag d'un NPC"""
+        self.boolacc = True if self.read_npcflags(npc.id)[flag_id] == 1 else False
+    
+    def setnpcflag(self, npc, flag_id, state):
+        """Mise à jour du flag d'un NPC"""
+        self.write_npcflags(npc.id, flag_id, state)

@@ -52,8 +52,6 @@ class Npc(pg.sprite.Sprite):
         else:
             self.script = self.map.game.script_manager.find_script_from_name("ordinaryNpc") # Temporaire, tous les NPC disposent du script dummyScript
         print(self.script.name)
-        self.flags = [False, False] # TEMPORAIRE Jeu de deux drapeaux pour chaque NPC, à élargir si besoin
-                                    # TODO Sauvegarder l'état des flags à chaque interaction et lorsqu'on quitte le jeu
 
         # Graphique
         if sprite is None:

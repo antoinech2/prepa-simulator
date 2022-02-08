@@ -51,6 +51,16 @@ def dummyScript():
     return(["""testflag(12101, 0)""",
                 """iftrue("loadtext('''Le flag 0 de la L101 a été levé''')")""",
                 """iffalse("loadtext('''Le flag 0 de la L101 est encore baissé''')")""",
+            """infobox()""",
+            """checknpcflag(self.current_npc, 0)""",
+                """iftrue("loadtext('''Mon flag 0 a été levé''')")""",
+                """iftrue("setnpcflag(self.current_npc, 0, 0)")""",
+                """iffalse("loadtext('''Mon flag 0 est encore baissé''')")""",
+                """iffalse("setnpcflag(self.current_npc, 0, 1)")""",
+            """infobox()""",
+            """checknpcflag(self.current_npc, 0)""",
+                """iftrue("loadtext('''Mon flag 0 est maintenant levé''')")""",
+                """iffalse("loadtext('''Mon flag 0 est maintenant baissé''')")""",
             """infobox()"""
             ])
 
