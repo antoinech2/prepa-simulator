@@ -83,7 +83,6 @@ class Game:
         self.menu_manager = menu.MenuManager(self.screen, self)
 
         self.dialogue = None # Contient le dialogue s'il existe
-        self.player.objects_state = save.load_config("objects")
 
 
     def change_window_size(self, **args):

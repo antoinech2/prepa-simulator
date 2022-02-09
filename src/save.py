@@ -11,13 +11,16 @@ SAVE_DATABASE_LOCATION = "sav/save.db"
 CONFIGURATION_FILES = {
     "player" : "sav/player.yaml",
     "window" : "stg/window.yaml",
-    "objects" : "sav/objects.yaml",
     "controls" : "stg/controls.yaml"
     }
 
 DEFAULT_CONFIG = {
-    "player" : {"map_id" : 1, "position" : [1600,1200], "speed" : 1.5},
-    "window" : {"size" : (1000, 600), "fullscreen" : False},
+    "player" : {"map_id" : 1,
+                "position" : [1600,1200],
+                "speed" : 1.5,
+                "cash" : 10.},
+    "window" : {"size" : (1000, 600),
+                "fullscreen" : False},
     "controls" : {
         # Contrôle du mouvement
         "PLAYER_MOVE_UP" : "UP",
@@ -47,8 +50,7 @@ DEFAULT_CONFIG = {
         "DEBUG" : "F3",
         "RESET_CONFIG" : "F5",
         "RESET_SAVE" : "F6"
-        },
-    "objects" : {1 : True} # Temporaire
+        }
     }
 
 

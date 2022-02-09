@@ -19,7 +19,7 @@ Gère les différentes cartes du jeu et ses accès respectifs
 
 class MapManager:
     """Gestionnaire des maps et de leurs éléments"""
-    ZOOM = 1.9
+    ZOOM = 2.2
 
     def __init__ (self,screen,game):
         self.game = game
@@ -61,7 +61,7 @@ class MapManager:
         self.portals = []
         self.portals_id = []
 
-        for portal in portals :
+        for portal in portals:
             point = self.tmx_data.get_object_by_name(portal[1])
             self.portals.append(pg.Rect(point.x, point.y, point.width, point.height))
             self.portals_id.append(portal[0])
@@ -88,7 +88,7 @@ class MapManager:
         self.game.player.position[1] = point.y
 
     def player_layer(self, layer):
-        """Change le calque d'affichage du joueur.
+        """Change le calque d'affichage du joueur.\n
         Arguments possibles : "bg" pour l'arrière-plan, "fg" pour le premier plan"""
         self.object_group.change_layer(self.game.player, layer)
 

@@ -76,14 +76,6 @@ class ScriptManager():
         self.game.save.execute("replace into npc values (?,?);", (npc_id, f"{new_flags}"))
         self.game.save.commit()
     
-    def movingscript(self, direction, pix, sprint = False):
-        """Exécution d'un script de déplacement"""
-        self.game.executing_moving_script = True
-        self.initial_coords = copy(self.game.player.position)
-        self.moving_direction = direction
-        self.movement_boundary = pix
-        self.sprint_during_script = sprint
-    
     def exit_movingscript(self):
         """Terminaison d'un script de déplacement"""
         self.game.executing_moving_script = False
@@ -138,6 +130,15 @@ class ScriptManager():
     def interrupt(self):
         """Interruption de l'exécution du script courant"""
         self.abort = True
+    
+    def label(self):
+        """Commande indiquant un label accessible via la fonction goto. Ne fait rien en elle-même"""
+        pass
+
+    def goto(self, label_tag):
+        """Saut vers un label"""
+        if label_tag in self.game.running_script.labels:
+            self.game.script_tree[-1][1] = self.game.running_script.labels[label_tag]
 
     # Fonctions graphiques
     def changelayer(self, layer):
@@ -147,6 +148,13 @@ class ScriptManager():
         if layer == "fg":
             self.game.map_manager.player_layer(1)
 
+    def move(self, direction, pix, sprint = False):
+        """Exécution d'un script de déplacement"""
+        self.game.executing_moving_script = True
+        self.initial_coords = copy(self.game.player.position)
+        self.moving_direction = direction
+        self.movement_boundary = pix
+        self.sprint_during_script = sprint
 
     # Fonctions de texte
     def loadtext(self, text):
@@ -232,9 +240,10 @@ class ScriptManager():
         self.game.bag.increment_item(object_id, qty)
     
     def toss_object(self, object_id, qty):
-        """Destruction d'un objet en une quantité donnée, ne fait rien s'il n'y en a pas assez"""
-        if self.game.bag.contents[object_id] >= qty:
-            self.game.bag.increment_item(object_id, -qty)
+        """Destruction d'un objet en une quantité donnée, les supprime tous s'il n'y en a pas assez"""
+        corrected_qty = self.game.bag.contents[object_id] if qty == "all" else qty     # Valeur arbitrairement grande
+        if self.game.bag.contents[object_id] >= corrected_qty:
+            self.game.bag.increment_item(object_id, -corrected_qty)
     
     
     # Fonctions des drapeaux des salles

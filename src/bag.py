@@ -31,9 +31,9 @@ class Bag():
 
     def save(self):
         """Sauvegarde le contenu du sac dans la base de données"""
-        cursor = self.save_db.cursor()
         for item, count in self.contents.items():
-            cursor.execute("INSERT OR REPLACE INTO bag VALUES (?, ?)", (int(item), int(count)))
+            self.save_db.cursor().execute("INSERT OR REPLACE INTO bag VALUES (?, ?)", (int(item), int(count)))
+        self.save_db.commit()
 
     def separate(self, interval):
         """Séparation du contenu du Sac en groupes (listes)"""
