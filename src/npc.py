@@ -51,7 +51,6 @@ class Npc(pg.sprite.Sprite):
             self.script = self.map.game.script_manager.get_script_from_id(script_id)
         else:
             self.script = self.map.game.script_manager.find_script_from_name("ordinaryNpc") # Temporaire, tous les NPC disposent du script dummyScript
-        print(self.script.name)
 
         # Graphique
         if sprite is None:

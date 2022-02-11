@@ -2,15 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import pygame as pg
-from pygame.image import load
-import pyscroll
 import numpy as np
 
 
 # TODO Uniformisation des dialogues sous le module menu
 class Font():
     """Classe de la police d'écriture"""
-    pg.font.init()
     def __init__(self, font_name):
         self.font_name = font_name
         self.font_size = 16
@@ -158,6 +155,55 @@ class SubMenu():
                 self.sidemenu.bagmenu.print_menu_contents()
 
 
+class ChoiceBox():
+    """Classe des boîtes à choix multiple"""
+    UPPERLEFT_CORNER = [20, 20]     # Position de la flèche dans sa position initiale
+    ARROW_MARGIN = 25               # Espace entre la flèche et le texte
+    LINE_HEIGHT = 40                # TODO Unifier les hauteurs de ligne dans Game
+    CB_TEXTURE = "res/textures/choicebox.png"       # à changer pour des choicebox avec plus de 2 options
+
+    def __init__(self, game, choices):
+        self.game = game
+        self.choices = choices
+        self.arrow = Arrow1D(self, len(choices), False, self.game.menu_manager.BAG_LINE_HEIGHT, self.UPPERLEFT_CORNER)
+
+        # Texture de la boîte
+        self.box_surf = pg.image.load(self.CB_TEXTURE).convert()
+        self.box_x = int(self.box_surf.get_width()*0.75)
+        self.box_y = int(self.box_surf.get_height()*0.75)
+        self.box = pg.transform.scale(self.box_surf, (self.box_x, self.box_y))
+        self.box.set_colorkey([255, 255, 255])
+
+    def print_choice(self, choice_id):
+        """Affichage d'un choix dans le menu"""
+        ch_nametag = self.game.default_font.font.render(self.choices[choice_id], True, (0, 0, 0))
+        nametag_rect = ch_nametag.get_rect(topleft = np.array(self.UPPERLEFT_CORNER) + np.array([self.ARROW_MARGIN, choice_id * self.LINE_HEIGHT]))
+        self.box.blit(ch_nametag, nametag_rect)
+    
+    def choice_taken(self):
+        """Mise à jour dans le Menu Manager de l'option choisie"""
+        # TODO à voir si le deuxième élément du tuple est utile ou non...
+        self.game.menu_manager.choicebox_result = (self.arrow.arrow_pos, self.choices[self.arrow.arrow_pos])
+        self.game.menu_manager.close_choicebox()
+    
+    def clear(self):
+        """Suppression du contenu de la boîte"""
+        self.box = pg.transform.scale(self.box_surf, (self.box_x, self.box_y))
+        self.box.set_colorkey([255, 255, 255])
+
+    def open(self):
+        """Ouverture de la boîte de choix"""
+        rect = self.box.get_rect(center = (self.game.screen.get_size()[0] / 2, self.game.screen.get_size()[1] / 2))
+        self.game.screen.blit(self.box, rect)
+
+    def draw(self):
+        """Rafraîchissement de l'affichage"""
+        self.open()
+        self.arrow.draw()
+        for choice in range(len(self.choices)):
+            self.print_choice(choice)
+
+
 class Arrow1D():
     """Classe des flèches à un degré de liberté"""
     # Utilisée dans les menus linéaires comme les boîtes Oui/Non, le Sac...
@@ -290,8 +336,6 @@ class MenuManager():
     SAVE_ORIGIN_COORDS = (-1, -1)           # WIP
     OPTIONS_ORIGIN_COORDS = (-1, -1)        # WIP
 
-
-
     def __init__(self, screen, game):
         self.screen = screen
         self.game = game
@@ -302,9 +346,9 @@ class MenuManager():
         self.sidemenu.bagmenu = BagSubMenu(self.sidemenu, self.BAG_SUBMENU_HEIGHT, True, self.BAG_LINE_HEIGHT, self.BAG_ORIGIN_COORDS)
         self.sidemenu.savemenu = SaveSubMenu(self.sidemenu, -1, True, -1, self.SAVE_ORIGIN_COORDS)           # même remarque
         self.sidemenu.optionsmenu = OptionsSubMenu(self.sidemenu, -1, True, -1, self.OPTIONS_ORIGIN_COORDS)     # même remarque
-
         # Menus secondaires
-        pass
+        self.choicebox = None           # Boîte à choix multiples
+        self.choicebox_result = None    # Place et nom de l'option choisie dans la choicebox
 
     def toggle_sidemenu(self):
         """Commute l'affichage du menu latéral"""
@@ -324,11 +368,18 @@ class MenuManager():
             self.sidemenu.show_arrow()
             for submenu in self.sidemenu.submenu_list:
                 submenu.draw()
+        if self.choicebox is not None:
+            self.choicebox.draw()
 
     def menu_move(self, direction):
         """Déplacement dans un menu"""
-        # TODO Cas d'un submenu ouvert
-        if self.sidemenu.onscreen:
+        if self.choicebox is not None:
+            self.choicebox.clear()
+            if direction == "up":
+                self.choicebox.arrow.move_up()
+            elif direction == "down":
+                self.choicebox.arrow.move_down()
+        elif self.sidemenu.onscreen:
             if self.sidemenu.currently_opened_submenu() is None: # si aucun menu n'est ouvert : déplacement dans le menu latéral
                 self.sidemenu.clear() # Effacement de l'ancienne position de la flèche
                 if direction == "up":
@@ -362,3 +413,16 @@ class MenuManager():
         if self.sidemenu.currently_opened_submenu() is not None:
             self.sidemenu.submenu_list[self.sidemenu.currently_opened_submenu()].is_open = False
             pg.mixer.Sound.play(self.sidemenu.close_sfx)
+    
+    def open_choicebox(self, choices):
+        """Ouverture d'une boîte à choix multiples"""
+        if self.choicebox is None:
+            self.game.player.can_move = False
+            self.choicebox = ChoiceBox(self.game, choices)
+    
+    def close_choicebox(self):
+        """Fermeture d'une boîte à choix multiples"""
+        if self.choicebox is not None:
+            if not self.sidemenu.onscreen:
+                self.game.player.can_move = True       # On peut bouger à la fermeture de la boîte uniquement si le menu latéral n'est pas ouvert
+            self.choicebox = None

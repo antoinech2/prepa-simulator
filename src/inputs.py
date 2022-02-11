@@ -17,7 +17,9 @@ def handle_pressed_key(game):
 
 def handle_key_down_event(game, event):
     """Transmet l'évènement d'une toucher qui vient d'être pressée"""
-    if event.key == controls["ACTION_INTERACT"] and not game.menu_is_open:  # si Espace est pressée
+    if event.key == controls["MENU_INTERACT"] and game.menu_manager.choicebox is not None:     # si une boîte de choix est présente
+        game.menu_manager.choicebox.choice_taken()
+    elif event.key == controls["ACTION_INTERACT"] and not game.menu_is_open:  # si Espace est pressée
         if game.dialogue == None:
             game.map_manager.object_manager.pickup_check()
             game.map_manager.npc_manager.check_talk()

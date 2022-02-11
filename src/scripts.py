@@ -137,9 +137,15 @@ def accprint():
     return([])
 
 def lionelisation():
-    return(["""runscript('accprint')""",
-            """runscript('infinitepower')""",
-            """runscript('accprint')"""])
+    return(["""loadtext("Voici une choicebox :")""",
+            """infobox()""",
+            """opencb()""",
+            """cb_result()""",
+            """compare('eq', 0)""",
+                """iftrue("loadtext('''Tu as dit oui !''')")""",
+            """compare('eq', 1)""",
+                """iftrue("loadtext('''Tu as dit non !''')")""",
+            """infobox()"""])
 
 
 def testporte():

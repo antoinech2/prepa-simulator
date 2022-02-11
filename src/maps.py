@@ -38,7 +38,6 @@ class MapManager:
             self.map_script = self.game.script_manager.find_script_from_name(f"{self.map_name}_mapscript")
         except:
             self.map_script = None
-        print(self.map_script)
         self.script_is_rerunnable = self.game.game_data_db.execute("select script_is_rerunnable from maps where id = ?;", (self.map_id,)).fetchall()[0][0]
 
         # Récupération du fichier de la carte et la musique associée

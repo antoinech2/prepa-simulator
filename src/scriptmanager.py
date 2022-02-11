@@ -7,6 +7,7 @@ import pygame as pg
 from copy import copy
 from random import randint
 
+import menu
 import scripts
 import dialogue as dia
 
@@ -101,7 +102,7 @@ class ScriptManager():
                 dist = ((self.initial_coords[0] - self.game.player.position[0])**2 + (self.initial_coords[1] - self.game.player.position[1])**2) ** 0.5 # Distance totale parcourue pendant le script
                 if dist > self.movement_boundary or self.game.player.boop: # Le mouvement s'est déroulé normalement ou le joueur s'est pris un mur
                     self.exit_movingscript()
-            elif self.game.dialogue is not None:    # On laisse le dialogue défiler s'il existe
+            elif self.game.dialogue is not None or self.game.menu_manager.choicebox is not None:    # On laisse le dialogue défiler s'il existe, ou ou attend les résultats de la choicebox
                 pass
             elif self.current_script_command() >= len(self.game.running_script.contents) or self.abort: # Le script courant est terminé ou on force l'arrêt
                 del(self.game.script_tree[-1])
@@ -156,7 +157,7 @@ class ScriptManager():
         self.movement_boundary = pix
         self.sprint_during_script = sprint
 
-    # Fonctions de texte
+    # Fonctions des menus (boîtes contenant du texte)
     def loadtext(self, text):
         """Chargement du texte d'une infobox dans la mémoire"""
         self.infobox_contents.append(text)
@@ -169,7 +170,15 @@ class ScriptManager():
     def dialogue(self, talking, dialogue_id):
         """Ouverture d'une boîte de dialogue"""
         self.game.dialogue = dia.Dialogue(self.game, talking, False, dialogue_id)
-
+    
+    def opencb(self, choices = ["OUI", "NON"]):         # Temporaire : uniquement des boîtes Oui / Non
+        """Ouverture d'une boîte à choix multiples"""
+        self.game.menu_manager.open_choicebox(choices)
+    
+    def cb_result(self):
+        """Obtention de l'option choisie à la choicebox précédente.\n
+        Le résultat est stocké dans l'accumulateur numérique"""
+        self.acc = self.game.menu_manager.choicebox_result[0]
 
     # Fonctions avec l'accumulateur booléen
     def compare_obj_qty(self, obj_id, operator, qty):
