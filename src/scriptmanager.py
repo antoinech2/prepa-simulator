@@ -6,6 +6,7 @@
 import pygame as pg
 from copy import copy
 from random import randint
+import sqlite3 as sql
 
 import menu
 import scripts
@@ -52,7 +53,8 @@ class ScriptManager():
         """Exécution d'un script"""
         if type(script) is not scripts.Script:
             raise TypeError("Erreur : l'objet source n'est pas un script")
-        self.current_npc = npc
+        if self.current_npc is None:
+            self.current_npc = npc      # Si le SM gère déjà un PNJ alors on n'y touche pas
         self.game.script_tree.append([script, 0])
         
     def read_flags(self, map_id):
@@ -132,7 +134,7 @@ class ScriptManager():
         """Interruption de l'exécution du script courant"""
         self.abort = True
     
-    def label(self):
+    def label(self, name):
         """Commande indiquant un label accessible via la fonction goto. Ne fait rien en elle-même"""
         pass
 
@@ -140,6 +142,16 @@ class ScriptManager():
         """Saut vers un label"""
         if label_tag in self.game.running_script.labels:
             self.game.script_tree[-1][1] = self.game.running_script.labels[label_tag]
+    
+    def save(self):
+        """Sauvegarde de la partie"""
+        try:
+            self.game.player.save()
+            self.game.bag.save()
+            self.game.save.commit()
+        except sql.ProgrammingError:
+            print("Impossible d'accéder à la base de donnée lors de la sauvegarde. Cela peut être dû à une réinitialisation des données...")
+
 
     # Fonctions graphiques
     def changelayer(self, layer):
@@ -193,6 +205,14 @@ class ScriptManager():
                 self.boolacc = True if comp <= qty else False
             elif operator == "eq":
                 self.boolacc = True if comp == qty else False
+    
+    def true(self):
+        """Changement de la valeur de l'accumulateur booléen en True"""
+        self.boolacc = True
+    
+    def false(self):
+        """Changement de la valeur de l'accumulateur booléen en False"""
+        self.boolacc = False
     
     def iftrue(self, command):
         """Exécution d'une commande si l'accumulateur booléen est True"""

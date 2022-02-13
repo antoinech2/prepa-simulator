@@ -38,6 +38,22 @@ def get_script_contents(name):
     """Obtention du contenu d'un script étant donné son nom"""
     return(eval(name)())
 
+# Définition des scripts majeurs (sauvegarde, etc.)
+def save():
+    """Script effectuant une sauvegarde de la partie"""
+    return(["""loadtext('Voulez-vous sauvegarder la partie ?')""",
+            """infobox()""",
+            """opencb()""",
+            """cb_result()""",
+            """compare('eq', 0)""",
+                """iffalse('false()')""",       # La sauvegarde a été annulée
+                """iffalse('goto("end")')""",   # On passe l'étape de sauvegarde
+            """true()""",       # La sauvegarde a réussi
+            """save()""",
+            """loadtext('Partie sauvegardée.')""",
+            """infobox()""",
+            
+            """label("end")"""])
 
 
 # Définition des scripts ponctuels
@@ -163,6 +179,13 @@ def flaginator():
                 """iffalse("raiseflag(-1,0)")""",
                 """iffalse("loadtext('''Le flag 0 de la L101 va être levé''')")""",
             """infobox()"""])
+
+def testsave():
+    return(["""dialogue(self.current_npc, 1)""",
+            """runscript('save')""",
+                """iftrue('dialogue(self.current_npc, 2)')""",
+                """iffalse('dialogue(self.current_npc, 3)')"""
+            ])
 
 def hdmi():
     """Petite mission pour le PC de la H009"""

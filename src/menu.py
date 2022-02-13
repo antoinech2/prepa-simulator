@@ -318,8 +318,13 @@ class SaveSubMenu(SubMenu):
     SAVEICON_POSITION = (30, 150) # Temporaire
     def __init__(self, sidemenu, boundary, can_loop, line_height, initial_coords):
         super().__init__("save", "SAUVER", sidemenu, self.SAVEICON_POSITION, boundary, can_loop, line_height, initial_coords)
-    # TODO Implémenter une fonction de sauvegarde des données
-    # TODO Boîte de choix (Oui Non, MP MP*, SII Info (mais le choix est évident), etc.)
+    
+    def toggled(self):
+        """Exécution de l'action de sauvegarde et fermeture du menu latéral"""
+        self.sidemenu.game.menu_manager.close_menu()        # Fermeture du sous-menu de sauvegarde
+        self.sidemenu.game.menu_manager.toggle_sidemenu()   # Fermeture du menu latéral
+        sm = self.sidemenu.game.script_manager
+        sm.execute_script(sm.find_script_from_name("save"))
 
 
 class OptionsSubMenu(SubMenu):
@@ -406,6 +411,8 @@ class MenuManager():
         if self.sidemenu.currently_opened_submenu() is None:
             self.sidemenu.submenu_list[self.sidemenu.arrow_pos].is_open = True
             pg.mixer.Sound.play(self.sidemenu.open_sfx)
+            if self.sidemenu.currently_opened_submenu() == self.sidemenu.submenu_list.index(self.sidemenu.savemenu):
+                self.sidemenu.savemenu.toggled()
 
     def close_menu(self):
         """Fermeture d'un sous-menu"""
