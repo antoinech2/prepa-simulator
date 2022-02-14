@@ -112,6 +112,7 @@ class ScriptManager():
                     self.game.running_script = self.game.script_tree[-1]
                 else: # Fin des appels de scripts
                     self.game.running_script = None # Fin du script de départ atteinte
+                    self.current_npc = None         # On a fini de traiter le NPC actuel
                     self.abort = False
             else: # Le jeu est disponible pour passer à l'étape suivante
                 start = self.game.running_script
