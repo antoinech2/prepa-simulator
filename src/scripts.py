@@ -197,6 +197,14 @@ def hdmi():
             """infobox()""",
             """compare_obj_qty(10, 'sup', 1)""",    # Est-ce que le joueur a un câble HDMI ?
                 """iffalse("interrupt()")""",
+            """loadtext('''Voulez-vous brancher le câble HDMI ?''')""",
+            """infobox()""",
+            """opencb()""",
+            """cb_result()""",
+            """compare('eq', 0)""" ,     # Est-ce que le joueur a répondu oui ?
+                """iffalse("loadtext('''Le port HDMI prend la poussière.''')")""",
+                """iffalse("infobox()")""",
+                """iffalse("interrupt()")""",
             """loadtext('''Vous branchez le câble HDMI à l'ordinateur.''')""",
             """loadtext('''La souris marche maintenant depuis l'autre côté de la salle !''')""",
             """infobox()""",
