@@ -35,3 +35,12 @@ infobox:
   8  : "← SALLES I104 À I109 - SALLE DES DEVOIRS"
   9  : "→ SALLES H009 À H010 - T001 À T003"
   10 : "↓ SALLE L101 - VIE SCOLAIRE"
+
+system:
+continue        : "CONTINUER"
+new_game        : "NOUVELLE PARTIE"
+
+sidem_missions  : "MISSIONS"
+sidem_bag       : "SAC"
+sidem_save      : "SAUVER"
+sidem_settings  : "OPTIONS"

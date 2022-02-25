@@ -55,6 +55,7 @@ class ScriptManager():
             raise TypeError("Erreur : l'objet source n'est pas un script")
         if self.current_npc is None:
             self.current_npc = npc      # Si le SM gère déjà un PNJ alors on n'y touche pas
+        self.game.input_lock = True     # Blocage du clavier jusqu'à la fin du script
         self.game.script_tree.append([script, 0])
         
     def read_flags(self, map_id):
@@ -114,6 +115,7 @@ class ScriptManager():
                     self.game.running_script = None # Fin du script de départ atteinte
                     self.current_npc = None         # On a fini de traiter le NPC actuel
                     self.abort = False
+                    self.game.input_lock = False    # Déblocage du clavier
             else: # Le jeu est disponible pour passer à l'étape suivante
                 start = self.game.running_script
                 command = "self." + self.game.running_script.contents[self.current_script_command()] # Correction syntaxique

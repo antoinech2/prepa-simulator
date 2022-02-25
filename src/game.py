@@ -30,6 +30,7 @@ class Game:
         self.tick_count = 0 # Compteur général de tick
         self.debug = False  # Etat du menu de debug
         self.menu_is_open = False   # Etat du menu latéral
+        self.input_lock = False # Blocage du clavier
 
         # Variables de scripting
         self.script_tree = []   # Arbre d'appel des scripts composé des listes [script_courant, commande_en_cours_d_exécution]

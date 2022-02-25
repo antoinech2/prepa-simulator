@@ -11,7 +11,7 @@ import save
 class Player(pg.sprite.Sprite):
     """Représente le joueur"""
 
-    TEXTURE_FILE_LOCATION = 'res/textures/player.png'
+    TEXTURE_FILE_LOCATION = 'res/textures/m2.png'
 
     SPEED_NORMALISATION = 1/(2**0.5)
     SPRINT_WALK_SPEED_MULTIPLIER = 8 # Multiplicateur de vitesse en cas de sprint
@@ -45,7 +45,7 @@ class Player(pg.sprite.Sprite):
         self.position = config["position"]
         self.base_walk_speed = config["speed"] #Vitesse du joueur sans multiplicateur (en pixel/frame)
 
-        #Graphique
+        # Graphique
         self.drawing_layer = 1
         self.sprite_sheet = pg.image.load(self.TEXTURE_FILE_LOCATION)
         self.image = self.get_image(0, 0)  # en bas par défaut

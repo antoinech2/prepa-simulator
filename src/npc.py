@@ -35,7 +35,7 @@ class NpcManager():
 class Npc(pg.sprite.Sprite):
     """Représente un NPC"""
 
-    DEFAULT_SPRITESHEET_LOC = 'res/textures/player.png'
+    DEFAULT_SPRITESHEET_LOC = 'res/textures/m2.png'
 
     def __init__(self, map, id, name, coords, default_dia, script_id, sprite = None):
         super().__init__()
