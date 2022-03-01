@@ -97,6 +97,8 @@ def init_save_database():
                                                                 "flags" text);')
     save_db.cursor().execute('create table if not exists "mapobjects" ("mapobj_id" integer not null primary key,\
                                                                        "obtained" integer);')
+    save_db.cursor().execute('create table if not exists "events" ("tag" text not null primary key,\
+                                                                   "state" integer);')
 
     # Création de la sauvegarde des maps
     if save_db.cursor().execute('select * from maps;').fetchall() == []:

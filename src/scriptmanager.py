@@ -14,6 +14,7 @@ import dialogue as dia
 
 class ScriptManager():
     """Classe de gestion des scripts du jeu"""
+    # TODO Supprimer les save.commit()
     def __init__(self, game):
         self.game = game
         self.list_of_scripts = []
@@ -57,6 +58,8 @@ class ScriptManager():
             self.current_npc = npc      # Si le SM gère déjà un PNJ alors on n'y touche pas
         self.game.input_lock = True     # Blocage du clavier jusqu'à la fin du script
         self.game.script_tree.append([script, 0])
+    
+    # Fonctions de lecture et d'écriture de la sauvegarde
         
     def read_flags(self, map_id):
         """Obtient l'état des flags de la map d'ID donnée. -1 pour la map actuelle"""
@@ -78,7 +81,23 @@ class ScriptManager():
         """Modifie la valeur d'un flag d'un NPC donné"""
         new_flags = [self.read_npcflags(npc_id)[flag] if flag != flag_id else value for flag in range(len(self.read_npcflags(npc_id)))]
         self.game.save.execute("replace into npc values (?,?);", (npc_id, f"{new_flags}"))
-        self.game.save.commit()
+    
+    def read_event(self, event_tag):
+        """Retourne l'état de l'event spécifié (chiffre binaire), None s'il n'existe pas"""
+        try:
+            st = self.game.save.execute("select state from events where tag = ?;", (event_tag,)).fetchall()[0][0]
+            return(st)
+        except:
+            return(None)
+
+    def change_event(self, event_tag, state):
+        """Commute l'état du drapeau d'un event étant donné son nom.\n
+        Si l'event n'existe pas, il est créé et son état est initialisé.\n
+        state est un chiffre binaire"""
+        try:
+            self.game.save.execute("insert into events values (?, ?);", (event_tag, state))
+        except:
+            self.game.save.execute("update events set state = ? where tag = ?;", (state, event_tag))
     
     def exit_movingscript(self):
         """Terminaison d'un script de déplacement"""
@@ -304,6 +323,21 @@ class ScriptManager():
             self.write_flags(self.game.map_manager.map_id, flag_id, 0)
         else:
             self.write_flags(map_id, flag_id, 0)
+    
+    # Fonctions des drapeaux généraux "events"
+    def checkevent(self, event_tag):
+        """Met dans l'accumulateur booléen l'état de l'event spécifié, ou False s'il est inexistant"""
+        res = self.read_event(event_tag)
+        self.boolacc = res if res is not None else False
+
+    def raiseevent(self, event_tag):
+        """Lève le drapeau lié à l'event\n
+        Si l'event n'existe pas, un nouveau est créé"""
+        self.change_event(event_tag, 1)
+    
+    def lowerevent(self, event_tag):
+        """Baisse le drapeau lié à l'event"""
+        self.change_event(event_tag, 0)
     
     # Fonctions des PNJ
     def checknpcflag(self, npc, flag_id):

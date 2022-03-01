@@ -153,14 +153,24 @@ def accprint():
     return([])
 
 def lionelisation():
-    return(["""loadtext("Voici une choicebox :")""",
+    return(["""checknpcflag(self.current_npc, 0)""",
+                """iftrue("goto('end')")""",
+            """loadtext("Tu es en quelle classe ?")""",
             """infobox()""",
-            """opencb()""",
+            """opencb(['MP', 'MP*'])""",
             """cb_result()""",
             """compare('eq', 0)""",
-                """iftrue("loadtext('''Tu as dit oui !''')")""",
-            """compare('eq', 1)""",
-                """iftrue("loadtext('''Tu as dit non !''')")""",
+                """iftrue("raiseevent('isMP')")""",
+                """iftrue("lowerevent('isMPStar')")""",
+                """iffalse("lowerevent('isMP')")""",
+                """iffalse("raiseevent('isMPStar')")""",
+            """setnpcflag(self.current_npc, 0, 1)""",
+            
+            """label('end')""",
+            """checkevent('isMP')""",
+                """iftrue("loadtext('''Tu es en MP !''')")""",
+            """checkevent('isMPStar')""",
+                """iftrue("loadtext('''Tu es en MP* !''')")""",
             """infobox()"""])
 
 
