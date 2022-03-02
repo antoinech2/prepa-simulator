@@ -271,9 +271,14 @@ class ScriptManager():
         """Opération arithmétique sur la valeur de acc"""
         if operator == "/" and operand == 0:
             self.acc = 10**30 # Valeur arbitraire pour désigner l'infini
-            print(self.acc)
-        else:
-            eval(f"self.acc {operator}= {operand}")
+        elif operator == "+":
+            self.acc += operand
+        elif operator == "-":
+            self.acc -= operand
+        elif operator == "/":
+            self.acc /= operand
+        elif operator == "*":
+            self.acc *= operand
 
 
     # Fonctions sonores

@@ -102,17 +102,10 @@ def dummyScript():
             ])
 
 def randomdummy():
-    return(["""ran(1, 4)""",
-            """interrupt()""",
-            """get_object(0, 1)""",
-            """compare("eq", 1)""",
-                """iftrue('dialogue(self.current_npc, 1)')""",
-            """compare("eq", 2)""",
-                """iftrue('dialogue(self.current_npc, 2)')""",
-            """compare("eq", 3)""",
-                """iftrue('dialogue(self.current_npc, 3)')""",
-            """compare("eq", 4)""",
-                """iftrue('dialogue(self.current_npc, 4)')"""
+    return(["""label('stuck')""",
+            """loadtext("Tu es coincé")""",
+            """infobox()""",
+            """goto('stuck')"""
             ])
 
 def getitemtest():
@@ -220,6 +213,22 @@ def hdmi():
             """infobox()""",
             """toss_object(10, 'all')""",
             """raiseflag(-1, 0)"""])
+
+def jecompte():
+    """Démonstration d'une boucle for en script"""
+    return(["""loadtext('''Regarde je sais compter jusqu'à 10 !''')""",
+            """infobox()""",
+            """put(0)""",
+            
+            """label('incr')""",
+            """math('+', 1)""",
+            """loadtext(str(self.acc))""",
+            """infobox()""",
+            """compare('sup', 10)""",
+                """iffalse("goto('incr')")""",
+            
+            """loadtext('''Voilà''')""",
+            """infobox()"""])
 
 # Scripts des panneaux
 def sign1():
