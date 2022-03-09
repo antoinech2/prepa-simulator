@@ -118,7 +118,7 @@ class Dialogue():
         self.show_box()
         if self.is_writing:
             # Affichage d'une nouvelle lettre à la fin du cooldown
-            if self.game.tick_count % self.lettre_cooldown == 0:
+            if self.game.internal_clock.ticks_since_epoch % self.lettre_cooldown == 0:
                 self.new_letter()
 
     def nametag_show(self):

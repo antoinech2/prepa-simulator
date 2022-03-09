@@ -144,7 +144,7 @@ class Player(pg.sprite.Sprite):
         # Recalcul de l'image à utiliser
         animation_cooldown = self.SPRINT_ANIMATION_COOLDOWN if self.is_sprinting else self.WALK_ANIMATION_COOLDOWN
         if self.is_animated == True:
-            self.current_sprite = (int(self.game.tick_count/animation_cooldown) % 3)
+            self.current_sprite = (int(self.game.internal_clock.ticks_since_epoch / animation_cooldown) % 3)
 
     def get_image(self, x, y):
         """Retourne une partie de l'image du joueur"""

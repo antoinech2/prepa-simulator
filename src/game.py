@@ -11,6 +11,7 @@ import yaml
 import os
 
 # Import interne
+import internalclock as ic
 import player
 import maps
 import inputs
@@ -27,7 +28,6 @@ class Game:
 
     def __init__(self):
         self.is_running = False # Statut général
-        self.tick_count = 0 # Compteur général de tick
         self.debug = False  # Etat du menu de debug
         self.menu_is_open = False   # Etat du menu latéral
         self.input_lock = False # Blocage du clavier
@@ -74,9 +74,8 @@ class Game:
         self.db_connexion = sql.connect(self.DATABASE_LOCATION)
         self.game_data_db = self.db_connexion.cursor()
 
-        self.tick_count = 0
-
-        #Objets associés
+        # Objets associés
+        self.internal_clock = ic.InternalClock(self)
         self.player = player.Player(self)
         self.bag = bag.Bag(self.save)
         self.script_manager = sm.ScriptManager(self)
@@ -114,6 +113,7 @@ class Game:
     def tick(self):
         """Fonction principale de calcul du tick"""
         inputs.handle_pressed_key(self) # Gestion de toutes les touches préssées
+        self.internal_clock.update()
         self.map_manager.draw()
         self.menu_manager.draw()
         self.player.update()
@@ -125,7 +125,6 @@ class Game:
 
     def run(self):
         """Boucle principale"""
-        self.clock = pg.time.Clock()
         self.is_running = True
 
         while self.is_running:
@@ -142,7 +141,6 @@ class Game:
                 elif event.type == pg.VIDEORESIZE: # Gestion de la redimension de fenêtre
                     self.change_window_size(size = (event.w, event.h))
 
-            self.tick_count += 1
-            self.clock.tick(self.TICK_PER_SECOND)  # Attente jusqu'à la prochaine image
+            self.internal_clock.pgclock.tick(self.TICK_PER_SECOND)  # Attente jusqu'à la prochaine image
 
         self.quit_game() # Fermeture du jeu
