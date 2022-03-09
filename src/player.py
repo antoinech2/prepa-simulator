@@ -4,15 +4,17 @@
 """Gère le joueur"""
 
 import pygame as pg
+from copy import deepcopy
+
 import save
 
 class Player(pg.sprite.Sprite):
     """Représente le joueur"""
 
-    TEXTURE_FILE_LOCATION = 'res/textures/player.png'
+    TEXTURE_FILE_LOCATION = 'res/textures/m2.png'
 
     SPEED_NORMALISATION = 1/(2**0.5)
-    SPRINT_WALK_SPEED_MULTIPLIER = 1.75 # Multiplicateur de vitesse en cas de sprint
+    SPRINT_WALK_SPEED_MULTIPLIER = 8 # Multiplicateur de vitesse en cas de sprint
     WALK_ANIMATION_COOLDOWN = 8 # Cooldown entre deux changements d'animations (en frames)
     SPRINT_ANIMATION_COOLDOWN = 3 # Cooldown entre deux changements d'animations (en frames)
 
@@ -33,16 +35,18 @@ class Player(pg.sprite.Sprite):
         self.game = game
 
         # Variables d'état
-        self.is_animated = False
-        self.is_sprinting = False
-        self.can_move = True
+        self.is_animated = False        # Le sprite du joueur défile
+        self.is_sprinting = False       # Le joueur sprinte
+        self.can_move = True            # Le joueur est capable de bouger
+        self.boop = False               # Le joueur est en collision
 
         # Chargement de la position dans la sauvegarde
         config = save.load_config("player")
         self.position = config["position"]
         self.base_walk_speed = config["speed"] #Vitesse du joueur sans multiplicateur (en pixel/frame)
 
-        #Graphique
+        # Graphique
+        self.drawing_layer = 1
         self.sprite_sheet = pg.image.load(self.TEXTURE_FILE_LOCATION)
         self.image = self.get_image(0, 0)  # en bas par défaut
         self.image.set_colorkey([0, 0, 0])  # transparence
@@ -78,7 +82,8 @@ class Player(pg.sprite.Sprite):
         if index >= 0:   # Le joueur est dans un portail
             # On récupère l'endroit où téléporter le joueur
             [to_world, to_point] = self.game.game_data_db.execute("SELECT to_world, to_point FROM portals WHERE id = ?", (self.game.map_manager.portals_id[index],)).fetchall()[0]
-            self.game.map_manager.load_map(to_world) # On charge la nouvelle carte
+            old_bgm = self.game.map_manager.sound_manager.music_file
+            self.game.map_manager.load_map(to_world, old_bgm) # On charge la nouvelle carte
             self.game.map_manager.teleport_player(to_point)  # on téléporte le joueur à la destination
             return True
         else:
@@ -89,6 +94,7 @@ class Player(pg.sprite.Sprite):
         """Méthode de déplacement du joueur"""
         if list_directions.count(True) > 0: # Si au moins une touche de déplacement est préssée
             if self.can_move: # Le joueur n'est pas en dialogue
+                self.boop = False # Le joueur a de nouveau bougé depuis la dernière collision
                 speed_multiplier = self.SPRINT_WALK_SPEED_MULTIPLIER if sprinting else 1
                 self.is_sprinting = True if sprinting else False
 
@@ -120,6 +126,7 @@ class Player(pg.sprite.Sprite):
 
                         # Si il y a collision, on annule le dernier déplacement
                         if self.is_colliding():
+                            self.boop = True # Enregistrement de la collision
                             self.position[coord_id] -= deplacement[coord_id]*self.base_walk_speed*speed_multiplier*speed_normalisation
                             self.rect.topleft = self.position
                             self.feet.midbottom = self.rect.midbottom

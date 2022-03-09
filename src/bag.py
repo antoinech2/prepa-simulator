@@ -17,17 +17,23 @@ class Bag():
 
     def pickup_object(self, mapobject):
         """Incrémentation de la quantité d'un objet lorsqu'il est ramassé"""
-        if not mapobject.parent.id in self.contents:
-            self.contents[mapobject.parent.id] = 1
-        else:
-            self.contents[mapobject.parent.id] += 1
+        self.increment_item(mapobject.parent.id, 1) # Augmentation de la quantité de 1
         mapobject.exists = False
+    
+    def increment_item(self, object_id, qty):
+        """Incrémentation de la quantité d'un objet désigné par son identifiant"""
+        if not object_id in self.contents:
+            self.contents[object_id] = qty
+        else:
+            self.contents[object_id] += qty
+        if self.contents[object_id] <= 0:
+            del(self.contents[object_id]) # Plus d'objets de ce type
 
     def save(self):
         """Sauvegarde le contenu du sac dans la base de données"""
-        cursor = self.save_db.cursor()
         for item, count in self.contents.items():
-            cursor.execute("INSERT OR REPLACE INTO bag VALUES (?, ?)", (int(item), int(count)))
+            self.save_db.cursor().execute("INSERT OR REPLACE INTO bag VALUES (?, ?)", (int(item), int(count)))
+        self.save_db.commit()
 
     def separate(self, interval):
         """Séparation du contenu du Sac en groupes (listes)"""

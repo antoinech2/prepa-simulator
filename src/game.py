@@ -18,6 +18,7 @@ import save
 import bag
 import menu
 import debug
+import scriptmanager as sm
 
 class Game:
     DATABASE_LOCATION = "res/game_data.db"
@@ -25,10 +26,17 @@ class Game:
     TICK_PER_SECOND = 60
 
     def __init__(self):
-        self.is_running = False #Statut général
+        self.is_running = False # Statut général
         self.tick_count = 0 # Compteur général de tick
-        self.debug = False
-        self.menu_is_open = False
+        self.debug = False  # Etat du menu de debug
+        self.menu_is_open = False   # Etat du menu latéral
+        self.input_lock = False # Blocage du clavier
+
+        # Variables de scripting
+        self.script_tree = []   # Arbre d'appel des scripts composé des listes [script_courant, commande_en_cours_d_exécution]
+                                # le dernier élément est celui en cours de traitement
+        self.running_script = None  # Script courant
+        self.executing_moving_script = False    # Le joueur est en train de bouger suite à un script
 
         self.default_font = menu.Font("consolas")
 
@@ -71,10 +79,11 @@ class Game:
         #Objets associés
         self.player = player.Player(self)
         self.bag = bag.Bag(self.save)
+        self.script_manager = sm.ScriptManager(self)
         self.map_manager = maps.MapManager(self.screen, self)
         self.menu_manager = menu.MenuManager(self.screen, self)
+
         self.dialogue = None # Contient le dialogue s'il existe
-        self.player.objects_state = save.load_config("objects")
 
 
     def change_window_size(self, **args):
@@ -108,6 +117,7 @@ class Game:
         self.map_manager.draw()
         self.menu_manager.draw()
         self.player.update()
+        self.script_manager.update() # Actualisation du mouvement d'un script : toutes commandes bloquées
         if self.dialogue != None:
             self.dialogue.update() # Met à jour le dialogue
         if self.debug:

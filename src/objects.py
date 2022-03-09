@@ -4,7 +4,7 @@
 """Gestion des objets"""
 
 import pygame as pg
-import player
+import dialogue
 
 class ObjectManager():
     """Classe de gestion des différents objets du jeu"""
@@ -18,9 +18,9 @@ class ObjectManager():
         self.initialize_object_properties()
 
         # Chargement de la liste des objets
-        obj_list = self.map.game.game_data_db.execute("select objects.id, x_coord, y_coord, object_id from objects join maps on objects.map_id = maps.id where maps.id = ?", (map.map_id,)).fetchall()
+        obj_list = self.map.game.game_data_db.execute("select objects.id, x_coord, y_coord, object_id, hidden from objects join maps on objects.map_id = maps.id where maps.id = ?", (map.map_id,)).fetchall()
         for obj in obj_list:
-            new_object = MapObject(map, obj[0], (obj[1], obj[2]), self.list_of_objects[obj[3]])
+            new_object = MapObject(map, obj[0], (obj[1], obj[2]), self.list_of_objects[obj[3]], (True if obj[4] == 1 else False))
             if new_object.exists:
                 self.obj_group.add(new_object)
                 self.map.object_group.add(new_object)
@@ -33,8 +33,11 @@ class ObjectManager():
                 obj_collide_list.remove(obj)    # Seuls les objets non ramassés sont pris en compte
         if len(obj_collide_list) != 0:
             self.map.game.bag.pickup_object(obj_collide_list[0])
+            obj_collide_list[0].save()
+            self.map.game.map_manager.sound_manager.play_sfx("jingleV2")        # Musique d'obtention d'un objet
+            self.map.game.dialogue = dialogue.Dialogue(self.map.game, None, True, None, [f"Obtenu : {obj_collide_list[0].parent.name} !"])      # Boîte de dialogue informant le joueur
         self.refresh_objects()
-        
+
     def refresh_objects(self):
         """Suppression du sprite des objets ramassés"""
         for obj in self.obj_group:
@@ -56,23 +59,34 @@ class MapObject(pg.sprite.Sprite):
     OBJ_TEX_FOLDER = "res/textures/objects/"
     OVERWORLD_TEX = "res/textures/objects/overworld.png"
 
-    def __init__(self, map, id, coords, parent, exists = True):
+    def __init__(self, map, id, coords, parent, hidden):
         super().__init__()
         self.map = map
         self.id = id
-        self.parent = parent
+        self.parent = parent         # Entité Object dont est issu l'objet de la carte
         self.path = f"{self.OBJ_TEX_FOLDER}placeholder.png"         # Chemin de l'icône dans le Sac de l'objet TODO à remplacer par {self.name}.png lorsque le Sac sera implémenté
-        self.exists = exists # Temporaire. TODO Fichier events.yaml recensant les objets, ainsi self.exists pourra varier
+        self.is_hidden = hidden
+        self.exists = False if self.map.game.save.execute('select obtained from mapobjects where mapobj_id = ?;', (self.id,)).fetchall()[0][0] == 1 else True
 
         # Affichage du sprite, les variables sont similaires à celles de la classe Npc
         self.bag_sprite = pg.image.load(self.path)                  # Le sprite dans le sac
         self.overworld_sprite = pg.image.load(self.OVERWORLD_TEX)   # Le sprite sur la carte du monde
         self.image = pg.Surface([16, 16])
-        self.image.set_colorkey([0, 0, 0])
+        if self.is_hidden:
+            self.image.set_alpha(0)     # Le sprite est totalement transparent
+        else:
+            self.image.set_colorkey([0, 0, 0])      # Sinon, le sprite est opaque
         self.rect = self.image.get_rect()
         self.rect.topleft = coords
-        self.image.blit(self.overworld_sprite, (0, 0),
-                        (0, 0, 16, 16))
+        if self.exists:     # Affichage de l'objet s'il n'a pas encore été ramassé
+            self.image.blit(self.overworld_sprite, (0, 0),
+                            (0, 0, 16, 16))
+    
+    def save(self):
+        """Sauvegarde de l'état de l'objet sur la carte pour empêcher sa réapparition"""
+        self.map.game.save.execute('replace into mapobjects values (?, 1)', (self.id,))
+        self.map.game.save.commit()
+
 
 class Object():
     """Classe générale des objets"""
@@ -89,6 +103,6 @@ class Object():
         # Graphismes
         try:
             self.bag_sprite = pg.image.load(self.path)
-        except FileNotFoundError: # à remplacer lorsque tous les objets auront des icônes
+        except FileNotFoundError: # TODO à remplacer lorsque tous les objets auront des icônes
             self.bag_sprite = pg.image.load(self.PLACEHOLDER_TEX_PATH)
         self.overworld_sprite = pg.image.load(self.OVERWORLD_TEX)

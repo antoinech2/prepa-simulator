@@ -12,12 +12,15 @@ def init():
 def handle_pressed_key(game):
     """Transmet toutes les touches préssées"""
     pressed = pg.key.get_pressed() #Gestion des touches du clavier
-    # On envoie le statut des 4 touches de déplacement pour être traité
-    game.player.move([pressed[controls["PLAYER_MOVE_UP"]], pressed[controls["PLAYER_MOVE_RIGHT"]], pressed[controls["PLAYER_MOVE_DOWN"]], pressed[controls["PLAYER_MOVE_LEFT"]]], pressed[controls["PLAYER_SPRINT"]] or pressed[controls["PLAYER_SPRINT_SEC"]])
+    # On envoie le statut des 4 touches de déplacement pour être traité, si le clavier n'est pas bloqué
+    if not game.input_lock:
+        game.player.move([pressed[controls["PLAYER_MOVE_UP"]], pressed[controls["PLAYER_MOVE_RIGHT"]], pressed[controls["PLAYER_MOVE_DOWN"]], pressed[controls["PLAYER_MOVE_LEFT"]]], pressed[controls["PLAYER_SPRINT"]] or pressed[controls["PLAYER_SPRINT_SEC"]])
 
 def handle_key_down_event(game, event):
     """Transmet l'évènement d'une toucher qui vient d'être pressée"""
-    if event.key == controls["ACTION_INTERACT"] and not game.menu_is_open:  # si Espace est pressée
+    if event.key == controls["MENU_INTERACT"] and game.menu_manager.choicebox is not None:     # si une boîte de choix est présente
+        game.menu_manager.choicebox.choice_taken()
+    elif event.key == controls["ACTION_INTERACT"] and not game.menu_is_open:  # si Espace est pressée
         if game.dialogue == None:
             game.map_manager.object_manager.pickup_check()
             game.map_manager.npc_manager.check_talk()
