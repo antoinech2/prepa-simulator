@@ -39,6 +39,10 @@ def get_script_contents(name):
     return(eval(name)())
 
 # Définition des scripts majeurs (sauvegarde, etc.)
+def explode():
+    """Script fermant de force le jeu sans sauvegarde"""
+    return(["""game.quit_game()"""])
+
 def save():
     """Script effectuant une sauvegarde de la partie"""
     return(["""loadtext('Voulez-vous sauvegarder la partie ?')""",
@@ -54,6 +58,13 @@ def save():
             """infobox()""",
             
             """label("end")"""])
+
+def object():
+    """Script d'obtention d'un objet unique selon son identifiant stocké dans l'acc"""
+    return(["""sfx('jingleV2')""",
+            """loadtext(f'Obtenu : {self.game.map_manager.object_manager.list_of_objects[self.acc].name} !')""",
+            """infobox()""",
+            """get_object(self.acc, 1)"""])
 
 
 # Définition des scripts ponctuels
@@ -166,6 +177,22 @@ def lionelisation():
                 """iftrue("loadtext('''Tu es en MP* !''')")""",
             """infobox()"""])
 
+def licite():
+    return(["""checkevent('isMP')""",
+                """iffalse("loadtext('tg')")""",
+                """iffalse("infobox()")""",
+                """iffalse("interrupt()")""",
+            """loadtext('coucou')""",
+            """infobox()""",
+            """put(21)""",
+            """runscript('object')"""])
+
+def horodat():
+    return(["""getday()""",
+            """compare('eq', 0)""",
+                """iftrue("loadtext('''Nous sommes lundi''')")""",
+                """iffalse("loadtext('''Nous ne sommes pas lundi''')")""",
+            """infobox()"""])
 
 def testporte():
     return(["""loadtext("background")""",
@@ -229,6 +256,35 @@ def jecompte():
             
             """loadtext('''Voilà''')""",
             """infobox()"""])
+
+def testcolle():
+    """Petites questions fermées qui font planter le jeu en cas de réponse fausse"""
+    return(["""loadtext('''Question !''')""",
+            """infobox()""",
+            """loadtext('''Il existe une L003 au lycée ?''')""",
+            """infobox()""",
+            """opencb()""",
+            """cb_result()""",
+            """compare('eq', 1)""",
+                """iftrue("loadtext('''faux''')")""",
+                """iftrue("infobox()")""",
+                """iftrue("runscript('explode')")""",
+            """loadtext('''Correct !''')""",
+            """loadtext('''Une matrice symétrique est forcément diagonalisable ?''')""",
+            """infobox()""",
+            """opencb()""",
+            """cb_result()""",
+            """compare('eq', 0)""",
+                """iftrue("loadtext('''faux''')")""",
+                """iftrue("infobox()")""",
+                """iftrue("runscript('explode')")""",
+            """loadtext('''Correct !''')""",
+            """infobox()"""])
+
+def missingno():
+    return(["""loadtext('''tg''')""",
+            """infobox()""",
+            """runscript('explode')"""])
 
 # Scripts des panneaux
 def sign1():

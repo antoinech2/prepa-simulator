@@ -37,10 +37,18 @@ infobox:
   10 : "↓ SALLE L101 - VIE SCOLAIRE"
 
 system:
-continue        : "CONTINUER"
-new_game        : "NOUVELLE PARTIE"
+  continue        : "CONTINUER"
+  new_game        : "NOUVELLE PARTIE"
 
-sidem_missions  : "MISSIONS"
-sidem_bag       : "SAC"
-sidem_save      : "SAUVER"
-sidem_settings  : "OPTIONS"
+  sidem_missions  : "MISSIONS"
+  sidem_bag       : "SAC"
+  sidem_save      : "SAUVER"
+  sidem_settings  : "OPTIONS"
+
+  day_0           : "lundi"
+  day_1           : "mardi"
+  day_2           : "mercredi"
+  day_3           : "jeudi"
+  day_4           : "vendredi"
+  day_5           : "samedi"
+  day_6           : "dimanche"

@@ -190,6 +190,11 @@ class ScriptManager():
         self.moving_direction = direction
         self.movement_boundary = pix
         self.sprint_during_script = sprint
+    
+
+    # Fonctions du temps
+    def getday(self):
+        self.acc = self.game.internal_clock.weekday
 
     # Fonctions des menus (boîtes contenant du texte)
     def loadtext(self, text):

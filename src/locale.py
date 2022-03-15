@@ -16,3 +16,8 @@ def getstring_infobox(str_id):
     with open(f"{LOCALE_DIR}{CURRENT_LANGUAGE}.yaml", 'r', encoding = "utf-8") as file:
         strings = yaml.load(file, Loader = yaml.FullLoader)
     return(strings["infobox"][str_id])
+
+def getstring_system(str_id):
+    with open(f"{LOCALE_DIR}{CURRENT_LANGUAGE}.yaml", 'r', encoding = "utf-8") as file:
+        strings = yaml.load(file, Loader = yaml.FullLoader)
+    return(strings["system"][str_id])

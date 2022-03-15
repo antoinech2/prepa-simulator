@@ -1,10 +1,11 @@
 """Gère l'horloge interne"""
 
 import pygame as pg
+import locale
 
 class InternalClock:
-    TICKS_PER_MIN = 60
-    MINUTES_PER_TURN = 2             # Nombre de minutes qui passent à chaque tour, < 120
+    TICKS_PER_MIN = 100
+    MINUTES_PER_TURN = 10             # Nombre de minutes qui passent à chaque tour, < 120
 
     def __init__(self, game):
         self.game = game
@@ -17,12 +18,14 @@ class InternalClock:
         # Horloge du jeu
         # TODO Sauvegarder l'heure courante
         self.weekday = 0
+        self.find_dayname()
         self.hour = 8
         self.minute = 0
     
-    def get_time(self):
-        return([self.weekday, self.hour, self.minute])
-    
+    def find_dayname(self):
+        """Récupère le nom du jour courant depuis le fichier locale"""
+        self.dayname = [locale.getstring_system(day) for day in ["day_0", "day_1", "day_2", "day_3", "day_4", "day_5", "day_6"]][self.weekday]
+
     def update(self):
         self.ticks_since_epoch += 1
         self.ticks_since_sessionstart += 1
@@ -36,5 +39,6 @@ class InternalClock:
             if self.hour >= 24:
                 self.weekday += 1
                 self.hour = 0
-            if self.weekday >= 6:
-                self.weekday = 0
+                if self.weekday >= 7:
+                    self.weekday = 0
+                self.find_dayname()
