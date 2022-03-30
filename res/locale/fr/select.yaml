@@ -1,0 +1,33 @@
+1  :
+  qu: "Citer les hypothèses du CSSA pour la convergence de la série Σun."
+  keys: "mathsern"
+  a : "(|un|) est bornée"
+  b : "(un) décroît"
+  c : "(|un|) décroît"
+  d : "(|un|) tend vers 0"
+  e : "(|un|) est équivalente à 1/n"
+  correct: !!set
+     ? 'c'
+     ? 'd'
+
+2  :
+  qu: "Sélectionner la bonne valeur de h/2π."
+  keys: "physquan"
+  a : "1,05.10E-34 J.s"
+  b : "1,05.10E-34 J/s"
+  c : "1,05.10E-35 J.s"
+  d : "1,05.10E-35 J/s"
+  e : "1,05.10E-35 J.s²"
+  correct: !!set
+     ? 'a'
+
+3  :
+  qu: "Complexité de l'algorithme de DIJKSTRA."
+  keys: "infogrph"
+  a : "Θ(n²)"
+  b : "Θ(n³)"
+  c : "Θ(n log(n))"
+  d : "Θ(exp(n))"
+  e : "Θ(n⁴)"
+  correct: !!set
+     ? 'b'

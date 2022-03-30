@@ -77,23 +77,18 @@ def ordinaryNpc():
     return(["""dialogue(self.current_npc, 1)"""])
 
 def debug():
-    return(["""loadtext('début')""",
-            """infobox()""",
-            """goto('lbl2')""",
+    return(["""chg_music("it's concours time")""",
 
-            """label('lbl1')""",
-            """loadtext('label 1')""",
+            """label('main')""",
+            """ran(1, 3)""",
+            """launchmgm("select", self.acc)""",
+            """checkevent('passedSelectMG')""",
+                """iftrue("loadtext('''bravo''')")""",
+                """iffalse("sfx('mighty_button')")""",
+                """iffalse("loadtext('''t'es nul''')")""",
             """infobox()""",
-            """goto('end')""",
-
-            """label('lbl2')""",
-            """loadtext('label 2')""",
-            """infobox()""",
-            """goto('lbl1')""",
-            
-            """label('end')""",
-            """loadtext('fin')""",
-            """infobox()"""])
+                """iftrue("goto('main')")""",
+            """chg_music(-1)"""])
 
 def dummyScript():
     return(["""testflag(12101, 0)""",

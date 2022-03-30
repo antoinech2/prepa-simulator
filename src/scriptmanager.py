@@ -11,6 +11,7 @@ import sqlite3 as sql
 import menu
 import scripts
 import dialogue as dia
+import minigame as mgm
 
 class ScriptManager():
     """Classe de gestion des scripts du jeu"""
@@ -124,7 +125,7 @@ class ScriptManager():
                 dist = ((self.initial_coords[0] - self.game.player.position[0])**2 + (self.initial_coords[1] - self.game.player.position[1])**2) ** 0.5 # Distance totale parcourue pendant le script
                 if dist > self.movement_boundary or self.game.player.boop: # Le mouvement s'est déroulé normalement ou le joueur s'est pris un mur
                     self.exit_movingscript()
-            elif self.game.dialogue is not None or self.game.menu_manager.choicebox is not None:    # On laisse le dialogue défiler s'il existe, ou ou attend les résultats de la choicebox
+            elif self.game.dialogue is not None or self.game.menu_manager.choicebox is not None or self.game.mgm_manager.running_mg is not None:    # On laisse le dialogue défiler s'il existe, ou ou attend les résultats de la choicebox
                 pass
             elif self.current_script_command() >= len(self.game.running_script.contents) or self.abort: # Le script courant est terminé ou on force l'arrêt
                 del(self.game.script_tree[-1])
@@ -289,7 +290,7 @@ class ScriptManager():
     # Fonctions sonores
     def chg_music(self, track):
         """Changement de la musique courante"""
-        self.game.map_manager.sound_manager.play_music(track)
+        self.game.map_manager.sound_manager.play_music(track, track)
     
     def sfx(self, fx):
         """Joue un effet sonore"""
@@ -357,3 +358,9 @@ class ScriptManager():
     def setnpcflag(self, npc, flag_id, state):
         """Mise à jour du flag d'un NPC"""
         self.write_npcflags(npc.id, flag_id, state)
+    
+    # Fonctions des minijeux
+    # ! WIP
+    def launchmgm(self, mgm, *args):
+        """Lancement d'un mini-jeu"""
+        self.game.mgm_manager.launch(mgm, *args)

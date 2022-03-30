@@ -20,6 +20,7 @@ import bag
 import menu
 import debug
 import scriptmanager as sm
+import minigame as mgm
 
 class Game:
     DATABASE_LOCATION = "res/game_data.db"
@@ -81,6 +82,7 @@ class Game:
         self.script_manager = sm.ScriptManager(self)
         self.map_manager = maps.MapManager(self.screen, self)
         self.menu_manager = menu.MenuManager(self.screen, self)
+        self.mgm_manager = mgm.MGManager(self)
 
         self.dialogue = None # Contient le dialogue s'il existe
 
@@ -118,6 +120,7 @@ class Game:
         self.menu_manager.draw()
         self.player.update()
         self.script_manager.update() # Actualisation du mouvement d'un script : toutes commandes bloquées
+        self.mgm_manager.update()
         if self.dialogue != None:
             self.dialogue.update() # Met à jour le dialogue
         if self.debug:

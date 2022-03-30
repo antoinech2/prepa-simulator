@@ -33,14 +33,24 @@ def handle_key_down_event(game, event):
         game.menu_manager.open_menu()
     elif event.key == controls["MENU_CANCEL"]:
         game.menu_manager.close_menu()
-    elif event.key == controls["MENU_MOVE_UP"]:
+    elif event.key == controls["MENU_MOVE_UP"] and game.menu_is_open:
         game.menu_manager.menu_move("up")
-    elif event.key == controls["MENU_MOVE_DOWN"]:
+    elif event.key == controls["MENU_MOVE_DOWN"] and game.menu_is_open:
         game.menu_manager.menu_move("down")
-    elif event.key == controls["MENU_MOVE_LEFT"]:
+    elif event.key == controls["MENU_MOVE_LEFT"] and game.menu_is_open:
         game.menu_manager.menu_move("left")
-    elif event.key == controls["MENU_MOVE_RIGHT"]:
+    elif event.key == controls["MENU_MOVE_RIGHT"] and game.menu_is_open:
         game.menu_manager.menu_move("right")
+    elif event.key == controls["MINIGAME_UP"] and game.minigame_opened:
+        game.mgm_manager.key("up")
+    elif event.key == controls["MINIGAME_DOWN"] and game.minigame_opened:
+        game.mgm_manager.key("down")
+    elif event.key == controls["MINIGAME_LEFT"] and game.minigame_opened:
+        game.mgm_manager.key("left")
+    elif event.key == controls["MINIGAME_RIGHT"] and game.minigame_opened:
+        game.mgm_manager.key("right")
+    elif event.key == controls["MINIGAME_ENTER"] and game.minigame_opened:
+        game.mgm_manager.key("enter")
     elif event.key == controls["GAME_FULLSCREEN"]:
         game.change_window_size(fullscreen = (not game.is_fullscreen))
     elif event.key == controls["GAME_TERMINATE"]:
