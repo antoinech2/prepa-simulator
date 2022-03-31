@@ -80,7 +80,7 @@ def debug():
     return(["""chg_music("it's concours time")""",
 
             """label('main')""",
-            """ran(1, 13)""",    # TODO Longueur du fichier yaml associé au mini-jeu
+            """ran(1, 23)""",    # TODO Longueur du fichier yaml associé au mini-jeu
             """launchmgm("select", self.acc)""",
             """checkevent('passedSelectMG')""",
                 """iftrue("loadtext('''bravo''')")""",

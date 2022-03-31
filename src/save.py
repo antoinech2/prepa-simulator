@@ -42,6 +42,13 @@ DEFAULT_CONFIG = {
         "MENU_INTERACT" : "SPACE",
         "MENU_CANCEL" : "x",
 
+        # Contrôle des mini-jeux
+        "MINIGAME_UP" : "UP",
+        "MINIGAME_DOWN" : "DOWN",
+        "MINIGAME_LEFT" : "LEFT",
+        "MINIGAME_RIGHT" : "RIGHT",
+        "MINIGAME_ENTER" : "RETURN",
+
         # Contrôle de la fenêtre
         "GAME_FULLSCREEN" : "F11",
         "GAME_TERMINATE" : "ESCAPE",

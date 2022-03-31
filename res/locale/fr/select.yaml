@@ -1,3 +1,59 @@
+### Liste des questions du mini-jeu QCM
+
+### Mots-clés utilisés:
+# aaaabbbb où aaaa est l'identifiant de la matière et bbbb le thème abordé
+
+### Mots-clés Maths
+# mathgene	Mathématiques (divers)
+# mathalgb	Algèbre générale
+# mathanly	Analyse générale
+# mathprob	Probabilités
+
+# mathrebi	Relations binaires
+
+# mathense	Structures usuelles
+# mathevec	Espaces vectoriels
+# mathpreh	Espaces préhilbertiens réels
+# mathdiag	Réduction
+# mathsern	Suites et séries numériques
+# mathssef	Suites et séries de fonctions
+# math
+
+### Mots-clés Physique-Chimie
+# physfilt	Filtrage linéaire
+# physsine	Signaux numériques
+# physonde	Equation de d'ALEMBERT
+# physopti	Optique géométrique
+# physmich	Interféromètre de MICHELSON
+# physstaf	Statique des fluides
+# physpfth	Premier et deuxième principes de la thermodynamique
+# physmach	Machines thermiques
+# physcoor	Systèmes de coordonnées et analyse vectorielle
+# physmeca	Mécanique du point en référentiel galiléen
+# physmeng	Mécanique en référentiel non galiléen
+# physemag	Magnéto- et électrostatique
+# physmaxw	Théorie de l'électromagnétisme classique
+# physoema	Ondes électromagnétiques
+# physquan	Quantique
+
+# chimarch	Architecture de la matière
+# chimthch	Thermochimie
+# chimelch	Électrochimie
+
+### Mots-clés Informatique pour tous
+# ifptbase	Fondements du langage Python
+# ifptpifi	Piles et files
+# ifptrecu	Récursivité
+
+### Mots-clés Option Info
+# infobase	Fondements du langage Caml
+# infocomp	Complexité et terminaison
+# infolist	Listes Caml
+# infodivi	Diviser pour régner
+# infogrph	Théorie des graphes
+# infoauto	Automates finis
+
+
 1  :
   qu: "Citer les hypothèses du CSSA pour la convergence de la série Σun."
   keys: ["mathsern"]
@@ -145,4 +201,124 @@
   d: "x |→ ln(-2x)"
   e: "x |→ sin(x)"
   correct: !!set
-     ? 'a' 
+     ? 'a'
+
+14 :
+  qu: "Reconnaître la fonction associée au DSE Σ(-1)^n.x^(2n+1)/(2n+1)!"
+  keys: ["mathssef"]
+  a: "x |→ arctan(x)"
+  b: "x |→ arccos(x)"
+  c: "x |→ ln(2+2x)"
+  d: "x |→ ln(-2x)"
+  e: "x |→ sin(x)"
+  correct: !!set
+     ? 'e'
+
+15 :
+  qu: "Donner l'expression du volume infinitésimal dτ en coordonnées cylindriques."
+  keys: ["physcoor"]
+  a: "dr.dθ.dz"
+  b: "rdr.dθ.dz"
+  c: "rdr.sin(θ)dθ.dz"
+  d: "dr.rdθ.dz"
+  e: "rdr.rsin(θ)dθ.dz"
+  correct: !!set
+     ? 'b'
+
+16 :
+  qu: "Énoncer l'équation fondamentale de la statique des fluides."
+  keys: ["physstaf"]
+  a: "ρ.grad(P) - Fvol = 0"
+  b: "grad(P) - rot(Fvol) = 0"
+  c: "grad(P) - Fvol = ρ"
+  d: "grad(P) - ρ.Fvol = 0"
+  e: "ρ(grad(P) - Fvol) = 0"
+  correct: !!set
+     ? 'd'
+
+17 :
+  qu: "Un automorphisme orthogonal :"
+  keys: ["mathpreh"]
+  a: "est une isométrie vectorielle"
+  b: "préserve la norme"
+  c: "préserve le produit scalaire"
+  d: "possède une matrice symétrique dans une base orthonormée"
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'c'
+
+18 :
+  qu: "Une relation d'équivalence est une relation binaire :"
+  keys: ["mathrebi"]
+  a: "symétrique"
+  b: "antisymétrique"
+  c: "positive"
+  d: "transitive"
+  e: "réflexive"
+  correct: !!set
+     ? 'a'
+     ? 'd'
+     ? 'e'
+
+19 :
+  qu: "Quelles configurations électroniques sont fausses ?"
+  keys: ["chimarch"]
+  a: "1s²2s²2p⁶3s²3p⁶4s²3d³"
+  b: "1s²2s²2p⁶3s²3p⁶3d¹⁰4s²4p¹"
+  c: "1s²2s²2p⁶3s²3p⁶4s²4p⁶3d¹⁰5s¹4d³"
+  d: "1s²2s²2p⁶3s²3p⁶3d¹⁰4s²4p⁶5s²4d⁹"
+  e: "1s²2s²2p⁶3s²3p⁶4s²3d¹⁰4p⁶5s¹4d⁵"
+  correct: !!set
+     ? 'b'
+     ? 'c'
+     ? 'd'
+
+20 :
+  qu: "Citer la loi de HOOKE pour un ressort de raideur k et de longueur à vide λ."
+  keys: ["physmeca"]
+  a: "F = k(λ-l)"
+  b: "F = -(λ-l)/k"
+  c: "F = k²(λ-l)"
+  d: "F = -k(λ-l)"
+  e: ""
+  correct: !!set
+      ? 'd'
+
+21 :
+  qu: "On construit un filtre passe-haut avec R = 1800 Ω et C = 47 nF. Que peut-on en déduire ?"
+  keys: ["physfilt"]
+  a: "Un signal de fréquence f = 800 Hz est atténué."
+  b: "Un signal de fréquence f = 5 000 Hz est atténué."
+  c: "La pulsation de coupure vaut 2 600 Hz."
+  d: "La résistance est branchée à la masse."
+  e: "Le condensateur est branché à la masse."
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'd'
+
+22 :
+  qu: "Que peut-on dire de l'interféromètre de MICHELSON configuré en lame d'air ?"
+  keys: ["physmich"]
+  a: "Le miroir réel et le miroir virtuel sont parallèles."
+  b: "On observe à l'écran des franges d'interférences."
+  c: "On observe à l'écran des anneaux d'interférences."
+  d: "On observe les interférences à l'aide d'une lentille de courte focale."
+  e: "On peut charioter le miroir mobile pour trouver une teinte plate."
+  correct: !!set
+     ? 'a'
+     ? 'c'
+     ? 'e'
+
+23 :
+  qu: "Que dire d'une matrice symétrique réelle M ?"
+  keys: ["mathevec"]
+  a: "elle est inversible"
+  b: "elle est diagonalisable"
+  c: "c'est la matrice d'une rotation dans une base orthonormée"
+  d: "det(M) = tr(M)"
+  e: "si elles existent, ses valeurs propres sont toutes non nulles"
+  correct: !!set
+     ? 'b'
