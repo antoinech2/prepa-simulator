@@ -219,6 +219,6 @@ class SelectGame(Minigame):
         self.game.screen.blit(self.props_tex[5], text_box)
 
         # Affichage de la flèche
-        rect_arrow = self.arrow_tex.get_rect(center = (self.game.screen.get_size()[0]/2 - self.choiceoff.get_size()[0]/2 + 20,  # Terme correctif
+        rect_arrow = self.arrow_tex.get_rect(center = (self.game.screen.get_size()[0]/2 - self.choiceoff.get_size()[0]/2 + 22,  # Terme correctif
                                                        self.game.screen.get_size()[1] - self.OFFSET_TO_BOTTOM - (5 - self.cursor_position)*self.SPACE_BETWEEN_LINES - self.choiceoff.get_size()[1]/2))
         self.game.screen.blit(self.arrow_tex, rect_arrow)

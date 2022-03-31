@@ -1,6 +1,6 @@
 1  :
   qu: "Citer les hypothèses du CSSA pour la convergence de la série Σun."
-  keys: "mathsern"
+  keys: ["mathsern"]
   a : "(|un|) est bornée"
   b : "(un) décroît"
   c : "(|un|) décroît"
@@ -12,7 +12,7 @@
 
 2  :
   qu: "Sélectionner la bonne valeur de h/2π."
-  keys: "physquan"
+  keys: ["physquan"]
   a : "1,05.10E-34 J.s"
   b : "1,05.10E-34 J/s"
   c : "1,05.10E-35 J.s"
@@ -23,11 +23,126 @@
 
 3  :
   qu: "Complexité de l'algorithme de DIJKSTRA."
-  keys: "infogrph"
-  a : "Θ(n²)"
-  b : "Θ(n³)"
-  c : "Θ(n log(n))"
-  d : "Θ(exp(n))"
-  e : "Θ(n⁴)"
+  keys: ["infogrph"]
+  a : "O(a + n²)"
+  b : "O((an)²)"
+  c : "O(a + n log(n))"
+  d : "O(n exp(a) + a)"
+  e : "O(n³)"
+  correct: !!set
+     ? 'c'
+
+4  :
+  qu: "Complexité de l'algorithme de FLOYD-WARSHALL."
+  keys: ["infogrph"]
+  a : "O(n²)"
+  b : "O(n³)"
+  c : "O(n² log(n))"
+  d : "O(exp(n))"
+  e : "O(n⁴)"
   correct: !!set
      ? 'b'
+
+5  :
+  qu: "Quelles matrices sont diagonalisables à coup sûr ?"
+  keys: ["mathdiag", "mathpreh"]
+  a : "une matrice symétrique"
+  b : "une matrice dont le polynôme caractéristique est scindé dans R"
+  c : "une matrice d'un endomorphisme symétrique d'un espace euclidien"
+  d : "λIn, où λ est un réel"
+  e : "une matrice inversible"
+  correct: !!set
+     ? 'c'
+
+6  :
+  qu: "Quelle est la pulsation de coupure d'un filtre passe-bas RC ?"
+  keys: ["physfilt"]
+  a: "RC"
+  b: "R²/C"
+  c: "C/R"
+  d: "√(1/RC)"
+  e: "1/RC"
+  correct: !!set
+     ? 'e'
+
+7  :
+  qu: "Si Π est un plan de symétrie de la distribution de courants, que peut-on affirmer ?"
+  keys: ["physemag"]
+  a: "Π est un plan de symétrie du champ électrique"
+  b: "Π est un plan de symétrie du champ magnétique"
+  c: "le champ électrique est nul en Π"
+  d: "le champ magnétique est nul en Π"
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'd'
+
+8  :
+  qu: "Quelles fonctions doit-on nécessairement écrire lors de l'implémentation du type pile ?"
+  keys: ["ifptpifi"]
+  a: "ajouter un élément au sommet de la pile"
+  b: "retirer un élément du sommet de la pile"
+  c: "obtenir la liste des éléments de la pile"
+  d: "tester si la pile est vide"
+  e: "regarder l'élément se trouvant au sommet de la pile"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'd'
+
+9  :
+  qu: "Citer le théorème de KLEENE."
+  keys: ["infoauto"]
+  a: "Les langages rationnels sont les langages reconnaissables par un automate déterministe."
+  b: "Si un langage est reconnaissable par un automate, alors il est rationnel."
+  c: "Un langage est rationnel si et seulement s'il est reconnaissable par un automate fini."
+  d: "Si un automate fini reconnaît un langage, alors celui-ci est local."
+  e: "Il existe un automate fini reconnaissant tous les langages rationnels."
+  correct: !!set
+     ? 'c'
+
+10 :
+  qu: "Quels tris ne se font pas en Θ(n log(n)) ?"
+  keys: ["infocomp"]
+  a: "tri bulle"
+  b: "tri partition-fusion"
+  c: "Quicksort"
+  d: "tri par insertion"
+  e: "tri par tas"
+  correct: !!set
+     ? 'a'
+     ? 'd'
+
+11 :
+  qu: "Citer la loi thermodynamique de LAPLACE."
+  keys: ["physther"]
+  a: "V.P^γ = cte"
+  b: "T.V^(γ-1) = cte"
+  c: "T.V^(γ+1) = cte"
+  d: "P.V^γ = cte"
+  e: "T^γ.P^γ = cte"
+  correct: !!set
+     ? 'b'
+     ? 'd'
+
+12 :
+  qu: "Quel est l'ordre de grandeur du rayon d'un atome ?"
+  keys: ["physquan"]
+  a: "10E-8 m"
+  b: "10E-9 m"
+  c: "10E-10 m"
+  d: "10E-11 m"
+  e: "10E-12 m"
+  correct: !!set
+     ? 'c'
+
+13 :
+  qu: "Reconnaître la fonction associée au DSE Σ(-1)^n.x^(2n+1)/(2n+1)"
+  keys: ["mathssef"]
+  a: "x |→ arctan(x)"
+  b: "x |→ arccos(x)"
+  c: "x |→ ln(2+2x)"
+  d: "x |→ ln(-2x)"
+  e: "x |→ sin(x)"
+  correct: !!set
+     ? 'a' 
