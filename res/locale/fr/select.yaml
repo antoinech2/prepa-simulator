@@ -231,7 +231,7 @@
   a: "ρ.grad(P) - Fvol = 0"
   b: "grad(P) - rot(Fvol) = 0"
   c: "grad(P) - Fvol = ρ"
-  d: "grad(P) - ρ.Fvol = 0"
+  d: "grad(P) - Fvol = 0"
   e: "ρ(grad(P) - Fvol) = 0"
   correct: !!set
      ? 'd'
@@ -322,3 +322,26 @@
   e: "si elles existent, ses valeurs propres sont toutes non nulles"
   correct: !!set
      ? 'b'
+
+24 :
+  qu: "On chariote le miroir mobile d'un MICHELSON. Que peut-il se passer ?"
+  keys: ["physmich"]
+  a: "Les anneaux sont translatés."
+  b: "Les franges sont translatées."
+  c: "Les anneaux changent de taille."
+  d: "Les franges changent de taille."
+  e: ""
+  correct: !!set
+     ? 'b'
+     ? 'd'
+
+25 :
+  qu: "Rappeler le critère de NYQUIST-SHANNON."
+  keys: ["physsine"]
+  a: "f_ech < 3f_min"
+  b: "f_ech < 2f_max"
+  c: "f_ech/2 > f_max"
+  d: "f_ech > 2f_min"
+  e: "f_ech > 2f_max"
+  correct: !!set
+     ? 'e'

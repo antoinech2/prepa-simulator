@@ -3,6 +3,7 @@ import pygame as pg
 import locale
 import menu
 import dialogue
+import numpy
 
 class MGManager():
     """Classe de gestion des mini-jeux"""
@@ -77,7 +78,13 @@ class SelectGame(Minigame):
         self.bgm = "it's concours time"
         self.question = question
         self.props = props
+        self.number_of_props = len([prop for prop in props if prop != ""])
         self.correct = correct
+
+        self.order = numpy.random.permutation(self.number_of_props)    # Ordre d'apparition des propositions
+        while len(self.order) <= len(self.props):                   # Valeur par défaut pour les propositions vides
+            self.order = numpy.append(self.order, len(self.order))
+        self.order = list(self.order)
 
         # Mémoire interne
         self.choices = [0 for _ in self.props]
@@ -114,7 +121,7 @@ class SelectGame(Minigame):
         self.prop_font_width = max([metric[1] for metric in self.prop_font.metrics("azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN")]) # Chasse maximale pour la police choisie
         self.row_length = self.greenbox.get_size()[0] / self.prop_font_width - 7  # cf dialogue
         self.row_height = self.prop_font.get_linesize()
-        # Textes des propositions
+        # Textes des propositions (dans l'ordre du fichier yaml)
         self.props_tex = []
         for prop in self.props:
             self.props_tex.append(self.prop_font.render(prop, True, [0, 0, 0]))
@@ -136,8 +143,8 @@ class SelectGame(Minigame):
     
     def enter(self):
         if self.cursor_position == 5:       # Dans tous les cas (moins de 5 propositions...) le bouton valider est en 6ème position
-            answer = set([self.ALPHABET[i] for i in range(len(self.choices)) if self.choices[i] == 1])
-            if answer == self.correct:
+            answer = set([self.ALPHABET[self.order.index(i)] for i in range(len(self.choices)) if self.choices[i] == 1])    # Ensemble des réponses sous forme de lettres
+            if answer == self.correct:      # On lève un drapeau interne pour symboliser une partie gagnante ou non
                 self.game.script_manager.change_event("passedSelectMG", 1)
             else:
                 self.game.script_manager.change_event("passedSelectMG", 0)
@@ -173,40 +180,40 @@ class SelectGame(Minigame):
             self.game.screen.blit(self.qu_texts[line], text_box)
 
         # Affichage des boîtes de choix
-        rect_A = self.choiceoff.get_rect(center = (self.game.screen.get_size()[0]/2, self.game.screen.get_size()[1] - self.OFFSET_FROM_BORDER - 5*self.SPACE_BETWEEN_LINES - self.choiceoff.get_size()[1]/2))
-        if self.choices[0]:
+        rect_A = self.choiceoff.get_rect(center = (self.game.screen.get_size()[0]/2, self.game.screen.get_size()[1] - self.OFFSET_FROM_BORDER - (4-self.order[0]+1)*self.SPACE_BETWEEN_LINES - self.choiceoff.get_size()[1]/2))
+        if self.choices[self.order[0]]:
             self.game.screen.blit(self.choiceon, rect_A)
         else:
             self.game.screen.blit(self.choiceoff, rect_A)
         text_box = self.props_tex[0].get_rect(center = rect_A.center)
         self.game.screen.blit(self.props_tex[0], text_box)
         
-        rect_B = self.choiceoff.get_rect(center = (self.game.screen.get_size()[0]/2, self.game.screen.get_size()[1] - self.OFFSET_FROM_BORDER - 4*self.SPACE_BETWEEN_LINES - self.choiceoff.get_size()[1]/2))
-        if self.choices[1]:
+        rect_B = self.choiceoff.get_rect(center = (self.game.screen.get_size()[0]/2, self.game.screen.get_size()[1] - self.OFFSET_FROM_BORDER - (4-self.order[1]+1)*self.SPACE_BETWEEN_LINES - self.choiceoff.get_size()[1]/2))
+        if self.choices[self.order[1]]:
             self.game.screen.blit(self.choiceon, rect_B)
         else:
             self.game.screen.blit(self.choiceoff, rect_B)
         text_box = self.props_tex[1].get_rect(center = rect_B.center)
         self.game.screen.blit(self.props_tex[1], text_box)
         
-        rect_C = self.choiceoff.get_rect(center = (self.game.screen.get_size()[0]/2, self.game.screen.get_size()[1] - self.OFFSET_FROM_BORDER - 3*self.SPACE_BETWEEN_LINES - self.choiceoff.get_size()[1]/2))
-        if self.choices[2]:
+        rect_C = self.choiceoff.get_rect(center = (self.game.screen.get_size()[0]/2, self.game.screen.get_size()[1] - self.OFFSET_FROM_BORDER - (4-self.order[2]+1)*self.SPACE_BETWEEN_LINES - self.choiceoff.get_size()[1]/2))
+        if self.choices[self.order[2]]:
             self.game.screen.blit(self.choiceon, rect_C)
         else:
             self.game.screen.blit(self.choiceoff, rect_C)
         text_box = self.props_tex[2].get_rect(center = rect_C.center)
         self.game.screen.blit(self.props_tex[2], text_box)
         
-        rect_D = self.choiceoff.get_rect(center = (self.game.screen.get_size()[0]/2, self.game.screen.get_size()[1] - self.OFFSET_FROM_BORDER - 2*self.SPACE_BETWEEN_LINES - self.choiceoff.get_size()[1]/2))
-        if self.choices[3]:
+        rect_D = self.choiceoff.get_rect(center = (self.game.screen.get_size()[0]/2, self.game.screen.get_size()[1] - self.OFFSET_FROM_BORDER - (4-self.order[3]+1)*self.SPACE_BETWEEN_LINES - self.choiceoff.get_size()[1]/2))
+        if self.choices[self.order[3]]:
             self.game.screen.blit(self.choiceon, rect_D)
         else:
             self.game.screen.blit(self.choiceoff, rect_D)
         text_box = self.props_tex[3].get_rect(center = rect_D.center)
         self.game.screen.blit(self.props_tex[3], text_box)
         
-        rect_E = self.choiceoff.get_rect(center = (self.game.screen.get_size()[0]/2, self.game.screen.get_size()[1] - self.OFFSET_FROM_BORDER - self.SPACE_BETWEEN_LINES - self.choiceoff.get_size()[1]/2))
-        if self.choices[4]:
+        rect_E = self.choiceoff.get_rect(center = (self.game.screen.get_size()[0]/2, self.game.screen.get_size()[1] - self.OFFSET_FROM_BORDER - (4-self.order[4]+1)*self.SPACE_BETWEEN_LINES - self.choiceoff.get_size()[1]/2))
+        if self.choices[self.order[4]]:
             self.game.screen.blit(self.choiceon, rect_E)
         else:
             self.game.screen.blit(self.choiceoff, rect_E)

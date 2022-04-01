@@ -66,6 +66,11 @@ def object():
             """infobox()""",
             """get_object(self.acc, 1)"""])
 
+def quiz():
+    """Script qui lance le mini-jeu quiz"""
+    return(["""ran(1, 25)""",
+            """launchmgm("select", self.acc)"""])
+
 
 # Définition des scripts ponctuels
 def void():
@@ -89,6 +94,34 @@ def debug():
             """infobox()""",
                 """iftrue("goto('main')")""",
             """chg_music(-1)"""])
+
+def debug():
+    return(["""loadtext('''coucou''')""",
+            """infobox()""",
+            """put(0)""",
+            """chg_music("it's concours time")""",
+            """goto('main')""",
+
+            """label('fail')""",
+            """loadtext('''tg recommence''')""",
+            """infobox()""",
+            """goto('main')""",
+            
+            """label('main')""",
+            """runscript('quiz')""",
+            """checkevent('passedSelectMG')""",
+                """iffalse("goto('fail')")""",
+            """runscript('quiz')""",
+            """checkevent('passedSelectMG')""",
+                """iffalse("goto('fail')")""",
+            """runscript('quiz')""",
+            """checkevent('passedSelectMG')""",
+                """iffalse("goto('fail')")""",
+            
+            """loadtext('''c'est bien tu connais ton cours''')""",
+            """infobox()""",
+            """chg_music(-1)"""
+            ])
 
 def dummyScript():
     return(["""testflag(12101, 0)""",
