@@ -33,13 +33,13 @@ def handle_key_down_event(game, event):
         game.menu_manager.open_menu()
     elif event.key == controls["MENU_CANCEL"]:
         game.menu_manager.close_menu()
-    elif event.key == controls["MENU_MOVE_UP"] and game.menu_is_open:
+    elif event.key == controls["MENU_MOVE_UP"] and (game.menu_is_open or game.menu_manager.choicebox is not None):
         game.menu_manager.menu_move("up")
-    elif event.key == controls["MENU_MOVE_DOWN"] and game.menu_is_open:
+    elif event.key == controls["MENU_MOVE_DOWN"] and (game.menu_is_open or game.menu_manager.choicebox is not None):
         game.menu_manager.menu_move("down")
-    elif event.key == controls["MENU_MOVE_LEFT"] and game.menu_is_open:
+    elif event.key == controls["MENU_MOVE_LEFT"] and (game.menu_is_open or game.menu_manager.choicebox is not None):
         game.menu_manager.menu_move("left")
-    elif event.key == controls["MENU_MOVE_RIGHT"] and game.menu_is_open:
+    elif event.key == controls["MENU_MOVE_RIGHT"] and (game.menu_is_open or game.menu_manager.choicebox is not None):
         game.menu_manager.menu_move("right")
     elif event.key == controls["MINIGAME_UP"] and game.minigame_opened:
         game.mgm_manager.key("up")

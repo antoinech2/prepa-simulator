@@ -12,12 +12,13 @@
 # mathrebi	Relations binaires
 
 # mathense	Structures usuelles
-# mathevec	Espaces vectoriels
+# mathevec	Espaces vectoriels (général)
+# mathtopo	Espaces vectoriels normés
 # mathpreh	Espaces préhilbertiens réels
 # mathdiag	Réduction
 # mathsern	Suites et séries numériques
 # mathssef	Suites et séries de fonctions
-# math
+# mathmatr	Matrices
 
 ### Mots-clés Physique-Chimie
 # physfilt	Filtrage linéaire
@@ -193,7 +194,7 @@
      ? 'c'
 
 13 :
-  qu: "Reconnaître la fonction associée au DSE Σ(-1)^n.x^(2n+1)/(2n+1)"
+  qu: "Reconnaître la fonction associée au DSE Σ(-1)ⁿ.x²ⁿ⁺¹/(2n+1)"
   keys: ["mathssef"]
   a: "x |→ arctan(x)"
   b: "x |→ arccos(x)"
@@ -204,7 +205,7 @@
      ? 'a'
 
 14 :
-  qu: "Reconnaître la fonction associée au DSE Σ(-1)^n.x^(2n+1)/(2n+1)!"
+  qu: "Reconnaître la fonction associée au DSE Σ(-1)ⁿ.x²ⁿ⁺¹/(2n+1)!"
   keys: ["mathssef"]
   a: "x |→ arctan(x)"
   b: "x |→ arccos(x)"
@@ -345,3 +346,146 @@
   e: "f_ech > 2f_max"
   correct: !!set
      ? 'e'
+
+26 :
+  qu: "Rappeler l'équation de POISSON."
+  keys: ["physmaxw"]
+  a: "ΔV = ρ/ε₀"
+  b: "ΔV = -ρμ₀"
+  c: "ΔV = -ρ/ε₀"
+  d: "ΔV = μ₀/ρ"
+  e: "ΔV = -ρ/c"
+  correct: !!set
+     ? 'c'
+
+27 :
+  qu: "Calculer le potentiel du couple Fe²⁺/Fe(s). On donne E⁰ = 0,77 V et C = 2,8.10E-2 mol/L."
+  keys: ["chimelch"]
+  a: "0,68 V"
+  b: "0,77 V"
+  c: "0,86 V"
+  d: "0,82 V"
+  e: "0,72 V"
+  correct: !!set
+     ? 'a'
+
+
+28 :
+  qu: "Quelles sont les propriétés d'une partie fermée A ?"
+  keys: ["mathtopo"]
+  a: "C'est l'image réciproque d'un fermé par une application continue."
+  b: "Toute partie incluse dans A est fermée."
+  c: "Son complémentaire est ouvert."
+  d: "Ā = A"
+  e: "Å = A"
+  correct: !!set
+     ? 'a'
+     ? 'c'
+     ? 'd'
+
+29 :
+  qu: "Quelles assertions sont vraies ?"
+  keys: ["mathtopo"]
+  a: "L'union d'un nombre quelconque d'ouverts est ouverte."
+  b: "L'union d'un nombre quelconque de fermés est fermée."
+  c: "L'intersection d'un nombre quelconque d'ouverts est ouverte."
+  d: "L'intersection d'un nombre quelconque de fermés est fermée."
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'd'
+
+30 :
+  qu: "Soit E un espace vectoriel normé quelconque."
+  keys: ["mathtopo"]
+  a: "Si C est un compact de E, alors C est fermé et borné."
+  b: "Si C est une partie fermée et bornée de E, alors c'est un compact."
+  c: "Toute partie fermée d'un compact de E est un compact."
+  d: "L'image d'un compact de E par une application f quelconque de E est un compact."
+  e: "Toute fonction de E continue y est uniformément continue."
+  correct: !!set
+     ? 'a'
+     ? 'c'
+
+31 :
+  qu: "Soit f une application linéaire continue d'un espace vectoriel normé E."
+  keys: ["mathtopo"]
+  a: "f est lipschitzienne"
+  b: "f est bornée sur E"
+  c: "f est bornée sur la boule ouverte de centre 0 et de rayon 1"
+  d: "f est bornée sur la boule fermée de centre 0 et de rayon 1"
+  e: "f est uniformément continue"
+  correct: !!set
+     ? 'a'
+     ? 'd'
+     ? 'e'
+
+32 :
+  qu: "Soit E un espace vectoriel normé. La sphère unité de centre 0 peut être notée :"
+  keys: ["mathtopo"]
+  a: "S(0,1)"
+  b: "B(0,1)"
+  c: "Fr(Bf(0,1))"
+  d: "Bf(0,1-ε) où ε > 0"
+  e: "Bf(0,1) \\ G où G est l'intérieur de Bf(0,1)"
+  correct: !!set
+     ? 'a'
+     ? 'c'
+     ? 'e'
+
+33 :
+  qu: "Sélectionner les parties de R qui ont un intérieur vide."
+  keys: ["mathtopo"]
+  a: "R"
+  b: "Q"
+  c: "]2,8["
+  d: "{2,8}"
+  e: "ø"
+  correct: !!set
+     ? 'b'
+     ? 'd'
+     ? 'e'
+
+34 :
+  qu: "Soit N et N' deux normes équivalentes sur E. Qu'est-ce qui est possible ?"
+  keys: ["mathtopo"]
+  a: "La dimension de E est quelconque."
+  b: "Il existe δ,δ' > 0 tels que δN < N' < δ'N"
+  c: "Si (un) est une suite convergente pour N, alors elle converge aussi pour N'."
+  d: "E est compact."
+  e: ""
+  correct: !!set
+     ? 'c'
+
+35 :
+  qu: "▼^(▼^Ψ) ="
+  keys: ["physcoor"]
+  a: "▼^(▼Ψ) + ΔΨ"
+  b: "▼.(▼Ψ)"
+  c: "Δ(2▼.Ψ)"
+  d: "▼(▼.Ψ) - ΔΨ"
+  e: "ΔΨ + 2▼.(▼^Ψ)"
+  correct: !!set
+     ? 'd'
+
+36 :
+  qu: "Combien d'états l'automate des parties non émondé contient-il ?"
+  keys: ["infoauto"]
+  a: "2ⁿ"
+  b: "nⁿ"
+  c: "n²"
+  d: "eⁿ"
+  e: "n(n+1)"
+  correct: !!set
+     ? 'a'
+
+37 :
+  qu: "Soit A une matrice inversible, A⁻¹ ="
+  keys: ["mathmatr"]
+  a: "det(A)² * tcom(A)"
+  b: "tcom(det(A)A)"
+  c: "tcom(A) / det(A)"
+  d: "com(A)tcom(A)"
+  e: "1/tr(A) * com(A)"
+  correct: !!set
+     ? 'c'
