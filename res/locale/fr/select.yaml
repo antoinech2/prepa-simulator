@@ -19,6 +19,7 @@
 # mathsern	Suites et séries numériques
 # mathssef	Suites et séries de fonctions
 # mathmatr	Matrices
+# mathasym  Analyse asymptotique
 
 ### Mots-clés Physique-Chimie
 # physfilt	Filtrage linéaire
@@ -36,6 +37,7 @@
 # physmaxw	Théorie de l'électromagnétisme classique
 # physoema	Ondes électromagnétiques
 # physquan	Quantique
+# physthst  Thermodynamique statistique
 
 # chimarch	Architecture de la matière
 # chimthch	Thermochimie
@@ -447,9 +449,9 @@
      ? 'e'
 
 34 :
-  qu: "Soit N et N' deux normes équivalentes sur E. Qu'est-ce qui est possible ?"
+  qu: "Soit E un evn et N et N' deux normes équivalentes sur E. Qu'est-ce qui est certain ?"
   keys: ["mathtopo"]
-  a: "La dimension de E est quelconque."
+  a: "E est de dimension finie."
   b: "Il existe δ,δ' > 0 tels que δN < N' < δ'N"
   c: "Si (un) est une suite convergente pour N, alors elle converge aussi pour N'."
   d: "E est compact."
@@ -489,3 +491,203 @@
   e: "1/tr(A) * com(A)"
   correct: !!set
      ? 'c'
+
+38 :
+  qu: "Quelles séries convergent normalement sur R ?"
+  keys: ["mathssef"]
+  a: "Σsin(x(x + 2n))"
+  b: "une série qui converge uniformément sur R"
+  c: "Σ3sin(2nx²) / n²"
+  d: "Σmin(2ⁿx - q)/2ⁿ où q est un entier relatif"
+  e: "Σ(-1)ⁿ/(x + n)"
+  correct: !!set
+     ? 'c'
+     ? 'd'
+
+39 :
+  qu: "Reconnaître la fonction associée au DSE Σxⁿ/n!"
+  keys: ["mathssef"]
+  a: "x |→ exp(x)"
+  b: "x |→ cosh(x)"
+  c: "x |→ sinh(x)"
+  d: "x |→ cos(x)"
+  e: "x |→ sin(x)"
+  correct: !!set
+     ? 'a'
+
+40 :
+  qu: "Rappeler la formule de STIRLING."
+  keys: ["mathasym"]
+  a: "En +∞ : n! ~ nⁿe⁻ⁿ√(2πn)"
+  b: "En +∞ : n! ~ eⁿn⁻ⁿ√(2πn)"
+  c: "En +∞ : n! ~ nⁿeⁿ√(2πn)"
+  d: "En +∞ : n! ~ n⁻ⁿe⁻ⁿ√(2πn)"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+41 :
+  qu: "Reconnaître la fonction associée au DSE Σx²ⁿ/(2n)!"
+  keys: ["mathssef"]
+  a: "x |→ exp(x)"
+  b: "x |→ cosh(x)"
+  c: "x |→ sinh(x)"
+  d: "x |→ cos(x)"
+  e: "x |→ sin(x)"
+  correct: !!set
+     ? 'b'
+
+42 :
+  qu: "Reconnaître la fonction associée au DSE Σx²ⁿ⁺¹/(2n+1)!"
+  keys: ["mathssef"]
+  a: "x |→ exp(x)"
+  b: "x |→ cosh(x)"
+  c: "x |→ sinh(x)"
+  d: "x |→ cos(x)"
+  e: "x |→ sin(x)"
+  correct: !!set
+     ? 'c'
+
+43 :
+  qu: "Reconnaître la fonction associée au DSE Σ(-1)ⁿ.x²ⁿ/(2n)!"
+  keys: ["mathssef"]
+  a: "x |→ exp(x)"
+  b: "x |→ cosh(x)"
+  c: "x |→ sinh(x)"
+  d: "x |→ cos(x)"
+  e: "x |→ sin(x)"
+  correct: !!set
+     ? 'd'
+
+44 :
+  qu: "Reconnaître la fonction associée au DSE Σ(-1)ⁿ.x²ⁿ⁺¹/(2n+1)!"
+  keys: ["mathssef"]
+  a: "x |→ exp(x)"
+  b: "x |→ cosh(x)"
+  c: "x |→ sinh(x)"
+  d: "x |→ cos(x)"
+  e: "x |→ sin(x)"
+  correct: !!set
+     ? 'e'
+
+45 :
+  qu: "Reconnaître la fonction associée au DSE Σxⁿ"
+  keys: ["mathssef"]
+  a: "x |→ 1/(1+x)"
+  b: "x |→ 1/(1-x)"
+  c: "x |→ arctan(x)"
+  d: "x |→ ln(1+x)"
+  e: "x |→ ln(1-x)"
+  correct: !!set
+     ? 'b'
+
+46 :
+  qu: "Reconnaître la fonction associée au DSE Σ(-1)ⁿ⁺¹.xⁿ/n"
+  keys: ["mathssef"]
+  a: "x |→ 1/(1+x)"
+  b: "x |→ 1/(1-x)"
+  c: "x |→ arctan(x)"
+  d: "x |→ ln(1+x)"
+  e: "x |→ ln(1-x)"
+  correct: !!set
+     ? 'd'
+
+47 :
+  qu: "Reconnaître la fonction associée au DSE -Σxⁿ/n"
+  keys: ["mathssef"]
+  a: "x |→ 1/(1+x)"
+  b: "x |→ 1/(1-x)"
+  c: "x |→ arctan(x)"
+  d: "x |→ ln(1+x)"
+  e: "x |→ ln(1-x)"
+  correct: !!set
+     ? 'e'
+
+48 :
+  qu: "Donner la valeur de la constante d'AVOGADRO (en mol⁻¹)."
+  keys: ["chimarch"]
+  a: "6.10E23"
+  b: "6.10E24"
+  c: "6.10E25"
+  d: "6.10E26"
+  e: "6.10E27"
+  correct: !!set
+     ? 'a'
+
+49 :
+  qu: "Donner l'expression de la constante de BOLTZMANN."
+  keys: ["physthst"]
+  a: "RNa"
+  b: "1/RNa"
+  c: "Na/R"
+  d: "R/Na"
+  e: "R²Na"
+  correct: !!set
+     ? 'd'
+
+50 :
+  qu: "Soit f continue sur un segment. D'après le théorème de WEIERSTRAß :"
+  keys: ["mathssef"]
+  a: "f y est linéaire"
+  b: "f y est dérivable"
+  c: "f y est limite uniforme de fonctions polynomiales"
+  d: "il existe une fonction polynomiale équivalente à f sur ce segment"
+  e: "f peut être approchée avec des fonctions trigonométriques"
+  correct: !!set
+     ? 'c'
+
+51 :
+  qu: "Soit (fn) des fonctions CPM sur I. On suppose que cette suite converge simplement vers f et que les |fn| sont tous majorés par une fonction φ CPM positive intégrable. Alors les fn et f sont intégrables sur I, et ∫f = lim (∫fn)"
+  keys: ["mathssef"]
+  a: "théorème d'intégration terme à terme"
+  b: "théorème de FUBINI"
+  c: "théorème de convergence dominée"
+  d: "théorème d'inversion série-intégrale"
+  e: "théorème du changement de variable"
+  correct: !!set
+     ? 'c'
+
+52 :
+  qu: "Soit (fn) des fonctions CPM intégrables sur I. On suppose que Σfn converge simplement vers f, fonction CPM sur I, et Σ∫|fn| converge. Alors f est intégrable sur I et ∫f est égal à la somme de Σ∫fn"
+  keys: ["mathssef"]
+  a: "théorème d'intégration terme à terme"
+  b: "théorème de FUBINI"
+  c: "théorème de convergence dominée"
+  d: "théorème d'inversion série-intégrale"
+  e: "théorème du changement de variable"
+  correct: !!set
+     ? 'a'
+
+53 :
+  qu: "Rappeler la loi de MALUS."
+  keys: ["physoema"]
+  a: "L'onde lumineuse est perpendiculaire aux fronts d'onde."
+  b: "L'onde lumineuse est parallèle aux fronts d'onde."
+  c: "Lors de la propagation de l'onde lumineuse, les fronts d'onde ont toujours la même direction."
+  d: "I = I₀.cos²(α)"
+  e: "I = I₀.sin²(α)"
+  correct: !!set
+     ? 'd'
+
+54 :
+  qu: "Rappeler le théorème de MALUS."
+  keys: ["physopti"]
+  a: "L'onde lumineuse est perpendiculaire aux fronts d'onde."
+  b: "L'onde lumineuse est parallèle aux fronts d'onde."
+  c: "Lors de la propagation de l'onde lumineuse, les fronts d'onde ont toujours la même direction."
+  d: "I = I₀.cos²(α)"
+  e: "I = I₀.sin²(α)"
+  correct: !!set
+     ? 'a'
+
+55 :
+  qu: "On note Z les impédances complexes, C la capacité d'un condensateur et L l'inductance d'une bobine. On peut affirmer que :"
+  keys: ["physfilt"]
+  a: "Zc = 1/jCω"
+  b: "Zc = jCω"
+  c: "Zl = 1/jLω"
+  d: "Zl = jLω"
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'd'
