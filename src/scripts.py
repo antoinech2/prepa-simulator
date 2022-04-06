@@ -68,7 +68,7 @@ def object():
 
 def quiz():
     """Script qui lance le mini-jeu quiz"""
-    return(["""ran(1, 55)""",
+    return(["""ran(60, 68)""",
             """launchmgm("select", self.acc)"""])
 
 
@@ -98,12 +98,18 @@ def debug():
 def debug():
     return(["""loadtext('''coucou''')""",
             """infobox()""",
-            """put(0)""",
             """chg_music("it's concours time")""",
             """goto('main')""",
 
             """label('fail')""",
-            """loadtext('''tg recommence''')""",
+            """ran(1, 2)""",
+            """compare('eq', 1)""",
+                """iftrue("loadtext('''tg recommence''')")""",
+                """iftrue("goto('next')")""",
+            """compare('eq', 2)""",
+                """iftrue("loadtext('''tg t'es nul''')")""",
+            
+            """label('next')""",
             """infobox()""",
             """goto('main')""",
             

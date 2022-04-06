@@ -691,3 +691,155 @@
   correct: !!set
      ? 'a'
      ? 'd'
+
+56 :
+  qu: "Dans un filtre passe-bande d'ordre 2 de facteur de qualité Q et de bande passante Δ, quelle relation est vérifiée ?"
+  keys: ["physfilt"]
+  a: "Q = ω₀/Δ"
+  b: "Q = Δ/ω₀"
+  c: "Q = ω₀²/Δ²"
+  d: "Q = Δ²/ω₀²"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+57 :
+  qu: "Pour mesurer la valeur efficace d'un signal périodique de valeur moyenne non nulle, on peut utiliser :"
+  keys: ["physfilt"]
+  a: "un voltmètre RMS en mode AC"
+  b: "un voltmètre RMS en mode DC"
+  c: "un voltmètre TRMS en mode AC"
+  d: "un voltmètre TRMS en mode DC"
+  e: "un oscilloscope"
+  correct: !!set
+     ? 'c'
+     ? 'e'
+
+58 :
+  qu: "Un passe-bande d'ordre 6 est caractérisé sur son diagramme de BODE en gain par une pente à..."
+  keys: ["physfilt"]
+  a: "-120 dB / décade"
+  b: "-60 dB / décade"
+  c: "0 dB / décade"
+  d: "60 dB / décade"
+  e: "120 dB / décade"
+  correct: !!set
+     ? 'a'
+     ? 'e'
+
+59 :
+  qu: "Rappeler l'équation des gaz parfaits."
+  keys: ["physpfth"]
+  a: "PV = nRT"
+  b: "RT = n/PV"
+  c: "PV/RT = cte"
+  d: "P² = RT/nV"
+  e: "P = nRT/(V-nb) - an²/V²"
+  correct: !!set
+     ? 'a'
+
+60 :
+  qu: "Quelles grandeurs sont extensives ?"
+  keys: ["physpfth"]
+  a: "l'énergie libre"
+  b: "l'enthalpie"
+  c: "l'entropie"
+  d: "l'enthalpie libre"
+  e: "le volume"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'c'
+     ? 'd'
+     ? 'e'
+
+61 :
+  qu: "Exprimer le travail élémentaire des forces de pression, avec P la pression appliquée par l'extérieur."
+  keys: ["physpfth"]
+  a: "δW = PdV"
+  b: "δW = -PdV"
+  c: "δW = P/dV"
+  d: "δW = -P/dV"
+  e: ""
+  correct: !!set
+     ? "b"
+
+62 :
+  qu: "Comment peut-on appeler le diagramme représentant la pression P en fonction du volume du système V ? On suppose le récipient d'étude fermé."
+  keys: ["physpfth"]
+  a: "diagramme de CLAPEYRON"
+  b: "diagramme de WATT"
+  c: "diagramme d'AMAGAT"
+  d: "diagramme de POURBAIX"
+  e: "diagramme de RAVEAU"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+
+63 :
+  qu: "Le premier principe de la thermodynamique stipule que tout système peut être doté d'une fonction d'état extensive U appelée énergie interne. Rappeler le bilan d'énergie qui en découle."
+  keys: ["physpfth"]
+  a: "ΔU = W + Q où W est le travail des forces non conservatives"
+  b: "ΔU = W + Q où W est le travail de toutes les forces"
+  c: "ΔEc + ΔEp + ΔU = W + Q où W est le travail des forces non conservatives"
+  d: "ΔEc + ΔEp + ΔU = W + Q où W est le travail de toutes les forces"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+64 :
+  qu: "Rappeler l'expression de l'enthalpie."
+  keys: ["physpfth"]
+  a: "H = Q"
+  b: "H = U + pV"
+  c: "H = W + Q"
+  d: "H = U + Q"
+  e: "H = 0 si le système est fermé"
+  correct: !!set
+     ? 'b'
+
+65 :
+  qu: "Lors d'une transformation monobare d'un système fermé :"
+  keys: ["physpfth"]
+  a: "ΔH = Q"
+  b: "p = pext"
+  c: "W = -pext(Vf - Vi)"
+  d: "ΔU = Q"
+  e: "la pression du système est la même à tout instant"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'c'
+
+66 :
+  qu: "Le transfert thermique δQ dissipé par effet JOULE par un conducteur de résistance R parcouru par un courant I pendant une durée dt vaut :"
+  keys: ["physpfth"]
+  a: "RIdt"
+  b: "R²I²dt"
+  c: "RI²dt"
+  d: "I³dt"
+  e: "R²Idt"
+  correct: !!set
+     ? 'c'
+
+67 :
+  qu: "Rappeler le premier principe industriel. On note Wu le travai fourni par l'organe traversé."
+  keys: ["physpfth"]
+  a: "dmdh = δWu + δQ"
+  b: "dh = δWu + δQ"
+  c: "dmdh = 0"
+  d: "dh = dm(δWu + δQ)"
+  e: "δWu + dmδQ = dh"
+  correct: !!set
+     ? 'a'
+
+68 :
+  qu: "Le second principe de la thermodynamique stipule qu'à tout système fermé, de température à la frontière Θ, on peut associer une fonction d'état extensive S appelée entropie. Caractériser dS."
+  keys: ["physpfth"]
+  a: "dS = δQ / Θ"
+  b: "dS ≤ δQ / Θ"
+  c: "dS ≥ δQ / Θ"
+  d: ""
+  e: ""
+  correct: !!set
+     ? 'c'
