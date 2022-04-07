@@ -30,6 +30,7 @@
 # physstaf	Statique des fluides
 # physpfth	Premier et deuxième principes de la thermodynamique
 # physmach	Machines thermiques
+# phystrth  Transferts thermiques
 # physcoor	Systèmes de coordonnées et analyse vectorielle
 # physmeca	Mécanique du point en référentiel galiléen
 # physmeng	Mécanique en référentiel non galiléen
@@ -173,8 +174,8 @@
      ? 'd'
 
 11 :
-  qu: "Citer la loi thermodynamique de LAPLACE."
-  keys: ["physther"]
+  qu: "Citer la loi thermodynamique de LAPLACE pour une transformation isentropique."
+  keys: ["physpfth"]
   a: "V.P^γ = cte"
   b: "T.V^(γ-1) = cte"
   c: "T.V^(γ+1) = cte"
@@ -823,15 +824,16 @@
      ? 'c'
 
 67 :
-  qu: "Rappeler le premier principe industriel. On note Wu le travai fourni par l'organe traversé."
+  qu: "Rappeler le premier principe industriel. On note w le travail massique fourni par l'organe traversé et Dm le débit massique."
   keys: ["physpfth"]
-  a: "dmdh = δWu + δQ"
-  b: "dh = δWu + δQ"
-  c: "dmdh = 0"
-  d: "dh = dm(δWu + δQ)"
-  e: "δWu + dmδQ = dh"
+  a: "Dmdh = P(utile) + P(therm)"
+  b: "dh = w + q"
+  c: "Dmdh + w = 0"
+  d: "dh = Dm(wP(utile) + qP(therm))"
+  e: "w + qDm = dh"
   correct: !!set
      ? 'a'
+     ? 'b'
 
 68 :
   qu: "Le second principe de la thermodynamique stipule qu'à tout système fermé, de température à la frontière Θ, on peut associer une fonction d'état extensive S appelée entropie. Caractériser dS."
@@ -843,3 +845,230 @@
   e: ""
   correct: !!set
      ? 'c'
+
+69 :
+  qu: "Dans une machine thermique :"
+  keys: ["physmach"]
+  a: "ΔU = 0"
+  b: "W = -Q"
+  c: "ΔS > 0"
+  d: "ΔS = 0"
+  e: "Qc/Tc + Qf/Tf ≤ 0"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'd'
+     ? 'e'
+
+70 :
+  qu: "Quelle est l'efficacité d'un moteur ?"
+  keys: ["physmach"]
+  a: "W / Qc"
+  b: "-W / Qc"
+  c: "W / Qf"
+  d: "Qf / W"
+  e: "-Qc / W"
+  correct: !!set
+     ? 'b'
+
+71 :
+  qu: "Quelle est l'efficacité d'une machine frigorifique ?"
+  keys: ["physmach"]
+  a: "W / Qc"
+  b: "-W / Qc"
+  c: "W / Qf"
+  d: "Qf / W"
+  e: "-Qc / W"
+  correct: !!set
+     ? 'd'
+
+72 :
+  qu: "Quelle est l'efficacité d'une pompe à chaleur ?"
+  keys: ["physmach"]
+  a: "W / Qc"
+  b: "-W / Qc"
+  c: "W / Qf"
+  d: "Qf / W"
+  e: "-Qc / W"
+  correct: !!set
+     ? 'e'
+
+73 :
+  qu: "Quelle est l'efficacité de CARNOT d'un moteur ?"
+  keys: ["physmach"]
+  a: "1 - Tf/Tc"
+  b: "1 + Tf/Tc"
+  c: "Tf / (Tc-Tf)"
+  d: "Tc / (Tc-Tf)"
+  e: "Tc / (Tf-Tc)"
+  correct: !!set
+     ? 'a'
+
+74 :
+  qu: "Quelle est l'efficacité de CARNOT d'une machine frigorifique ?"
+  keys: ["physmach"]
+  a: "1 - Tf/Tc"
+  b: "1 + Tf/Tc"
+  c: "Tf / (Tc-Tf)"
+  d: "Tc / (Tc-Tf)"
+  e: "Tc / (Tf-Tc)"
+  correct: !!set
+     ? 'c'
+
+75 :
+  qu: "Quelle est l'efficacité de CARNOT d'une pompe à chaleur ?"
+  keys: ["physmach"]
+  a: "1 - Tf/Tc"
+  b: "1 + Tf/Tc"
+  c: "Tf / (Tc-Tf)"
+  d: "Tc / (Tc-Tf)"
+  e: "Tc / (Tf-Tc)"
+  correct: !!set
+     ? 'd'
+
+76 :
+  qu: "Qu'est-ce que le diagramme des frigoristes ?"
+  keys: ["physmach"]
+  a: "un diagramme (P,t)"
+  b: "un diagramme (P,h)"
+  c: "un diagramme (T,s)"
+  d: "un diagramme (h,s)"
+  e: "un diagramme (T,V)"
+  correct: !!set
+     ? 'b'
+
+77 :
+  qu: "Rappeler la relation de MAYER pour un gaz parfait."
+  keys: ["physpfth"]
+  a: "Cp + Cv = nR"
+  b: "Cp + Cv = R"
+  c: "Cp - Cv = nR"
+  d: "Cp - Cv = R"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+78 :
+  qu: "Lors d'un changement d'état d'un corps pur à la température T, on note L la chaleur latente massique. Quelles relations sont vérifiées ?"
+  keys: ["physpfth"]
+  a: "L = Δh"
+  b: "L = Q"
+  c: "L = TΔs"
+  d: "L = Δs/T"
+  e: "L = Q + Δh"
+  correct: !!set
+     ? 'a'
+     ? 'c'
+
+79 :
+  qu: "Pour un gaz parfait :"
+  keys: ["physpfth"]
+  a: "ΔH = CpΔT"
+  b: "ΔH = CvΔT"
+  c: "ΔU = CpΔT"
+  d: "ΔU = CvΔT"
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'd'
+
+80 :
+  qu: "Caractériser la puissance transférée par diffusion thermique Φ."
+  keys: ["phystrth"]
+  a: "Φ est le flux du vecteur jth"
+  b: "Φ est la circulation du vecteur jth"
+  c: "Φdt = δQth"
+  d: "Φ est strictement positif"
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'c'
+
+81 :
+  qu: "Rappeler la loi de FOURIER de la diffusion thermique."
+  keys: ["phystrth"]
+  a: "jth = λ.grad(T)"
+  b: "jth = -λ.grad(T)"
+  c: "div(jth) = λ.dT/dt"
+  d: "div(jth) = -λ.dT/dt"
+  e: ""
+  correct: !!set
+     ? 'b'
+
+82 :
+  qu: "Citer le théorème de GREEN-OSTROGRADSKY."
+  keys: ["physcoor"]
+  a: "∫o∫ F.dS = ∫∫∫ div(F).dV"
+  b: "∫o∫ F.dS = ∫∫∫ dF.dV/dt"
+  c: "∫o F.dl = ∫∫ rot(F).dS"
+  d: "∫o F.dl = ∫∫ F.dS"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+83 :
+  qu: "Citer le théorème de STOKES-AMPÈRE."
+  keys: ["physcoor"]
+  a: "∫o∫ F.dS = ∫∫∫ div(F).dV"
+  b: "∫o∫ F.dS = ∫∫∫ dF.dV/dt"
+  c: "∫o F.dl = ∫∫ rot(F).dS"
+  d: "∫o F.dl = ∫∫ F.dS"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+84 :
+  qu: "Rappeler la loi de NEWTON de la conducto-convection, où n est un vecteur dirigé du solide (température Tp) au fluide (température Tf)."
+  keys: ["phystrth"]
+  a: "jth = h(Tp-Tf).n dans le solide"
+  b: "jth = -h(Tp-Tf).n dans le solide"
+  c: "jth = h(Tp-Tf).n à l'interface"
+  d: "jth = -h(Tp-Tf).n à l'interface"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+85 :
+  qu: "Définir la résistance thermique entre un milieu 1 de température T1 et un milieu 2 de température T2 (Φ orienté de 1 à 2)."
+  keys: ["phystrth"]
+  a: "Φ varie de façon quelconque"
+  b: "Φ est conservé"
+  c: "Rth = (T2-T1) / Φ"
+  d: "Rth = (T1-T2) / Φ"
+  e: "Rth = Φ / (T2-T1)"
+  correct: !!set
+     ? 'b'
+     ? 'd'
+
+86 :
+  qu: "Exprimer le facteur de BOLTZMANN intervenant dans le théorème du poids de BOLTZMANN. On note k la constante de BOLTZMANN."
+  keys: ["physthst"]
+  a: "exp(Eα/kT)"
+  b: "exp(-Eα/kT)"
+  c: "exp(kT/Eα)"
+  d: "exp(-kT/Eα)"
+  e: ""
+  correct: !!set
+     ? 'b'
+
+87 :
+  qu: "Quelle relation lie l'énergie d'un système E à sa capacité thermique C ? On note k la constante de BOLTZMANN."
+  keys: ["physthst"]
+  a: "Var(E) = CkT²"
+  b: "Var(E) = CkT"
+  c: "Var(E) = k²C"
+  d: "E = C/k²T²"
+  e: "E = kC²"
+  correct: !!set
+     ? 'a'
+
+88 :
+  qu: "Soit un système en équilibre thermique avec un thermostat T, possédant n degrés de liberté quadratiques. D'après le théorème d'équipartition de l'énergie, l'énergie moyenne d'une particule ε vaut :"
+  keys: ["physthst"]
+  a: "ε = nkT"
+  b: "ε = nkT/2"
+  c: "ε² = nT/2k"
+  d: "ε² = Tnk/2"
+  e: "ε = kT/2"
+  correct: !!set
+     ? 'b'
