@@ -39,6 +39,7 @@
 # physoema	Ondes électromagnétiques
 # physquan	Quantique
 # physthst  Thermodynamique statistique
+# physosci  Oscillateurs
 
 # chimarch	Architecture de la matière
 # chimthch	Thermochimie
@@ -1072,3 +1073,117 @@
   e: "ε = kT/2"
   correct: !!set
      ? 'b'
+
+89 :
+  qu: "Rappeler l'équation de l'oscillateur harmonique selon la dimension z."
+  keys: ["physosci"]
+  a: "d²z/dt² = ω₀²z"
+  b: "d²z/dt² = -ω₀²z"
+  c: "d²z/dt² + ω₀/Q dz/dt + ω₀²z = cte"
+  d: "d²z/dt² - ω₀/Q dz/dt + ω₀²z = cte"
+  e: ""
+  correct: !!set
+     ? 'b'
+
+90 :
+  qu: "Les solutions de l'équation de l'oscillateur harmonique sont de la forme :"
+  keys: ["physosci"]
+  a: "A.cos(ω₀t + φ)"
+  b: "A.sin(ω₀t + φ)"
+  c: "A.cos(ω₀t) + B.sin(ω₀t)"
+  d: "A.cos²(ω₀t + φ)"
+  e: "A.sin²(ω₀t + φ)"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'c'
+
+91 :
+  qu: "L'énergie potentielle élastique d'un point matériel de masse m accroché à l'extrémité d'un ressort s'écrit :"
+  keys: ["physosci"]
+  a: "-k(l-l₀)"
+  b: "k(l-l₀)"
+  c: "k(l-l₀)² / 2"
+  d: "-k(l-l₀)² / 2"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+92 :
+  qu: "Donner l'expression de la vitesse en coordonnées cylindriques."
+  keys: ["physcoor"]
+  a: "dρ/dt uρ + dθ/dt uθ + dz/dt uz"
+  b: "dρ/dt uρ + ρdθ/dt uθ + dz/dt uz"
+  c: "θdρ/dt uρ + dθ/dt uθ + dz/dt uz"
+  d: "ρdρ/dt uρ + θdθ/dt uθ + dz/dt uz"
+  e: "ρdρ/dt uρ + ρdθ/dt uθ + dz/dt uz"
+  correct: !!set
+     ? 'b'
+
+93 :
+  qu: "Rappeler l'expression de l'oscillateur amorti selon la dimension z."
+  keys: ["physosci"]
+  a: "d²z/dt² = ω₀²z"
+  b: "d²z/dt² = -ω₀²z"
+  c: "d²z/dt² + ω₀/Q dz/dt + ω₀²z = cte"
+  d: "d²z/dt² - ω₀/Q dz/dt + ω₀²z = cte"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+94 :
+  qu: "Si ξ est le facteur d'amortissement d'un oscillateur peu amorti, quelle est la durée du régime transitoire ?"
+  keys: ["physosci"]
+  a: "2ξ/ω₀"
+  b: "6ξ/ω₀"
+  c: "1/ξω₀"
+  d: "3/ξω₀"
+  e: "8/ξω₀"
+  correct: !!set
+     ? 'd'
+
+95 :
+  qu: "Quelles assertions sur le facteur de qualité Q d'un oscillateur amorti sont vraies ?"
+  keys: ["physosci"]
+  a: "Q est le nombre d'oscillations visibles"
+  b: "Q est proportionnel à l'amplitude des premières oscillations"
+  c: "Q = 2ξ"
+  d: "Q = 1/ξ"
+  e: "Q = 1/2ξ"
+  correct: !!set
+     ? 'a'
+     ? 'e'
+
+96 :
+  qu: "Si ξ est le facteur d'amortissement d'un oscillateur très amorti, au bout de combien de temps le système atteint-t-il sa valeur finale ?"
+  keys: ["physosci"]
+  a: "2ξ/ω₀"
+  b: "6ξ/ω₀"
+  c: "1/ξω₀"
+  d: "3/ξω₀"
+  e: "8/ξω₀"
+  correct: !!set
+     ? 'b'
+
+97 :
+  qu: "Donner l'expression du travail élémentaire δW."
+  keys: ["physmeca"]
+  a: "Pdt"
+  b: "dt/P"
+  c: "Pvdt"
+  d: "F.dOM"
+  e: "F.vdt"
+  correct: !!set
+     ? 'a'
+     ? 'd'
+
+98 :
+  qu: "Soit F la résultante des forces appliquée en M. D'après le théorème de la puissance cinétique :"
+  keys: ["physmeca"]
+  a: "dEc/dt = P(F)"
+  b: "dEm/dt = P(F)"
+  c: "Ec = dP(F)/dt"
+  d: "Ec = dP(E)/dt où E est la résultante des forces non conservatives"
+  e: ""
+  correct: !!set
+     ? 'a'
