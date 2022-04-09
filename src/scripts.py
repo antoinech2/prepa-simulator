@@ -68,7 +68,7 @@ def object():
 
 def quiz():
     """Script qui lance le mini-jeu quiz"""
-    return(["""ran(1, 98)""",
+    return(["""ran(1, 112)""",
             """launchmgm("select", self.acc)"""])
 
 

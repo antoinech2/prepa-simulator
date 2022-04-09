@@ -1187,3 +1187,161 @@
   e: ""
   correct: !!set
      ? 'a'
+
+99 :
+  qu: "Donner l'expression du moment d'une force F appliquée en M par rapport à un point O."
+  keys: ["physmeca"]
+  a: "OM ^ F"
+  b: "MO ^ F"
+  c: "OM ^ mv"
+  d: "MO ^ mv"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+100:
+  qu: "Qu'est-ce qu'un couple ?"
+  keys: ["physmeca"]
+  a: "un ensemble de forces de résultante nulle"
+  b: "un ensemble de forces d'énergie potentielle nulle"
+  c: "un ensemble de forces de moment résultant non nul"
+  d: "un ensemble de forces d'énergie cinétique non nulle"
+  e: "un ensemble de forces s'appliquant sur deux points matériels"
+  correct: !!set
+     ? 'a'
+     ? 'c'
+
+101:
+  qu: "Donner l'expression du moment cinétique d'un point M en un point O du référentiel R."
+  keys: ["physmeca"]
+  a: "OM ^ F"
+  b: "MO ^ F"
+  c: "OM ^ mv"
+  d: "MO ^ mv"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+102:
+  qu: "Donner l'expression du moment cinétique d'un solide S par rapport à un axe Δ, en rotation à la vitesse angulaire ω."
+  keys: ["physmeca"]
+  a: "Jω"
+  b: "J²ω"
+  c: "Jω²"
+  d: "J²ω²"
+  e: "mω"
+  correct: !!set
+     ? 'a'
+
+103:
+  qu: "Dans R galiléen, si O est un point fixe de R, alors d'après le théorème du moment cinétique :"
+  keys: ["physmeca"]
+  a: "dL₀/dt = M₀(F)"
+  b: "dM₀(F)/dt = L₀"
+  c: "M₀(F) = L₀"
+  d: "dM₀(F)/dt = mvL₀"
+  e: "dM₀(F)/dt = JFL₀"
+  correct: !!set
+     ? 'a'
+
+104:
+  qu: "L'énergie cinétique d'un solide en rotation autour d'un axe Δ à la vitesse angulaire ω est :"
+  keys: ["physmeca"]
+  a: "mω²/2"
+  b: "Jω²/2"
+  c: "mω.|MΔ(F)|"
+  d: "mω.|LΔ|"
+  e: "m.|MΔ(F)|.|LΔ|"
+  correct: !!set
+     ? 'b'
+
+105:
+  qu: "Retrouver l'expression de la constante des aires dans un mouvement à force centrale."
+  keys: ["physmeca"]
+  a: "rθ"
+  b: "r²θ"
+  c: "r²dθ/dt"
+  d: "(dr/dt)²θ"
+  e: "dr/dt.dθ/dt"
+  correct: !!set
+     ? 'c'
+
+106:
+  qu: "Dans le cas d'une orbite circulaire, on note Θ la masse du Soleil. D'après la troisième loi de KEPLER :"
+  keys: ["physmeca"]
+  a: "T/R² est constant"
+  b: "T²/R³ est constant"
+  c: "la constante vaut 4π²/GΘ"
+  d: "la constante vaut 4π²G/Θ"
+  e: "la constante vaut 4π²GΘ"
+  correct: !!set
+     ? 'b'
+     ? 'c'
+
+107:
+  qu: "Donner l'expression de la vitesse en coordonnées sphériques."
+  keys: ["physcoor"]
+  a: "dr/dt ur + dθ/dt uθ + dφ/dt uφ"
+  b: "dr/dt ur + sin(θ)dθ/dt uθ + rsin(θ)dφ/dt uφ"
+  c: "dr/dt ur + rdθ/dt uθ + rsin(θ)dφ/dt uφ"
+  d: "dr/dt ur + rdθ/dt uθ + dφ/dt uφ"
+  e: "dr/dt ur + rsin(θ)dθ/dt uθ + rdφ/dt uφ"
+  correct: !!set
+     ? 'c'
+
+108:
+  qu: "Soit R' en rotation uniforme autour de Δ fixe par rapport à R galiléen, O (resp. O') un point fixe de R (resp. R'). Quelles relations sont vraies ?"
+  keys: ["physmeng"]
+  a: "v(M/R) = v(M/R') + v(O'/R)"
+  b: "v(M/R) = v(M/R') + Ω ^ OM"
+  c: "a(M/R) = a(M/R') + a(O'/R)"
+  d: "a(M/R) = a(M/R') + ae(M,R'/R) + ac(M,R'/R)"
+  e: ""
+  correct: !!set
+     ? 'b'
+     ? 'd'
+
+109:
+  qu: "Si R' est en rotation uniforme par rapport à R galiléen, rappeler l'expression de l'accélération d'entraînement (O est un point fixe de R)."
+  keys: ["physmeng"]
+  a: "-Ω².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
+  b: "Ω ^ (Ω ^ OM)"
+  c: "Ω².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
+  d: "2Ω ^ v(M/R')"
+  e: "2Ω ^ v(M/R)"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+
+110:
+  qu: "Si R' est en rotation uniforme par rapport à R galiléen, rappeler l'expression de l'accélération de CORIOLIS (O est un point fixe de R)."
+  keys: ["physmeng"]
+  a: "-Ω².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
+  b: "Ω ^ (Ω ^ OM)"
+  c: "Ω².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
+  d: "2Ω ^ v(M/R')"
+  e: "2Ω ^ v(M/R)"
+  correct: !!set
+     ? 'd'
+
+111:
+  qu: "Si R' est en rotation uniforme par rapport à R galiléen, rappeler l'expression de la force d'accélération d'entraînement (O est un point fixe de R)."
+  keys: ["physmeng"]
+  a: "-mΩ².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
+  b: "mΩ ^ (Ω ^ OM)"
+  c: "mΩ².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
+  d: "-2mΩ ^ v(M/R')"
+  e: "-2mΩ ^ v(M/R)"
+  correct: !!set
+     ? 'c'
+
+112:
+  qu: "Si R' est en rotation uniforme par rapport à R galiléen, rappeler l'expression de la force d'accélération de CORIOLIS (O est un point fixe de R)."
+  keys: ["physmeng"]
+  a: "-mΩ².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
+  b: "mΩ ^ (Ω ^ OM)"
+  c: "mΩ².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
+  d: "-2mΩ ^ v(M/R')"
+  e: "-2mΩ ^ v(M/R)"
+  correct: !!set
+     ? 'd'
