@@ -100,10 +100,7 @@ class Game:
     def quit_game(self):
         """Ferme le jeu"""
         try:
-            self.player.save()
-            self.bag.save()
             # Fermeture de la base de donnée
-            self.save.commit()
             self.save.close()
             self.game_data_db.close()
             self.db_connexion.close()
