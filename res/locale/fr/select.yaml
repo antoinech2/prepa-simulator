@@ -1345,3 +1345,196 @@
   e: "-2mΩ ^ v(M/R)"
   correct: !!set
      ? 'd'
+
+113:
+  qu: "Une onde plane de longueur d'onde λ passant à travers une fente de largeur a est diffractée d'un angle θ selon la relation :"
+  keys: ["physopti"]
+  a: "sin(θ) = λ/a"
+  b: "tan(θ) = λ/a"
+  c: "sin(θ) = a/λ"
+  d: "tan(θ) = a/λ"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+114:
+  qu: "Dans les conditions de GAUSS :"
+  keys: ["physopti"]
+  a: "les rayons sont peu inclinés par rapport à l'axe optique"
+  b: "les rayons sont peu éloignés de l'axe optique"
+  c: "les angles d'incidence sur les dioptres sont faibles"
+  d: "l'image d'un point par le système est un point"
+  e: "les points situés dans un plan de front donnent une image nette dans un plan de front"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'c'
+
+115:
+  qu: "Donner la relation de conjugaison de DESCARTES. Les distances sont considérées algébriques."
+  keys: ["physopti"]
+  a: "1/OA' - 1/OA = 1/f'"
+  b: "1/OA - 1/OA' = 1/f'"
+  c: "1/OA' + 1/OA = 1/f"
+  d: "1/OA - 1/OA' = 1/f"
+  e: "1/OA + 1/OA' = 1/f'"
+  correct: !!set
+     ? 'a'
+
+116:
+  qu: "Donner la relation de grandissement de DESCARTES. Les distances sont considérées algébriques."
+  keys: ["physopti"]
+  a: "A'B'/AB = OA'/OA"
+  b: "A'B/AB' = OA'/OA"
+  c: "A'B'/OA' = AB/OA"
+  d: "A'B'/AB = OA/OA'"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+117:
+  qu: "Donner les relations de NEWTON. Les distances sont considérées algébriques."
+  keys: ["physopti"]
+  a: "FA.F'A' = -f'²"
+  b: "FA.F'A' = f'²"
+  c: "F'A'/F'O = FO/FA"
+  d: "F'A'/FA = F'O/FO"
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'c'
+
+118:
+  qu: "Donner la plage d'accomodation de l'œil."
+  keys: ["physopti"]
+  a: "[25 cm ; 100 m]"
+  b: "[15 cm ; 2 km]"
+  c: "[25 cm ; +∞["
+  d: "[100 m ; +∞["
+  e: "[15 cm ; +∞["
+  correct: !!set
+     ? 'c'
+
+119:
+  qu: "Rappeler le domaine des fréquences audibles par l'Homme."
+  keys: ["physsine"]
+  a: "[20 Hz ; 2 mHz]"
+  b: "[20 Hz ; 200 kHz]"
+  c: "[20 Hz ; 20 kHz]"
+  d: "[2 Hz ; 2 kHz]"
+  e: "[2 Hz ; 200 Hz]"
+  correct: !!set
+     ? 'c'
+
+120:
+  qu: "Pour projeter l'image d'un objet sur un écran éloigné d'une distance D, une lentille de distance focale f' doit vérifier :"
+  keys: ["physopti"]
+  a: "f' ≥ 4D"
+  b: "f' ≤ 4D"
+  c: "4f' ≥ D"
+  d: "4f' ≤ D"
+  e: ""
+  correct: !!set
+     ? 'd'
+
+121:
+  qu: "Rappeler l'équation de D'ALEMBERT unidimensionnelle pour un champ scalaire A se propageant selon z."
+  keys: ["physonde"]
+  a: "∂²A/∂z² - 1/c² ∂²A/∂t² = 0"
+  b: "∂²A/∂z² - 1/c² ∂²A/∂z² - 2a/c ∂A/∂z - a²A = 0, où a = cte"
+  c: "∂A/∂t - κ∂²A/∂z² = 0 où κ = cte"
+  d: "∂A/∂z + ∂ρ/∂t = 0"
+  e: "∂A/∂z + ∂ω/∂t = -j.E"
+  correct: !!set
+     ? 'a'
+
+122:
+  qu: "Rappeler l'équation locale de POYNTING."
+  keys: ["physoema"]
+  a: "∂²Π/∂z² - 1/c² ∂²Π/∂t² = 0"
+  b: "∂²Π/∂z² - 1/c² ∂²Π/∂z² - 2a/c ∂Π/∂z - a²Π = 0, où a = cte"
+  c: "∂Π/∂t - κ∂²Π/∂z² = 0 où κ = cte"
+  d: "div(Π) + ∂ρ/∂t = 0"
+  e: "div(Π) + ∂ω/∂t = -j.E"
+  correct: !!set
+     ? 'e'
+
+123:
+  qu: "Rappeler l'équation locale de la conservation de la charge."
+  keys: ["physoema"]
+  a: "∂²j/∂z² - 1/c² ∂²j/∂t² = 0"
+  b: "∂²j/∂z² - 1/c² ∂²j/∂z² - 2a/c ∂j/∂z - a²j = 0, où a = cte"
+  c: "∂j/∂t - κ∂²j/∂z² = 0 où κ = cte"
+  d: "div(j) + ∂ρ/∂t = 0"
+  e: "div(j) + ∂ω/∂t = -j.E"
+  correct: !!set
+     ? 'd'
+
+124:
+  qu: "L'indice optique d'un milieu homogène isotrope est lié à la vitesse de phase v d'une OPPM par la relation :"
+  keys: ["physopti"]
+  a: "n = c/v"
+  b: "n = v/c"
+  c: "n = c²/v²"
+  d: "n = v²/c²"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+125:
+  qu: "L'indice optique du verre est environ :"
+  keys: ["physopti"]
+  a: "0,75"
+  b: "1"
+  c: "1,33"
+  d: "1,5"
+  e: "2,5"
+  correct: !!set
+     ? 'd'
+
+126:
+  qu: "L'intensité lumineuse d'une onde s est donnée par la relation :"
+  keys: ["physopti"]
+  a: "2<s>"
+  b: "<s>"
+  c: "2<s²>"
+  d: "<s²>"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+127:
+  qu: "Deux ondes lumineuses monochromatiques sont dites cohérentes si :"
+  keys: ["physopti"]
+  a: "elles sont quasi-synchrones"
+  b: "leur déphasage varie suffisamment lentement"
+  c: "leur amplitude est quasiment identique"
+  d: "elles proviennent du même train d'ondes"
+  e: "leur différence de marche est inférieure à leur longueur de cohérence"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'd'
+     ? 'e'
+
+128:
+  qu: "Rappeler la formule de FRESNEL à deux ondes."
+  keys: ["physopti"]
+  a: "I = I₁ + I₂ + 2I₁I₂"
+  b: "I = I₁ + I₂ + 2cos(Δφ).√I₁I₂"
+  c: "I = 4cos(Δφ).√I₁I₂"
+  d: "I = I₁² + I₂²"
+  e: "I = I₁ + I₂ + 2I₁I₂.√Δφ"
+  correct: !!set
+     ? 'b'
+
+129:
+  qu: "D'après le critère semi-quantitatif du brouillage partiel, les franges d'interférences sont brouillées lorsque :"
+  keys: ["physopti"]
+  a: "Δp < 1/2"
+  b: "Δp > 1/2"
+  c: "|Δp| < 1/2"
+  d: "|Δp| > 1/2"
+  e: ""
+  correct: !!set
+     ? 'd'
