@@ -41,6 +41,7 @@
 # physthst  Thermodynamique statistique
 # physosci  Oscillateurs
 
+# chimchim  Chimie classique
 # chimarch	Architecture de la matière
 # chimthch	Thermochimie
 # chimelch	Électrochimie
@@ -1538,3 +1539,211 @@
   e: ""
   correct: !!set
      ? 'd'
+
+130:
+  qu: "Soit une réaction chimique de réactifs A et B et de produits C et D admettant un ordre. Sa vitesse de réaction est de la forme :"
+  keys: ["chimchim"]
+  a: "k"
+  b: "k.[A]^a.[B]^b.[C]^c.[D]^d"
+  c: "k.[A]^a.[B]^b"
+  d: "k.[A]^a.[B]^b.[C]^-c.[D]^-d"
+  e: "k.([A][B][C][D])^λ"
+  correct: !!set
+     ? 'c'
+
+131:
+  qu: "Rappeler la loi d'ARRHENIUS."
+  keys: ["chimchim"]
+  a: "k = E / RT²"
+  b: "ln(k) = E / T²R"
+  c: "ln(k) = exp(E / RT²)"
+  d: "dln(k)/dT = E / T²R"
+  e: "dln(k)/dT = exp(E / RT²)"
+  correct: !!set
+     ? 'd'
+
+132:
+  qu: "Dans une pile, sélectionner les assertions correctes."
+  keys: ["chimelch"]
+  a: "L'oxydation s'effectue à l'anode."
+  b: "L'oxydation s'effectue à la cathode."
+  c: "La réduction s'effectue à l'anode."
+  d: "La réduction s'effectue à la cathode."
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'd'
+
+133:
+  qu: "Soit la réaction de précipitation CxAy = xC' + yA' de produit de solubilité Ks. Il n'y a pas de précipité tant que :"
+  keys: ["chimchim"]
+  a: "[C']^x.[A']^y < Ks"
+  b: "[C']^x.[A']^y > Ks"
+  c: "[C']^x < [A']^y"
+  d: "[C']^x > [A']^y"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+134:
+  qu: "Un électron est complètement décrit par les nombres quantiques :"
+  keys: ["chimarch"]
+  a: "le nombre quantique principal n > 0"
+  b: "le nombre quantique secondaire 0 ≤ l ≤ n-1"
+  c: "le nombre quantique magnétique -l ≤ ml ≤ l"
+  d: "le nombre quantique magnétique de spin ms = ± 1/2"
+  e: "le nombre quantique de SCHRÖDINGER mh = 0 ou 1"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'c'
+     ? 'd'
+
+135:
+  qu: "On considère l'atome d'azote (Z = 7). D'après la règle de HUND, une configuration électronique possible est :"
+  keys: ["chimarch"]
+  a: "[↑↓] [↑↓] [↑↓][ ↓][  ]"
+  b: "[↑↓] [↑↓] [ ↓][↑ ][↑ ]"
+  c: "[↑↓] [↑↓] [ ↓][ ↓][ ↓]"
+  d: "[↑↓] [↑↓] [↑ ][↑ ][↑ ]"
+  e: "[↑↓] [↑↓] [↑↓][  ][↑ ]"
+  correct: !!set
+     ? 'c'
+     ? 'd'
+
+136:
+  qu: "Quelle colonne du tableau périodique est celle des halogènes ? On rappelle que le tableau comporte 18 colonnes."
+  keys: ["chimarch"]
+  a: "1"
+  b: "2"
+  c: "3"
+  d: "17"
+  e: "18"
+  correct: !!set
+     ? 'd'
+
+137:
+  qu: "Quelle colonne du tableau périodique est celle des alcalins ? On rappelle que le tableau comporte 18 colonnes."
+  keys: ["chimarch"]
+  a: "1"
+  b: "2"
+  c: "3"
+  d: "17"
+  e: "18"
+  correct: !!set
+     ? 'a'
+
+138:
+  qu: "La structure électronique du fluor est 1s²2s²2p⁵. Quelle configuration des électrons de valence est la plus probable ?"
+  keys: ["chimarch"]
+  a: "2 doublets non liants, 1 électron liant"
+  b: "3 doublets non liants, 1 électron liant"
+  c: "1 doublet non liant, 5 électrons liants"
+  d: "3 doublets non liants, 2 électrons liants, 1 lacune électronique"
+  e: "2 doublets non liants, 3 électrons liants"
+  correct: !!set
+     ? 'b'
+
+139:
+  qu: "La longueur d'une liaison covalente est de l'ordre de :"
+  keys: ["chimarch"]
+  a: "1 pm"
+  b: "10 pm"
+  c: "100 pm"
+  d: "1 nm"
+  e: "10 nm"
+  correct: !!set
+     ? 'c'
+
+140:
+  qu: "L'énergie d'une liaison covalente en kJ.mol⁻¹ est de l'ordre de :"
+  keys: ["chimarch"]
+  a: "0,04"
+  b: "0,4"
+  c: "4"
+  d: "400"
+  e: "40000"
+  correct: !!set
+     ? 'd'
+
+141:
+  qu: "Soit une masse m d'une phase condensée de capacité thermique c subissant une transformation monobare adiabatique d'une température T1 à une température T2. Calculer ΔH."
+  keys: ["physpfth"]
+  a: "ΔH = 0"
+  b: "ΔH = mc(T1-T2)"
+  c: "ΔH = mc(T2-T1)"
+  d: "ΔH dépend de la masse volumique de la phase condensée"
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'c'
+
+142:
+  qu: "Que dire de l'enthalpie libre G ?"
+  keys: ["chimthch"]
+  a: "G = H + TS"
+  b: "G = H - TS"
+  c: "G est en J"
+  d: "G est en J.K⁻¹"
+  e: "G est une fonction d'état"
+  correct: !!set
+     ? 'b'
+     ? 'c'
+     ? 'e'
+
+143:
+  qu: "Rappeler la formule de DE DONDER pour un système fermé monoréactionnel isotherme isobare."
+  keys: ["chimthch"]
+  a: "ΔrG - dξ = -TδSc"
+  b: "ΔrG + dξ = TδSc"
+  c: "ΔrG + dξ = -TδSc"
+  d: "TδSc ≥ 0"
+  e: "TδSc ≤ 0"
+  correct: !!set
+     ? 'a'
+     ? 'd'
+
+144:
+  qu: "Par définition, ΔrG⁰(T) ="
+  keys: ["chimthch"]
+  a: "RTln(K⁰(T))"
+  b: "-RTln(K⁰(T))"
+  c: "RTK⁰(T)"
+  d: "-RTK⁰(T)"
+  e: ""
+  correct: !!set
+     ? 'b'
+
+145:
+  qu: "Donner la relation entre ΔrG, K⁰ et Qr."
+  keys: ["chimthch"]
+  a: "ΔrG = RTln(Qr/K⁰(T))"
+  b: "ΔrG = -RTln(Qr/K⁰(T))"
+  c: "ΔrG = RTln(QrK⁰(T))"
+  d: "ΔrG = RTQrK⁰(T)"
+  e: "ΔrG = -RTK⁰(T) / Qr"
+  correct: !!set
+     ? 'a'
+
+146:
+  qu: "Rappeler la relation de VAN'T HOFF."
+  keys: ["chimthch"]
+  a: "ΔrH⁰(T) = RT².dln(K⁰(T))/dT"
+  b: "ΔrH⁰(T) = RT.dln(K⁰(T))/dT"
+  c: "ΔrH⁰(T) = RTln(K⁰(T))"
+  d: "ΔrH⁰(T) = RT².dK⁰(T)/dT"
+  e: "ΔrH⁰(T) = RT².K⁰(T)"
+  correct: !!set
+     ? 'a'
+
+147:
+  qu: "Dans une cellule électrochimique où n électrons sont échangés, q et ξ sont liés par la relation :"
+  keys: ["chimelch"]
+  a: "dq = nFdξ"
+  b: "dq = -nFdξ"
+  c: "dq = n²ξ"
+  d: "dq = -n²ξ"
+  e: "dq = ξ"
+  correct: !!set
+     ? 'a'
+
