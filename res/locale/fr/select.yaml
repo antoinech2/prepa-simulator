@@ -1747,3 +1747,160 @@
   correct: !!set
      ? 'a'
 
+148:
+  qu: "Rappeler l'équation de MAXWELL-GAUSS."
+  keys: ["physemag"]
+  a: "div(E) = ρ/ε₀"
+  b: "div(B) = 0"
+  c: "rot(E) = -∂B/∂t"
+  d: "rot(B) = μ₀j + μ₀ε₀.∂E/∂t"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+149:
+  qu: "Rappeler l'équation de MAXWELL-flux."
+  keys: ["physemag"]
+  a: "div(E) = ρ/ε₀"
+  b: "div(B) = 0"
+  c: "rot(E) = -∂B/∂t"
+  d: "rot(B) = μ₀j + μ₀ε₀.∂E/∂t"
+  e: ""
+  correct: !!set
+     ? 'b'
+
+150:
+  qu: "Rappeler l'équation de MAXWELL-FARADAY."
+  keys: ["physemag"]
+  a: "div(E) = ρ/ε₀"
+  b: "div(B) = 0"
+  c: "rot(E) = -∂B/∂t"
+  d: "rot(B) = μ₀j + μ₀ε₀.∂E/∂t"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+151:
+  qu: "Rappeler l'équation de MAXWELL-AMPÈRE."
+  keys: ["physemag"]
+  a: "div(E) = ρ/ε₀"
+  b: "div(B) = 0"
+  c: "rot(E) = -∂B/∂t"
+  d: "rot(B) = μ₀j + μ₀ε₀.∂E/∂t"
+  e: ""
+  correct: !!set
+     ? 'd'
+
+152:
+  qu: "Donner la valeur de 1/4πε₀."
+  keys: ["physemag"]
+  a: "9.10E9 m.F"
+  b: "9.10E9 m.F⁻¹"
+  c: "9.10E9 m.A"
+  d: "4π.10E-7 A.m"
+  e: "4π.10E-7 A.m⁻¹"
+  correct: !!set
+     ? 'b'
+
+153:
+  qu: "Donner la valeur de μ₀."
+  keys: ["physemag"]
+  a: "9.10E9 m.F"
+  b: "9.10E9 m.F⁻¹"
+  c: "9.10E9 m.A"
+  d: "4π.10E-7 A.m"
+  e: "4π.10E-7 A.m⁻¹"
+  correct: !!set
+     ? 'e'
+
+154:
+  qu: "Une charge ponctuelle q placée en O fixe crée un champ électrostatique dirigé selon ur de norme :"
+  keys: ["physemag"]
+  a: "q²/4πε₀OM²"
+  b: "q/4πε₀OM²"
+  c: "q²/4πε₀OM"
+  d: "q/4πε₀OM"
+  e: ""
+  correct: !!set
+     ? 'b'
+
+155:
+  qu: "La capacité d'un condensateur plan idéal formé par deux armatures de surface S et séparées d'une distance h est :"
+  keys: ["physemag"]
+  a: "Sε₀/h"
+  b: "h/ε₀S"
+  c: "S/ε₀h"
+  d: "Sh/ε₀"
+  e: "ε₀/Sh"
+  correct: !!set
+     ? 'a'
+
+156:
+  qu: "Soit un conducteur rectiligne de longueur L parcouru par un courant I orienté et plongé dans un champ B. La force de LAPLACE résultante est :"
+  keys: ["physemag"]
+  a: "IL ^ B"
+  b: "IB ^ L"
+  c: "I(B.L)u où u est un vecteur orienté selon le sens de I"
+  d: "I(B.L)(B^L)"
+  e: "B ^ L"
+  correct: !!set
+     ? 'a'
+
+157:
+  qu: "Lors du passage à une interface :"
+  keys: ["physemag"]
+  a: "E tangentiel et B tangentiel sont conservés"
+  b: "E normal et B normal sont conservés"
+  c: "E tangentiel et B normal sont conservés"
+  d: "E normal et B tangentiel sont conservés"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+158:
+  qu: "Lors du passage à une interface :"
+  keys: ["physemag"]
+  a: "ΔB(tangentiel) = μ₀j ^ n où n est le vecteur normal à l'interface dirigé de (1) à (2)"
+  b: "ΔB(normal) = μ₀j ^ n où n est le vecteur normal à l'interface dirigé de (1) à (2)"
+  c: "ΔE(tangentiel) = σ/ε₀.n où n est le vecteur normal à l'interface dirigé de (1) à (2)"
+  d: "ΔE(normal) = σ/ε₀.n où n est le vecteur normal à l'interface dirigé de (1) à (2)"
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'd'
+
+159:
+  qu: "Rappeler l'expression de la densité volumique d'énergie électromagnétique."
+  keys: ["physemag"]
+  a: "E ^ B/μ₀"
+  b: "-j.E"
+  c: "ε₀E²/2 + B²/2μ₀"
+  d: "∫∫ Π.dSm"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+160:
+  qu: "Une onde électromagnétique plane progressive se propageant à la célérité c.u satisfait les équations :"
+  keys: ["physoema"]
+  a: "E.u = 0"
+  b: "B.u = 0"
+  c: "B = u ^ E/c"
+  d: "(u,E,B) forme un trièdre droit direct"
+  e: "(u,B,E) forme un trièdre droit direct"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'c'
+     ? 'd'
+
+161:
+  qu: "La polarisation d'une onde électromagnétique correspond à la direction de :"
+  keys: ["physoema"]
+  a: "E"
+  b: "B"
+  c: "u, le vecteur d'onde"
+  d: ""
+  e: ""
+  correct: !!set
+     ? 'a'
