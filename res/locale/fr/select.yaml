@@ -1904,3 +1904,61 @@
   e: ""
   correct: !!set
      ? 'a'
+
+162:
+  qu: "Pour un quanton non localisé d'impulsion p parfaitement déterminée, on pose le vecteur densité de courant de probabilité J ="
+  keys: ["physquan"]
+  a: "|Ψ|².hk/m"
+  b: "|Ψ|².hk/2πm"
+  c: "|Ψ|.hk"
+  d: "|Ψ|.hk/2πm"
+  e: "|Ψ|/hkm"
+  correct: !!set
+     ? 'b'
+
+163:
+  qu: "Donner la variance d'une loi géométrique de paramètre p."
+  keys: ["mathprob"]
+  a: "p(p+2)/12"
+  b: "p(1-p)"
+  c: "p²(1-p)²"
+  d: "(1-p)/p²"
+  e: "p"
+  correct: !!set
+     ? 'd'
+
+164:
+  qu: "Donner la variance d'une loi de POISSON de paramètre p."
+  keys: ["mathprob"]
+  a: "p(p+2)/12"
+  b: "p(1-p)"
+  c: "p²(1-p)²"
+  d: "(1-p)/p²"
+  e: "p"
+  correct: !!set
+     ? 'e'
+
+165:
+  qu: "Si X est une vard admettant une variance, alors d'après le théorème de BIENAYMÉ-TCHEBYCHEV, pour tout ε > 0 :"
+  keys: ["mathprob"]
+  a: "P(|X-E(X)| ≥ ε) ≤ V(X)/ε²"
+  b: "P(|X-E(X)| ≥ ε) ≥ V(X)/ε²"
+  c: "P(|X-E(X)| ≥ ε) ≤ V(X)/ε"
+  d: "P(|X-E(X)| ≥ ε) ≥ V(X)/ε"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+166:
+  qu: "Donner l'expression de Cov(X,Y) où X et Y sont des variables aléatoires admettant des espérances."
+  keys: ["mathprob"]
+  a: "E((X - E(X))(Y - E(Y)))"
+  b: "E(XY) - E(X)E(Y)"
+  c: "(E(X²) - E(Y)²) + (E(Y²) - E(X)²)"
+  d: "0 si X et Y sont indépendantes"
+  e: "0 si X et Y ne sont pas indépendantes"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'd'
+
