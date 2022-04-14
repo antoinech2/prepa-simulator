@@ -931,7 +931,7 @@
 76 :
   qu: "Qu'est-ce que le diagramme des frigoristes ?"
   keys: ["physmach"]
-  a: "un diagramme (P,t)"
+  a: "un diagramme (P,T)"
   b: "un diagramme (P,h)"
   c: "un diagramme (T,s)"
   d: "un diagramme (h,s)"
@@ -1541,7 +1541,7 @@
      ? 'd'
 
 130:
-  qu: "Soit une réaction chimique de réactifs A et B et de produits C et D admettant un ordre. Sa vitesse de réaction est de la forme :"
+  qu: "Soit une réaction chimique de réactifs A et B et de produits C et D admettant un ordre. Il existe k = cte tel que sa vitesse de réaction est de la forme :"
   keys: ["chimchim"]
   a: "k"
   b: "k.[A]^a.[B]^b.[C]^c.[D]^d"
