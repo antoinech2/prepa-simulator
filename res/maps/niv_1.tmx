@@ -290,10 +290,10 @@
   </object>
   <object id="110" name="to_o101_main" x="2880" y="4032" width="64" height="32"/>
   <object id="111" name="to_o101_sub" x="3072" y="4032" width="64" height="32"/>
-  <object id="112" name="exit_o101_main" x="2880" y="4000">
+  <object id="112" name="exit_o101_main" x="2880" y="3989">
    <point/>
   </object>
-  <object id="113" name="exit_o101_sub" x="3072" y="4000">
+  <object id="113" name="exit_o101_sub" x="3072" y="3989">
    <point/>
   </object>
   <object id="115" type="mur" x="2848" y="3808" width="192" height="96"/>

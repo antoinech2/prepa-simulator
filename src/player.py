@@ -4,8 +4,8 @@
 """Gère le joueur"""
 
 import pygame as pg
-from copy import deepcopy
 
+import debug
 import save
 
 class Player(pg.sprite.Sprite):
@@ -37,6 +37,7 @@ class Player(pg.sprite.Sprite):
         # Variables d'état
         self.is_animated = False        # Le sprite du joueur défile
         self.is_sprinting = False       # Le joueur sprinte
+        self.is_warping = False         # Le joueur se téléporte
         self.can_move = True            # Le joueur est capable de bouger
         self.boop = False               # Le joueur est en collision
 
@@ -80,15 +81,52 @@ class Player(pg.sprite.Sprite):
         # Collision avec un portail
         index = self.feet.collidelist(self.game.map_manager.portals)
         if index >= 0:   # Le joueur est dans un portail
-            # On récupère l'endroit où téléporter le joueur
-            [to_world, to_point] = self.game.game_data_db.execute("SELECT to_world, to_point FROM portals WHERE id = ?", (self.game.map_manager.portals_id[index],)).fetchall()[0]
-            old_bgm = self.game.map_manager.sound_manager.music_file
-            self.game.map_manager.load_map(to_world, old_bgm) # On charge la nouvelle carte
-            self.game.map_manager.teleport_player(to_point)  # on téléporte le joueur à la destination
+            self.can_move = False
+            self.warp(index)
+            self.is_warping = True
             return True
         else:
             # Collision avec les murs
             return True if self.feet.collidelist(self.game.map_manager.walls) > -1 else False
+    
+    def warp(self, tp_point):
+        """Téléportation du joueur vers une nouvelle map"""
+        transition_step = 5
+        # On récupère l'endroit où téléporter le joueur
+        [to_world, to_point] = self.game.game_data_db.execute("SELECT to_world, to_point FROM portals WHERE id = ?", (self.game.map_manager.portals_id[tp_point],)).fetchall()[0]
+        old_bgm = self.game.map_manager.sound_manager.music_file
+        # Transition vers un écran noir
+        fader = pg.Surface(self.game.window_size).convert()       # Fond noir initialement transparent
+        fader.set_alpha(0)
+        while fader.get_alpha() < 255:
+            self.game.screen.blit(fader, (0, 0))
+            fader.set_alpha(fader.get_alpha() + 2.2)              # L'opacité du fond noir est augmentée
+            if self.game.debug:
+                debug.show_debug_menu(self.game)                  # Conservation du menu de debug à l'écran
+            pg.display.flip()
+            pg.time.delay(transition_step)
+        # Téléportation
+        self.game.map_manager.load_map(to_world, old_bgm) # On charge la nouvelle carte
+        self.game.map_manager.teleport_player(to_point)  # on téléporte le joueur à la destination
+        self.update()
+        self.game.map_manager.draw()
+        pg.display.flip()
+    
+    def end_warp(self):
+        """Fin de la transition de warp"""
+        transition_step = 1
+        void = pg.Surface(self.game.window_size).convert()          # Fond noir initialement opaque
+        void.set_alpha(255)
+        bg = self.game.screen.convert()                             # Arrière-plan final
+        bg.set_alpha(255)
+        while void.get_alpha() > 0:
+            self.game.map_manager.draw()
+            self.game.screen.blit(bg, (0, 0))
+            self.game.screen.blit(void, (0, 0))
+            void.set_alpha(void.get_alpha() - 17)
+            pg.display.flip()
+            pg.time.delay(transition_step)
+        
 
     def move(self, list_directions, sprinting):
         """Méthode de déplacement du joueur"""
@@ -100,13 +138,13 @@ class Player(pg.sprite.Sprite):
 
                 # On calcule le déplacement potentiel en x et en y en fonction des touche préssées
                 deplacement = [0, 0]
-                if list_directions[0]: #Haut
+                if list_directions[0]: # Haut
                     deplacement[1] -= 1
-                if list_directions[1]: #Droite
+                if list_directions[1]: # Droite
                     deplacement[0] += 1
-                if list_directions[2]: #Bas
+                if list_directions[2]: # Bas
                     deplacement[1] += 1
-                if list_directions[3]: #Gauche
+                if list_directions[3]: # Gauche
                     deplacement[0] -= 1
 
                 if deplacement[0] != 0 or deplacement[1] != 0: # Si le déplacement n'est pas nul
@@ -145,6 +183,10 @@ class Player(pg.sprite.Sprite):
         animation_cooldown = self.SPRINT_ANIMATION_COOLDOWN if self.is_sprinting else self.WALK_ANIMATION_COOLDOWN
         if self.is_animated == True:
             self.current_sprite = (int(self.game.internal_clock.ticks_since_epoch / animation_cooldown) % 3)
+        if self.is_warping:
+            self.end_warp()
+            self.is_warping = False
+            self.can_move = True
 
     def get_image(self, x, y):
         """Retourne une partie de l'image du joueur"""

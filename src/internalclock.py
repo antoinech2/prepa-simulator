@@ -12,7 +12,7 @@ class InternalClock:
         self.pgclock = pg.time.Clock()
 
         # Compteurs de ticks
-        self.ticks_since_epoch = 0      # TODO Trouver un moyen d'enregistrer le nb de ticks depuis le dernier reset
+        self.ticks_since_epoch = 0      # TODO Enregistrer le nb de ticks depuis le dernier reset
         self.ticks_since_sessionstart = 0
 
         # Horloge du jeu

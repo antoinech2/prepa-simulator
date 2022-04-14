@@ -176,7 +176,10 @@ def brrr():
             """infobox()""",
             """dialogue(self.current_npc, 3)""",
             """runscript('denis_brogniart')""",
-            """move('right', 8000, True)"""])
+            """move('right', 8000, True)""",
+            """move('right', 200, True)""",
+            """move('down', 200, True)""",
+            """move('right', 1000, True)"""])
 
 def denis_brogniart():
     return(["""loadtext(6)""",
@@ -231,10 +234,14 @@ def horodat():
 def testporte():
     return(["""loadtext("background")""",
             """infobox()""",
-            """changelayer("bg")""",
+            """changelayer('bg')""",
             """loadtext("foreground")""",
             """infobox()""",
-            """changelayer("fg")"""])
+            """changelayer('fg')""",
+            """loadtext("bye")""",
+            """infobox()""",
+            """warp(0, [1500, 1500])""",
+            """changelayer('bg')"""])
 
 def flaginator():
     return(["""testflag(-1,0)""",

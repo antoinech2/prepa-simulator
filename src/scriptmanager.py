@@ -123,8 +123,11 @@ class ScriptManager():
                 if self.moving_direction == "left":
                     self.game.player.move([False, False, False, True], self.sprint_during_script)
                 dist = ((self.initial_coords[0] - self.game.player.position[0])**2 + (self.initial_coords[1] - self.game.player.position[1])**2) ** 0.5 # Distance totale parcourue pendant le script
-                if dist > self.movement_boundary or self.game.player.boop: # Le mouvement s'est déroulé normalement ou le joueur s'est pris un mur
+                if dist > self.movement_boundary: # Le mouvement s'est déroulé normalement ou le joueur s'est pris un mur
                     self.exit_movingscript()
+                elif self.game.player.boop:
+                    self.exit_movingscript()
+                    print("debug : script_boop")
             elif self.game.dialogue is not None or self.game.menu_manager.choicebox is not None or self.game.mgm_manager.running_mg is not None:    # On laisse le dialogue défiler s'il existe, ou ou attend les résultats de la choicebox
                 pass
             elif self.current_script_command() >= len(self.game.running_script.contents) or self.abort: # Le script courant est terminé ou on force l'arrêt
@@ -138,7 +141,7 @@ class ScriptManager():
                     self.game.input_lock = False    # Déblocage du clavier
             else: # Le jeu est disponible pour passer à l'étape suivante
                 start = self.game.running_script
-                command = "self." + self.game.running_script.contents[self.current_script_command()] # Correction syntaxique
+                command = f"self.{self.game.running_script.contents[self.current_script_command()]}" # Correction syntaxique
                 eval(command)
                 if self.game.script_tree[-1][0] == start: # Le script en cours de traitement est le même
                     self.game.script_tree[-1][1] += 1 # Augmentation du n° de la commande courante
@@ -176,7 +179,7 @@ class ScriptManager():
             print("Impossible d'accéder à la base de donnée lors de la sauvegarde. Cela peut être dû à une réinitialisation des données...")
 
 
-    # Fonctions graphiques
+    # Fonctions graphiques et de mouvement
     def changelayer(self, layer):
         """Déplacement du sprite du joueur sur un nouveau calque"""
         if layer == "bg":
@@ -191,6 +194,11 @@ class ScriptManager():
         self.moving_direction = direction
         self.movement_boundary = pix
         self.sprint_during_script = sprint
+    
+    def warp(self, target_map, target_coords):
+        """Téléportation du joueur vers une nouvelle map"""
+        self.game.map_manager.load_map(target_map, self.game.map_manager.sound_manager.music_file)      # Chargement de la nouvelle map
+        self.game.player.position = target_coords
     
 
     # Fonctions du temps
