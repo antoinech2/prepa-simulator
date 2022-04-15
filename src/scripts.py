@@ -241,7 +241,7 @@ def testporte():
             """loadtext("bye")""",
             """infobox()""",
             """warp(0, [1500, 1500])""",
-            """changelayer('bg')"""])
+            """changelayer('fg')"""])
 
 def flaginator():
     return(["""testflag(-1,0)""",

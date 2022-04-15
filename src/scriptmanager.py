@@ -197,8 +197,8 @@ class ScriptManager():
     
     def warp(self, target_map, target_coords):
         """Téléportation du joueur vers une nouvelle map"""
-        self.game.map_manager.load_map(target_map, self.game.map_manager.sound_manager.music_file)      # Chargement de la nouvelle map
-        self.game.player.position = target_coords
+        self.game.player.warp(target_map, target_coords, self.game.map_manager.sound_manager.music_file)
+        self.game.player.is_warping = True
     
 
     # Fonctions du temps

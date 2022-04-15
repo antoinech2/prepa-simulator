@@ -81,20 +81,21 @@ class Player(pg.sprite.Sprite):
         # Collision avec un portail
         index = self.feet.collidelist(self.game.map_manager.portals)
         if index >= 0:   # Le joueur est dans un portail
-            self.can_move = False
-            self.warp(index)
+            # On récupère l'endroit où téléporter le joueur
+            [to_world, to_point] = self.game.game_data_db.execute("SELECT to_world, to_point FROM portals WHERE id = ?", (self.game.map_manager.portals_id[index],)).fetchall()[0]
+            old_bgm = self.game.map_manager.sound_manager.music_file
+            self.warp(to_world, to_point, old_bgm)
             self.is_warping = True
             return True
         else:
             # Collision avec les murs
             return True if self.feet.collidelist(self.game.map_manager.walls) > -1 else False
     
-    def warp(self, tp_point):
+    def warp(self, map, coords, old_bgm):
         """Téléportation du joueur vers une nouvelle map"""
         transition_step = 5
-        # On récupère l'endroit où téléporter le joueur
-        [to_world, to_point] = self.game.game_data_db.execute("SELECT to_world, to_point FROM portals WHERE id = ?", (self.game.map_manager.portals_id[tp_point],)).fetchall()[0]
-        old_bgm = self.game.map_manager.sound_manager.music_file
+        # On empêche le joueur de bouger pendant le warp
+        self.can_move = False
         # Transition vers un écran noir
         fader = pg.Surface(self.game.window_size).convert()       # Fond noir initialement transparent
         fader.set_alpha(0)
@@ -106,8 +107,8 @@ class Player(pg.sprite.Sprite):
             pg.display.flip()
             pg.time.delay(transition_step)
         # Téléportation
-        self.game.map_manager.load_map(to_world, old_bgm) # On charge la nouvelle carte
-        self.game.map_manager.teleport_player(to_point)  # on téléporte le joueur à la destination
+        self.game.map_manager.load_map(map, old_bgm) # On charge la nouvelle carte
+        self.game.map_manager.teleport_player(coords)  # on téléporte le joueur à la destination
         self.update()
         self.game.map_manager.draw()
         pg.display.flip()

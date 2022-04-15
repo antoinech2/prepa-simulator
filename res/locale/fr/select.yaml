@@ -378,7 +378,7 @@
 28 :
   qu: "Quelles sont les propriétés d'une partie fermée A ?"
   keys: ["mathtopo"]
-  a: "C'est l'image réciproque d'un fermé par une application continue."
+  a: "L'image réciproque de A par une application continue est fermée."
   b: "Toute partie incluse dans A est fermée."
   c: "Son complémentaire est ouvert."
   d: "Ā = A"
@@ -1326,7 +1326,7 @@
      ? 'd'
 
 111:
-  qu: "Si R' est en rotation uniforme par rapport à R galiléen, rappeler l'expression de la force d'accélération d'entraînement (O est un point fixe de R)."
+  qu: "Si R' est en rotation uniforme par rapport à R galiléen, rappeler l'expression de la force d'inertie d'entraînement (O est un point fixe de R)."
   keys: ["physmeng"]
   a: "-mΩ².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
   b: "mΩ ^ (Ω ^ OM)"
@@ -1337,7 +1337,7 @@
      ? 'c'
 
 112:
-  qu: "Si R' est en rotation uniforme par rapport à R galiléen, rappeler l'expression de la force d'accélération de CORIOLIS (O est un point fixe de R)."
+  qu: "Si R' est en rotation uniforme par rapport à R galiléen, rappeler l'expression de la force d'inertie de CORIOLIS (O est un point fixe de R)."
   keys: ["physmeng"]
   a: "-mΩ².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
   b: "mΩ ^ (Ω ^ OM)"
