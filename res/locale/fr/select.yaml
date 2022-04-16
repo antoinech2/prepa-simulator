@@ -1962,3 +1962,47 @@
      ? 'b'
      ? 'd'
 
+167:
+  qu: "Donner la dérivée de tan sur son ensemble de dérivabilité."
+  keys: ["mathanly"]
+  a: "tan²"
+  b: "1 + tan²"
+  c: "1/cos²"
+  d: "1/sin²"
+  e: "cos²/sin²"
+  correct: !!set
+     ? 'b'
+     ? 'c'
+
+168:
+  qu: "Donner la dérivée de arcsin sur son ensemble de dérivabilité."
+  keys: ["mathanly"]
+  a: "1/√(1-x²)"
+  b: "-1/√(1-x²)"
+  c: "1/(1+x²)"
+  d: "arccos"
+  e: "-arcsin"
+  correct: !!set
+     ? 'a'
+
+169:
+  qu: "Donner la dérivée de arccos sur son ensemble de dérivabilité."
+  keys: ["mathanly"]
+  a: "1/√(1-x²)"
+  b: "-1/√(1-x²)"
+  c: "1/(1+x²)"
+  d: "arccos"
+  e: "-arcsin"
+  correct: !!set
+     ? 'b'
+
+170:
+  qu: "Donner la dérivée de arctan sur son ensemble de dérivabilité."
+  keys: ["mathanly"]
+  a: "1/√(1-x²)"
+  b: "-1/√(1-x²)"
+  c: "1/(1+x²)"
+  d: "arccos"
+  e: "-arcsin"
+  correct: !!set
+     ? 'c'
