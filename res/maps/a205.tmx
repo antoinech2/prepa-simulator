@@ -215,7 +215,7 @@
   <object id="4" type="mur" x="1728" y="1312" width="64" height="512"/>
   <object id="5" type="mur" x="1248" y="1760" width="544" height="64"/>
   <object id="6" type="mur" x="1248" y="1312" width="96" height="512"/>
-  <object id="7" name="to_cdh" x="1728" y="1440" width="32" height="32"/>
+  <object id="7" name="to_cdh" type="door" x="1726.25" y="1440" width="33.75" height="32"/>
   <object id="8" name="spawn_a205" x="1685" y="1440">
    <point/>
   </object>

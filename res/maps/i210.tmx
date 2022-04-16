@@ -117,7 +117,7 @@
   <object id="5" name="spawn_i210" x="896" y="544">
    <point/>
   </object>
-  <object id="6" name="to_niv2" x="960" y="544" width="32" height="32"/>
+  <object id="6" name="to_niv2" type="door" x="958.545" y="544" width="33.4545" height="32"/>
   <object id="7" name="plein de têtes" x="656" y="452.667" width="218.667" height="20.6667"/>
  </objectgroup>
 </map>

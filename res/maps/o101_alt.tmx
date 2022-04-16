@@ -214,8 +214,8 @@
   <object id="2" type="mur" x="1184" y="960" width="128" height="1440"/>
   <object id="3" type="mur" x="1728" y="960" width="128" height="1440"/>
   <object id="4" type="mur" x="1184" y="2304" width="672" height="96"/>
-  <object id="5" name="to_niv1_main" x="1728" y="1472" width="32" height="64"/>
-  <object id="6" name="to_niv1_sub" x="1728" y="2176" width="32" height="64"/>
+  <object id="5" name="to_niv1_main" type="door" x="1726.38" y="1472" width="33.625" height="64"/>
+  <object id="6" name="to_niv1_sub" type="door" x="1728" y="2176" width="32" height="64"/>
   <object id="8" name="spawn_o101_sub" x="1696" y="2208">
    <point/>
   </object>

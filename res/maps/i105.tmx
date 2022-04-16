@@ -217,6 +217,6 @@
   <object id="5" name="spawn_i105" x="1632" y="1728">
    <point/>
   </object>
-  <object id="6" name="to_niv1" x="1664" y="1728" width="32" height="32"/>
+  <object id="6" name="to_niv1" type="door" x="1662.27" y="1728" width="33.7273" height="32"/>
  </objectgroup>
 </map>

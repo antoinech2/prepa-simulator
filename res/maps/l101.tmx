@@ -215,7 +215,7 @@
   </object>
   <object id="2" type="mur" x="1216" y="1248" width="64" height="576"/>
   <object id="3" type="mur" x="1664" y="1248" width="64" height="576"/>
-  <object id="4" name="to_niv1" x="1664" y="1312" width="32" height="32"/>
+  <object id="4" name="to_niv1" type="door" x="1661.45" y="1312" width="34.5455" height="32"/>
   <object id="5" type="mur" x="1216" y="1152" width="512" height="128"/>
   <object id="6" type="mur" x="1616" y="1269.5" width="62.125" height="26.625"/>
   <object id="7" name="in lionel we trust" x="1386" y="1190.67" width="171.333" height="21.3333"/>

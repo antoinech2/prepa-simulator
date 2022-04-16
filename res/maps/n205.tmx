@@ -214,7 +214,7 @@
   <object id="2" type="mur" x="1312" y="1280" width="64" height="352"/>
   <object id="3" type="mur" x="1312" y="1600" width="448" height="64"/>
   <object id="4" type="mur" x="1696" y="1312" width="64" height="352"/>
-  <object id="5" name="to_niv2" x="1696" y="1504" width="32" height="32"/>
+  <object id="5" name="to_niv2" type="door" x="1693.88" y="1504" width="34.125" height="32"/>
   <object id="6" name="spawn_n205" x="1664" y="1504">
    <point/>
   </object>

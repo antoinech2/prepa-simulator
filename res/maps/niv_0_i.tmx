@@ -110,28 +110,28 @@
    <point/>
   </object>
   <object id="2" name="affichage ménage" x="1292" y="1491.5" width="38" height="28.5"/>
-  <object id="3" name="to_niv1" x="2048" y="1568" width="32" height="32"/>
+  <object id="3" name="to_niv1" type="door" x="2045.5" y="1568" width="34.5" height="32"/>
   <object id="4" type="mur" x="2048" y="1408" width="64" height="256"/>
   <object id="5" type="mur" x="832" y="1632" width="1280" height="64"/>
   <object id="6" type="mur" x="832" y="1600" width="32" height="32"/>
   <object id="7" type="mur" x="832" y="1408" width="192" height="192"/>
   <object id="8" type="mur" x="832" y="1184" width="352" height="160"/>
   <object id="9" type="mur" x="1088" y="1120" width="1024" height="416"/>
-  <object id="10" name="to_h009" x="896" y="1312" width="32" height="32"/>
+  <object id="10" name="to_h009" type="door" x="896" y="1312" width="32" height="35"/>
   <object id="11" name="exit_h009" x="896" y="1344">
    <point/>
   </object>
   <object id="13" name="spawn_from1_i" x="1984" y="1568">
    <point/>
   </object>
-  <object id="15" name="to_i007" x="1221" y="1496.44" width="22.0625" height="39.5"/>
+  <object id="15" name="to_i007" type="door" x="1221" y="1496.44" width="22.0625" height="42.4091"/>
   <object id="16" name="exit_i007" x="1216" y="1536">
    <point/>
   </object>
   <object id="17" name="Idée : faire de la salle de musique une sorte de jukebox post-game" x="1216" y="1408">
    <point/>
   </object>
-  <object id="19" name="to_i004" x="1732.91" y="1498.91" width="22.0909" height="37.0909"/>
+  <object id="19" name="to_i004" type="door" x="1732.91" y="1498.91" width="22.0909" height="39.5909"/>
   <object id="20" name="exit_i004" x="1728" y="1536">
    <point/>
   </object>

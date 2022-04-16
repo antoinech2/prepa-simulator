@@ -210,7 +210,7 @@
 </data>
  </layer>
  <objectgroup id="3" name="objects">
-  <object id="1" name="to_niv1" x="1408" y="1568" width="32" height="32"/>
+  <object id="1" name="to_niv1" type="door" x="1408" y="1568" width="35.6363" height="32"/>
   <object id="2" type="mur" x="1376" y="1312" width="64" height="480"/>
   <object id="3" type="mur" x="1376" y="1728" width="320" height="64"/>
   <object id="4" type="mur" x="1664" y="1312" width="64" height="480"/>

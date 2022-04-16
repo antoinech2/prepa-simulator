@@ -4,14 +4,12 @@
 # Import externe
 import pygame as pg
 import pytmx, pyscroll
-from dataclasses import dataclass
 
 # Import interne
 import npc
 import objects
 import save
 import sound as sd # Pour éviter la confusion avec le module Sound de pg
-import scripts as sc
 
 """
 Gère les différentes cartes du jeu et ses accès respectifs
@@ -53,7 +51,7 @@ class MapManager:
         self.walls = []
         for obj in self.tmx_data.objects:
             if obj.type == "mur":
-                self.walls.append(pg.Rect(obj.x , obj.y , obj.width , obj.height ))
+                self.walls.append(pg.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # Création de la liste des portails
         portals = self.game.game_data_db.execute("SELECT id, from_point FROM portals WHERE from_world = ?", (self.map_id,)).fetchall()
@@ -62,8 +60,19 @@ class MapManager:
 
         for portal in portals:
             point = self.tmx_data.get_object_by_name(portal[1])
-            self.portals.append(pg.Rect(point.x, point.y, point.width, point.height))
-            self.portals_id.append(portal[0])
+            if point.type == "portal":
+                self.portals.append(pg.Rect(point.x, point.y, point.width, point.height))
+                self.portals_id.append(portal[0])
+        print(self.portals_id)
+
+        # Création de la liste des portes
+        self.doors = []
+        self.doors_id = []
+        for obj in self.tmx_data.objects:
+            if obj.type == "door":
+                self.doors.append(pg.Rect(obj.x, obj.y, obj.width, obj.height))
+                self.doors_id.append(self.game.game_data_db.execute("select id from portals where from_world = ? and from_point = ?;", (self.map_id, obj.name)).fetchall()[0][0])
+        print(self.doors_id)
 
         # Création des groupes calques
         self.object_group = pyscroll.PyscrollGroup(map_layer = map_layer, default_layer = 1)
@@ -79,6 +88,17 @@ class MapManager:
         # Exécution du script en entrée de la map
         if self.map_script is not None:
             self.game.script_manager.execute_script(self.map_script)
+    
+    def get_warps(self):
+        """Vérifie si le joueur touche un objet Tiled associé à une porte"""
+        index = self.game.player.feet.collidelist(self.game.map_manager.doors)
+        print(index)
+        if index >= 0:   # Le joueur est dans un portail
+            # On récupère l'endroit où téléporter le joueur
+            [to_world, to_point] = self.game.game_data_db.execute("SELECT to_world, to_point FROM portals WHERE id = ?", (self.doors_id[index],)).fetchall()[0]
+            old_bgm = self.game.map_manager.sound_manager.music_file
+            self.game.player.warp(to_world, to_point, old_bgm)
+            self.game.player.is_warping = True
 
     def teleport_player(self, tp_point):
         """Téléporte le joueur à un objet de Tiled ou à des coordonnées spécifiées"""
