@@ -15,7 +15,6 @@ import minigame as mgm
 
 class ScriptManager():
     """Classe de gestion des scripts du jeu"""
-    # TODO Supprimer les save.commit()
     def __init__(self, game):
         self.game = game
         self.list_of_scripts = []

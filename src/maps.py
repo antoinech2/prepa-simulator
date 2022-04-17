@@ -102,12 +102,11 @@ class MapManager:
 
     def teleport_player(self, tp_point):
         """Téléporte le joueur à un objet de Tiled ou à des coordonnées spécifiées"""
-        if type(tp_point) != list:       # tp_point n'est pas un objet tiled
+        if len(tp_point) != 2:       # tp_point n'est pas une liste, un tuple, ou un array numpy
             point = self.tmx_data.get_object_by_name(tp_point)
-            self.game.player.position[0] = point.x
-            self.game.player.position[1] = point.y
-        else:                           # tp_point est la liste des coordonnées d'un point
-            self.game.player.position = tp_point
+            self.game.player.position = [point.x, point.y]
+        else:                        # On repasse à la liste pour pouvoir changer les coordonnées du joueur
+            self.game.player.position = list(tp_point)
 
     def player_layer(self, layer):
         """Change le calque d'affichage du joueur.\n

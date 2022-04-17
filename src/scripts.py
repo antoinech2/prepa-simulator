@@ -177,9 +177,11 @@ def brrr():
             """dialogue(self.current_npc, 3)""",
             """runscript('denis_brogniart')""",
             """move('right', 8000, True)""",
+            """warp(9000, (896, 1343))""",
             """move('right', 200, True)""",
             """move('down', 200, True)""",
-            """move('right', 1000, True)"""])
+            """move('right', 1000, True)""",
+            """warp(100, (2944, 1792))"""])
 
 def denis_brogniart():
     return(["""loadtext(6)""",
