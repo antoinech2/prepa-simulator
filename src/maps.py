@@ -97,6 +97,7 @@ class MapManager:
             # On récupère l'endroit où téléporter le joueur
             [to_world, to_point] = self.game.game_data_db.execute("SELECT to_world, to_point FROM portals WHERE id = ?", (self.doors_id[index],)).fetchall()[0]
             old_bgm = self.game.map_manager.sound_manager.music_file
+            self.game.script_manager.sfx('door')        # Effet sonore
             self.game.player.warp(to_world, to_point, old_bgm)
             self.game.player.is_warping = True
 

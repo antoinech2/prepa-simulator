@@ -206,7 +206,7 @@
   <object id="35" name="the Chapelle®" x="2912" y="4160">
    <point/>
   </object>
-  <object id="36" name="to_cdh" x="2752" y="832" width="97" height="32"/>
+  <object id="36" name="to_cdh" type="portal" x="2752" y="832" width="97" height="32"/>
   <object id="50" name="to_l101" type="door" x="2846.36" y="2784" width="33.6364" height="32"/>
   <object id="51" name="exit_l101" x="2803.17" y="2783.67">
    <point/>
