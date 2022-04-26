@@ -8,10 +8,8 @@ from copy import copy
 from random import randint
 import sqlite3 as sql
 
-import menu
 import scripts
 import dialogue as dia
-import minigame as mgm
 
 class ScriptManager():
     """Classe de gestion des scripts du jeu"""

@@ -3,8 +3,6 @@
 
 """Gestion des fonctions associées aux scripts"""
 
-import pygame as pg
-
 class Script():
     """Classe des scripts"""
     # Classe où l'on met toutes les fonctions appelables dans un script.

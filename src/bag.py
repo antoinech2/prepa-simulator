@@ -5,7 +5,6 @@
 Gestion du Sac et de l'inventaire
 """
 
-import objects
 import numpy as np
 
 class Bag():

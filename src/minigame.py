@@ -1,8 +1,6 @@
 import pygame as pg
 
 import locale
-import menu
-import dialogue
 import numpy
 
 class MGManager():
@@ -61,14 +59,14 @@ class Minigame():
 
 class SelectGame(Minigame):
     """Classe du mini-jeu de sélection"""
-    BANK = f"{locale.get_dir()}/select.yaml"
-    TEXTURES_FOLDER = "res/textures/minigame/select/"
-    OFFSET_FROM_BORDER = 30
-    OFFSET_TO_BOTTOM = 30
+    BANK = f"{locale.get_dir()}/select.yaml"            # Chemin vers la banque de questions
+    TEXTURES_FOLDER = "res/textures/minigame/select/"   # Dossier des textures associées au mini-jeu
+    OFFSET_FROM_BORDER = 30                             # La boîte associée à la question est décalée de tant par rapport au bord haut
+    OFFSET_TO_BOTTOM = 30                               # La dernière boîte (Valider) est décalée de tant par rapport au bord bas
     SPACE_BETWEEN_LINES = 42
     ALPHABET = "abcdefghijklmnopqrstuvwxyz"
     FONT = "consolas"
-    QUESTION_FSIZE = 22 # à remplacer par du LaTeΧ ?
+    QUESTION_FSIZE = 22                                 #? Utiliser du LaTeX pour certaines questions, nécessite l'implémentation de la possibilité de mettre des images
     PROPOSITION_FSIZE = 16
 
     
@@ -76,10 +74,10 @@ class SelectGame(Minigame):
         super().__init__(game)
 
         self.bgm = "it's concours time"
-        self.question = question
-        self.props = props
+        self.question = question    # Intitulé de la question
+        self.props = props          # Liste des propositions
         self.number_of_props = len([prop for prop in props if prop != ""])
-        self.correct = correct
+        self.correct = correct      # Lettre de la proposition correcte
 
         self.order = numpy.random.permutation(self.number_of_props)    # Ordre d'apparition des propositions
         while len(self.order) <= len(self.props):                   # Valeur par défaut pour les propositions vides
@@ -87,7 +85,7 @@ class SelectGame(Minigame):
         self.order = list(self.order)
 
         # Mémoire interne
-        self.choices = [0 for _ in self.props]
+        self.choices = [0 for _ in self.props]  # Liste des choix faits par le joueur
         self.cursor_position = 0        # Position du curseur de sélection
 
         # Graphiques : textures de la boîte d'affichage de la question
@@ -154,6 +152,7 @@ class SelectGame(Minigame):
     
     def format(self, text):
         """Découpage d'un texte en plusieurs lignes de taille adéquate"""
+        # C'est la même fonction que pour les dialogues
         formatted_text = []
         splitted_text = text.split()
         text_line = ""
