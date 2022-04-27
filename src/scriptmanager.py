@@ -3,7 +3,6 @@
 
 """Gestion des scripts"""
 
-import pygame as pg
 from copy import copy
 from random import randint
 import sqlite3 as sql
@@ -69,7 +68,6 @@ class ScriptManager():
         mapscript_trig = self.game.save.execute("select mapscript_triggered from maps where map_id = ?;", (map_id,)).fetchall()[0][0] # Valeur inchangée
         new_flags = [self.read_flags(map_id)[flag] if flag != flag_id else value for flag in range(len(self.read_flags(map_id)))]
         self.game.save.execute("replace into maps values (?,?,?);", (map_id, mapscript_trig, f"{new_flags}"))
-        self.game.save.commit()
     
     def read_npcflags(self, npc_id):
         """Obtient l'état des flags du PNJ d'ID donné"""
@@ -308,9 +306,12 @@ class ScriptManager():
     
     def toss_object(self, object_id, qty):
         """Destruction d'un objet en une quantité donnée, les supprime tous s'il n'y en a pas assez"""
-        corrected_qty = self.game.bag.contents[object_id] if qty == "all" else qty     # Valeur arbitrairement grande
-        if self.game.bag.contents[object_id] >= corrected_qty:
-            self.game.bag.increment_item(object_id, -corrected_qty)
+        try:
+            corrected_qty = self.game.bag.contents[object_id] if qty == "all" else qty     # Valeur arbitrairement grande
+            if self.game.bag.contents[object_id] >= corrected_qty:
+                self.game.bag.increment_item(object_id, -corrected_qty)
+        except KeyError:        # L'objet en question est inexistant
+            pass
     
     
     # Fonctions des drapeaux des salles

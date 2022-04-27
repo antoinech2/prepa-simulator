@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """Gestion des fonctions associées aux scripts"""
+# TODO Passer à un système de stockage des scripts plus pratique (ex : txt avec un parser)
 
 class Script():
     """Classe des scripts"""
@@ -326,6 +327,52 @@ def missingno():
     return(["""loadtext('''tg''')""",
             """infobox()""",
             """runscript('explode')"""])
+
+def lionosphere():
+    """Partons à la découverte du lycée avec Lionel"""
+    return(["""checkevent('firstlionel')""",            # Vérification : premier dialogue avec Lionel
+                """iftrue("goto('welcome')")""",
+            
+            """label('introlionel')""",                 # Dialogue introductif
+            """dialogue(self.current_npc, 10)""",
+            """loadtext(94)""",
+            """infobox()""",
+            """raiseevent('firstlionel')""",
+            """goto('end')""",
+            
+            """label('welcome')""",                     # Première mission
+            """checkevent('bienvenue')""",
+                """iftrue("goto('main')")""",
+            """compare_obj_qty(25, 'sup', 1)""",
+                """iffalse("goto('searchchalk')")""",
+            """compare_obj_qty(26, 'sup', 1)""",
+                """iffalse("goto('searchchalk')")""",
+            """compare_obj_qty(27, 'sup', 1)""",
+                """iffalse("goto('searchchalk')")""",
+            """loadtext("indev")""",
+            """infobox()""",
+            """toss_object(25, 'all')""",
+            """toss_object(26, 'all')""",
+            """toss_object(27, 'all')""",
+            """put(23)""",
+            """runscript('object')""",
+            """put(28)""",
+            """runscript('object')""",
+            """raiseevent('bienvenue')""",
+            """goto('end')""",
+            
+            """label('searchchalk')""",                 # Conditions de la première mission non remplies
+            """dialogue(self.current_npc, 11)""",
+            """loadtext(94)""",
+            """infobox()""",
+            """goto('end')""",
+
+            """label('main')""",
+            """loadtext("indev_main")""",
+            """infobox()""",
+
+            """label('end')"""
+            ])
 
 # Scripts des panneaux
 def sign1():

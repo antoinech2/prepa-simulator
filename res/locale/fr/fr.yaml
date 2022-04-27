@@ -24,6 +24,17 @@ dialogue:
   52 : "la vache fait meuh"
   53 : "Tu n'as pas sauvegardé !"
 
+  88 : "Bonjour {player_name}, bienvenue dans Prepa Simulator® !"
+  89 : "Je m'appelle Lionel, je serai ton prof de maths durant ton année de MPSI2."
+  90 : "Tu es sans doute impressionné par la taille du lycée..."
+  91 : "Ne t'inquiètes pas, je vais te faire découvrir les lieux !"
+  92 : "Pour ton arrivée ici, je veux que tu me récupères quelques craies dans d'autres salles. J'en aurai besoin tout à l'heure."
+  93 : "Je veux que tu ailles chercher des craies en I211, dans la Chapelle, et en I306."
+  94 : "Si tu te perds, tu peux utiliser la Carte pour te retrouver ! Bon courage !"
+
+  95 : "As-tu trouvé les craies ? Tu dois chercher en I211, dans la Chapelle, et en I306."
+  96 : "Si tu te perds, demande à un 2ème année ou consulte la Carte."
+
 infobox:
   1  : "aaaaaaaaaaaaaa"
   2  : "Je suis le Père Noël ! lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch lentsch "
@@ -35,6 +46,7 @@ infobox:
   8  : "← SALLES I104 À I109 - SALLE DES DEVOIRS"
   9  : "→ SALLES H009 À H010 - T001 À T003"
   10 : "↓ SALLE L101 - VIE SCOLAIRE"
+  94 : "DISCLAIMER : La Carte est uniquement déverrouillable via le DLC Carte (19,99€) achetable sur Steam, GOG, et Leroy Merlin. Oui, même Leroy Merlin."
 
 system:
   continue        : "CONTINUER"
