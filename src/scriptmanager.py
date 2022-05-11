@@ -167,6 +167,7 @@ class ScriptManager():
     def save(self):
         """Sauvegarde de la partie"""
         try:
+            self.game.internal_clock.save()
             self.game.player.save()
             self.game.bag.save()
             self.game.save.commit()
@@ -307,9 +308,10 @@ class ScriptManager():
     def toss_object(self, object_id, qty):
         """Destruction d'un objet en une quantité donnée, les supprime tous s'il n'y en a pas assez"""
         try:
-            corrected_qty = self.game.bag.contents[object_id] if qty == "all" else qty     # Valeur arbitrairement grande
+            corrected_qty = self.game.bag.contents[object_id] if qty == "all" else qty
             if self.game.bag.contents[object_id] >= corrected_qty:
                 self.game.bag.increment_item(object_id, -corrected_qty)
+                print("c")
         except KeyError:        # L'objet en question est inexistant
             pass
     

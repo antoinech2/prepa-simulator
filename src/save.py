@@ -18,7 +18,8 @@ DEFAULT_CONFIG = {
     "player" : {"map_id" : 1,
                 "position" : [1600,1200],
                 "speed" : 1.5,
-                "cash" : 10.},
+                "cash" : 10.,
+                "ticks" : 0},           #? Déplacer le nombre de ticks depuis le début du jeu dans un fichier à part pour les variables système ?
     "window" : {"size" : (1000, 600),
                 "fullscreen" : False},
     "controls" : {

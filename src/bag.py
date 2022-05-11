@@ -26,7 +26,7 @@ class Bag():
         else:
             self.contents[object_id] += qty
         if self.contents[object_id] <= 0:
-            del(self.contents[object_id]) # Plus d'objets de ce type
+            self.contents[object_id] = 0     # Plus d'objets de ce type
 
     def save(self):
         """Sauvegarde le contenu du sac dans la base de données"""
@@ -38,6 +38,13 @@ class Bag():
         """Séparation du contenu du Sac en groupes (listes)"""
         objects = list(self.contents.keys())
         amounts = list(self.contents.values())
+        corrected_obj = []
+        corrected_amt = []
+        for obj in range(len(objects)):
+            if amounts[obj] != 0:
+                corrected_obj.append(objects[obj])
+                corrected_amt.append(amounts[obj])
+        objects, amounts = corrected_obj, corrected_amt
         groups = []
         current_group = []
         while objects != []:
