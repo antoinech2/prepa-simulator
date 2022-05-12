@@ -4,6 +4,8 @@
 # Import externe
 import pygame as pg
 
+import entities
+
 """Gère les NPC du jeu"""
 
 
@@ -19,7 +21,7 @@ class NpcManager():
         # Chargement de tous les NPC de la carte
         npcs = self.map.game.game_data_db.execute("SELECT npc.id, npc.nom, x_coord, y_coord, default_dia, script_id, sprite FROM npc JOIN maps ON npc.map_id = maps.id WHERE maps.id = ?", (map.map_id,)).fetchall()
         for npc in npcs:
-            new_npc = Npc(map, npc[0], npc[1], (npc[2], npc[3]), npc[4], npc[5], npc[6])
+            new_npc = entities.Npc(map, npc[0], npc[1], (npc[2], npc[3]), npc[4], npc[5], npc[6])
             self.npc_group.add(new_npc)
             self.map.object_group.add(new_npc)
 

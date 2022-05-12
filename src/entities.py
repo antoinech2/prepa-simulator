@@ -212,8 +212,29 @@ class Player(Entity):
 
 class Npc(Entity):
     """Classe des PNJs"""
-    def __init__(self, game):
-        super().__init__(game)
+    DEFAULT_SPRITESHEET = "m2"
 
-    def talk(self):
-        pass
+    def __init__(self, map, id, name, coords, default_dia, script_id, sprite = None):
+        if sprite is None:
+            super().__init__(map.game, name, self.DEFAULT_SPRITESHEET)
+        else:
+            super().__init__(map.game, name, sprite)
+
+        # Objet associé
+        self.map = map
+
+        # Variables d'état
+        self.id = id
+        self.name = name
+        self.default_dia = default_dia
+        if script_id is not None:
+            self.script = self.map.game.script_manager.get_script_from_id(script_id)
+        else:
+            self.script = self.map.game.script_manager.find_script_from_name("ordinaryNpc") # Temporaire, tous les NPC disposent du script dummyScript
+
+        # Graphique*
+        if sprite == "void":    # Cas du NPC invisible
+            self.image.set_alpha(0)
+        else:
+            self.image.set_colorkey([0, 0, 0])  # transparence
+        self.rect.topleft = coords  # placement du npc
