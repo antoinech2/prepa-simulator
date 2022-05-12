@@ -13,7 +13,7 @@ class InternalClock:
         self.pgclock = pg.time.Clock()
 
         # Compteurs de ticks
-        self.ticks_since_epoch = save.load_config("player")['ticks']
+        self.ticks_since_epoch = save.load_config("entities")['ticks']
         self.ticks_since_sessionstart = 0
 
         # Horloge du jeu
@@ -47,4 +47,4 @@ class InternalClock:
     def save(self):
         """Sauvegarde des ticks et de la date courante"""
         # TODO Sauvegarder la date courante
-        save.save_config("player", ticks = self.ticks_since_epoch)
+        save.save_config("entities", ticks = self.ticks_since_epoch)

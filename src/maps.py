@@ -23,7 +23,7 @@ class MapManager:
         self.game = game
         self.screen = screen
 
-        config = save.load_config("player")
+        config = save.load_config("entities")["player"]
         self.load_map(config["map_id"]) # Charge la carte où est le joueur
 
     def load_map(self, map_id, old_bgm = None):

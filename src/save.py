@@ -9,17 +9,18 @@ DATA_DATABASE_LOCATION = "res/game_data.db"
 SAVE_DATABASE_LOCATION = "sav/save.db"
 
 CONFIGURATION_FILES = {
-    "player" : "sav/player.yaml",
+    "entities" : "sav/entities.yaml",
     "window" : "stg/window.yaml",
     "controls" : "stg/controls.yaml"
     }
 
 DEFAULT_CONFIG = {
-    "player" : {"map_id" : 1,
-                "position" : [1600,1200],
-                "speed" : 1.5,
-                "cash" : 10.,
-                "ticks" : 0},           #? Déplacer le nombre de ticks depuis le début du jeu dans un fichier à part pour les variables système ?
+    "entities" : {"player":                 #TODO Ajouter un dictionnaire de valeurs pour chaque PNJ
+                    {"map_id" : 1,
+                    "position" : [1600,1200],
+                    "speed" : 1.5,
+                    "cash" : 10.},
+                  "ticks" : 0},           #? Déplacer le nombre de ticks depuis le début du jeu dans un fichier à part pour les variables système ?
     "window" : {"size" : (1000, 600),
                 "fullscreen" : False},
     "controls" : {

@@ -1,25 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-"""Gère le joueur"""
+"""
+Gère la classe primaire des entités du jeu, tels que le joueur et les NPC
+"""
+#? et des objets ? (ex : l'ordi de la Cave)
 
 import pygame as pg
 
-import debug
 import save
+import debug
 
-class Player(pg.sprite.Sprite):
-    """Représente le joueur"""
 
-    TEXTURE_FILE_LOCATION = 'res/textures/m2.png'
+class Entity(pg.sprite.Sprite):
+    """Classe des objets mouvants comme le joueur et les PNJs"""
+    # Constantes de mouvement
+    SPEED_NORMA = 1/(2**0.5)        # Normalisation de la vitesse lors des mouvements en diagonale
+    SPRINT_MULTIPLIER = 8           # Multiplicateur de la vitesse lors d'un sprint
+    WALK_ANIMATION_COOLDOWN = 8     # Cooldown entre deux changements d'animations (en frames, marche)
+    SPRINT_ANIMATION_COOLDOWN = 3   # Cooldown entre deux changements d'animations (en frames, sprint)
 
-    SPEED_NORMALISATION = 1/(2**0.5)
-    SPRINT_WALK_SPEED_MULTIPLIER = 8 # Multiplicateur de vitesse en cas de sprint
-    WALK_ANIMATION_COOLDOWN = 8 # Cooldown entre deux changements d'animations (en frames)
-    SPRINT_ANIMATION_COOLDOWN = 3 # Cooldown entre deux changements d'animations (en frames)
-
+    # Constantes graphiques
     FEET_SIZE = 12 # Hauteur de la zone de collision (en pixels)
-
     ANIMATION_DICT = {
     "1,1" : "down-right",
     "1,0" : "right",
@@ -30,31 +31,14 @@ class Player(pg.sprite.Sprite):
     "-1,0" : "left",
     "-1,-1" : "up-left"}
 
-    def __init__(self, game):
+    def __init__(self, game, id, texture = "m2"):
         super().__init__()
+
+        # Relations avec les autres classes
         self.game = game
 
-        # Variables d'état
-        self.is_animated = False        # Le sprite du joueur défile
-        self.is_sprinting = False       # Le joueur sprinte
-        self.is_warping = False         # Le joueur se téléporte
-        self.can_move = True            # Le joueur est capable de bouger
-        self.boop = False               # Le joueur est en collision
-
-        # Chargement de la position dans la sauvegarde
-        config = save.load_config("entities")["player"]
-        self.position = config["position"]
-        self.base_walk_speed = config["speed"] # Vitesse du joueur sans multiplicateur (en pixel/frame)
-
-        # Graphique
-        self.drawing_layer = 1
-        self.sprite_sheet = pg.image.load(self.TEXTURE_FILE_LOCATION)
-        self.image = self.get_image(0, 0)  # en bas par défaut
-        self.image.set_colorkey([0, 0, 0])  # transparence
-        self.rect = self.image.get_rect()  # rectangle autour du joueur
-        self.feet = pg.Rect(0, 0, self.rect.width * 0.5, self.FEET_SIZE)
-        self.current_sprite = 0
-
+        # Variables graphiques
+        self.spritesheet = pg.image.load(f"res/textures/{texture}.png")     # Fichier de textures
         self.IMAGES = {
         'down': [self.get_image(0, 0), self.get_image(32, 0), self.get_image(64, 0)],
         'down-left': [self.get_image(0, 0), self.get_image(32, 0), self.get_image(64, 0)],
@@ -65,32 +49,68 @@ class Player(pg.sprite.Sprite):
         'up-left': [self.get_image(0, 96), self.get_image(32, 96), self.get_image(64, 96)],
         'up-right': [self.get_image(0, 96), self.get_image(32, 96), self.get_image(64, 96)]
         }
+        self.drawing_layer = 1
+        self.image = self.get_image(0, 0)  # en bas par défaut
+        self.image.set_colorkey([0, 0, 0])  # transparence
+        self.rect = self.image.get_rect()                                   # Hitbox du joueur
+        self.feet = pg.Rect(0, 0, self.rect.width * 0.5, self.FEET_SIZE)
+        self.current_sprite = 0
+
+        # Variables d'état
+        self.id = id
+        self.is_animated = False        # Le sprite du joueur défile
+        self.is_sprinting = False       # Le joueur sprinte
+        self.can_move = True            # Le joueur est capable de bouger
+        self.boop = False               # Le joueur est en collision
+
+    def draw(self):
+        """Dessine le sprite du personnage à l'écran"""
+        self.game.screen.blit(self.image, self.rect)
+    
+    def get_image(self, x, y):
+        """Retourne une partie de l'image du joueur"""
+        image = pg.Surface([32, 32])
+        image.blit(self.spritesheet, (0, 0), (x, y, 32, 32))
+        return(image)
 
     def save(self):
         """Sauvegarde lors de la fermeture du jeu"""
         save.save_config("entities", player = dict(map_id = self.game.map_manager.map_id, position = self.position, speed = self.base_walk_speed))
+    #TODO Sauvegarde des PNJs
 
+    def update(self):
+        """Mise à jour graphique"""
+        self.rect.topleft = self.position
+        self.feet.midbottom = self.rect.midbottom
+
+        # Recalcul de l'image à utiliser
+        animation_cooldown = self.SPRINT_ANIMATION_COOLDOWN if self.is_sprinting else self.WALK_ANIMATION_COOLDOWN
+        if self.is_animated == True:
+            self.current_sprite = (int(self.game.internal_clock.ticks_since_epoch / animation_cooldown) % 3)
+        if self.id == "player":
+            if self.is_warping:
+                self.end_warp()
+                self.is_warping = False
+                self.can_move = True
+
+
+class Player(Entity):
+    """Classe graphique du joueur"""
+    def __init__(self, game, id, texture):
+        super().__init__(game, id, texture)
+        self.is_warping = False         # Le joueur se téléporte
+
+        # Chargement de la position dans la sauvegarde
+        config = save.load_config("entities")["player"]
+        self.position = config["position"]
+        self.base_walk_speed = config["speed"] # Vitesse du joueur sans multiplicateur (en pixel/frame)
+    
     def change_animation(self, direction):  # change l'image en fonction du sens 'sens'
         """Change l'image de l'animation du joueur"""
         animation = self.ANIMATION_DICT[str(direction[0])+","+str(direction[1])]
         self.image = self.IMAGES[animation][int(self.current_sprite)]
         self.image.set_colorkey([0, 0, 0])  # transparence
 
-    def is_colliding(self):
-        """Vérifie la collision avec un mur ou un portail"""
-        # Collision avec un portail
-        index = self.feet.collidelist(self.game.map_manager.portals)
-        if index >= 0:   # Le joueur est dans un portail
-            # On récupère l'endroit où téléporter le joueur
-            [to_world, to_point] = self.game.game_data_db.execute("SELECT to_world, to_point FROM portals WHERE id = ?", (self.game.map_manager.portals_id[index],)).fetchall()[0]
-            old_bgm = self.game.map_manager.sound_manager.music_file
-            self.warp(to_world, to_point, old_bgm)
-            self.is_warping = True
-            return True
-        else:
-            # Collision avec les murs
-            return True if self.feet.collidelist(self.game.map_manager.walls) > -1 else False
-    
     def warp(self, map, coords, old_bgm):
         """Téléportation du joueur vers une nouvelle map"""
         transition_step = 5
@@ -127,14 +147,28 @@ class Player(pg.sprite.Sprite):
             void.set_alpha(void.get_alpha() - 17)
             pg.display.flip()
             pg.time.delay(transition_step)
-        
-
+    
+    def is_colliding(self):
+        """Vérifie la collision avec un mur ou un portail"""
+        # Collision avec un portail
+        index = self.feet.collidelist(self.game.map_manager.portals)
+        if index >= 0:   # Le joueur est dans un portail
+            # On récupère l'endroit où téléporter le joueur
+            [to_world, to_point] = self.game.game_data_db.execute("SELECT to_world, to_point FROM portals WHERE id = ?", (self.game.map_manager.portals_id[index],)).fetchall()[0]
+            old_bgm = self.game.map_manager.sound_manager.music_file
+            self.warp(to_world, to_point, old_bgm)
+            self.is_warping = True
+            return True
+        else:
+            # Collision avec les murs
+            return True if self.feet.collidelist(self.game.map_manager.walls) > -1 else False
+    
     def move(self, list_directions, sprinting):
         """Méthode de déplacement du joueur"""
         if list_directions.count(True) > 0: # Si au moins une touche de déplacement est préssée
             if self.can_move: # Le joueur n'est pas en dialogue
                 self.boop = False # Le joueur a de nouveau bougé depuis la dernière collision
-                speed_multiplier = self.SPRINT_WALK_SPEED_MULTIPLIER if sprinting else 1
+                speed_multiplier = self.SPRINT_MULTIPLIER if sprinting else 1
                 self.is_sprinting = True if sprinting else False
 
                 # On calcule le déplacement potentiel en x et en y en fonction des touche préssées
@@ -152,7 +186,7 @@ class Player(pg.sprite.Sprite):
 
                     # Si le déplacement est non nul selon les deux coordonées, on se déplace en diagonale, il faut normaliser le vecteur déplacement
                     if deplacement[0] != 0 and deplacement[1] != 0:
-                        speed_normalisation = self.SPEED_NORMALISATION
+                        speed_normalisation = self.SPEED_NORMA
                     else:
                         speed_normalisation = 1
 
@@ -175,22 +209,11 @@ class Player(pg.sprite.Sprite):
             else:
                 self.is_animated = False
 
-    def update(self):
-        """Mise à jour graphique"""
-        self.rect.topleft = self.position
-        self.feet.midbottom = self.rect.midbottom
 
-        # Recalcul de l'image à utiliser
-        animation_cooldown = self.SPRINT_ANIMATION_COOLDOWN if self.is_sprinting else self.WALK_ANIMATION_COOLDOWN
-        if self.is_animated == True:
-            self.current_sprite = (int(self.game.internal_clock.ticks_since_epoch / animation_cooldown) % 3)
-        if self.is_warping:
-            self.end_warp()
-            self.is_warping = False
-            self.can_move = True
+class Npc(Entity):
+    """Classe des PNJs"""
+    def __init__(self, game):
+        super().__init__(game)
 
-    def get_image(self, x, y):
-        """Retourne une partie de l'image du joueur"""
-        image = pg.Surface([32, 32])
-        image.blit(self.sprite_sheet, (0, 0), (x, y, 32, 32))
-        return image
+    def talk(self):
+        pass

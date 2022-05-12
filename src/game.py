@@ -13,6 +13,7 @@ import os
 # Import interne
 import internalclock as ic
 import player
+import entities
 import maps
 import inputs
 import save
@@ -56,6 +57,7 @@ class Game:
         self.is_fullscreen = config["fullscreen"]
 
         inputs.init()
+        save.load_config("entities")        # Création des données du joueur
         self.save = save.init_save_database()
 
         # Gestion de l'écran
@@ -76,10 +78,11 @@ class Game:
         self.game_data_db = self.db_connexion.cursor()
 
         # Objets associés
-        self.internal_clock = ic.InternalClock(self)
-        self.player = player.Player(self)
+        #self.player = player.Player(self)
+        self.player = entities.Player(self, 'player', 'm2')
         self.bag = bag.Bag(self.save)
         self.script_manager = sm.ScriptManager(self)
+        self.internal_clock = ic.InternalClock(self)
         self.map_manager = maps.MapManager(self.screen, self)
         self.menu_manager = menu.MenuManager(self.screen, self)
         self.mgm_manager = mgm.MGManager(self)
