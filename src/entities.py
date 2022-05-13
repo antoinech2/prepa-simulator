@@ -58,7 +58,7 @@ class Entity(pg.sprite.Sprite):
 
         # Variables d'état
         self.id = id
-        self.is_animated = False        # Le sprite du joueur défile
+        self.is_animated = True         # Le sprite du joueur défile
         self.is_sprinting = False       # Le joueur sprinte
         self.can_move = True            # Le joueur est capable de bouger
         self.boop = False               # Le joueur est en collision
@@ -92,6 +92,12 @@ class Entity(pg.sprite.Sprite):
                 self.end_warp()
                 self.is_warping = False
                 self.can_move = True
+    
+    def change_animation(self, direction):  # change l'image en fonction du sens 'sens'
+        """Change l'image de l'animation du joueur"""
+        animation = self.ANIMATION_DICT[str(direction[0])+","+str(direction[1])]
+        self.image = self.IMAGES[animation][int(self.current_sprite)]
+        self.image.set_colorkey([0, 0, 0])  # transparence
 
 
 class Player(Entity):
@@ -105,12 +111,6 @@ class Player(Entity):
         self.position = config["position"]
         self.base_walk_speed = config["speed"] # Vitesse du joueur sans multiplicateur (en pixel/frame)
     
-    def change_animation(self, direction):  # change l'image en fonction du sens 'sens'
-        """Change l'image de l'animation du joueur"""
-        animation = self.ANIMATION_DICT[str(direction[0])+","+str(direction[1])]
-        self.image = self.IMAGES[animation][int(self.current_sprite)]
-        self.image.set_colorkey([0, 0, 0])  # transparence
-
     def warp(self, map, coords, old_bgm):
         """Téléportation du joueur vers une nouvelle map"""
         transition_step = 5
@@ -215,6 +215,8 @@ class Npc(Entity):
     DEFAULT_SPRITESHEET = "m2"
 
     def __init__(self, map, id, name, coords, default_dia, script_id, sprite = None):
+        self.base_walk_speed = 1.5          #! DEBUG
+
         if sprite is None:
             super().__init__(map.game, name, self.DEFAULT_SPRITESHEET)
         else:
@@ -238,3 +240,55 @@ class Npc(Entity):
         else:
             self.image.set_colorkey([0, 0, 0])  # transparence
         self.rect.topleft = coords  # placement du npc
+
+        self.position = list(coords)
+    
+    def is_colliding(self):
+        """Vérifie la collision avec un mur ou un portail"""
+        return True if self.feet.collidelist(self.game.map_manager.walls) > -1 else False
+
+    def move(self, list_directions, sprinting):
+        """Méthode de déplacement du joueur"""
+        if list_directions.count(True) > 0: # Si au moins une touche de déplacement est préssée
+            if self.can_move: # Le joueur n'est pas en dialogue
+                self.boop = False # Le joueur a de nouveau bougé depuis la dernière collision
+                speed_multiplier = self.SPRINT_MULTIPLIER if sprinting else 1
+                self.is_sprinting = True if sprinting else False
+
+                # On calcule le déplacement potentiel en x et en y en fonction des touche préssées
+                deplacement = [0, 0]
+                if list_directions[0]: # Haut
+                    deplacement[1] -= 1
+                if list_directions[1]: # Droite
+                    deplacement[0] += 1
+                if list_directions[2]: # Bas
+                    deplacement[1] += 1
+                if list_directions[3]: # Gauche
+                    deplacement[0] -= 1
+
+                if deplacement[0] != 0 or deplacement[1] != 0: # Si le déplacement n'est pas nul
+
+                    # Si le déplacement est non nul selon les deux coordonées, on se déplace en diagonale, il faut normaliser le vecteur déplacement
+                    if deplacement[0] != 0 and deplacement[1] != 0:
+                        speed_normalisation = self.SPEED_NORMA
+                    else:
+                        speed_normalisation = 1
+
+                    # On traite les deux coordonées x et y
+                    for coord_id in [0, 1]:
+                        # On déplace le sprite et on recalcule la position
+                        self.position[coord_id] += deplacement[coord_id]*self.base_walk_speed*speed_multiplier*speed_normalisation
+                        self.rect.topleft = self.position
+                        self.feet.midbottom = self.rect.midbottom
+
+                        # Si il y a collision, on annule le dernier déplacement
+                        if self.is_colliding():
+                            self.boop = True # Enregistrement de la collision
+                            self.position[coord_id] -= deplacement[coord_id]*self.base_walk_speed*speed_multiplier*speed_normalisation
+                            self.rect.topleft = self.position
+                            self.feet.midbottom = self.rect.midbottom
+                    else:
+                        self.is_animated = True
+                        self.change_animation(deplacement)
+            else:
+                self.is_animated = False

@@ -24,6 +24,13 @@ class NpcManager():
             new_npc = entities.Npc(map, npc[0], npc[1], (npc[2], npc[3]), npc[4], npc[5], npc[6])
             self.npc_group.add(new_npc)
             self.map.object_group.add(new_npc)
+    
+    def find_npc(self, id):
+        """Cherche un PNJ par son identifiant"""
+        for npc in self.npc_group:
+            if npc.id == id:
+                return(npc)
+        return(None)
 
     def check_talk(self):
         """Démarre le dialogue avec un NPC proche"""
@@ -34,8 +41,8 @@ class NpcManager():
                 self.map.game.script_manager.execute_script(first_npc.script, first_npc)
 
 
-class Npc(pg.sprite.Sprite):
-    """Représente un NPC"""
+class OldNpc(pg.sprite.Sprite):
+    """Représente un NPC (ancienne version)"""
 
     DEFAULT_SPRITESHEET_LOC = 'res/textures/m2.png'
 

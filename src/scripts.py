@@ -328,6 +328,20 @@ def missingno():
             """infobox()""",
             """runscript('explode')"""])
 
+def hina():
+    return(["""loadtext("bonsoir")""",
+            """infobox()""",
+            """label('bruh')""",
+            """setdirection(39, 'left')""",
+            """nop(3)""",
+            """setdirection(39, 'up')""",
+            """nop(3)""",
+            """setdirection(39, 'right')""",
+            """nop(3)""",
+            """setdirection(39, 'down')""",
+            """nop(3)""",
+            """goto('bruh')"""])
+
 def lionosphere():
     """Partons à la découverte du lycée avec Lionel"""
     return(["""checkevent('firstlionel')""",            # Vérification : premier dialogue avec Lionel
@@ -371,7 +385,17 @@ def lionosphere():
             """loadtext("indev_main")""",
             """infobox()""",
 
-            """label('end')"""
+            """label('end')""",
+            """move("player", "down", 120)""",
+            """move("player", "left", 100)""",
+            """move("player", "up", 150)""",
+            """move("player", "right", 50)""",
+            """move("player", "down", 100)""",
+            """move(12, "right", 400)""",
+            """move(12, "left", 350)""",
+            """move(1, "down", 200)""",
+            """move(1, "up", 200)""",
+            """startmoving()"""
             ])
 
 # Scripts des panneaux

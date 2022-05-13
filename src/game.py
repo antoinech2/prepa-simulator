@@ -39,6 +39,8 @@ class Game:
                                 # le dernier élément est celui en cours de traitement
         self.running_script = None  # Script courant
         self.executing_moving_script = False    # Le joueur est en train de bouger suite à un script
+        self.moving_people = {}                 # ID des entités et paramètres des mouvements en cours
+        self.movement_mem = []                  # Prochains mouvements
 
         self.default_font = menu.Font("consolas")
 
@@ -78,7 +80,6 @@ class Game:
         self.game_data_db = self.db_connexion.cursor()
 
         # Objets associés
-        #self.player = player.Player(self)
         self.player = entities.Player(self, 'player', 'm2')
         self.bag = bag.Bag(self.save)
         self.script_manager = sm.ScriptManager(self)
@@ -119,6 +120,8 @@ class Game:
         self.map_manager.draw()
         self.menu_manager.draw()
         self.player.update()
+        for npc in self.map_manager.npc_manager.npc_group:
+            npc.update()
         self.script_manager.update() # Actualisation du mouvement d'un script : toutes commandes bloquées
         self.mgm_manager.update()
         if self.dialogue != None:
