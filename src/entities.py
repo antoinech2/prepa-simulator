@@ -214,7 +214,7 @@ class Npc(Entity):
     """Classe des PNJs"""
     DEFAULT_SPRITESHEET = "m2"
 
-    def __init__(self, map, id, name, coords, default_dia, script_id, sprite = None):
+    def __init__(self, map, id, name, coords, direction, script_id, sprite = None):
         self.base_walk_speed = 1.5          #! DEBUG
 
         if sprite is None:
@@ -228,7 +228,7 @@ class Npc(Entity):
         # Variables d'état
         self.id = id
         self.name = name
-        self.default_dia = default_dia
+        self.direction = direction if direction is not None else 180        # Direction par défaut
         if script_id is not None:
             self.script = self.map.game.script_manager.get_script_from_id(script_id)
         else:

@@ -19,11 +19,24 @@ class NpcManager():
         self.npc_group = pg.sprite.Group()
 
         # Chargement de tous les NPC de la carte
-        npcs = self.map.game.game_data_db.execute("SELECT npc.id, npc.nom, x_coord, y_coord, default_dia, script_id, sprite FROM npc JOIN maps ON npc.map_id = maps.id WHERE maps.id = ?", (map.map_id,)).fetchall()
+        npcs = self.map.game.game_data_db.execute("SELECT npc.id, npc.nom, x_coord, y_coord, direction, script_id, sprite FROM npc JOIN maps ON npc.map_id = maps.id WHERE maps.id = ?", (map.map_id,)).fetchall()
         for npc in npcs:
             new_npc = entities.Npc(map, npc[0], npc[1], (npc[2], npc[3]), npc[4], npc[5], npc[6])
             self.npc_group.add(new_npc)
             self.map.object_group.add(new_npc)
+    
+    def flip(self):
+        """Réinitialise l'orientation de tous les PNJs"""
+        for npc in self.npc_group:
+            if npc.direction == 0:
+                disp = "up"
+            if npc.direction == 90:
+                disp = "right"
+            if npc.direction == 180:
+                disp = "down"
+            if npc.direction == 270:
+                disp = "left"
+            self.map.game.script_manager.setdirection(npc.id, disp)
     
     def find_npc(self, id):
         """Cherche un PNJ par son identifiant"""
@@ -46,7 +59,7 @@ class OldNpc(pg.sprite.Sprite):
 
     DEFAULT_SPRITESHEET_LOC = 'res/textures/m2.png'
 
-    def __init__(self, map, id, name, coords, default_dia, script_id, sprite = None):
+    def __init__(self, map, id, name, coords, direction, script_id, sprite = None):
         super().__init__()
 
         # Objet associé
@@ -55,7 +68,7 @@ class OldNpc(pg.sprite.Sprite):
         # Variables d'état
         self.id = id
         self.name = name
-        self.default_dia = default_dia
+        self.direction = direction
         if script_id is not None:
             self.script = self.map.game.script_manager.get_script_from_id(script_id)
         else:

@@ -342,6 +342,27 @@ def hina():
             """nop(3)""",
             """goto('bruh')"""])
 
+def scenic():
+    return(["""loadtext("Placeholder")""",
+            """infobox()""",
+            """move("player", "up", 100, True)""",
+            """startmoving()""",
+            """setdirection("player", "down")""",
+            """loadtext("Placeholder 2")""",
+            """infobox()""",
+            """move(91, "up", 100)""",
+            """move("player", "up", 100)""",
+            """startmoving()""",
+            """loadtext("Placeholder 3")""",
+            """infobox()""",
+            """move("player", "up", 800, True)""",
+            """move(91, "up", 800, True)""",
+            """move(91, "down", 5)""",
+            """move(91, "down", 20)""",
+            """move("player", "right", 800, True)""",
+            """startmoving()""",
+            """warp(9300, (1952, 2272))"""])
+
 def lionosphere():
     """Partons à la découverte du lycée avec Lionel"""
     return(["""checkevent('firstlionel')""",            # Vérification : premier dialogue avec Lionel

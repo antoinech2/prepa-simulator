@@ -89,6 +89,7 @@ class Game:
         self.mgm_manager = mgm.MGManager(self)
 
         self.dialogue = None # Contient le dialogue s'il existe
+        self.map_manager.npc_manager.flip()
 
 
     def change_window_size(self, **args):

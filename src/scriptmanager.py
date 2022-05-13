@@ -138,7 +138,17 @@ class ScriptManager():
                         else:
                             npc = self.game.map_manager.npc_manager.find_npc(person)
                             dist = ((self.game.moving_people[person]["initial_coords"][0] - npc.position[0])**2 + (self.game.moving_people[person]["initial_coords"][1] - npc.position[1])**2) ** 0.5 # Distance totale parcourue pendant le script
-                        if dist > self.game.moving_people[person]["movement_boundary"] or npc.boop: # Le mouvement s'est déroulé normalement ou le joueur s'est pris un mur
+                        
+                        if self.game.player.boop and person == "player":
+                            print("debug : script_boop")
+                            del(moving[person])
+                            for mov in range(len(self.game.movement_mem)):
+                                if self.game.movement_mem[mov][0] == "player":
+                                    moving["player"] = copy.deepcopy(self.game.movement_mem[mov][1])
+                                    moving["player"]["initial_coords"] = self.game.player.position
+                                    del(self.game.movement_mem[mov])
+                                    break
+                        elif dist > self.game.moving_people[person]["movement_boundary"]: # Le mouvement s'est déroulé normalement ou le joueur s'est pris un mur
                             del(moving[person])
                             for mov in range(len(self.game.movement_mem)):
                                 if self.game.movement_mem[mov][0] == person:
@@ -149,13 +159,13 @@ class ScriptManager():
                                         moving[person]["initial_coords"] = npc.position            # Actualisation des coordonnées de démarrage du mouvement
                                     del(self.game.movement_mem[mov])
                                     break
-                        elif self.game.player.boop and person == "player":
-                            print("debug : script_boop")
-                            del(moving[person])
+                        elif npc.boop:
+                            print("debug npc_boop")
+                            del(moving[npc.id])
                             for mov in range(len(self.game.movement_mem)):
-                                if self.game.movement_mem[mov][0] == "player":
-                                    moving["player"] = copy.deepcopy(self.game.movement_mem[mov][1])
-                                    moving["player"]["initial_coords"] = self.game.player.position
+                                if self.game.movement_mem[mov][0] == npc.id:
+                                    moving[npc.id] = copy.deepcopy(self.game.movement_mem[mov][1])          # Mise à jour du mouvement du personnage
+                                    moving[npc.id]["initial_coords"] = npc.position            # Actualisation des coordonnées de démarrage du mouvement
                                     del(self.game.movement_mem[mov])
                                     break
                     except:
@@ -235,16 +245,26 @@ class ScriptManager():
     
     def setdirection(self, id, direction):
         """Change la direction dans laquelle pointe un PNJ"""
-        npc = self.game.map_manager.npc_manager.find_npc(id)
-        if npc is not None:
+        if id == "player":
             if direction == "up":
-                npc.change_animation([-1, 0])
+                self.game.player.change_animation([0, -1])
             if direction == "down":
-                npc.change_animation([1, 0])
+                self.game.player.change_animation([0, 1])
             if direction == "left":
-                npc.change_animation([0, -1])
+                self.game.player.change_animation([-1, 0])
             if direction == "right":
-                npc.change_animation([0, 1])
+                self.game.player.change_animation([1, 0])
+        else:
+            npc = self.game.map_manager.npc_manager.find_npc(id)
+            if npc is not None:
+                if direction == "up":
+                    npc.change_animation([0, -1])
+                if direction == "down":
+                    npc.change_animation([0, 1])
+                if direction == "left":
+                    npc.change_animation([-1, 0])
+                if direction == "right":
+                    npc.change_animation([1, 0])
 
     def startmoving(self):
         """Démarrage des mouvements mis en mémoire"""

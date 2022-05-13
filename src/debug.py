@@ -21,18 +21,18 @@ Effective tick time : {game.internal_clock.pgclock.get_rawtime()} ms,\n\
     ==== Player ====   \n\
 World name : {game.map_manager.map_file}, World id : {game.map_manager.map_id}, \n\
 Position : {[round(pos, 2) for pos in game.player.position]}, Speed : {game.player.base_walk_speed * (game.player.SPRINT_MULTIPLIER if game.player.is_sprinting else 1)}, \n\
-Animated : {game.player.is_animated}, Sprinting : {game.player.is_sprinting}, Can Move : {game.player.can_move} \n\
+Animated : {game.player.is_animated}, Sprinting : {game.player.is_sprinting}, Can Move : {game.player.can_move}, Collision : {game.player.boop} \n\
     ==== Script ==== \n\
 Script Tree : {[scr[0].name for scr in game.script_tree]} \n\
 Current Script Name : {game.script_tree[-1][0].name if game.script_tree != [] else None} \n\
 Current Instruction : {game.script_tree[-1][0].contents[game.script_tree[-1][1]-1] if game.script_tree != [] else None} \n\
 Current World's Flags : {game.script_manager.read_flags(-1)} \n\
-Movements : {game.moving_people} \n\
+Moving Entities : {[key for key in game.moving_people]} \n\
 Movement Memory : {game.movement_mem}"
 
     splited_text = text.split("\n")
     for (number, cur_text) in enumerate(splited_text):
-        game.screen.blit(pg.font.SysFont(FONT, FONT_SIZE).render(cur_text, True, (255, 0, 0)), (0, number*(FONT_SIZE + 5)))
+        game.screen.blit(pg.font.SysFont(FONT, FONT_SIZE).render(cur_text, True, (255, 255, 0)), (0, number*(FONT_SIZE + 5)))
 
 def reset_config(game):
     shutil.rmtree("stg")
