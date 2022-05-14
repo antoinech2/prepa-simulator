@@ -118,3 +118,4 @@ class MapManager:
         """Met à jour l'affichage de la carte"""
         self.object_group.draw(self.screen)
         self.object_group.center(self.game.player.rect.center)
+        self.npc_manager.flip()

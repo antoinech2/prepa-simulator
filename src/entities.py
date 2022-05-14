@@ -94,9 +94,15 @@ class Entity(pg.sprite.Sprite):
                 self.can_move = True
     
     def change_animation(self, direction):  # change l'image en fonction du sens 'sens'
-        """Change l'image de l'animation du joueur"""
+        """Change l'image de l'animation d'une entité"""
         animation = self.ANIMATION_DICT[str(direction[0])+","+str(direction[1])]
         self.image = self.IMAGES[animation][int(self.current_sprite)]
+        self.image.set_colorkey([0, 0, 0])  # transparence
+
+    def fix_direction(self, direction):
+        """Fixe l'orientation d'une entité"""
+        animation = self.ANIMATION_DICT[str(direction[0])+","+str(direction[1])]
+        self.image = self.IMAGES[animation][1]
         self.image.set_colorkey([0, 0, 0])  # transparence
 
 

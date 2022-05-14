@@ -247,24 +247,24 @@ class ScriptManager():
         """Change la direction dans laquelle pointe un PNJ"""
         if id == "player":
             if direction == "up":
-                self.game.player.change_animation([0, -1])
+                self.game.player.fix_direction([0, -1])
             if direction == "down":
-                self.game.player.change_animation([0, 1])
+                self.game.player.fix_direction([0, 1])
             if direction == "left":
-                self.game.player.change_animation([-1, 0])
+                self.game.player.fix_direction([-1, 0])
             if direction == "right":
-                self.game.player.change_animation([1, 0])
+                self.game.player.fix_direction([1, 0])
         else:
             npc = self.game.map_manager.npc_manager.find_npc(id)
             if npc is not None:
                 if direction == "up":
-                    npc.change_animation([0, -1])
+                    npc.fix_direction([0, -1])
                 if direction == "down":
-                    npc.change_animation([0, 1])
+                    npc.fix_direction([0, 1])
                 if direction == "left":
-                    npc.change_animation([-1, 0])
+                    npc.fix_direction([-1, 0])
                 if direction == "right":
-                    npc.change_animation([1, 0])
+                    npc.fix_direction([1, 0])
 
     def startmoving(self):
         """Démarrage des mouvements mis en mémoire"""
