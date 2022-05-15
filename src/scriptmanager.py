@@ -6,12 +6,15 @@
 from random import randint
 import sqlite3 as sql
 import copy
+import os
 
 import scripts
 import dialogue as dia
 
 class ScriptManager():
     """Classe de gestion des scripts du jeu"""
+    SCRIPTS_FOLDER = "res/scripts/"
+
     def __init__(self, game):
         self.game = game
         self.list_of_scripts = []
@@ -33,12 +36,30 @@ class ScriptManager():
         self.moving_direction = None
 
         # Chargement de la liste des scripts
-        raw_scripts = self.game.game_data_db.execute("select id, name, is_rerunnable from scripts;").fetchall()
-        for scr in raw_scripts:
-            # Obtention du contenu du script lié
-            name = scr[1]
-            contents = scripts.get_script_contents(name)
-            self.list_of_scripts.append(scripts.Script(scr[0], scr[1], scr[2], contents))
+        self.parse_scripts()
+    
+    def parse_scripts(self):
+        for filename in os.listdir(self.SCRIPTS_FOLDER):
+            filepath = os.path.join(self.SCRIPTS_FOLDER, filename)
+            if os.path.isfile(filepath):
+                file = open(filepath, 'r', encoding = 'utf-8')
+                script = []
+                while True:
+                    line = file.readline().strip()
+                    if line == "eof":
+                        break
+                    elif line == "" or line[0:1] == "//":     # Ligne vide ou commentaire
+                        pass
+                    elif line[0] == '$':
+                        name = line[1:]
+                        id = self.game.game_data_db.execute("select id from scripts where name = ?;", (name, )).fetchall()[0][0]
+                        command = file.readline().strip()
+                        while command != "$$$":
+                            if command != "" and command[:2] != "//":
+                                script.append(command)
+                            command = file.readline().strip()
+                        self.list_of_scripts.append(scripts.Script(id, name, script))
+                        script = []
 
     def get_script_from_id(self, ident):
         """Retourne un script étant donné un identifiant"""

@@ -1,0 +1,13 @@
+$i104_mapscript
+loadtext(1)
+infobox()
+$$$
+
+$carte_mapscript
+checkevent('zero')
+	iffalse("runscript('genesis')")
+$$$
+
+
+
+eof
