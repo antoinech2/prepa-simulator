@@ -38,6 +38,18 @@ class NpcManager():
                 disp = "left"
             self.map.game.script_manager.setdirection(npc.id, disp)
     
+    def force_flip(self, id, direction):
+        """Force un PNJ à s'orienter selon une direction donnée"""
+        if direction == 0:
+                disp = "up"
+        if direction == 90:
+            disp = "right"
+        if direction == 180:
+            disp = "down"
+        if direction == 270:
+            disp = "left"
+        self.map.game.script_manager.setdirection(self.find_npc(id), disp)
+    
     def find_npc(self, id):
         """Cherche un PNJ par son identifiant"""
         for npc in self.npc_group:

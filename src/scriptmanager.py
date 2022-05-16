@@ -126,75 +126,16 @@ class ScriptManager():
     def current_script_command(self):
         """N° de la commande en cours d'exécution dans le script courant"""
         return(self.game.script_tree[-1][1])
+    
+    def ask_unlock(self):
+        self.unlocking = True
 
     def update(self):
         if self.game.running_script is None and self.game.script_tree != []:
             self.game.running_script = self.game.script_tree[0][0] # Premier élément de la liste qui en comporte un seul à l'appel d'un script
         if self.game.running_script is not None:
             self.game.running_script = self.game.script_tree[-1][0] # Vérification de l'appel ou non d'un sous-script
-            if self.game.executing_moving_script:
-                moving = copy.deepcopy(self.game.moving_people)
-                for person in self.game.moving_people:      #! à optimiser
-                    try:
-                        if self.game.moving_people[person]["moving_direction"] == "up" and person == "player":
-                            self.game.player.move([True, False, False, False], self.game.moving_people[person]["sprint_during_script"])
-                        elif self.game.moving_people[person]["moving_direction"] == "right" and person == "player":
-                            self.game.player.move([False, True, False, False], self.game.moving_people[person]["sprint_during_script"])
-                        elif self.game.moving_people[person]["moving_direction"] == "down" and person == "player":
-                            self.game.player.move([False, False, True, False], self.game.moving_people[person]["sprint_during_script"])
-                        elif self.game.moving_people[person]["moving_direction"] == "left" and person == "player":
-                            self.game.player.move([False, False, False, True], self.game.moving_people[person]["sprint_during_script"])
-                        else:
-                            npc = self.game.map_manager.npc_manager.find_npc(person)
-                            if self.game.moving_people[person]["moving_direction"] == "up":
-                                npc.move([True, False, False, False], self.game.moving_people[person]["sprint_during_script"])
-                            if self.game.moving_people[person]["moving_direction"] == "right":
-                                npc.move([False, True, False, False], self.game.moving_people[person]["sprint_during_script"])
-                            if self.game.moving_people[person]["moving_direction"] == "down":
-                                npc.move([False, False, True, False], self.game.moving_people[person]["sprint_during_script"])
-                            if self.game.moving_people[person]["moving_direction"] == "left":
-                                npc.move([False, False, False, True], self.game.moving_people[person]["sprint_during_script"])
-                        if person == "player":
-                            dist = ((self.game.moving_people["player"]["initial_coords"][0] - self.game.player.position[0])**2 + (self.game.moving_people["player"]["initial_coords"][1] - self.game.player.position[1])**2) ** 0.5 # Distance totale parcourue pendant le script
-                        else:
-                            npc = self.game.map_manager.npc_manager.find_npc(person)
-                            dist = ((self.game.moving_people[person]["initial_coords"][0] - npc.position[0])**2 + (self.game.moving_people[person]["initial_coords"][1] - npc.position[1])**2) ** 0.5 # Distance totale parcourue pendant le script
-                        
-                        if self.game.player.boop and person == "player":
-                            print("debug : script_boop")
-                            del(moving[person])
-                            for mov in range(len(self.game.movement_mem)):
-                                if self.game.movement_mem[mov][0] == "player":
-                                    moving["player"] = copy.deepcopy(self.game.movement_mem[mov][1])
-                                    moving["player"]["initial_coords"] = self.game.player.position
-                                    del(self.game.movement_mem[mov])
-                                    break
-                        elif dist > self.game.moving_people[person]["movement_boundary"]: # Le mouvement s'est déroulé normalement ou le joueur s'est pris un mur
-                            del(moving[person])
-                            for mov in range(len(self.game.movement_mem)):
-                                if self.game.movement_mem[mov][0] == person:
-                                    moving[person] = copy.deepcopy(self.game.movement_mem[mov][1])          # Mise à jour du mouvement du personnage
-                                    if person == "player":
-                                        moving["player"]["initial_coords"] = self.game.player.position
-                                    else:
-                                        moving[person]["initial_coords"] = npc.position            # Actualisation des coordonnées de démarrage du mouvement
-                                    del(self.game.movement_mem[mov])
-                                    break
-                        elif npc.boop:
-                            print("debug npc_boop")
-                            del(moving[npc.id])
-                            for mov in range(len(self.game.movement_mem)):
-                                if self.game.movement_mem[mov][0] == npc.id:
-                                    moving[npc.id] = copy.deepcopy(self.game.movement_mem[mov][1])          # Mise à jour du mouvement du personnage
-                                    moving[npc.id]["initial_coords"] = npc.position            # Actualisation des coordonnées de démarrage du mouvement
-                                    del(self.game.movement_mem[mov])
-                                    break
-                    except:
-                        pass
-                    if moving == {} and self.game.movement_mem == []:
-                        self.exit_movingscript()
-                self.game.moving_people = copy.deepcopy(moving)
-            elif self.is_counting_ticks:
+            if self.is_counting_ticks:
                 self.tick_counter += 1
                 if self.tick_counter >= self.noping_time:
                     self.is_counting_ticks = False
@@ -218,6 +159,75 @@ class ScriptManager():
                     self.game.script_tree[-1][1] += 1 # Augmentation du n° de la commande courante
                 else: # Le script en cours de traitement vient d'être appelé
                     self.game.script_tree[-2][1] += 1
+        if self.game.executing_moving_script:
+            moving = copy.deepcopy(self.game.moving_people)
+            for person in self.game.moving_people:      #! à optimiser
+                try:
+                    if self.unlocking and "player" not in self.game.moving_people and "player" not in [data[0] for data in self.game.movement_mem]:
+                        self.game.input_lock = False
+                        self.unlocking = False
+                    if person == "player":
+                        self.game.input_lock = True
+                    if self.game.dialogue is None:
+                        if self.game.moving_people[person]["moving_direction"] == "up" and person == "player":
+                            self.game.player.move([True, False, False, False], self.game.moving_people[person]["sprint_during_script"])
+                        elif self.game.moving_people[person]["moving_direction"] == "right" and person == "player":
+                            self.game.player.move([False, True, False, False], self.game.moving_people[person]["sprint_during_script"])
+                        elif self.game.moving_people[person]["moving_direction"] == "down" and person == "player":
+                            self.game.player.move([False, False, True, False], self.game.moving_people[person]["sprint_during_script"])
+                        elif self.game.moving_people[person]["moving_direction"] == "left" and person == "player":
+                            self.game.player.move([False, False, False, True], self.game.moving_people[person]["sprint_during_script"])
+                        else:
+                            npc = self.game.map_manager.npc_manager.find_npc(person)
+                            if self.game.moving_people[person]["moving_direction"] == "up":
+                                npc.move([True, False, False, False], self.game.moving_people[person]["sprint_during_script"])
+                            if self.game.moving_people[person]["moving_direction"] == "right":
+                                npc.move([False, True, False, False], self.game.moving_people[person]["sprint_during_script"])
+                            if self.game.moving_people[person]["moving_direction"] == "down":
+                                npc.move([False, False, True, False], self.game.moving_people[person]["sprint_during_script"])
+                            if self.game.moving_people[person]["moving_direction"] == "left":
+                                npc.move([False, False, False, True], self.game.moving_people[person]["sprint_during_script"])
+                    if person == "player":
+                        dist = ((self.game.moving_people["player"]["initial_coords"][0] - self.game.player.position[0])**2 + (self.game.moving_people["player"]["initial_coords"][1] - self.game.player.position[1])**2) ** 0.5 # Distance totale parcourue pendant le script
+                    else:
+                        npc = self.game.map_manager.npc_manager.find_npc(person)
+                        dist = ((self.game.moving_people[person]["initial_coords"][0] - npc.position[0])**2 + (self.game.moving_people[person]["initial_coords"][1] - npc.position[1])**2) ** 0.5 # Distance totale parcourue pendant le script
+                    
+                    if self.game.player.boop and person == "player":
+                        print("debug : script_boop")
+                        del(moving[person])
+                        for mov in range(len(self.game.movement_mem)):
+                            if self.game.movement_mem[mov][0] == "player":
+                                moving["player"] = copy.deepcopy(self.game.movement_mem[mov][1])
+                                moving["player"]["initial_coords"] = self.game.player.position
+                                del(self.game.movement_mem[mov])
+                                break
+                    elif dist > self.game.moving_people[person]["movement_boundary"]: # Le mouvement s'est déroulé normalement ou le joueur s'est pris un mur
+                        del(moving[person])
+                        for mov in range(len(self.game.movement_mem)):
+                            if self.game.movement_mem[mov][0] == person:
+                                moving[person] = copy.deepcopy(self.game.movement_mem[mov][1])          # Mise à jour du mouvement du personnage
+                                if person == "player":
+                                    moving["player"]["initial_coords"] = self.game.player.position
+                                else:
+                                    moving[person]["initial_coords"] = npc.position            # Actualisation des coordonnées de démarrage du mouvement
+                                del(self.game.movement_mem[mov])
+                                break
+                    elif npc.boop:
+                        print("debug npc_boop")
+                        del(moving[npc.id])
+                        for mov in range(len(self.game.movement_mem)):
+                            if self.game.movement_mem[mov][0] == npc.id:
+                                moving[npc.id] = copy.deepcopy(self.game.movement_mem[mov][1])          # Mise à jour du mouvement du personnage
+                                moving[npc.id]["initial_coords"] = npc.position            # Actualisation des coordonnées de démarrage du mouvement
+                                del(self.game.movement_mem[mov])
+                                break
+                except:
+                    pass
+                if moving == {} and self.game.movement_mem == []:
+                    self.exit_movingscript()
+            self.game.moving_people = copy.deepcopy(moving)
+            
 
     ###################################
     # Définition du langage des scripts
@@ -254,6 +264,14 @@ class ScriptManager():
             self.game.save.commit()
         except sql.ProgrammingError:
             print("Impossible d'accéder à la base de donnée lors de la sauvegarde. Cela peut être dû à une réinitialisation des données...")
+
+    def inputlock(self):
+        """Verrouillage des commandes"""
+        self.game.input_lock = True
+    
+    def freeinputs(self):
+        """Déverrouillage des commandes"""
+        self.ask_unlock()
 
 
     # Fonctions graphiques et de mouvement

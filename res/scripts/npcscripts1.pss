@@ -204,6 +204,7 @@ testflag(-1, 0)
 	iftrue("loadtext('''Le flag 0 de la L101 va être baissé''')")
 	iffalse("raiseflag(-1, 0)")
 	iffalse("loadtext('''Le flag 0 de la L101 va être levé''')")
+infobox()
 $$$
 
 
@@ -383,8 +384,11 @@ move("player", 'right', 50)
 move("player", 'down', 100)
 move(12, 'right', 400)
 move(12, 'left', 350)
+move(12, 'right', 400)
+move(12, 'left', 350)
 move(1, 'down', 200)
 move(1, 'up', 200)
+freeinputs()
 startmoving()
 $$$
 

@@ -20,12 +20,12 @@ def handle_key_down_event(game, event):
     if event.key == controls["MENU_INTERACT"] and game.menu_manager.choicebox is not None:     # si une boîte de choix est présente
         game.menu_manager.choicebox.choice_taken()
     elif event.key == controls["ACTION_INTERACT"] and not game.menu_is_open:  # si Espace est pressée
-        if game.dialogue == None:
+        if game.dialogue == None and not game.input_lock:
             game.map_manager.get_warps()
             game.map_manager.object_manager.pickup_check()
             game.map_manager.npc_manager.check_talk()
             game.menu_manager.sidemenu.bagmenu.refresh_groups() # Augmentation de la capacité affichée à l'écran de l'objet
-        else:
+        elif game.dialogue is not None:
             game.dialogue.next_dialogue()
     elif event.key == controls["MENU_SHOW_SIDEBAR"]:
         game.menu_manager.toggle_sidemenu()
