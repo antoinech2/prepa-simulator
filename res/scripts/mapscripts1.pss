@@ -1,3 +1,12 @@
+$niv_1_mapscript
+move(417, 'down', 1000)
+move(417, 'up', 1000)
+move(417, 'down', 1000)
+move(417, 'up', 1000)
+startmoving()
+$$$
+
+
 $i104_mapscript
 loadtext(1)
 infobox()

@@ -22,6 +22,7 @@ class ScriptManager():
         self.current_npc = None
 
         self.abort = False # Arrêt forcé d'un script
+        self.unlocking = False      # Déverrouillage des commandes
 
         # Mémoire interne du gestionnaire de scripts
         self.boolacc = False # Accumulateur booléen utilisé lors des comparaisons
@@ -234,7 +235,7 @@ class ScriptManager():
 
     # Fonctions générales
     def nop(self, ticks):
-        """Fonction qui ne fait rien pendant un nombre deonné de ticks"""
+        """Fonction qui ne fait rien pendant un nombre donné de ticks"""
         self.noping_time = ticks
         self.is_counting_ticks = True
 
