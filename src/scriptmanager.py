@@ -152,6 +152,7 @@ class ScriptManager():
                     self.current_npc = None         # On a fini de traiter le NPC actuel
                     self.abort = False
                     self.game.input_lock = False    # Déblocage du clavier
+                    self.game.map_manager.npc_manager.flip()
             else: # Le jeu est disponible pour passer à l'étape suivante
                 start = self.game.running_script
                 command = f"self.{self.game.running_script.contents[self.current_script_command()]}" # Correction syntaxique

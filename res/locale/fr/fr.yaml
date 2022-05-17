@@ -35,7 +35,7 @@ dialogue:
    95 : "As-tu trouvé les craies ? Tu dois chercher en I211, dans la Chapelle, et en I306."
    96 : "Si tu te perds, demande à un 2ème année ou consulte la Carte."
 
-   188 : "TAISEZ-VOUS !"
+   188: "TAISEZ-VOUS !"
 
 infobox:
   1  : "aaaaaaaaaaaaaa"

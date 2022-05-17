@@ -41,7 +41,7 @@ class NpcManager():
     def force_flip(self, id, direction):
         """Force un PNJ à s'orienter selon une direction donnée"""
         if direction == 0:
-                disp = "up"
+            disp = "up"
         if direction == 90:
             disp = "right"
         if direction == 180:
