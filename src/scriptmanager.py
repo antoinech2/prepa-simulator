@@ -35,6 +35,7 @@ class ScriptManager():
         # Caractéristiques du script de mouvement
         self.movement_boundary = None # Longueur du déplacement
         self.moving_direction = None
+        self.wait_movements = False     # Attente de la terminaison de tous les mouvements pour continuer
 
         # Chargement de la liste des scripts
         self.parse_scripts()
@@ -130,6 +131,9 @@ class ScriptManager():
     
     def ask_unlock(self):
         self.unlocking = True
+    
+    def wait(self):
+        self.wait_movements = True
 
     def update(self):
         if self.game.running_script is None and self.game.script_tree != []:
@@ -141,7 +145,7 @@ class ScriptManager():
                 if self.tick_counter >= self.noping_time:
                     self.is_counting_ticks = False
                     self.tick_counter = 0
-            elif self.game.dialogue is not None or self.game.menu_manager.choicebox is not None or self.game.mgm_manager.running_mg is not None:    # On laisse le dialogue défiler s'il existe, ou ou attend les résultats de la choicebox
+            elif self.game.dialogue is not None or self.game.menu_manager.choicebox is not None or self.game.mgm_manager.running_mg is not None or self.wait_movements:    # On laisse le dialogue défiler s'il existe, ou ou attend les résultats de la choicebox
                 pass
             elif self.current_script_command() >= len(self.game.running_script.contents) or self.abort: # Le script courant est terminé ou on force l'arrêt
                 del(self.game.script_tree[-1])
@@ -194,7 +198,7 @@ class ScriptManager():
                     else:
                         npc = self.game.map_manager.npc_manager.find_npc(person)
                         dist = ((self.game.moving_people[person]["initial_coords"][0] - npc.position[0])**2 + (self.game.moving_people[person]["initial_coords"][1] - npc.position[1])**2) ** 0.5 # Distance totale parcourue pendant le script
-                    
+                        
                     if self.game.player.boop and person == "player":
                         print("debug : script_boop")
                         del(moving[person])
@@ -228,6 +232,7 @@ class ScriptManager():
                     pass
                 if moving == {} and self.game.movement_mem == []:
                     self.exit_movingscript()
+                    self.wait_movements = False
             self.game.moving_people = copy.deepcopy(moving)
             
 
@@ -310,6 +315,10 @@ class ScriptManager():
     def startmoving(self):
         """Démarrage des mouvements mis en mémoire"""
         self.game.executing_moving_script = True
+    
+    def waitforstop(self):
+        """Attente de la terminaison de tous les mouvements avant de continuer l'exécution du script"""
+        self.wait()
 
     def move(self, id, direction, pix, sprint = False):
         """Mise en mémoire du déplacement d'une entité"""

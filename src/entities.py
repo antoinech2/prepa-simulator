@@ -137,6 +137,12 @@ class Player(Entity):
         self.game.map_manager.teleport_player(coords)  # on téléporte le joueur à la destination
         self.update()
         self.game.map_manager.draw()
+        self.game.map_manager.npc_manager.flip()
+        self.game.movement_mem = [elem for elem in self.game.movement_mem if elem[0] == "player"]
+        if "player" in self.game.moving_people:
+            self.game.moving_people = {"player" : self.game.moving_people["player"]}
+        else:
+            self.game.moving_people = {}
         pg.display.flip()
     
     def end_warp(self):

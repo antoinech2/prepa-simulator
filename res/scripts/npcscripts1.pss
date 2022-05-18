@@ -106,19 +106,25 @@ $$$
 $brrr
 //Script exemple pour Skler
 
-move('right', 50)
-move('up', 200)
+move("player", 'right', 50)
+move("player", 'up', 200)
+startmoving()
+waitforstop()
 dialogue(self.current_npc, 2)
 loadtext(4)
 loadtext(5)
 infobox()
 dialogue(self.current_npc, 3)
 runscript('denis_brogniart')
-move('right', 200, True)
+move("player", 'right', 200, True)
+startmoving()
+waitforstop()
 warp(9000, (896, 1343))
-move('right', 200, True)
-move('down', 200, True)
-move('right', 1000, True)
+move("player", 'right', 200, True)
+move("player", 'down', 200, True)
+move("player", 'right', 1000, True)
+startmoving()
+waitforstop()
 warp(100, (2944, 1792))
 $$$
 
