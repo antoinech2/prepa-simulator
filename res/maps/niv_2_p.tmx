@@ -115,7 +115,7 @@
   <object id="4" type="mur" x="1152" y="960" width="1088" height="576"/>
   <object id="6" type="mur" x="992" y="1600" width="1312" height="448"/>
   <object id="7" type="mur" x="2304" y="1408" width="256" height="416"/>
-  <object id="11" name="to_niv3_p_east" x="2272" y="1472" width="32" height="32"/>
+  <object id="11" name="to_niv3_p_east" type="portal" x="2272" y="1472" width="32" height="32"/>
   <object id="12" name="spawn_2p_east" type="portal" x="2256.91" y="1520.36">
    <point/>
   </object>
