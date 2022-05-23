@@ -112,7 +112,7 @@
   <object id="3" type="mur" x="1216" y="1120" width="128" height="768"/>
   <object id="4" type="mur" x="1248" y="1824" width="576" height="96"/>
   <object id="5" type="mur" x="1728" y="1120" width="96" height="736"/>
-  <object id="6" name="to_cdh" type="door" x="1312" y="1312" width="33.625" height="64"/>
+  <object id="6" name="to_cdh" type="door" x="1312" y="1312" width="34.7159" height="64"/>
   <object id="7" name="spawn_h010_sub" x="1348" y="1340.33">
    <point/>
   </object>
