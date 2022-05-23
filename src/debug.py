@@ -4,7 +4,7 @@ import shutil
 
 """Affichage du menu de débug"""
 
-FONT = "arial"
+FONT = "consolas"
 FONT_SIZE = 18
 
 def show_debug_menu(game):

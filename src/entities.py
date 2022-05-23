@@ -16,7 +16,7 @@ class Entity(pg.sprite.Sprite):
     # Constantes de mouvement
     SPEED_NORMA = 1/(2**0.5)        # Normalisation de la vitesse lors des mouvements en diagonale
     SPRINT_MULTIPLIER = 15           # Multiplicateur de la vitesse lors d'un sprint
-    WALK_ANIMATION_COOLDOWN = 8     # Cooldown entre deux changements d'animations (en frames, marche)
+    WALK_ANIMATION_COOLDOWN = 11     # Cooldown entre deux changements d'animations (en frames, marche)
     SPRINT_ANIMATION_COOLDOWN = 3   # Cooldown entre deux changements d'animations (en frames, sprint)
 
     # Constantes graphiques
@@ -85,7 +85,7 @@ class Entity(pg.sprite.Sprite):
 
         # Recalcul de l'image à utiliser
         animation_cooldown = self.SPRINT_ANIMATION_COOLDOWN if self.is_sprinting else self.WALK_ANIMATION_COOLDOWN
-        if self.is_animated == True:
+        if self.is_animated:
             self.current_sprite = (int(self.game.internal_clock.ticks_since_epoch / animation_cooldown) % 3)
         if self.id == "player":
             if self.is_warping:

@@ -5,14 +5,11 @@
 
 # Import externe
 import pygame as pg
-import pyscroll
 import sqlite3 as sql
-import yaml
 import os
 
 # Import interne
 import internalclock as ic
-import player
 import entities
 import maps
 import inputs
