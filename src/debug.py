@@ -28,7 +28,8 @@ Current Script Name : {game.script_tree[-1][0].name if game.script_tree != [] el
 Current Instruction : {game.script_tree[-1][0].contents[game.script_tree[-1][1]-1] if game.script_tree != [] else None} \n\
 Current World's Flags : {game.script_manager.read_flags(-1)} \n\
 Moving Entities : {[key for key in game.moving_people]} \n\
-Movement Memory : {game.movement_mem}"
+Movement Memory : {game.movement_mem} \n\
+Permanently Moving People : {[key for key in game.persistent_move]}"
 
     splited_text = text.split("\n")
     for (number, cur_text) in enumerate(splited_text):

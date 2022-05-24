@@ -166,9 +166,19 @@ class ScriptManager():
                 else: # Le script en cours de traitement vient d'être appelé
                     self.game.script_tree[-2][1] += 1
         if self.game.executing_moving_script:
+            if self.game.persistent_move != {}:
+                for id in self.game.persistent_move:
+                    if id not in self.game.moving_people:
+                        self.game.moving_people[id] = copy.deepcopy(self.game.persistent_move[id][self.game.persistent_move_index[id]])
+                        if self.game.persistent_move_index[id] < len(self.game.persistent_move[id]) - 1:
+                            self.game.persistent_move_index[id] += 1
+                        else:
+                            self.game.persistent_move_index[id] = 0
             moving = copy.deepcopy(self.game.moving_people)
             for person in self.game.moving_people:      #! à optimiser
                 try:
+                    if person != "player":
+                        npc = self.game.map_manager.npc_manager.find_npc(person)
                     if self.unlocking and "player" not in self.game.moving_people and "player" not in [data[0] for data in self.game.movement_mem]:
                         self.game.input_lock = False
                         self.unlocking = False
@@ -184,7 +194,6 @@ class ScriptManager():
                         elif self.game.moving_people[person]["moving_direction"] == "left" and person == "player":
                             self.game.player.move([False, False, False, True], self.game.moving_people[person]["sprint_during_script"])
                         else:
-                            npc = self.game.map_manager.npc_manager.find_npc(person)
                             if self.game.moving_people[person]["moving_direction"] == "up":
                                 npc.move([True, False, False, False], self.game.moving_people[person]["sprint_during_script"])
                             if self.game.moving_people[person]["moving_direction"] == "right":
@@ -196,7 +205,6 @@ class ScriptManager():
                     if person == "player":
                         dist = ((self.game.moving_people["player"]["initial_coords"][0] - self.game.player.position[0])**2 + (self.game.moving_people["player"]["initial_coords"][1] - self.game.player.position[1])**2) ** 0.5 # Distance totale parcourue pendant le script
                     else:
-                        npc = self.game.map_manager.npc_manager.find_npc(person)
                         dist = ((self.game.moving_people[person]["initial_coords"][0] - npc.position[0])**2 + (self.game.moving_people[person]["initial_coords"][1] - npc.position[1])**2) ** 0.5 # Distance totale parcourue pendant le script
                         
                     if self.game.player.boop and person == "player":
@@ -220,7 +228,6 @@ class ScriptManager():
                                 del(self.game.movement_mem[mov])
                                 break
                     elif npc.boop:
-                        print("debug npc_boop")
                         del(moving[npc.id])
                         for mov in range(len(self.game.movement_mem)):
                             if self.game.movement_mem[mov][0] == npc.id:
@@ -230,7 +237,7 @@ class ScriptManager():
                                 break
                 except:
                     pass
-                if moving == {} and self.game.movement_mem == []:
+                if moving == {} and self.game.movement_mem == [] and self.game.persistent_move == {}:
                     self.exit_movingscript()
                     self.wait_movements = False
             self.game.moving_people = copy.deepcopy(moving)
@@ -337,14 +344,31 @@ class ScriptManager():
             if npc is not None:
                 if id not in self.game.moving_people:
                     self.game.moving_people[id] = {"initial_coords" : npc.position,
-                                                "moving_direction" : direction,
-                                                "movement_boundary" : pix,
-                                                "sprint_during_script" : sprint}
+                                                   "moving_direction" : direction,
+                                                   "movement_boundary" : pix,
+                                                   "sprint_during_script" : sprint}
                 else:
                     self.game.movement_mem.append([id, {"initial_coords" : npc.position,
-                                                       "moving_direction" : direction,
-                                                       "movement_boundary" : pix,
-                                                       "sprint_during_script" : sprint}])
+                                                        "moving_direction" : direction,
+                                                        "movement_boundary" : pix,
+                                                        "sprint_during_script" : sprint}])
+    
+    def persistent(self, id, direction, pix, sprint = False):
+        """Mise en mémoire du mouvement permanent d'un PNJ"""
+        assert type(id) is int, "Erreur : persistent prend en entrée l'ID d'un PNJ uniquement."
+        npc = self.game.map_manager.npc_manager.find_npc(id)
+        if id not in self.game.persistent_move:
+            self.game.persistent_move[id] = {}
+        self.game.persistent_move[id][len(self.game.persistent_move[id])] = {"initial_coords" : npc.position,
+                                         "moving_direction" : direction,
+                                         "movement_boundary" : pix,
+                                         "sprint_during_script" : sprint}
+        self.game.persistent_move_index[id] = 0         # Initialisation du mouvement permanent
+
+    def offrails(self, id):
+        """Suppression du mouvement permanent d'un PNJ"""
+        if id in self.game.persistent_move:
+            del(self.game.persistent_move[id])
     
     def warp(self, target_map, target_coords):
         """Téléportation du joueur vers une nouvelle map"""

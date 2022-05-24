@@ -139,6 +139,8 @@ class Player(Entity):
         self.game.map_manager.draw()
         self.game.map_manager.npc_manager.flip()
         self.game.movement_mem = [elem for elem in self.game.movement_mem if elem[0] == "player"]
+        self.game.persistent_move = {}
+        self.game.persistent_move_index = {}
         if "player" in self.game.moving_people:
             self.game.moving_people = {"player" : self.game.moving_people["player"]}
         else:

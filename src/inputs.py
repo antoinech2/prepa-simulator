@@ -20,7 +20,7 @@ def handle_key_down_event(game, event):
     if event.key == controls["MENU_INTERACT"] and game.menu_manager.choicebox is not None:     # si une boîte de choix est présente
         game.menu_manager.choicebox.choice_taken()
     elif event.key == controls["ACTION_INTERACT"] and not game.menu_is_open:  # si Espace est pressée
-        if game.dialogue == None and not game.input_lock:
+        if game.dialogue is None and not game.input_lock:
             game.map_manager.get_warps()
             game.map_manager.object_manager.pickup_check()
             game.map_manager.npc_manager.check_talk()

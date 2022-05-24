@@ -38,10 +38,12 @@ class Game:
         self.executing_moving_script = False    # Le joueur est en train de bouger suite à un script
         self.moving_people = {}                 # ID des entités et paramètres des mouvements en cours
         self.movement_mem = []                  # Prochains mouvements
+        self.persistent_move = {}               # Mouvements permanents des PNJ
+        self.persistent_move_index = {}         # Index du mouvement permanent en cours d'exécution
 
         self.default_font = menu.Font("consolas")
 
-        self.restart = False #Si le jeu doit redémarrer suite à un redimensionnement de la fenêtre
+        self.restart = False                    # Si le jeu doit redémarrer suite à un redimensionnement de la fenêtre
 
         # Création du dossier de sauvegarde s'il n'existe pas
         if not os.path.isdir("sav"):
