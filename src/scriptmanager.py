@@ -364,6 +364,13 @@ class ScriptManager():
                                          "movement_boundary" : pix,
                                          "sprint_during_script" : sprint}
         self.game.persistent_move_index[id] = 0         # Initialisation du mouvement permanent
+    
+    def stopnpc(self, id):
+        """Suppression du mouvement permanent d'un PNJ"""
+        assert type(id) is int, "Erreur : seul le mouvement d'un PNJ peut être arrêté."
+        npc = self.game.map_manager.npc_manager.find_npc(id)
+        if id in self.game.persistent_move:
+            del(self.game.persistent_move[id])
 
     def offrails(self, id):
         """Suppression du mouvement permanent d'un PNJ"""

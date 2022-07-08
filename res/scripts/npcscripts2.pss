@@ -1,4 +1,5 @@
 $roamertest
+stopnpc(417)
 loadtext("Je bouge dans quel sens ?")
 infobox()
 opencb(['NS', 'EO'])
