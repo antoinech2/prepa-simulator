@@ -1,0 +1,58 @@
+$infoboard
+// panneau d'information principal à côté de la VS
+getday()
+compare('eq', 0)
+	iffalse("goto('mardi')")
+loadtext('''Le lycée Clemenceau vous informe que nous sommes lundi.''')
+loadtext('''Au menu aujourd'hui : quiche lorraine''')
+loadtext('''Professeur absent : M. VIERQUES''')
+goto('end')
+
+label('mardi')
+compare('eq', 1)
+	iffalse("goto('mercredi')")
+loadtext('''Le lycée Clemenceau vous informe que nous sommes mardi.''')
+loadtext('''Au menu aujourd'hui : crozets''')
+loadtext('''Professeur absent : Mme. GOLHEIM''')
+goto('end')
+
+label('mercredi')
+compare('eq', 2)
+	iffalse("goto('jeudi')")
+loadtext('''Le lycée Clemenceau vous informe que nous sommes mercredi.''')
+loadtext('''Au menu aujourd'hui : quiche lorraine et saucisses de Toulouse''')
+loadtext('''Professeur absent : personne !''')
+goto('end')
+
+label('jeudi')
+compare('eq', 3)
+	iffalse("goto('vendredi')")
+loadtext('''Le lycée Clemenceau vous informe que nous sommes jeudi.''')
+loadtext('''Au menu aujourd'hui : frites et saucisses de Toulouse''')
+loadtext('''Professeurs absents : M. BEAUCHER, M. LAUMOIS''')
+goto('end')
+
+label('vendredi')
+compare('eq', 4)
+	iffalse("goto('samedi')")
+loadtext('''Le lycée Clemenceau vous informe que nous sommes vendredi.''')
+loadtext('''Au menu aujourd'hui : saucisses de Toulouse''')
+loadtext('''Professeur absent : Mme. DE LA TOURINE''')
+goto('end')
+
+label('samedi')
+compare('eq', 5)
+	iffalse("goto('dimanche')")
+loadtext('''Le lycée Clemenceau vous informe que nous sommes samedi.''')
+loadtext('''Professeur absent : M. DE JOUH''')
+goto('end')
+
+label('dimanche')
+loadtext('''Le tableau d'informations est vide.''')
+
+label('end')
+infobox()
+$$$
+
+
+eof

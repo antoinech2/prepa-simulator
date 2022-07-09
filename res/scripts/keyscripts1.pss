@@ -1,0 +1,45 @@
+$explode
+// Script fermant de force le jeu sans sauvegarde
+
+game.quit_game()
+$$$
+
+
+$save
+// Script effectuant une sauvegarde de la partie
+
+loadtext("Voulez-vous sauvegarder la partie ?")
+infobox()
+opencb()
+cb_result()
+compare('eq', 0)
+	iffalse("false()")
+	iffalse("goto('end')")
+true()
+save()
+loadtext("Partie sauvegardée.")
+infobox()
+
+label('end')
+$$$
+
+$object
+// Script d'obtention d'un objet unique selon son ID stocké dans l'acc
+
+sfx('jingleV2')
+loadtext(f'Obtenu : {self.game.map_manager.object_manager.list_of_objects[self.acc].name} !')
+infobox()
+get_object(self.acc, 1)
+$$$
+
+$quiz
+// Script qui lance le mini-jeu quiz
+
+ran(1, 170)
+launchmgm('select', self.acc)
+$$$
+
+
+
+
+eof

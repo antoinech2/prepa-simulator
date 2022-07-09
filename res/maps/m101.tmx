@@ -214,11 +214,11 @@
   <object id="2" type="mur" x="1280" y="1248" width="96" height="800"/>
   <object id="3" type="mur" x="1280" y="1984" width="576" height="128"/>
   <object id="4" type="mur" x="1760" y="1248" width="96" height="864"/>
-  <object id="5" name="to_niv1_main" x="1760" y="1408" width="32" height="32"/>
+  <object id="5" name="to_niv1_main" type="door" x="1758.36" y="1408" width="33.6364" height="32"/>
   <object id="6" name="spawn_m101_main" x="1717.33" y="1406">
    <point/>
   </object>
-  <object id="7" name="to_niv1_sub" x="1760" y="1920" width="32" height="32"/>
+  <object id="7" name="to_niv1_sub" type="door" x="1757.33" y="1920" width="34.6667" height="32"/>
   <object id="8" name="spawn_m101_sub" x="1712" y="1920">
    <point/>
   </object>

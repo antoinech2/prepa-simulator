@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="7">
+<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="10">
  <tileset firstgid="1" name="jeu de tuiles" tilewidth="32" tileheight="32" tilecount="240" columns="20">
   <image source="../textures/tiles.png" trans="ff00ff" width="646" height="401"/>
  </tileset>
@@ -216,8 +216,12 @@
   <object id="2" type="mur" x="1824" y="1280" width="64" height="608"/>
   <object id="3" type="mur" x="1376" y="1856" width="512" height="64"/>
   <object id="4" type="mur" x="1376" y="1280" width="64" height="608"/>
-  <object id="5" name="to_" x="1824" y="1344" width="32" height="64"/>
-  <object id="6" name="spawn_h009" x="1760" y="1344">
+  <object id="5" name="to_" type="door" x="1822" y="1344" width="34" height="64"/>
+  <object id="6" name="spawn_h009_main" x="1760" y="1344">
+   <point/>
+  </object>
+  <object id="8" name="to_cdr" type="door" x="1408" y="1344" width="34.3333" height="64"/>
+  <object id="9" name="spawn_h009_sub" x="1444" y="1372.36">
    <point/>
   </object>
  </objectgroup>

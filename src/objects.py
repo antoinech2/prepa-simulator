@@ -85,7 +85,6 @@ class MapObject(pg.sprite.Sprite):
     def save(self):
         """Sauvegarde de l'état de l'objet sur la carte pour empêcher sa réapparition"""
         self.map.game.save.execute('replace into mapobjects values (?, 1)', (self.id,))
-        self.map.game.save.commit()
 
 
 class Object():

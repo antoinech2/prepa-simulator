@@ -1,0 +1,12 @@
+$sign1
+// Panneau en sortie de l'escalier de la I, niveau 1
+loadtext(7)
+loadtext(8)
+loadtext(9)
+loadtext(10)
+infobox()
+$$$
+
+
+
+eof

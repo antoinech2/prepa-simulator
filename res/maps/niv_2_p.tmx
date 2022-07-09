@@ -115,18 +115,18 @@
   <object id="4" type="mur" x="1152" y="960" width="1088" height="576"/>
   <object id="6" type="mur" x="992" y="1600" width="1312" height="448"/>
   <object id="7" type="mur" x="2304" y="1408" width="256" height="416"/>
-  <object id="11" name="to_niv3_p_east" x="2272" y="1472" width="32" height="32"/>
-  <object id="12" name="spawn_2p_east" x="2256.91" y="1520.36">
+  <object id="11" name="to_niv3_p_east" type="portal" x="2272" y="1472" width="32" height="32"/>
+  <object id="12" name="spawn_2p_east" type="portal" x="2256.91" y="1520.36">
    <point/>
   </object>
   <object id="13" name="direct niv 0" x="1067.5" y="1323.5">
    <point/>
   </object>
-  <object id="14" name="to_niv1_p" x="2240" y="1472" width="32" height="32"/>
+  <object id="14" name="to_niv1_p" type="portal" x="2240" y="1472" width="32" height="32"/>
   <object id="15" name="spawn_2p_west" x="1106" y="1422.5">
    <point/>
   </object>
-  <object id="16" name="to_niv3_p_west" x="1088" y="1376" width="32" height="32"/>
+  <object id="16" name="to_niv3_p_west" type="portal" x="1088" y="1376" width="32" height="32"/>
   <object id="18" type="mur" x="960" y="1504" width="128" height="128"/>
   <object id="19" type="mur" x="928" y="1440" width="128" height="96"/>
  </objectgroup>

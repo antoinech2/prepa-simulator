@@ -160,15 +160,12 @@
   <object id="4" type="mur" x="1632" y="2176" width="64" height="256"/>
   <object id="7" type="mur" x="3008" y="2176" width="96" height="160"/>
   <object id="8" type="mur" x="2976" y="2208" width="96" height="64"/>
-  <object id="9" name="to_dl3" x="2944.13" y="2208" width="31.875" height="32"/>
-  <object id="10" name="to_niv2_n" x="3104" y="2336" width="32" height="64"/>
+  <object id="9" name="to_dl3" type="door" x="2944.13" y="2208" width="31.875" height="35"/>
+  <object id="10" name="to_niv2_n" type="portal" x="3104" y="2336" width="32" height="64"/>
   <object id="11" name="spawn_from2_n" x="2989.33" y="2352.67">
    <point/>
   </object>
   <object id="13" name="exit_dl3" x="2912" y="2272">
-   <point/>
-  </object>
-  <object id="20" name="exit_dl3" x="2912" y="2336">
    <point/>
   </object>
   <object id="24" type="mur" x="1632" y="2336" width="1184" height="96"/>
@@ -190,7 +187,7 @@
   <object id="32" name="N309 amicale des anciens" x="2860" y="2424">
    <point/>
   </object>
-  <object id="33" name="to_n305" x="2048" y="2336" width="32" height="32"/>
+  <object id="33" name="to_n305" type="door" x="2048" y="2334.18" width="32" height="33.8182"/>
   <object id="34" name="exit_n305" x="2048" y="2304">
    <point/>
   </object>
@@ -216,7 +213,7 @@
   <object id="46" name="p3" x="3198" y="3420.67">
    <polygon points="0,0 64.6667,0.666667 65.3333,-21.3333 104,15.3333 64.6667,44 64.6667,21.3333 0.666667,19.3333"/>
   </object>
-  <object id="47" name="to_niv2_o" x="3040" y="3488" width="32" height="64"/>
+  <object id="47" name="to_niv2_o" type="portal" x="3040" y="3488" width="32" height="64"/>
   <object id="48" name="spawn_from2_o" x="2976" y="3520">
    <point/>
   </object>
@@ -225,7 +222,7 @@
    <point/>
   </object>
   <object id="52" type="mur" x="2976" y="3456" width="128" height="32"/>
-  <object id="53" name="to_niv3_p" x="3200" y="3392" width="32" height="64"/>
+  <object id="53" name="to_niv3_p" type="portal" x="3200" y="3392" width="32" height="64"/>
   <object id="54" name="spawn_from3_p" x="3136" y="3392">
    <point/>
   </object>
@@ -235,6 +232,6 @@
   <object id="56" name="exit_n306" x="1824" y="2304">
    <point/>
   </object>
-  <object id="57" name="to_n306" x="1824" y="2336" width="32" height="32"/>
+  <object id="57" name="to_n306" type="door" x="1824" y="2334" width="32" height="34"/>
  </objectgroup>
 </map>

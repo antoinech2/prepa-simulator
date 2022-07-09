@@ -9,18 +9,23 @@ DATA_DATABASE_LOCATION = "res/game_data.db"
 SAVE_DATABASE_LOCATION = "sav/save.db"
 
 CONFIGURATION_FILES = {
-    "player" : "sav/player.yaml",
+    "entities" : "sav/entities.yaml",
     "window" : "stg/window.yaml",
-    "controls" : "stg/controls.yaml"
+    "controls" : "stg/controls.yaml",
+    "internals" : "sav/internals.yaml"
     }
 
 DEFAULT_CONFIG = {
-    "player" : {"map_id" : 1,
-                "position" : [1600,1200],
-                "speed" : 1.5,
-                "cash" : 10.},
+    "entities" : {"player":                 #TODO Ajouter un dictionnaire de valeurs pour chaque PNJ (position seulement)
+                    {"map_id" : 1,
+                    "position" : [1600,1200],
+                    "speed" : 1.5,
+                    "cash" : 10.}
+                 },
+                 
     "window" : {"size" : (1000, 600),
                 "fullscreen" : False},
+
     "controls" : {
         # Contrôle du mouvement
         "PLAYER_MOVE_UP" : "UP",
@@ -42,6 +47,13 @@ DEFAULT_CONFIG = {
         "MENU_INTERACT" : "SPACE",
         "MENU_CANCEL" : "x",
 
+        # Contrôle des mini-jeux
+        "MINIGAME_UP" : "UP",
+        "MINIGAME_DOWN" : "DOWN",
+        "MINIGAME_LEFT" : "LEFT",
+        "MINIGAME_RIGHT" : "RIGHT",
+        "MINIGAME_ENTER" : "RETURN",
+
         # Contrôle de la fenêtre
         "GAME_FULLSCREEN" : "F11",
         "GAME_TERMINATE" : "ESCAPE",
@@ -50,7 +62,12 @@ DEFAULT_CONFIG = {
         "DEBUG" : "F3",
         "RESET_CONFIG" : "F5",
         "RESET_SAVE" : "F6"
-        }
+        },
+
+    "internals" : {"ticks" : 0,
+                   "day" : 0,
+                   "hour" : 7,
+                   "minute" : 0},
     }
 
 
