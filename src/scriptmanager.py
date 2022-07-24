@@ -7,9 +7,11 @@ from random import randint
 import sqlite3 as sql
 import copy
 import os
+import pygame as pg
 
 import scripts
 import dialogue as dia
+import menu
 
 class ScriptManager():
     """Classe de gestion des scripts du jeu"""
@@ -296,6 +298,17 @@ class ScriptManager():
         if layer == "fg":
             self.game.map_manager.player_layer(1)
     
+    def emotion(self, boxname, entity):
+        """Déclenchement de l'apparition d'une émoticône au-dessus du sprite d'une entité"""
+        #TODO Voir comment faire apparaître une minibox au dessus du sprite d'un pnj. Coordonnées touça touça
+        verticaloffset = 35
+        if entity == "player":
+            center = (self.game.screen.get_size()[0]/2, self.game.screen.get_size()[1]/2 + verticaloffset)
+        self.game.menu_manager.minibox = menu.MiniBox(self.game, boxname, "player")
+    
+    def clearboxes(self):
+        self.game.menu_manager.minibox = None
+    
     def setdirection(self, id, direction):
         """Change la direction dans laquelle pointe un PNJ"""
         if id == "player":
@@ -353,6 +366,14 @@ class ScriptManager():
                                                         "movement_boundary" : pix,
                                                         "sprint_during_script" : sprint}])
     
+    def compx(self, op, coord):
+        """Comparaison de la coordonnée x du joueur"""
+        pass
+    
+    def compy(self, op, coord):
+        """Comparaison de la coordonnée y du joueur"""
+        pass
+
     def persistent(self, id, direction, pix, sprint = False):
         """Mise en mémoire du mouvement permanent d'un PNJ"""
         assert type(id) is int, "Erreur : persistent prend en entrée l'ID d'un PNJ uniquement."

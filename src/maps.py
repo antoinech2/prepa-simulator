@@ -96,9 +96,12 @@ class MapManager:
         if index >= 0:   # Le joueur est dans un portail
             # On récupère l'endroit où téléporter le joueur
             [to_world, to_point] = self.game.game_data_db.execute("SELECT to_world, to_point FROM portals WHERE id = ?", (self.doors_id[index],)).fetchall()[0]
+            direction = self.game.game_data_db.execute("select spawn_direction from Portals where id = ?", (self.doors_id[index],)).fetchall()[0][0]
+            if direction is None:
+                direction = "up"    # Valeur par défaut
             old_bgm = self.game.map_manager.sound_manager.music_file
             self.game.script_manager.sfx('door')        # Effet sonore
-            self.game.player.warp(to_world, to_point, old_bgm)
+            self.game.player.warp(to_world, to_point, direction, old_bgm)
             self.game.player.is_warping = True
 
     def teleport_player(self, tp_point):

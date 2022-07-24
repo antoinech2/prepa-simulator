@@ -117,7 +117,7 @@ class Player(Entity):
         self.position = config["position"]
         self.base_walk_speed = config["speed"] # Vitesse du joueur sans multiplicateur (en pixel/frame)
     
-    def warp(self, map, coords, old_bgm):
+    def warp(self, map, coords, direction, old_bgm):
         """Téléportation du joueur vers une nouvelle map"""
         transition_step = 5
         # On empêche le joueur de bouger pendant le warp
@@ -135,6 +135,7 @@ class Player(Entity):
         # Téléportation
         self.game.map_manager.load_map(map, old_bgm) # On charge la nouvelle carte
         self.game.map_manager.teleport_player(coords)  # on téléporte le joueur à la destination
+        self.game.script_manager.setdirection("player", direction) # On fait tourner le joueur
         self.update()
         self.game.map_manager.draw()
         self.game.map_manager.npc_manager.flip()
@@ -169,8 +170,11 @@ class Player(Entity):
         if index >= 0:   # Le joueur est dans un portail
             # On récupère l'endroit où téléporter le joueur
             [to_world, to_point] = self.game.game_data_db.execute("SELECT to_world, to_point FROM portals WHERE id = ?", (self.game.map_manager.portals_id[index],)).fetchall()[0]
+            direction = self.game.game_data_db.execute("select spawn_direction from Portals where id = ?", (self.game.map_manager.doors_id[index],)).fetchall()[0][0]
+            if direction is None:
+                direction = "up"    # Valeur par défaut
             old_bgm = self.game.map_manager.sound_manager.music_file
-            self.warp(to_world, to_point, old_bgm)
+            self.warp(to_world, to_point, direction, old_bgm)
             self.is_warping = True
             return True
         else:

@@ -5,6 +5,14 @@ game.quit_game()
 $$$
 
 
+$emoexcl
+// Script déclenchant l'apparition d'une boîte "!"
+
+emotion("excl", "player")
+nop(80)
+clearboxes()
+$$$
+
 $save
 // Script effectuant une sauvegarde de la partie
 

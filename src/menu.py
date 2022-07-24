@@ -203,6 +203,20 @@ class ChoiceBox():
         for choice in range(len(self.choices)):
             self.print_choice(choice)
 
+class MiniBox():
+    """Classe des émoticônes"""
+    VERTICAL_OFFSET = -50       # Temporaire
+    def __init__(self, game, img, target):
+        self.game = game
+        self.tex = pg.image.load(f"res/textures/minibox/{img}.png").convert()
+        self.tex.set_colorkey([255, 255, 255])
+        if target == "player":
+            self.rect = self.tex.get_rect(center = (self.game.screen.get_size()[0]/2, self.game.screen.get_size()[1]/2 + self.VERTICAL_OFFSET))
+    
+    def draw(self):
+        """Rafraîchissement de l'affichage"""
+        self.game.screen.blit(self.tex, self.rect)
+
 
 class Arrow1D():
     """Classe des flèches à un degré de liberté"""
@@ -354,6 +368,8 @@ class MenuManager():
         # Menus secondaires
         self.choicebox = None           # Boîte à choix multiples
         self.choicebox_result = None    # Place et nom de l'option choisie dans la choicebox
+        # Boîtes de décoration
+        self.minibox = None
 
     def toggle_sidemenu(self):
         """Commute l'affichage du menu latéral"""
@@ -375,6 +391,8 @@ class MenuManager():
                 submenu.draw()
         if self.choicebox is not None:
             self.choicebox.draw()
+        if self.minibox is not None:
+            self.minibox.draw()
 
     def menu_move(self, direction):
         """Déplacement dans un menu"""

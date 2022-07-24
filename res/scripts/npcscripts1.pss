@@ -155,7 +155,7 @@ opencb(['MP', 'MP*'])
 cb_result()
 compare('eq', 0)
 	iftrue("raiseevent('isMP')")
-	iftrue("lowerevent('isMPStar')"
+	iftrue("lowerevent('isMPStar')")
 	iffalse("lowerevent('isMP')")
 	iffalse("raiseevent('isMPStar')")
 setnpcflag(self.current_npc, 0, 1)

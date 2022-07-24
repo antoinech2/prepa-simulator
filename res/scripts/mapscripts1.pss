@@ -13,6 +13,18 @@ checkevent('zero')
 	iffalse("runscript('genesis')")
 $$$
 
+$i109_mapscript
+setdirection("player", "left")
+runscript("emoexcl")
+move("player", "left", 200)
+startmoving()
+waitforstop()
+setdirection("player", "up")
+chg_music("title")
+loadtext("Object event.")
+infobox()
+chg_music(-1)
+$$$
 
 
 eof
