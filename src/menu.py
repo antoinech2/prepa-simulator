@@ -263,13 +263,13 @@ class Arrow1D():
 class MissionsSubMenu(SubMenu):
     """Classe du sous-menu des missions"""
     # WIP
-    MISSICON_POSITION = (30, 50) # Temporaire
+    MISSICON_POSITION = (30, 30) # Temporaire
     def __init__(self, sidemenu, boundary, can_loop, line_height, initial_coords):
         super().__init__("missions", "MISSIONS", sidemenu, self.MISSICON_POSITION, boundary, can_loop, line_height, initial_coords)
 
 class BagSubMenu(SubMenu):
     """Classe du sous-menu du Sac"""
-    BAGICON_POSITION = (30, 100)        # Temporaire
+    BAGICON_POSITION = (30, 80)        # Temporaire
     BAG_UPPERLEFT_CORNER = (80, 20)     # Coin haut gauche du Sac pour placer la première icône. Temporaire
     ONSCREEN_OBJECTS = 5                # Nombre d'objets affichés à l'écran
     NAME_ICON_OFFSET = (40, -4)         # Espace entre l'icône d'un objet et son nom. Temporaire
@@ -329,7 +329,7 @@ class BagSubMenu(SubMenu):
 
 class SaveSubMenu(SubMenu):
     """Classe du sous-menu de sauvegarde"""
-    SAVEICON_POSITION = (30, 150) # Temporaire
+    SAVEICON_POSITION = (30, 130) # Temporaire
     def __init__(self, sidemenu, boundary, can_loop, line_height, initial_coords):
         super().__init__("save", "SAUVER", sidemenu, self.SAVEICON_POSITION, boundary, can_loop, line_height, initial_coords)
     
@@ -343,7 +343,7 @@ class SaveSubMenu(SubMenu):
 
 class OptionsSubMenu(SubMenu):
     """Classe du sous-menu des options"""
-    OPTIONSICON_POSITION = (30, 200) # Temporaire
+    OPTIONSICON_POSITION = (30, 180) # Temporaire
     def __init__(self, sidemenu, boundary, can_loop, line_height, initial_coords):
         super().__init__("options", "OPTIONS", sidemenu, self.OPTIONSICON_POSITION, boundary, can_loop, line_height, initial_coords)
 

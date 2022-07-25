@@ -4,6 +4,30 @@ $explode
 game.quit_game()
 $$$
 
+$snorlax
+// Script pour faire dodo
+
+loadtext("Voulez-vous dormir ?")
+infobox()
+opencb()
+cb_result()
+compare('eq', 0)
+	iffalse("interrupt()")
+move("player", 'down', 100)
+startmoving()
+changelayer('bg')
+nop(10)
+warp(0, (0, 0))
+passtime()
+nop(20)
+warp(11309, (993, 928), 'up')
+nop(10)
+changelayer('fg')
+move("player", 'up', 29)
+startmoving()
+
+$$$
+
 
 $emoexcl
 // Script déclenchant l'apparition d'une boîte "!"

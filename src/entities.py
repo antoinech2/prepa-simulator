@@ -170,8 +170,9 @@ class Player(Entity):
         if index >= 0:   # Le joueur est dans un portail
             # On récupère l'endroit où téléporter le joueur
             [to_world, to_point] = self.game.game_data_db.execute("SELECT to_world, to_point FROM portals WHERE id = ?", (self.game.map_manager.portals_id[index],)).fetchall()[0]
-            direction = self.game.game_data_db.execute("select spawn_direction from Portals where id = ?", (self.game.map_manager.doors_id[index],)).fetchall()[0][0]
-            if direction is None:
+            try:
+                direction = self.game.game_data_db.execute("select spawn_direction from Portals where id = ?", (self.game.map_manager.doors_id[index],)).fetchall()[0][0]
+            except:
                 direction = "up"    # Valeur par défaut
             old_bgm = self.game.map_manager.sound_manager.music_file
             self.warp(to_world, to_point, direction, old_bgm)

@@ -13,6 +13,7 @@ def show_debug_menu(game):
 Ticks since Session Start : {game.internal_clock.ticks_since_sessionstart} \n\
 Ticks since Epoch : {game.internal_clock.ticks_since_epoch} \n\
 Dialogue : {game.dialogue is not None}\n\
+Inputs : {'locked' if game.input_lock else 'unlocked'}\n\
     ==== Clock ==== \n\
 Current Weekday : {game.internal_clock.dayname}, Time : {game.internal_clock.hour}:{game.internal_clock.minute} \n\
     ==== Graphic ====   \n\

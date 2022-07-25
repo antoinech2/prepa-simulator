@@ -126,6 +126,7 @@ class ScriptManager():
     def exit_movingscript(self):
         """Terminaison d'un script de déplacement"""
         self.game.executing_moving_script = False
+        self.game.input_lock = False
     
     def current_script_command(self):
         """N° de la commande en cours d'exécution dans le script courant"""
@@ -398,15 +399,23 @@ class ScriptManager():
         if id in self.game.persistent_move:
             del(self.game.persistent_move[id])
     
-    def warp(self, target_map, target_coords):
+    def warp(self, target_map, target_coords, direction = "up"):
         """Téléportation du joueur vers une nouvelle map"""
-        self.game.player.warp(target_map, target_coords, self.game.map_manager.sound_manager.music_file)
+        self.game.player.warp(target_map, target_coords, direction, self.game.map_manager.sound_manager.music_file)
         self.game.player.is_warping = True
     
 
     # Fonctions du temps
     def getday(self):
+        """Obtention du numéro du jour courant"""
         self.acc = self.game.internal_clock.weekday
+    
+    def passtime(self):
+        """Passage au jour suivant"""
+        self.game.internal_clock.hour = 7
+        self.game.internal_clock.minute = 0
+        self.game.internal_clock.weekday = (self.game.internal_clock.weekday + 1) % 6
+        self.game.internal_clock.find_dayname()
 
     # Fonctions des menus (boîtes contenant du texte)
     def loadtext(self, text):

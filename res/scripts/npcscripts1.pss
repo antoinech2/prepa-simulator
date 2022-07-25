@@ -119,13 +119,13 @@ runscript('denis_brogniart')
 move("player", 'right', 200, True)
 startmoving()
 waitforstop()
-warp(9000, (896, 1343))
+warp(9000, (896, 1343), 'right')
 move("player", 'right', 200, True)
 move("player", 'down', 200, True)
 move("player", 'right', 1000, True)
 startmoving()
 waitforstop()
-warp(100, (2944, 1792))
+warp(100, (2944, 1792), 'left')
 $$$
 
 

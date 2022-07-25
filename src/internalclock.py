@@ -5,8 +5,8 @@ import locale
 import save
 
 class InternalClock:
-    TICKS_PER_MIN = 100
-    MINUTES_PER_TURN = 30             # Nombre de minutes qui passent à chaque tour, < 120
+    TICKS_PER_MIN = 120
+    MINUTES_PER_TURN = 1             # Nombre de minutes qui passent à chaque tour, < 120
 
     def __init__(self, game):
         self.game = game
@@ -51,4 +51,5 @@ class InternalClock:
     def save(self):
         """Sauvegarde des ticks et de la date courante"""
         # TODO Sauvegarder la date courante
+        # TODO Implémenter les saisons
         save.save_config("internals", ticks = self.ticks_since_epoch, day = self.weekday, hour = self.hour, minute = self.minute)
