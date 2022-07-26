@@ -1,0 +1,18 @@
+$daytime_persistent
+// Script de contrôle de l'heure
+
+comphour('sup', 21)
+    iffalse("interrupt()")
+compmin('sup', 0)
+    iffalse("interrupt()")
+watchroom(11309)
+    iftrue("interrupt()")
+loadtext("Il se fait tard...")
+infobox()
+warp(11309, (899, 899), "right")
+label('end')
+
+$$$
+
+
+eof

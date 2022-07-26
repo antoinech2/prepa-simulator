@@ -25,6 +25,10 @@ class ScriptManager():
 
         self.abort = False # Arrêt forcé d'un script
         self.unlocking = False      # Déverrouillage des commandes
+        self.perblock = False       # Régulation de l'exécution des scripts permanents
+
+        # Mémoire ROM
+        self.permanent_scripts = []        # Liste des scripts s'exécutant à chaque game tick
 
         # Mémoire interne du gestionnaire de scripts
         self.boolacc = False # Accumulateur booléen utilisé lors des comparaisons
@@ -56,13 +60,18 @@ class ScriptManager():
                         pass
                     elif line[0] == '$':
                         name = line[1:]
-                        id = self.game.game_data_db.execute("select id from scripts where name = ?;", (name, )).fetchall()[0][0]
+                        try:
+                            id = self.game.game_data_db.execute("select id from scripts where name = ?;", (name, )).fetchall()[0][0]
+                        except IndexError:
+                            print(f"Le script {name} n'a pas d'identifiant. Modifier la BDD afin d'inclure ce script !")
                         command = file.readline().strip()
                         while command != "$$$":
                             if command != "" and command[:2] != "//":
                                 script.append(command)
                             command = file.readline().strip()
                         self.list_of_scripts.append(scripts.Script(id, name, script))
+                        if "persistent" in filepath:
+                            self.permanent_scripts.append(scripts.Script(id, name, script))
                         script = []
 
     def get_script_from_id(self, ident):
@@ -142,6 +151,7 @@ class ScriptManager():
         if self.game.running_script is None and self.game.script_tree != []:
             self.game.running_script = self.game.script_tree[0][0] # Premier élément de la liste qui en comporte un seul à l'appel d'un script
         if self.game.running_script is not None:
+            self.perblock = True
             self.game.running_script = self.game.script_tree[-1][0] # Vérification de l'appel ou non d'un sous-script
             if self.is_counting_ticks:
                 self.tick_counter += 1
@@ -158,6 +168,7 @@ class ScriptManager():
                     self.game.running_script = None # Fin du script de départ atteinte
                     self.current_npc = None         # On a fini de traiter le NPC actuel
                     self.abort = False
+                    self.perblock = False           # Autorisation d'exécuter les scripts permanents
                     self.game.input_lock = False    # Déblocage du clavier
                     self.game.map_manager.npc_manager.flip()
             else: # Le jeu est disponible pour passer à l'étape suivante
@@ -289,6 +300,14 @@ class ScriptManager():
     def freeinputs(self):
         """Déverrouillage des commandes"""
         self.ask_unlock()
+    
+    def blockpersistents(self):
+        """Empêche l'exécution des scripts persistents"""
+        self.perblock = True
+    
+    def unblockpersistents(self):
+        """Permet à nouveau l'exécution des scripts persistents"""
+        self.perblock = False
 
 
     # Fonctions graphiques et de mouvement
@@ -369,11 +388,21 @@ class ScriptManager():
     
     def compx(self, op, coord):
         """Comparaison de la coordonnée x du joueur"""
-        pass
+        if op == "sup":
+            self.boolacc = True if self.game.player.position[0] > coord else False
+        if op == "inf":
+            self.boolacc = True if self.game.player.position[0] < coord else False
     
     def compy(self, op, coord):
         """Comparaison de la coordonnée y du joueur"""
-        pass
+        if op == "sup":
+            self.boolacc = True if self.game.player.position[1] > coord else False
+        if op == "inf":
+            self.boolacc = True if self.game.player.position[1] < coord else False
+    
+    def watchroom(self, id):
+        """Comparaison de l'ID de la salle actuelle"""
+        self.boolacc = True if self.game.map_manager.map_id == id else False
 
     def persistent(self, id, direction, pix, sprint = False):
         """Mise en mémoire du mouvement permanent d'un PNJ"""
@@ -416,6 +445,24 @@ class ScriptManager():
         self.game.internal_clock.minute = 0
         self.game.internal_clock.weekday = (self.game.internal_clock.weekday + 1) % 6
         self.game.internal_clock.find_dayname()
+    
+    def comphour(self, op, hour):
+        """Opération de comparaison avec l'heure courante"""
+        if op == 'sup':
+            self.boolacc = True if self.game.internal_clock.hour > hour else False
+        if op == 'inf':
+            self.boolacc = True if self.game.internal_clock.hour < hour else False
+        if op == 'eq':
+            self.boolacc = True if self.game.internal_clock.hour == hour else False
+    
+    def compmin(self, op, min):
+        """Opération de comparaison avec les minutes courantes"""
+        if op == 'sup':
+            self.boolacc = True if self.game.internal_clock.minute > min else False
+        if op == 'inf':
+            self.boolacc = True if self.game.internal_clock.minute < min else False
+        if op == 'eq':
+            self.boolacc = True if self.game.internal_clock.minute == min else False
 
     # Fonctions des menus (boîtes contenant du texte)
     def loadtext(self, text):

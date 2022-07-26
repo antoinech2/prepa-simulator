@@ -5,8 +5,8 @@ import locale
 import save
 
 class InternalClock:
-    TICKS_PER_MIN = 120
-    MINUTES_PER_TURN = 1             # Nombre de minutes qui passent à chaque tour, < 120
+    GAME_TICK = 120                  # Nombre de ticks internes par tick de jeu
+    MINUTES_PER_TURN = 5             # Nombre de minutes qui passent à chaque tour, < 120. #! Réglage par défaut : 1
 
     def __init__(self, game):
         self.game = game
@@ -35,8 +35,11 @@ class InternalClock:
         
         # Actualisation de l'heure si le joueur ne parle pas
         
-        if self.ticks_since_timechange >= self.TICKS_PER_MIN:
+        if self.ticks_since_timechange >= self.GAME_TICK:
             self.ticks_since_timechange = 0
+            if not self.game.script_manager.perblock:
+                for script in self.game.script_manager.permanent_scripts:
+                    self.game.script_manager.execute_script(script)
             self.minute += self.MINUTES_PER_TURN
             if self.minute >= 60:
                 self.hour += self.minute // 60
