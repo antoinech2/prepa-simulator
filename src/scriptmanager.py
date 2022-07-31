@@ -441,9 +441,10 @@ class ScriptManager():
     
     def passtime(self):
         """Passage au jour suivant"""
+        if self.game.internal_clock.hour >= 7:
+            self.game.internal_clock.weekday = (self.game.internal_clock.weekday + 1) % 6
         self.game.internal_clock.hour = 7
         self.game.internal_clock.minute = 0
-        self.game.internal_clock.weekday = (self.game.internal_clock.weekday + 1) % 6
         self.game.internal_clock.find_dayname()
     
     def comphour(self, op, hour):
