@@ -19,7 +19,7 @@ DEFAULT_CONFIG = {
     "entities" : {"player":                 #TODO Ajouter un dictionnaire de valeurs pour chaque PNJ (position seulement)
                     {"map_id" : 1,
                     "position" : [1600,1200],
-                    "speed" : 1.5,
+                    "speed" : 2,
                     "cash" : 10.}
                  },
                  

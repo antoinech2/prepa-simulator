@@ -5,8 +5,9 @@ import locale
 import save
 
 class InternalClock:
-    GAME_TICK = 120                  # Nombre de ticks internes par tick de jeu
-    MINUTES_PER_TURN = 5             # Nombre de minutes qui passent à chaque tour, < 120. #! Réglage par défaut : 1
+    GAME_TICK = 14                   # Nombre de ticks internes par tick de jeu (recalcul des scripts, etc.)
+    TIME_TICK = 180                  # Nombre de ticks internes par incrémentation du temps.
+    MINUTES_PER_TURN = 1             # Nombre de minutes qui passent à chaque tour, < 120. #! Réglage par défaut : 1
 
     def __init__(self, game):
         self.game = game
@@ -16,6 +17,7 @@ class InternalClock:
         self.ticks_since_epoch = save.load_config("internals")['ticks']
         self.ticks_since_sessionstart = 0
         self.ticks_since_timechange = 0
+        self.ticks_since_last_gametick = 0
 
         # Horloge du jeu
         self.weekday = save.load_config("internals")["day"]
@@ -32,14 +34,17 @@ class InternalClock:
         self.ticks_since_sessionstart += 1
         if self.game.dialogue is None:
             self.ticks_since_timechange += 1
+            self.ticks_since_last_gametick += 1
         
         # Actualisation de l'heure si le joueur ne parle pas
+
+        if self.ticks_since_last_gametick >= self.GAME_TICK and not self.game.script_manager.perblock:
+            self.ticks_since_last_gametick = 0
+            for script in self.game.script_manager.permanent_scripts:
+                self.game.script_manager.execute_script(script)
         
-        if self.ticks_since_timechange >= self.GAME_TICK:
+        if self.ticks_since_timechange >= self.TIME_TICK and not self.game.script_manager.perblock:
             self.ticks_since_timechange = 0
-            if not self.game.script_manager.perblock:
-                for script in self.game.script_manager.permanent_scripts:
-                    self.game.script_manager.execute_script(script)
             self.minute += self.MINUTES_PER_TURN
             if self.minute >= 60:
                 self.hour += self.minute // 60

@@ -90,7 +90,8 @@ class ScriptManager():
             raise TypeError("Erreur : l'objet source n'est pas un script")
         if self.current_npc is None:
             self.current_npc = npc      # Si le SM gère déjà un PNJ alors on n'y touche pas
-        self.game.input_lock = True     # Blocage du clavier jusqu'à la fin du script
+        if script not in self.permanent_scripts:
+            self.game.input_lock = True     # Blocage du clavier jusqu'à la fin du script s'il n'est pas permanent
         self.game.script_tree.append([script, 0])
     
     # Fonctions de lecture et d'écriture de la sauvegarde
@@ -149,9 +150,9 @@ class ScriptManager():
 
     def update(self):
         if self.game.running_script is None and self.game.script_tree != []:
-            self.game.running_script = self.game.script_tree[0][0] # Premier élément de la liste qui en comporte un seul à l'appel d'un script
+            self.game.running_script = self.game.script_tree[0][0]  # Premier élément de la liste qui en comporte un seul à l'appel d'un script
         if self.game.running_script is not None:
-            self.perblock = True
+            self.perblock = True                                    # Blocage de l'exécution des scripts permanents
             self.game.running_script = self.game.script_tree[-1][0] # Vérification de l'appel ou non d'un sous-script
             if self.is_counting_ticks:
                 self.tick_counter += 1
@@ -162,7 +163,7 @@ class ScriptManager():
                 pass
             elif self.current_script_command() >= len(self.game.running_script.contents) or self.abort: # Le script courant est terminé ou on force l'arrêt
                 del(self.game.script_tree[-1])
-                if len(self.game.script_tree) > 0: # Le script a appelé un autre script entretemps
+                if len(self.game.script_tree) > 0:  # Le script a appelé un autre script entretemps
                     self.game.running_script = self.game.script_tree[-1]
                 else: # Fin des appels de scripts
                     self.game.running_script = None # Fin du script de départ atteinte
@@ -179,7 +180,7 @@ class ScriptManager():
                     self.game.script_tree[-1][1] += 1 # Augmentation du n° de la commande courante
                 else: # Le script en cours de traitement vient d'être appelé
                     self.game.script_tree[-2][1] += 1
-        if self.game.executing_moving_script:
+        if self.game.executing_moving_script:       # Déplacements en cours
             if self.game.persistent_move != {}:
                 for id in self.game.persistent_move:
                     if id not in self.game.moving_people:
@@ -198,6 +199,7 @@ class ScriptManager():
                         self.unlocking = False
                     if person == "player":
                         self.game.input_lock = True
+                        self.perblock = True
                     if self.game.dialogue is None:
                         if self.game.moving_people[person]["moving_direction"] == "up" and person == "player":
                             self.game.player.move([True, False, False, False], self.game.moving_people[person]["sprint_during_script"])
@@ -221,7 +223,7 @@ class ScriptManager():
                     else:
                         dist = ((self.game.moving_people[person]["initial_coords"][0] - npc.position[0])**2 + (self.game.moving_people[person]["initial_coords"][1] - npc.position[1])**2) ** 0.5 # Distance totale parcourue pendant le script
                         
-                    if self.game.player.boop and person == "player":
+                    if self.game.player.boop and person == "player": # Arrêt du mouvement suite à une collision (joueur)
                         print("debug : script_boop")
                         del(moving[person])
                         for mov in range(len(self.game.movement_mem)):
@@ -241,7 +243,7 @@ class ScriptManager():
                                     moving[person]["initial_coords"] = npc.position            # Actualisation des coordonnées de démarrage du mouvement
                                 del(self.game.movement_mem[mov])
                                 break
-                    elif npc.boop:
+                    elif npc.boop:          # Arrêt du mouvement suite à une collision (pnj)
                         del(moving[npc.id])
                         for mov in range(len(self.game.movement_mem)):
                             if self.game.movement_mem[mov][0] == npc.id:

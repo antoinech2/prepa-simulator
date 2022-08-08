@@ -15,7 +15,7 @@ class Entity(pg.sprite.Sprite):
     """Classe des objets mouvants comme le joueur et les PNJs"""
     # Constantes de mouvement
     SPEED_NORMA = 1/(2**0.5)        # Normalisation de la vitesse lors des mouvements en diagonale
-    SPRINT_MULTIPLIER = 15           # Multiplicateur de la vitesse lors d'un sprint
+    SPRINT_MULTIPLIER = 2.2           # Multiplicateur de la vitesse lors d'un sprint
     WALK_ANIMATION_COOLDOWN = 11     # Cooldown entre deux changements d'animations (en frames, marche)
     SPRINT_ANIMATION_COOLDOWN = 3   # Cooldown entre deux changements d'animations (en frames, sprint)
 

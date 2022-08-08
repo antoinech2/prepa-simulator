@@ -9,12 +9,28 @@ $ordinaryNpc
 dialogue(self.current_npc, 1)
 $$$
 
+$zero
+// Initialisation des flags du jeu
+
+
+// 1. Drapeaux des boss
+lowerevent('defeatRasta')
+lowerevent('defeatSkler')
+lowerevent('defeatDenis')
+lowerevent('defeatAgnes')
+lowerevent('defeatDeLoupy')
+lowerevent('trustLionel')
+lowerevent('defeatLentsch')
+
+$$$
+
 
 $genesis
 
+runscript('zero')
 loadtext("Bienvenue dans Prepa Simulator® !")
 loadtext("Survis DS après DS, DM après DM, et colle après colle à l'enfer de la prépa !")
-loadtext("Arriveras-tu à intégrer la prestigieuse École Polytechnique lors des concours en avril...")
+loadtext("Arriveras-tu à intégrer la prestigieuse École Polytechnique lors des concours...")
 loadtext("ou bien parviendras-tu à être recalé à Polytech Nice !?")
 loadtext("Pour te déplacer, utilise les flèches du clavier ↑→↓←")
 loadtext("Pour parler à un PNJ, utilise la touche {interact_key}.")
