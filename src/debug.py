@@ -23,6 +23,7 @@ Effective tick time : {game.internal_clock.pgclock.get_rawtime()} ms,\n\
 World name : {game.map_manager.map_file}, World id : {game.map_manager.map_id}, \n\
 Position : {[round(pos, 2) for pos in game.player.position]}, Speed : {game.player.base_walk_speed * (game.player.SPRINT_MULTIPLIER if game.player.is_sprinting else 1)}, \n\
 Animated : {game.player.is_animated}, Sprinting : {game.player.is_sprinting}, Can Move : {game.player.can_move}, Collision : {game.player.boop} \n\
+Energy : {game.player.stamina} \n\
     ==== Script ==== \n\
 Script Tree : {[scr[0].name for scr in game.script_tree]} \n\
 Current Script Name : {game.script_tree[-1][0].name if game.script_tree != [] else None} \n\

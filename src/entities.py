@@ -75,7 +75,7 @@ class Entity(pg.sprite.Sprite):
 
     def save(self):
         """Sauvegarde lors de la fermeture du jeu"""
-        save.save_config("entities", player = dict(map_id = self.game.map_manager.map_id, position = self.position, speed = self.base_walk_speed))
+        save.save_config("entities", player = dict(map_id = self.game.map_manager.map_id, position = self.position, speed = self.base_walk_speed, stamina = self.stamina))
     #TODO Sauvegarde des PNJs
 
     def update(self):
@@ -108,6 +108,8 @@ class Entity(pg.sprite.Sprite):
 
 class Player(Entity):
     """Classe graphique du joueur"""
+    MAX_ENERGY = 300
+
     def __init__(self, game, id, texture):
         super().__init__(game, id, texture)
         self.is_warping = False         # Le joueur se téléporte
@@ -116,6 +118,7 @@ class Player(Entity):
         config = save.load_config("entities")["player"]
         self.position = config["position"]
         self.base_walk_speed = config["speed"] # Vitesse du joueur sans multiplicateur (en pixel/frame)
+        self.stamina = config["stamina"]       # énergie du joueur
     
     def warp(self, map, coords, direction, old_bgm):
         """Téléportation du joueur vers une nouvelle map"""

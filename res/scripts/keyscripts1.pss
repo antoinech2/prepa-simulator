@@ -4,6 +4,19 @@ $explode
 game.quit_game()
 $$$
 
+$blackout
+// Script provoquant le blackout du joueur
+
+loadtext("aled")
+infobox()
+pospoint()
+set_energy(20)
+warp(0, (-255, -255))
+recallpos()
+advance(10)
+label('end')
+$$$
+
 $snorlax
 // Script pour faire dodo
 

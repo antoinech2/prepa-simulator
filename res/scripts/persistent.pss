@@ -2,14 +2,25 @@ $daytime_persistent
 // Script de contrôle de l'heure
 
 comphour('sup', 21)
-    iffalse("interrupt()")
+    iffalse("goto('end')")
 compmin('sup', 0)
-    iffalse("interrupt()")
+    iffalse("goto('end')")
 watchroom(11309)
-    iftrue("interrupt()")
+    iftrue("goto('end')")
 loadtext("Il se fait tard...")
 infobox()
 warp(11309, (899, 899), "right")
+label('end')
+
+$$$
+
+$player_persistent
+// Script de contrôle des caractéristiques du joueur
+
+energy('inf', 0)
+    iffalse("goto('end')")
+runscript('blackout')
+
 label('end')
 
 $$$
@@ -18,10 +29,10 @@ $cdh_persistent
 // Script de blocage d'une partie de la CDH
 
 watchroom(150)
-    iffalse("interrupt()")
+    iffalse("goto('end')")
 checkevent('defeatRasta')
 compx('inf', 1880)
-    iffalse("interrupt()")
+    iffalse("goto('end')")
 loadtext("Mieux vaut ne pas aller par là-bas.")
 infobox()
 move('player', 'right', 50)

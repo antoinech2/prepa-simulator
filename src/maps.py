@@ -31,6 +31,9 @@ class MapManager:
         self.map_id = map_id
         self.map_name = self.game.game_data_db.execute("select file from maps where id = ?;", (self.map_id,)).fetchall()[0][0]
         
+        # Réinitialisation de l'état du joueur
+        self.game.player.is_sprinting = False
+
         # Chargement du script de la map courante
         try:
             self.map_script = self.game.script_manager.find_script_from_name(f"{self.map_name}_mapscript")

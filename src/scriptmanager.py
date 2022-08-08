@@ -33,6 +33,8 @@ class ScriptManager():
         # Mémoire interne du gestionnaire de scripts
         self.boolacc = False # Accumulateur booléen utilisé lors des comparaisons
         self.acc = 0 # Accumulateur entier
+        self.saved_position = (-1, -1)   # Accumulateur des coordonnées
+        self.saved_map = None            # Accumulateur de l'ID de la map actuelle
         self.infobox_contents = [] # Accumulateur de l'infobox, pourra être modifié si un script nécessite une accumulation d'éléments
         self.tick_counter = 0      # Compteur de ticks pour la fonction nop
         self.is_counting_ticks = False     # Drapeau de comptage des ticks
@@ -154,9 +156,9 @@ class ScriptManager():
         if self.game.running_script is not None:
             self.perblock = True                                    # Blocage de l'exécution des scripts permanents
             self.game.running_script = self.game.script_tree[-1][0] # Vérification de l'appel ou non d'un sous-script
-            if self.is_counting_ticks:
+            if self.is_counting_ticks:                              # Temps de latence
                 self.tick_counter += 1
-                if self.tick_counter >= self.noping_time:
+                if self.tick_counter >= self.noping_time:           # Fin du temps de latence
                     self.is_counting_ticks = False
                     self.tick_counter = 0
             elif self.game.dialogue is not None or self.game.menu_manager.choicebox is not None or self.game.mgm_manager.running_mg is not None or self.wait_movements:    # On laisse le dialogue défiler s'il existe, ou ou attend les résultats de la choicebox
@@ -273,7 +275,7 @@ class ScriptManager():
         self.execute_script(self.find_script_from_name(script))
     
     def interrupt(self):
-        """Interruption de l'exécution du script courant"""
+        """Interruption de l'exécution de tous les scripts en mémoire"""
         self.abort = True
     
     def label(self, name):
@@ -441,6 +443,15 @@ class ScriptManager():
         """Obtention du numéro du jour courant"""
         self.acc = self.game.internal_clock.weekday
     
+    def advance(self, minutes):
+        """Passage d'un nombre donné de minutes"""
+        self.game.internal_clock.minute += minutes
+        self.game.internal_clock.hour += self.game.internal_clock.minute // 60
+        self.game.internal_clock.weekday += self.game.internal_clock.hour // 24
+        self.game.internal_clock.weekday = self.game.internal_clock.weekday % 7
+        self.game.internal_clock.hour = self.game.internal_clock.hour % 24
+        self.game.internal_clock.minute = self.game.internal_clock.minute % 60
+
     def passtime(self):
         """Passage au jour suivant"""
         if self.game.internal_clock.hour >= 7:
@@ -467,6 +478,7 @@ class ScriptManager():
         if op == 'eq':
             self.boolacc = True if self.game.internal_clock.minute == min else False
 
+
     # Fonctions des menus (boîtes contenant du texte)
     def loadtext(self, text):
         """Chargement du texte d'une infobox dans la mémoire"""
@@ -489,6 +501,7 @@ class ScriptManager():
         """Obtention de l'option choisie à la choicebox précédente.\n
         Le résultat est stocké dans l'accumulateur numérique"""
         self.acc = self.game.menu_manager.choicebox_result[0]
+
 
     # Fonctions avec l'accumulateur booléen
     def compare_obj_qty(self, obj_id, operator, qty):
@@ -566,6 +579,7 @@ class ScriptManager():
         """Joue un effet sonore"""
         self.game.map_manager.sound_manager.play_sfx(fx)
 
+
     # Fonctions des objets
     def get_object(self, object_id, qty):
         """Obtention d'un objet en une quantité donnée"""
@@ -580,8 +594,36 @@ class ScriptManager():
                 print("c")
         except KeyError:        # L'objet en question est inexistant
             pass
+
+
+    # Fonctions des caractéristiques du joueur
+    def energy(self, op, qty):
+        """Comparaison de l'énergie actuelle du joueur"""
+        if op == 'sup':
+            self.boolacc = True if self.game.player.stamina > qty else False
+        if op == 'inf':
+            self.boolacc = True if self.game.player.stamina < qty else False
+        if op == 'eq':
+            self.boolacc = True if self.game.player.stamina == qty else False
     
+    def energize(self, qty):
+        """Changement de l'énergie du joueur"""
+        self.game.player.stamina += qty
     
+    def set_energy(self, qty):
+        """Changement de l'énergie du joueur (valeur fixe)"""
+        self.game.player.stamina = qty
+    
+    def pospoint(self):
+        """Sauvegarde de la position actuelle du joueur"""
+        self.saved_position = copy.deepcopy(self.game.player.position)
+        self.saved_map = self.game.map_manager.map_id
+    
+    def recallpos(self):
+        """Warp aux coordonnées enregistrées"""
+        self.warp(self.saved_map, self.saved_position, "up")
+
+
     # Fonctions des drapeaux des salles
     def testflag(self, map_id, flag_id):
         """Obtention de l'état d'un drapeau\n
@@ -608,7 +650,8 @@ class ScriptManager():
             self.write_flags(self.game.map_manager.map_id, flag_id, 0)
         else:
             self.write_flags(map_id, flag_id, 0)
-    
+
+
     # Fonctions des drapeaux généraux "events"
     def checkevent(self, event_tag):
         """Met dans l'accumulateur booléen l'état de l'event spécifié, ou False s'il est inexistant"""
@@ -623,7 +666,8 @@ class ScriptManager():
     def lowerevent(self, event_tag):
         """Baisse le drapeau lié à l'event"""
         self.change_event(event_tag, 0)
-    
+
+
     # Fonctions des PNJ
     def checknpcflag(self, npc, flag_id):
         """Vérification d'un flag d'un NPC"""
@@ -632,7 +676,8 @@ class ScriptManager():
     def setnpcflag(self, npc, flag_id, state):
         """Mise à jour du flag d'un NPC"""
         self.write_npcflags(npc.id, flag_id, state)
-    
+
+
     # Fonctions des minijeux
     # ! WIP
     def launchmgm(self, mgm, *args):
