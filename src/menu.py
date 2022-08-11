@@ -153,6 +153,8 @@ class SubMenu():
             self.arrow.draw()
             if type(self) == BagSubMenu:
                 self.sidemenu.bagmenu.print_menu_contents()
+            if type(self) == MissionsSubMenu:
+                self.sidemenu.missionsmenu.print_menu_contents()
 
 
 class ChoiceBox():
@@ -264,8 +266,55 @@ class MissionsSubMenu(SubMenu):
     """Classe du sous-menu des missions"""
     # WIP
     MISSICON_POSITION = (30, 30) # Temporaire
+    MISSIONS_UPPERLEFT_CORNER = (40, 15)
+    LINE_HEIGHT = 30
+    ONSCREEN_MISSIONS = 11
+    NAME_ICON_OFFSET = (40, 1)
+    PROGRESS_SPRITE_PATH = "res/textures/mission_status"
+
     def __init__(self, sidemenu, boundary, can_loop, line_height, initial_coords):
         super().__init__("missions", "MISSIONS", sidemenu, self.MISSICON_POSITION, boundary, can_loop, line_height, initial_coords)
+        all_missions = list(self.sidemenu.game.mission_manager.dict_of_missions.keys())
+        self.groups = []
+        #self.arrow = Arrow1D(self, self.ONSCREEN_MISSIONS, False, self.LINE_HEIGHT, self.MISSIONS_UPPERLEFT_CORNER)
+
+        # Composition des groupes
+        while all_missions != []:
+            group = []
+            try:
+                while len(group) < self.ONSCREEN_MISSIONS:
+                    group.append(all_missions.pop(0))
+            except IndexError:
+                pass
+            self.groups.append(group)
+
+        self.onscreen_group = 0
+    
+    def show_mission_row(self, id, row):
+        """Affiche une mission à la rangée choisie"""
+        # Affichage du statut
+        status = self.sidemenu.game.mission_manager.dict_of_missions[id].current_status
+        icon_coords = (self.MISSIONS_UPPERLEFT_CORNER[0], self.MISSIONS_UPPERLEFT_CORNER[1] + row*self.arrow.line_height + 4)       #! Cf BagSubMenu
+        icon = pg.image.load(f"{self.PROGRESS_SPRITE_PATH}/{status}.jpg").convert()
+        rect = icon.get_rect(topleft = icon_coords)
+        self.box.blit(icon, rect)
+        # Affichage du nom
+        if self.sidemenu.game.mission_manager.dict_of_missions[id].current_status != "blank":
+            nametag = self.sidemenu.game.default_font.font.render(f"N°{str(id).zfill(3)} {self.sidemenu.game.mission_manager.dict_of_missions[id].name}", True, (0, 0, 0))
+            nametag_rect = nametag.get_rect(topleft = np.array(icon_coords) + np.array(self.NAME_ICON_OFFSET))
+            self.box.blit(nametag, nametag_rect)
+        else:     # Affichage d'une suite de points d'interrogation
+            nametag = self.sidemenu.game.default_font.font.render(f"N°{str(id).zfill(3)} ????????????????????????????????", True, (0, 0, 0))
+            nametag_rect = nametag.get_rect(topleft = np.array(icon_coords) + np.array(self.NAME_ICON_OFFSET))
+            self.box.blit(nametag, nametag_rect)
+
+        
+    def print_menu_contents(self):
+        """Affichage du contenu du menu des missions"""
+        # TODO Faire des onglets pour séparer les missions par type
+        for row in range(len(self.groups[self.onscreen_group])):
+            self.show_mission_row(self.groups[self.onscreen_group][row], row)
+
 
 class BagSubMenu(SubMenu):
     """Classe du sous-menu du Sac"""
@@ -285,7 +334,7 @@ class BagSubMenu(SubMenu):
         """Affiche un objet à la rangée choisie avec sa quantité"""
         # Affichage de l'icône
         parentobj = self.sidemenu.game.map_manager.object_manager.list_of_objects[object_couple[0]]
-        icon_coords = (self.BAG_UPPERLEFT_CORNER[0], self.BAG_UPPERLEFT_CORNER[1] + row*self.arrow.line_height)
+        icon_coords = (self.BAG_UPPERLEFT_CORNER[0], self.BAG_UPPERLEFT_CORNER[1] + row*self.arrow.line_height + 4)      #! Le 4 est temporaire, il sert à aligner l'icône et la flèche
         icon = parentobj.bag_sprite
         rect = icon.get_rect(topleft = icon_coords)
         self.box.blit(icon, rect)
@@ -338,7 +387,7 @@ class SaveSubMenu(SubMenu):
         self.sidemenu.game.menu_manager.close_menu()        # Fermeture du sous-menu de sauvegarde
         self.sidemenu.game.menu_manager.toggle_sidemenu()   # Fermeture du menu latéral
         sm = self.sidemenu.game.script_manager
-        sm.execute_script(sm.find_script_from_name("save"))
+        sm.execute_script(sm.find_script_from_name("save"), "back")
 
 
 class OptionsSubMenu(SubMenu):
@@ -348,7 +397,9 @@ class OptionsSubMenu(SubMenu):
         super().__init__("options", "OPTIONS", sidemenu, self.OPTIONSICON_POSITION, boundary, can_loop, line_height, initial_coords)
 
 class MenuManager():
-    MISSIONS_ORIGIN_COORDS = (-1, -1)       # WIP
+    MISSIONS_SUBMENU_HEIGHT = 11             # Nombre de missions par menu
+    MISSIONS_LINE_HEIGHT = 30
+    MISSIONS_ORIGIN_COORDS = (20, 15)       # Coordonnées initiales de la flèche (missions)
     BAG_SUBMENU_HEIGHT = 5
     BAG_LINE_HEIGHT = 40                    # Hauteur d'une ligne de texte
     BAG_ORIGIN_COORDS = (60, 20)            # Coordonnées initiales de la flèche (Sac)
@@ -361,7 +412,7 @@ class MenuManager():
 
         # Menu latéral
         self.sidemenu = SideMenu(self.game)
-        self.sidemenu.missionsmenu = MissionsSubMenu(self.sidemenu, -1, True, -1, self.MISSIONS_ORIGIN_COORDS)   # valeur numérique arbitraire, sera implémentée correctement une fois ce menu implémenté
+        self.sidemenu.missionsmenu = MissionsSubMenu(self.sidemenu, self.MISSIONS_SUBMENU_HEIGHT, True, self.MISSIONS_LINE_HEIGHT, self.MISSIONS_ORIGIN_COORDS)   # valeur numérique arbitraire, sera implémentée correctement une fois ce menu implémenté
         self.sidemenu.bagmenu = BagSubMenu(self.sidemenu, self.BAG_SUBMENU_HEIGHT, True, self.BAG_LINE_HEIGHT, self.BAG_ORIGIN_COORDS)
         self.sidemenu.savemenu = SaveSubMenu(self.sidemenu, -1, True, -1, self.SAVE_ORIGIN_COORDS)           # même remarque
         self.sidemenu.optionsmenu = OptionsSubMenu(self.sidemenu, -1, True, -1, self.OPTIONS_ORIGIN_COORDS)     # même remarque
@@ -423,6 +474,14 @@ class MenuManager():
                 elif direction == "right":
                     bagmenu.next_group()
                 bagmenu.refresh_groups() # Rafraîchissement pour prendre en compte les nouveaux objets affichés à l'écran
+            elif self.sidemenu.currently_opened_submenu() == self.sidemenu.submenu_list.index(self.sidemenu.missionsmenu):
+                # Actions spécifiques aux missions
+                mismenu = self.sidemenu.submenu_list[self.sidemenu.currently_opened_submenu()]
+                mismenu.clear()
+                if direction == "up":
+                    mismenu.arrow.move_up()
+                elif direction == "down":
+                    mismenu.arrow.move_down()
 
     def open_menu(self):
         """Ouverture d'un sous-menu"""

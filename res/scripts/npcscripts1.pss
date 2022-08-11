@@ -9,6 +9,7 @@ $ordinaryNpc
 dialogue(self.current_npc, 1)
 $$$
 
+
 $zero
 // Initialisation des flags du jeu
 

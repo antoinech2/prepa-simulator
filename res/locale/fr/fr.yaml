@@ -77,3 +77,17 @@ system:
   day_4           : "vendredi"
   day_5           : "samedi"
   day_6           : "dimanche"
+
+mission_titles:
+  1   : "Comme disait Charles de Gaulle, euuuuuh"
+  2   : "PARCE QUE C'EST NOTRE PROJEEEEEET"
+  3   : "L'argent d'Uber"
+  4   : "Placeholder 4"
+
+mission_desc:
+  0   : "Ceci est la description de votre mission ! Si vous voyez ce message, modifiez le fichier locale correspondant !"
+  4   : "Quelque chose se trame dans la salle {map_id}..."
+
+mission_advance:
+  1-1   : "Faites ceci !"
+  1-2   : "Faites cela !"

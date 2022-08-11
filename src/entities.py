@@ -75,7 +75,7 @@ class Entity(pg.sprite.Sprite):
 
     def save(self):
         """Sauvegarde lors de la fermeture du jeu"""
-        save.save_config("entities", player = dict(map_id = self.game.map_manager.map_id, position = self.position, speed = self.base_walk_speed, stamina = self.stamina))
+        save.save_config("entities", player = dict(map_id = self.game.map_manager.map_id, position = self.position, speed = self.base_walk_speed, stamina = self.stamina, cash = self.cash))
     #TODO Sauvegarde des PNJs
 
     def update(self):
@@ -119,6 +119,7 @@ class Player(Entity):
         self.position = config["position"]
         self.base_walk_speed = config["speed"] # Vitesse du joueur sans multiplicateur (en pixel/frame)
         self.stamina = config["stamina"]       # énergie du joueur
+        self.cash = config["cash"]
     
     def warp(self, map, coords, direction, old_bgm):
         """Téléportation du joueur vers une nouvelle map"""
@@ -230,6 +231,8 @@ class Player(Entity):
                         self.change_animation(deplacement)
             else:
                 self.is_animated = False
+        else:
+            self.is_sprinting = False # Le joueur est immobile
 
 
 class Npc(Entity):

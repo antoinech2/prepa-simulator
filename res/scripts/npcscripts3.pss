@@ -1,0 +1,34 @@
+$progress1a
+// Exemple de script de progression d'une mission
+checkevent("discoveredMission1")
+    iftrue("goto('okay')")
+loadtext("Dis oui pour découvrir la mission 1 !")
+infobox()
+opencb()
+cb_result()
+compare('eq', 0)
+    iffalse("goto('refus')")
+mistate(1, 1)
+put(1)
+runscript('missionnews')
+goto('end')
+
+label('refus')
+loadtext("Bon, d'accord...")
+infobox()
+goto('end')
+
+label('okay')
+loadtext("Tu as déjà découvert la mission 1 !")
+infobox()
+
+label('end')
+
+$$$
+
+
+
+
+
+
+eof

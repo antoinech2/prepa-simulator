@@ -57,13 +57,13 @@ class Dialogue():
         if self.is_infobox:
             for line in infobox_text:
                 if type(line) == int:       # Chaîne du fichier locale
-                    self.texts.append(locale.getstring_infobox(line))
+                    self.texts.append(locale.get_substring("infobox", line))
                 if type(line) == str:       # Chaîne en brut
                     self.texts.append(line)
         else:
             self.texts = self.game.game_data_db.execute("SELECT text_id FROM npc_dialogue WHERE id_npc = ? AND id_dialogue = ? ORDER BY ligne_dialogue ASC", (self.current_npc.id, self.dialogue_id)).fetchall()
             for id in range(len(self.texts)):
-                text = locale.getstring_dialogue(self.texts[id][0])
+                text = locale.get_substring("dialogue", self.texts[id][0])
                 self.texts[id] = text  # Conversion de l'ID en texte
             if len(self.texts) == 0: # Le dialogue demandé n'existe pas
                 raise ValueError(f"Erreur : le dialogue d'ID {self.dialogue_id} du NPC {self.current_npc.id} n'existe pas ou est vide")

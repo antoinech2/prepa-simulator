@@ -18,6 +18,9 @@ class NpcManager():
         # Liste les NPC chargés
         self.npc_group = pg.sprite.Group()
 
+        # Liste des PNJ en train de parler
+        self.talking_npcs = []
+
         # Chargement de tous les NPC de la carte
         npcs = self.map.game.game_data_db.execute("SELECT npc.id, npc.nom, x_coord, y_coord, direction, script_id, sprite FROM npc JOIN maps ON npc.map_id = maps.id WHERE maps.id = ?", (map.map_id,)).fetchall()
         for npc in npcs:
@@ -62,8 +65,9 @@ class NpcManager():
         npc_collide_list = pg.sprite.spritecollide(self.map.game.player, self.npc_group, False)
         if len(npc_collide_list) > 0:
             first_npc = npc_collide_list[0]
-            if self.map.game.running_script is None: # Empêche le joueur d'exécuter deux fois le même script
-                self.map.game.script_manager.execute_script(first_npc.script, first_npc)
+            if first_npc not in self.talking_npcs:
+                self.talking_npcs.append(first_npc)
+                self.map.game.script_manager.execute_script(first_npc.script, "back", first_npc)
 
 
 class OldNpc(pg.sprite.Sprite):

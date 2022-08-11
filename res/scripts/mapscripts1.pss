@@ -3,15 +3,31 @@ $niv_1_mapscript
 $$$
 
 
+$i105_mapscript
+loadtext("Livraison de craies !")
+infobox()
+get_object(21, 9)
+put(21)
+runscript('object')
+$$$
+
+
 $i104_mapscript
 loadtext(1)
 infobox()
 $$$
 
+
 $carte_mapscript
+runscript('zero')
+goto('debug')
+// DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG
 checkevent('zero')
 	iffalse("runscript('genesis')")
+
+label('debug')
 $$$
+
 
 $i109_mapscript
 setdirection("player", "left")

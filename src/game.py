@@ -19,6 +19,7 @@ import menu
 import debug
 import scriptmanager as sm
 import minigame as mgm
+import mission as mi
 
 class Game:
     DATABASE_LOCATION = "res/game_data.db"
@@ -81,6 +82,7 @@ class Game:
         # Objets associés
         self.player = entities.Player(self, 'player', 'm2')
         self.bag = bag.Bag(self.save)
+        self.mission_manager = mi.MissionManager(self)
         self.script_manager = sm.ScriptManager(self)
         self.internal_clock = ic.InternalClock(self)
         self.map_manager = maps.MapManager(self.screen, self)

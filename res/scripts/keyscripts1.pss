@@ -4,6 +4,34 @@ $explode
 game.quit_game()
 $$$
 
+
+$missionnews
+// Script informant le joueur de l'avancée dans une mission (ID donnée par l'accumulateur)
+sfx("mighty_button")
+checkevent(f"clearedMission{self.acc}")
+	iftrue("goto('cleared')")
+checkevent(f"unclaimedMission{self.acc}")
+	iftrue("goto('unclaimed')")
+checkevent(f"discoveredMission{self.acc}")
+	iftrue("goto('discovered')")
+
+label('cleared')
+loadtext(f"""La mission N°{str(self.acc).zfill(3)} ; "{self.game.mission_manager.dict_of_missions[self.acc].name}" est désormais close.""")
+goto('end')
+
+label('unclaimed'))
+loadtext(f"""La mission N°{str(self.acc).zfill(3)} ; "{self.game.mission_manager.dict_of_missions[self.acc].name}" est désormais terminée. Allez chercher votre récompense !""")
+goto('end')
+
+label('discovered')
+loadtext(f"""Nouvelle mission disponible : N°{str(self.acc).zfill(3)} ; "{self.game.mission_manager.dict_of_missions[self.acc].name}" !""")
+
+label('end')
+infobox()
+
+$$$
+
+
 $blackout
 // Script provoquant le blackout du joueur
 
@@ -16,6 +44,7 @@ recallpos()
 advance(10)
 label('end')
 $$$
+
 
 $snorlax
 // Script pour faire dodo
@@ -50,6 +79,7 @@ nop(80)
 clearboxes()
 $$$
 
+
 $save
 // Script effectuant une sauvegarde de la partie
 
@@ -68,6 +98,7 @@ infobox()
 label('end')
 $$$
 
+
 $object
 // Script d'obtention d'un objet unique selon son ID stocké dans l'acc
 
@@ -76,6 +107,7 @@ loadtext(f'Obtenu : {self.game.map_manager.object_manager.list_of_objects[self.a
 infobox()
 get_object(self.acc, 1)
 $$$
+
 
 $quiz
 // Script qui lance le mini-jeu quiz

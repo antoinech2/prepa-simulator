@@ -26,6 +26,7 @@ class ScriptManager():
         self.abort = False # Arrêt forcé d'un script
         self.unlocking = False      # Déverrouillage des commandes
         self.perblock = False       # Régulation de l'exécution des scripts permanents
+        self.scripts_are_permanent = False    # Statut des scripts en cours d'exécution
 
         # Mémoire ROM
         self.permanent_scripts = []        # Liste des scripts s'exécutant à chaque game tick
@@ -86,7 +87,7 @@ class ScriptManager():
         pos = [script.name for script in self.list_of_scripts].index(name)
         return(self.list_of_scripts[pos])
 
-    def execute_script(self, script, npc = None):
+    def execute_script(self, script, side, npc = None):
         """Exécution d'un script"""
         if type(script) is not scripts.Script:
             raise TypeError("Erreur : l'objet source n'est pas un script")
@@ -94,7 +95,13 @@ class ScriptManager():
             self.current_npc = npc      # Si le SM gère déjà un PNJ alors on n'y touche pas
         if script not in self.permanent_scripts:
             self.game.input_lock = True     # Blocage du clavier jusqu'à la fin du script s'il n'est pas permanent
-        self.game.script_tree.append([script, 0])
+            self.scripts_are_permanent = False
+        else:
+            self.scripts_are_permanent = True
+        if side == "back":
+            self.game.script_tree.insert(0, [script, 0])    # Priorité aux autres scripts (appel d'un script dans un script...)
+        if side == "front":
+            self.game.script_tree.append([script, 0])       # Priorité à ce script (appel d'un script permanent...)
     
     # Fonctions de lecture et d'écriture de la sauvegarde
         
@@ -161,7 +168,7 @@ class ScriptManager():
                 if self.tick_counter >= self.noping_time:           # Fin du temps de latence
                     self.is_counting_ticks = False
                     self.tick_counter = 0
-            elif self.game.dialogue is not None or self.game.menu_manager.choicebox is not None or self.game.mgm_manager.running_mg is not None or self.wait_movements:    # On laisse le dialogue défiler s'il existe, ou ou attend les résultats de la choicebox
+            elif self.game.dialogue is not None or self.game.menu_manager.choicebox is not None or self.game.mgm_manager.running_mg is not None or self.wait_movements:    # Attente d'une action extérieure à l'exécution
                 pass
             elif self.current_script_command() >= len(self.game.running_script.contents) or self.abort: # Le script courant est terminé ou on force l'arrêt
                 del(self.game.script_tree[-1])
@@ -171,9 +178,11 @@ class ScriptManager():
                     self.game.running_script = None # Fin du script de départ atteinte
                     self.current_npc = None         # On a fini de traiter le NPC actuel
                     self.abort = False
+                    self.scripts_are_permanent = False
                     self.perblock = False           # Autorisation d'exécuter les scripts permanents
                     self.game.input_lock = False    # Déblocage du clavier
-                    self.game.map_manager.npc_manager.flip()
+                    self.game.map_manager.npc_manager.flip()    # Rotation des PNJ d'origine
+                    self.game.map_manager.npc_manager.talking_npcs = []    # On a fini de parler aux PNJ
             else: # Le jeu est disponible pour passer à l'étape suivante
                 start = self.game.running_script
                 command = f"self.{self.game.running_script.contents[self.current_script_command()]}" # Correction syntaxique
@@ -270,9 +279,9 @@ class ScriptManager():
         self.noping_time = ticks
         self.is_counting_ticks = True
 
-    def runscript(self, script):
+    def runscript(self, script, side = "front"):
         """Exécution d'un autre script"""
-        self.execute_script(self.find_script_from_name(script))
+        self.execute_script(self.find_script_from_name(script), side)
     
     def interrupt(self):
         """Interruption de l'exécution de tous les scripts en mémoire"""
@@ -293,6 +302,7 @@ class ScriptManager():
             self.game.internal_clock.save()
             self.game.player.save()
             self.game.bag.save()
+            self.game.mission_manager.save()
             self.game.save.commit()
         except sql.ProgrammingError:
             print("Impossible d'accéder à la base de donnée lors de la sauvegarde. Cela peut être dû à une réinitialisation des données...")
@@ -312,6 +322,10 @@ class ScriptManager():
     def unblockpersistents(self):
         """Permet à nouveau l'exécution des scripts persistents"""
         self.perblock = False
+    
+    def print(self, text):
+        """Fonction print de Python"""
+        print(text)
 
 
     # Fonctions graphiques et de mouvement
@@ -622,6 +636,19 @@ class ScriptManager():
     def recallpos(self):
         """Warp aux coordonnées enregistrées"""
         self.warp(self.saved_map, self.saved_position, "up")
+    
+    def compcash(self, op, qty):
+        """Comparaison de la qté d'argent du joueur"""
+        if op == 'sup':
+            self.boolacc = True if self.game.player.cash > qty else False
+        if op == 'inf':
+            self.boolacc = True if self.game.player.cash < qty else False
+        if op == 'eq':
+            self.boolacc = True if self.game.player.cash == qty else False
+    
+    def givecash(self, qty):
+        """Changement de la qté d'argent du joueur"""
+        self.game.player.cash += qty
 
 
     # Fonctions des drapeaux des salles
@@ -683,3 +710,25 @@ class ScriptManager():
     def launchmgm(self, mgm, *args):
         """Lancement d'un mini-jeu"""
         self.game.mgm_manager.launch(mgm, *args)
+    
+    # Fonctions des missions
+    def mistate(self, id, state):
+        """Change la progression générale d'une mission"""
+        if id not in [mission.id for mission in list(self.game.mission_manager.dict_of_missions.values())]:
+            print("L'ID demandé ne correspond à aucune mission !")
+        elif state not in (0, 1, 2, 3):
+            print("L'état demandé n'est pas un état valide.")
+        else:
+            self.game.mission_manager.dict_of_missions[id].current_status = ["blank", "new", "inprogress", "claim", "done"][state]
+            self.raiseevent(f"""{["discovered", "unclaimed", "cleared"][state-1]}Mission{id}""")         # Levage du drapeau correspondant
+    
+    def miadv(self, id, adv):
+        """Change l'étape en cours d'une mission"""
+        if id not in [mission.id for mission in list(self.game.mission_manager.dict_of_missions.values())]:
+            print("L'ID demandé ne correspond à aucune mission !")
+        else:
+            mission = self.game.mission_manager.dict_of_missions[id]
+            if adv > mission.max_adv:
+                print("L'avancement demandé est invalide.")
+            else:
+                mission.current_adv = adv

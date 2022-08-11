@@ -24,7 +24,7 @@ DEFAULT_CONFIG = {
                     "cash" : 10.}
                  },
                  
-    "window" : {"size" : (1000, 600),
+    "window" : {"size" : (1280, 720),
                 "fullscreen" : False},
 
     "controls" : {
@@ -106,6 +106,7 @@ def init_save_database():
     map_list = data_db.cursor().execute('select id from maps;').fetchall()
     npc_list = data_db.cursor().execute('select * from npc;').fetchall()
     mapobj_list = data_db.cursor().execute('select id from objects;').fetchall()
+    mission_list = data_db.cursor().execute('select id from missions;').fetchall()
     save_db = sql.connect(SAVE_DATABASE_LOCATION)
     save_db.cursor().execute('CREATE TABLE IF NOT EXISTS "bag" ("id_item" INTEGER NOT NULL PRIMARY KEY, "quantity" INTEGER NOT NULL)')
     save_db.cursor().execute('create table if not exists "maps" ("map_id" integer not null primary key,\
@@ -117,6 +118,9 @@ def init_save_database():
                                                                        "obtained" integer);')
     save_db.cursor().execute('create table if not exists "events" ("tag" text not null primary key,\
                                                                    "state" integer);')
+    save_db.cursor().execute('create table if not exists "missions" ("id" integer not null primary key,\
+                                                                     "status" integer,\
+                                                                     "adv" integer);')
 
     # Création de la sauvegarde des maps
     if save_db.cursor().execute('select * from maps;').fetchall() == []:
@@ -131,6 +135,12 @@ def init_save_database():
     if save_db.cursor().execute('select * from mapobjects;').fetchall() == []:
         for mapobj in mapobj_list:
             save_db.cursor().execute('insert into mapobjects values (?, 0);', (mapobj[0],))
+    # Création de la sauvegarde de la progression des missions
+    if save_db.cursor().execute('select * from missions;').fetchall() == []:
+        for mission in mission_list:
+            save_db.cursor().execute('insert into missions values (?, 0, 0);', (mission[0],))
+            for status in ["discovered", "unclaimed", "cleared"]:
+                save_db.cursor().execute('insert into events values (?, 0);', (f"{status}Mission{mission[0]}",))
     save_db.commit()
     data_db.close()
     return save_db

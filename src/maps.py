@@ -90,7 +90,7 @@ class MapManager:
 
         # Exécution du script en entrée de la map
         if self.map_script is not None:
-            self.game.script_manager.execute_script(self.map_script)
+            self.game.script_manager.execute_script(self.map_script, "back")
     
     def get_warps(self):
         """Vérifie si le joueur touche un objet Tiled associé à une porte"""

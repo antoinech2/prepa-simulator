@@ -27,7 +27,7 @@ class InternalClock:
     
     def find_dayname(self):
         """Récupère le nom du jour courant depuis le fichier locale"""
-        self.dayname = [locale.getstring_system(day) for day in ["day_0", "day_1", "day_2", "day_3", "day_4", "day_5", "day_6"]][self.weekday]
+        self.dayname = [locale.get_substring("system", day) for day in ["day_0", "day_1", "day_2", "day_3", "day_4", "day_5", "day_6"]][self.weekday]
 
     def update(self):
         if not self.game.menu_manager.sidemenu.onscreen:        # Pas d'update lorsque le menu latéral est ouvert
@@ -44,7 +44,7 @@ class InternalClock:
                 if self.game.player.is_sprinting:
                     self.game.player.stamina -= 1
                 for script in self.game.script_manager.permanent_scripts:
-                    self.game.script_manager.execute_script(script)
+                    self.game.script_manager.execute_script(script, "back")
             
             if self.ticks_since_timechange >= self.TIME_TICK and not self.game.script_manager.perblock:
                 self.ticks_since_timechange = 0
@@ -62,6 +62,5 @@ class InternalClock:
     
     def save(self):
         """Sauvegarde des ticks et de la date courante"""
-        # TODO Sauvegarder la date courante
         # TODO Implémenter les saisons
         save.save_config("internals", ticks = self.ticks_since_epoch, day = self.weekday, hour = self.hour, minute = self.minute)

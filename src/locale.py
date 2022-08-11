@@ -17,18 +17,8 @@ def get_string(file, str_id):
         strings = yaml.load(file, Loader = yaml.FullLoader)
     return(strings[str_id])
 
-
-def getstring_dialogue(str_id):
+def get_substring(section, str_id):
+    """Obtention de la chaîne de caractères d'une section du fichier locale"""
     with open(f"{LOCALE_DIR}{CURRENT_LANGUAGE}.yaml", 'r', encoding = "utf-8") as file:
         strings = yaml.load(file, Loader = yaml.FullLoader)
-    return(strings["dialogue"][str_id])
-
-def getstring_infobox(str_id):
-    with open(f"{LOCALE_DIR}{CURRENT_LANGUAGE}.yaml", 'r', encoding = "utf-8") as file:
-        strings = yaml.load(file, Loader = yaml.FullLoader)
-    return(strings["infobox"][str_id])
-
-def getstring_system(str_id):
-    with open(f"{LOCALE_DIR}{CURRENT_LANGUAGE}.yaml", 'r', encoding = "utf-8") as file:
-        strings = yaml.load(file, Loader = yaml.FullLoader)
-    return(strings["system"][str_id])
+    return(strings[section][str_id])
