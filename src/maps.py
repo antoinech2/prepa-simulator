@@ -4,6 +4,7 @@
 # Import externe
 import pygame as pg
 import pytmx, pyscroll
+import copy
 
 # Import interne
 import npc
@@ -90,7 +91,14 @@ class MapManager:
 
         # Exécution du script en entrée de la map
         if self.map_script is not None:
-            self.game.script_manager.execute_script(self.map_script, "back")
+            acc = copy.deepcopy(self.game.script_tree)
+            for sc in range(len(acc)):                     # Suppression des scripts permanents en cours d'exécution
+                if "persistent" in acc[sc][0].name:
+                    acc[sc] = None
+            self.game.script_tree = []
+            for script in acc:
+                self.game.script_tree.append(script) if script is not None else ()
+            self.game.script_manager.execute_script(self.map_script, "front")
     
     def get_warps(self):
         """Vérifie si le joueur touche un objet Tiled associé à une porte"""

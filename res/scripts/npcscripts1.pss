@@ -399,25 +399,52 @@ infobox()
 goto('end')
 
 label('main')
-loadtext("indev_main")
+checkadv(2, 'eq', 4)
+	iftrue("goto('miss2prog')")
+loadtext("Ceci est du texte qui doit défiler en boucle !")
 infobox()
+goto('end')
+
+label('miss2prog')
+dialogue(self.current_npc, 12)
+miadv(2, 5)
+goto('end')
 
 label('end')
-move("player", 'down', 120)
-move("player", 'left', 100)
-move("player", 'up', 150)
-move("player", 'right', 50)
-move("player", 'down', 100)
-move(12, 'right', 400)
-move(12, 'left', 350)
-move(12, 'right', 400)
-move(12, 'left', 350)
-move(1, 'down', 200)
-move(1, 'up', 200)
-freeinputs()
-startmoving()
+
 $$$
 
+
+$iptdm
+// Script du PNJ de la mission 2
+checkadv(2, 'eq', 6)
+	iftrue("goto('mi26')")
+checkadv(2, 'eq', 1)
+	iftrue("goto('mi2start')")
+goto('normal')
+
+label('mi2start')
+dialogue(self.current_npc, 2)
+miadv(2, 2)
+mistate(2, 2)
+goto('end')
+
+label('mi26')
+dialogue(self.current_npc, 3)
+miadv(2, 7)
+mistate(2, 3)
+toss_object(47, "all")
+put(2)
+runscript("missionnews")
+goto('end')
+
+label('normal')
+dialogue(self.current_npc, 1)
+goto('end')
+
+label('end')
+
+$$$
 
 
 

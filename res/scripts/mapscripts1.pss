@@ -2,6 +2,14 @@ $niv_1_mapscript
 
 $$$
 
+$i108_mapscript
+loadtext("Livraison de posters Lionel !")
+infobox()
+get_object(0, 9)
+put(0)
+runscript('object')
+$$$
+
 
 $i105_mapscript
 loadtext("Livraison de craies !")
@@ -19,7 +27,11 @@ $$$
 
 
 $carte_mapscript
+checkevent('init')
+	iftrue("goto('debug')")
+get_object(28, 1)
 runscript('zero')
+raiseevent('init')
 goto('debug')
 // DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG
 checkevent('zero')

@@ -19,7 +19,7 @@ label('cleared')
 loadtext(f"""La mission N°{str(self.acc).zfill(3)} ; "{self.game.mission_manager.dict_of_missions[self.acc].name}" est désormais close.""")
 goto('end')
 
-label('unclaimed'))
+label('unclaimed')
 loadtext(f"""La mission N°{str(self.acc).zfill(3)} ; "{self.game.mission_manager.dict_of_missions[self.acc].name}" est désormais terminée. Allez chercher votre récompense !""")
 goto('end')
 

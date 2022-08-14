@@ -598,6 +598,8 @@ class ScriptManager():
     def get_object(self, object_id, qty):
         """Obtention d'un objet en une quantité donnée"""
         self.game.bag.increment_item(object_id, qty)
+        self.game.menu_manager.sidemenu.bagmenu.refresh_groups()                    # Actualisation de l'affichage
+        print(self.game.menu_manager.sidemenu.bagmenu.groups)
     
     def toss_object(self, object_id, qty):
         """Destruction d'un objet en une quantité donnée, les supprime tous s'il n'y en a pas assez"""
@@ -608,6 +610,7 @@ class ScriptManager():
                 print("c")
         except KeyError:        # L'objet en question est inexistant
             pass
+        self.game.menu_manager.sidemenu.bagmenu.refresh_groups()                    # Actualisation de l'affichage
 
 
     # Fonctions des caractéristiques du joueur
@@ -716,11 +719,16 @@ class ScriptManager():
         """Change la progression générale d'une mission"""
         if id not in [mission.id for mission in list(self.game.mission_manager.dict_of_missions.values())]:
             print("L'ID demandé ne correspond à aucune mission !")
-        elif state not in (0, 1, 2, 3):
+        elif state not in (0, 1, 2, 3, 4):
             print("L'état demandé n'est pas un état valide.")
         else:
             self.game.mission_manager.dict_of_missions[id].current_status = ["blank", "new", "inprogress", "claim", "done"][state]
-            self.raiseevent(f"""{["discovered", "unclaimed", "cleared"][state-1]}Mission{id}""")         # Levage du drapeau correspondant
+            if state == 1:
+                self.raiseevent(f"discoveredMission{id}")
+            if state == 3:
+                self.raiseevent(f"unclaimedMission{id}")
+            if state == 4:
+                self.raiseevent(f"clearedMission{id}")        # Levage du drapeau correspondant
     
     def miadv(self, id, adv):
         """Change l'étape en cours d'une mission"""
@@ -732,3 +740,12 @@ class ScriptManager():
                 print("L'avancement demandé est invalide.")
             else:
                 mission.current_adv = adv
+    
+    def checkadv(self, id, op, adv):
+        """Vérifie si un avancement est atteint pour une mission donnée"""
+        if op == 'sup':
+            self.boolacc = True if self.game.mission_manager.dict_of_missions[id].current_adv >= adv else False
+        if op == 'eq':
+            self.boolacc = True if self.game.mission_manager.dict_of_missions[id].current_adv == adv else False
+        if op == 'inf':
+            self.boolacc = True if self.game.mission_manager.dict_of_missions[id].current_adv <= adv else False

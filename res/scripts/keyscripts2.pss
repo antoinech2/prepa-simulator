@@ -1,0 +1,37 @@
+$pc
+// Script des ordinateurs du réseau
+checkadv(2, 'eq', 3)
+    iftrue("goto('mi23')")
+checkadv(2, 'eq', 5)
+    iftrue("goto('mi25')")
+
+goto('normal')
+
+label('mi23')
+loadtext("Vous branchez la clé USB sur le PC.")
+loadtext("Vous vous souvenez soudainement d'un extrait du DM :")
+loadtext('''"Ce devoir pourra être réalisé dans le langage de programmation de votre choix."''')
+loadtext("Pas de bol : le langage utilisé par votre binôme utilise un logiciel particulier inutilisable sans privilèges administrateur...")
+loadtext("Lionel pourrait vous aider.")
+infobox()
+miadv(2, 4)
+goto('end')
+
+label('mi25')
+loadtext("Avec l'aide du site proposé par Lionel, vous parvenez à convertir les programmes en un Python plutôt correct.")
+loadtext("Après vérification, tout a l'air de marcher !")
+infobox()
+miadv(2, 6)
+goto('end')
+
+label('normal')
+loadtext("TODO : actions à effectuer sur le PC.")
+infobox()
+
+label('end')
+
+$$$
+
+
+
+eof

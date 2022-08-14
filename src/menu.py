@@ -254,6 +254,10 @@ class Arrow1D():
             self.arrow_pos -= 1
         elif self.arrow_pos <= 0 and self.can_loop:
             self.arrow_pos = self.upper_limit
+    
+    def action(self):
+        """Appui de la touche d'action"""
+        pass
 
     def draw(self):
         """Affichage à l'écran de la flèche"""
@@ -308,7 +312,6 @@ class MissionsSubMenu(SubMenu):
             nametag_rect = nametag.get_rect(topleft = np.array(icon_coords) + np.array(self.NAME_ICON_OFFSET))
             self.box.blit(nametag, nametag_rect)
 
-        
     def print_menu_contents(self):
         """Affichage du contenu du menu des missions"""
         # TODO Faire des onglets pour séparer les missions par type
@@ -318,7 +321,14 @@ class MissionsSubMenu(SubMenu):
 
 class BagSubMenu(SubMenu):
     """Classe du sous-menu du Sac"""
-    BAGICON_POSITION = (30, 80)        # Temporaire
+    LATERAL_WINDOW_UPPERLEFT = (521, 0) # Coin haut gauche de la fenêtre latérale après redimensionnement
+    LATERAL_WINDOW_SIZE = (300, 375)    # Taille de la fenêtre latérale
+    LATICON_VOFFSET = 70                # Décalage vertical pour le placement du centre de l'icône dans la barre latérale
+    CLASS_VOFFSET = 50                  # Espace entre l'icône et la catégorie de l'objet
+    DESC_VOFFSET = 35                   # Espace entre la catégorie et la description
+    DESC_MAXLENGTH = 26                 # Longueur maximale d'une ligne de description (le maximum possible est 30)
+    DESC_LINEHEIGHT = 22                # Hauteur d'une ligne de texte
+    BAGICON_POSITION = (30, 80)         # Temporaire
     BAG_UPPERLEFT_CORNER = (80, 20)     # Coin haut gauche du Sac pour placer la première icône. Temporaire
     ONSCREEN_OBJECTS = 5                # Nombre d'objets affichés à l'écran
     NAME_ICON_OFFSET = (40, -4)         # Espace entre l'icône d'un objet et son nom. Temporaire
@@ -329,6 +339,7 @@ class BagSubMenu(SubMenu):
         super().__init__("bag", "SAC", sidemenu, self.BAGICON_POSITION, boundary, can_loop, line_height, initial_coords)
         self.groups = self.sidemenu.game.bag.separate(self.ONSCREEN_OBJECTS) # Groupes ("pages") d'objets de taille ONSCREEN_OBJECTS
         self.onscreen_group = 0 # ID du groupe à l'écran
+        print(self.groups)
 
     def show_object_row(self, object_couple, row):
         """Affiche un objet à la rangée choisie avec sa quantité"""
@@ -352,12 +363,68 @@ class BagSubMenu(SubMenu):
             qty_tag = self.sidemenu.game.default_font.font.render(f"x{object_couple[1]}", True, (0, 0, 0))
             qty_rect = qty_tag.get_rect(topleft = np.array(icon_coords) + np.array(self.AMOUNT_ICON_OFFSET))
             self.box.blit(qty_tag, qty_rect)
+        
+    
+    def lateral(self):
+        """Affichage dans la fenêtre latérale des données relatives à l'objet sélectionné"""
+        # Obtention de l'icône
+        id = self.groups[self.onscreen_group][self.arrow.arrow_pos][0]          # Identifiant de l'objet sélectionné
+        parentobj = self.sidemenu.game.map_manager.object_manager.list_of_objects[id]
+        icon = parentobj.bag_sprite
+        enlarged_icon = pg.transform.scale(icon, 3 * np.array(icon.get_size()))
+
+        # Affichage de l'icône de l'objet
+        lat_icon_coords = (int(self.LATERAL_WINDOW_UPPERLEFT[0] + self.LATERAL_WINDOW_SIZE[0] / 2),
+                           int(self.LATERAL_WINDOW_UPPERLEFT[1] + self.LATICON_VOFFSET))
+        rect2 = enlarged_icon.get_rect(center = lat_icon_coords)
+        self.box.blit(enlarged_icon, rect2)
+
+        # Affichage de la classe
+        cat_raw = self.sidemenu.game.map_manager.object_manager.list_of_objects[id].category
+        if cat_raw == "item":
+            cat = "Objet"
+        if cat_raw == "consumable":
+            cat = "Objet consommable"
+        if cat_raw == "key_item":
+            cat = "Objet important"
+        cat_tag = self.sidemenu.game.default_font.font.render(cat, True, (0, 0, 0))
+        cat_rect = cat_tag.get_rect(center = np.array(lat_icon_coords) + np.array([1, self.CLASS_VOFFSET]))        #! Le 1 correspond à une correction graphique
+        self.box.blit(cat_tag, cat_rect)
+
+        # Construction et affichage de la description
+        desc = self.sidemenu.game.map_manager.object_manager.list_of_objects[id].desc
+        def format(text):
+            """Découpage d'un texte en plusieurs lignes de taille adéquate"""
+            formatted_text = []
+            splitted_text = text.split()
+            text_line = ""
+            line_length = 0
+            while splitted_text != []:
+                word_length = len(splitted_text[0])
+                if line_length + word_length > self.DESC_MAXLENGTH:
+                    formatted_text.append(text_line)
+                    text_line = ""
+                    line_length = 0
+                text_line += splitted_text[0] + " "
+                line_length += word_length + 1
+                del(splitted_text[0])
+            formatted_text.append(text_line)
+            return(formatted_text)
+        splitted_desc = format(desc)
+        for line in range(len(splitted_desc)):
+            splitted_desc[line] = splitted_desc[line].rstrip()
+            pgdesc = self.sidemenu.game.default_font.font.render(splitted_desc[line], True, (0, 0, 0))
+            desc_rect = pgdesc.get_rect(center = np.array(lat_icon_coords) + np.array([1, self.CLASS_VOFFSET]) + np.array([1, self.DESC_VOFFSET]) + np.array([0, line * self.DESC_LINEHEIGHT]))        #! Le 1 correspond à une correction graphique
+            self.box.blit(pgdesc, desc_rect)
+        
+        # Affichage du menu contextuel
 
     def print_menu_contents(self):
         """Affichage du contenu du Sac"""
         # TODO Faire des onglets pour séparer les objets par catégorie
         for row in range(len(self.groups[self.onscreen_group])):
             self.show_object_row(self.groups[self.onscreen_group][row], row)
+        self.lateral()
 
     def previous_group(self):
         """Décrémente le groupe actuellement affiché à l'écran"""
@@ -425,6 +492,14 @@ class MenuManager():
     def toggle_sidemenu(self):
         """Commute l'affichage du menu latéral"""
         if self.game.dialogue is None and self.sidemenu.currently_opened_submenu() is None:
+            # Réinitialisation des positions des flèches
+            self.sidemenu.bagmenu.onscreen_group = 0
+            self.sidemenu.bagmenu.arrow.arrow_pos = 0
+
+            # Rafraîchissement de l'affichage de tous les sous-menus
+            self.sidemenu.bagmenu.clear()
+
+            # Ouverture ou fermeture du sous-menu
             self.sidemenu.onscreen = not self.sidemenu.onscreen
             self.game.player.can_move = not self.game.player.can_move
             self.game.menu_is_open = not self.game.menu_is_open
@@ -467,6 +542,8 @@ class MenuManager():
                 bagmenu.clear()
                 if direction == "up":
                     bagmenu.arrow.move_up()
+                    if bagmenu.arrow.arrow_pos > len(bagmenu.groups[bagmenu.onscreen_group]):        # Dépassement lié à un groupe d'objets incomplet
+                        bagmenu.arrow.arrow_pos = len(bagmenu.groups[bagmenu.onscreen_group]) - 1
                 elif direction == "down":
                     bagmenu.arrow.move_down()
                 elif direction == "left":

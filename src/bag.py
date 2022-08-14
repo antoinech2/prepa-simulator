@@ -36,6 +36,7 @@ class Bag():
 
     def separate(self, interval):
         """Séparation du contenu du Sac en groupes (listes)"""
+        print(self.contents)
         objects = list(self.contents.keys())
         amounts = list(self.contents.values())
         corrected_obj = []
@@ -54,5 +55,6 @@ class Bag():
                 current_group = []
             del(objects[0])
             del(amounts[0])
-        groups.append(current_group)
+        if current_group != []:
+            groups.append(current_group)
         return(groups)
