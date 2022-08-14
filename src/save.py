@@ -9,18 +9,24 @@ DATA_DATABASE_LOCATION = "res/game_data.db"
 SAVE_DATABASE_LOCATION = "sav/save.db"
 
 CONFIGURATION_FILES = {
-    "player" : "sav/player.yaml",
+    "entities" : "sav/entities.yaml",
     "window" : "stg/window.yaml",
-    "controls" : "stg/controls.yaml"
+    "controls" : "stg/controls.yaml",
+    "internals" : "sav/internals.yaml"
     }
 
 DEFAULT_CONFIG = {
-    "player" : {"map_id" : 1,
-                "position" : [1600,1200],
-                "speed" : 1.5,
-                "cash" : 10.},
-    "window" : {"size" : (1000, 600),
+    "entities" : {"player":                 #TODO Ajouter un dictionnaire de valeurs pour chaque PNJ (position seulement)
+                    {"map_id" : 1,
+                    "position" : [1600,1200],
+                    "speed" : 1.85,
+                    "stamina" : 300,
+                    "cash" : 10.}
+                 },
+                 
+    "window" : {"size" : (1280, 720),
                 "fullscreen" : False},
+
     "controls" : {
         # Contrôle du mouvement
         "PLAYER_MOVE_UP" : "UP",
@@ -42,6 +48,13 @@ DEFAULT_CONFIG = {
         "MENU_INTERACT" : "SPACE",
         "MENU_CANCEL" : "x",
 
+        # Contrôle des mini-jeux
+        "MINIGAME_UP" : "UP",
+        "MINIGAME_DOWN" : "DOWN",
+        "MINIGAME_LEFT" : "LEFT",
+        "MINIGAME_RIGHT" : "RIGHT",
+        "MINIGAME_ENTER" : "RETURN",
+
         # Contrôle de la fenêtre
         "GAME_FULLSCREEN" : "F11",
         "GAME_TERMINATE" : "ESCAPE",
@@ -50,7 +63,12 @@ DEFAULT_CONFIG = {
         "DEBUG" : "F3",
         "RESET_CONFIG" : "F5",
         "RESET_SAVE" : "F6"
-        }
+        },
+
+    "internals" : {"ticks" : 0,
+                   "day" : 0,
+                   "hour" : 7,
+                   "minute" : 0},
     }
 
 
@@ -88,6 +106,7 @@ def init_save_database():
     map_list = data_db.cursor().execute('select id from maps;').fetchall()
     npc_list = data_db.cursor().execute('select * from npc;').fetchall()
     mapobj_list = data_db.cursor().execute('select id from objects;').fetchall()
+    mission_list = data_db.cursor().execute('select id from missions;').fetchall()
     save_db = sql.connect(SAVE_DATABASE_LOCATION)
     save_db.cursor().execute('CREATE TABLE IF NOT EXISTS "bag" ("id_item" INTEGER NOT NULL PRIMARY KEY, "quantity" INTEGER NOT NULL)')
     save_db.cursor().execute('create table if not exists "maps" ("map_id" integer not null primary key,\
@@ -99,6 +118,9 @@ def init_save_database():
                                                                        "obtained" integer);')
     save_db.cursor().execute('create table if not exists "events" ("tag" text not null primary key,\
                                                                    "state" integer);')
+    save_db.cursor().execute('create table if not exists "missions" ("id" integer not null primary key,\
+                                                                     "status" integer,\
+                                                                     "adv" integer);')
 
     # Création de la sauvegarde des maps
     if save_db.cursor().execute('select * from maps;').fetchall() == []:
@@ -113,6 +135,12 @@ def init_save_database():
     if save_db.cursor().execute('select * from mapobjects;').fetchall() == []:
         for mapobj in mapobj_list:
             save_db.cursor().execute('insert into mapobjects values (?, 0);', (mapobj[0],))
+    # Création de la sauvegarde de la progression des missions
+    if save_db.cursor().execute('select * from missions;').fetchall() == []:
+        for mission in mission_list:
+            save_db.cursor().execute('insert into missions values (?, 0, 0);', (mission[0],))
+            for status in ["discovered", "unclaimed", "cleared"]:
+                save_db.cursor().execute('insert into events values (?, 0);', (f"{status}Mission{mission[0]}",))
     save_db.commit()
     data_db.close()
     return save_db

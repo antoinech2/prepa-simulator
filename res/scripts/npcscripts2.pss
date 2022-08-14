@@ -1,0 +1,28 @@
+$roamertest
+stopnpc(417)
+loadtext("Je bouge dans quel sens ?")
+infobox()
+opencb(['NS', 'EO'])
+cb_result()
+compare('eq', 0)
+	iftrue("goto('ns')")
+// Sens EO
+persistent(417, 'right', 50)
+persistent(417, 'left', 50)
+goto('next')
+
+// Sens NS
+label('ns')
+persistent(417, 'down', 50)
+persistent(417, 'up', 50)
+
+label('next')
+loadtext("OK")
+infobox()
+startmoving()
+
+$$$
+
+
+
+eof

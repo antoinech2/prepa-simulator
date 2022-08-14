@@ -1,0 +1,451 @@
+$void
+// Script vide
+$$$
+
+
+$ordinaryNpc
+// Script des PNJ banals
+
+dialogue(self.current_npc, 1)
+$$$
+
+
+$zero
+// Initialisation des flags du jeu
+
+
+// 1. Drapeaux des boss
+lowerevent('defeatRasta')
+lowerevent('defeatSkler')
+lowerevent('defeatDenis')
+lowerevent('defeatAgnes')
+lowerevent('defeatDeLoupy')
+lowerevent('trustLionel')
+lowerevent('defeatLentsch')
+
+$$$
+
+
+$genesis
+
+runscript('zero')
+loadtext("Bienvenue dans Prepa Simulator® !")
+loadtext("Survis DS après DS, DM après DM, et colle après colle à l'enfer de la prépa !")
+loadtext("Arriveras-tu à intégrer la prestigieuse École Polytechnique lors des concours...")
+loadtext("ou bien parviendras-tu à être recalé à Polytech Nice !?")
+loadtext("Pour te déplacer, utilise les flèches du clavier ↑→↓←")
+loadtext("Pour parler à un PNJ, utilise la touche {interact_key}.")
+loadtext("Utilise la touche {open_menu} pour ouvrir le menu, et {close_menu} pour le fermer.")
+loadtext("Pour courir, utilise la touche {sprint}.")
+loadtext("Bonne chance !")
+infobox()
+raiseevent('zero')
+$$$
+
+
+$debug
+loadtext("coucou")
+infobox()
+chg_music("it's concours time")
+goto('main')
+
+label('fail')
+ran(1, 2)
+compare('eq', 1)
+	iftrue("loadtext('''tg recommence''')")
+	iftrue("goto('next')")
+compare('eq', 2)
+	iftrue("loadtext('''tg t'es nul''')")
+
+label('next')
+infobox()
+goto('main')
+
+label('main')
+runscript('quiz')
+checkevent('passedSelectMG')
+	iffalse("goto('fail')")
+runscript('quiz')
+checkevent('passedSelectMG')
+	iffalse("goto('fail')")
+runscript('quiz')
+checkevent('passedSelectMG')
+	iffalse("goto('fail')")
+
+loadtext("c'est bien tu connais ton cours")
+infobox()
+chg_music(-1)
+$$$
+
+
+$dummyScript
+testflag(12101, 0)
+	iftrue("loadtext('''Le flag 0 de la L101 a été levé''')")
+	iffalse("loadtext('''Le flag 0 de la L101 est encore baissé''')")
+infobox()
+checknpcflag(self.current_npc, 0)
+	iftrue("loadtext('''Mon flag 0 a été levé''')")
+	iftrue("setnpcflag(self.current_npc, 0, 0)")
+	iffalse("loadtext('''Mon flag 0 est encore baissé''')")
+	iffalse("setnpcflag(self.current_npc, 0, 1)")
+infobox()
+checknpcflag(self.current_npc, 0)
+	iftrue("loadtext('''Mon flag 0 est maintenant levé''')")
+	iffalse("loadtext('''Mon flag 0 est maintenant baissé''')")
+infobox()
+$$$
+
+
+$randomdummy
+label('stuck')
+loadtext("Tu es coincé")
+infobox()
+goto('stuck')
+$$$
+
+
+$getitemtest
+compare_obj_qty(0, "sup", 1)
+	iftrue('dialogue(self.current_npc, 1)')
+	iftrue('toss_object(0, 1)')
+	iffalse('dialogue(self.current_npc, 2)')
+$$$
+
+
+$mightybutton
+loadtext(2)
+loadtext(3)
+infobox()
+sfx("mighty_button")
+$$$
+
+
+$brrr
+//Script exemple pour Skler
+
+move("player", 'right', 50)
+move("player", 'up', 200)
+startmoving()
+waitforstop()
+dialogue(self.current_npc, 2)
+loadtext(4)
+loadtext(5)
+infobox()
+dialogue(self.current_npc, 3)
+runscript('denis_brogniart')
+move("player", 'right', 200, True)
+startmoving()
+waitforstop()
+warp(9000, (896, 1343), 'right')
+move("player", 'right', 200, True)
+move("player", 'down', 200, True)
+move("player", 'right', 1000, True)
+startmoving()
+waitforstop()
+warp(100, (2944, 1792), 'left')
+$$$
+
+
+$denis_brogniart
+loadtext(6)
+infobox()
+sfx("mighty_button")
+$$$
+
+
+$infinitepower
+put(2)
+math('/', 0)
+$$$
+
+
+$accprint
+$$$
+
+
+$lionelisation
+checknpcflag(self.current_npc, 0)
+	iftrue("goto('end')")
+loadtext("Tu es en quelle classe ?")
+infobox()
+opencb(['MP', 'MP*'])
+cb_result()
+compare('eq', 0)
+	iftrue("raiseevent('isMP')")
+	iftrue("lowerevent('isMPStar')")
+	iffalse("lowerevent('isMP')")
+	iffalse("raiseevent('isMPStar')")
+setnpcflag(self.current_npc, 0, 1)
+
+label('end')
+checkevent('isMP')
+	iftrue("loadtext('''Tu es en MP !''')")
+checkevent('isMPStar')
+	iftrue("loadtext('''Tu es en MP* !''')")
+infobox()
+$$$
+
+
+$licite
+checkevent('isMP')
+	iffalse("loadtext('tg')")
+	iffalse("infobox()")
+	iffalse("interrupt()")
+loadtext('coucou')
+infobox()
+put(21)
+runscript('object')
+$$$
+
+
+$horodat
+getday()
+compare('eq', 0)
+	iftrue("loadtext('''Nous sommes lundi''')")
+	iffalse("loadtext('''Nous ne sommes pas lundi''')")
+infobox()
+$$$
+
+
+$testporte
+loadtext("background")
+infobox()
+changelayer('bg')
+loadtext("foreground")
+infobox()
+changelayer('fg')
+loadtext("bye")
+infobox()
+warp(0, [1500, 1500])
+changelayer('fg')
+$$$
+
+
+$flaginator
+testflag(-1, 0)
+	iftrue("lowerflag(-1, 0)")
+	iftrue("loadtext('''Le flag 0 de la L101 va être baissé''')")
+	iffalse("raiseflag(-1, 0)")
+	iffalse("loadtext('''Le flag 0 de la L101 va être levé''')")
+infobox()
+$$$
+
+
+$testsave
+dialogue(self.current_npc, 1)
+runscript('save')
+	iftrue('dialogue(self.current_npc, 2)')
+	iffalse('dialogue(self.current_npc, 3)')
+$$$
+
+
+$hdmi
+// Petite mission pour le PC de la H009
+
+testflag(-1, 0)
+	iftrue("loadtext('''Le câble HDMI est branché à l'ordinateur.''')")
+	iftrue("infobox()")
+	iftrue("interrupt()")
+loadtext('''Il y a de la place pour un câble HDMI derrière la tour.''')
+infobox()
+compare_obj_qty(10, 'sup', 1)
+	iffalse("interrupt()")
+loadtext('''Voulez-vous brancher le câble HDMI ?''')
+infobox()
+opencb()
+cb_result()
+compare('eq', 0)
+	iffalse("loadtext('''Le port HDMI prend la poussière.''')")
+	iffalse("infobox()")
+	iffalse("interrupt()")
+loadtext('''Vous branchez le câble HDMI à l'ordinateur.''')
+loadtext('''La souris marche maintenant depuis l'autre côté de la salle !''')
+infobox()
+toss_object(10, 'all')
+raiseflag(-1, 0)
+$$$
+
+
+$jecompte
+// Démonstration d'une boucle for en script
+loadtext('''Regarde je sais compter jusqu'à 10 !''')
+infobox()
+put(0)
+
+label('incr')
+math('+', 1)
+loadtext(str(self.acc))
+infobox()
+compare('sup', 10)
+	iffalse("goto('incr')")
+loadtext("Voilà")
+infobox()
+$$$
+
+
+$testcolle
+// Petites questions fermées qui font planter le jeu en cas de réponse fausse
+loadtext("Question !")
+infobox()
+loadtext("Il existe une L003 au lycée ?")
+infobox()
+opencb()
+cb_result()
+compare('eq', 1)
+	iftrue("loadtext('faux')")
+	iftrue("infobox()")
+	iftrue("runscript('explode')")
+loadtext("Correct !")
+loadtext("Une matrice symétrique est forcément diagonalisable ?")
+infobox()
+opencb()
+cb_result()
+compare('eq', 0)
+	iftrue("loadtext('faux')")
+	iftrue("infobox()")
+	iftrue("runscript('explode')")
+loadtext("Correct !")
+infobox()
+$$$
+
+
+$missingno
+loadtext("tg")
+infobox()
+runscript('explode')
+$$$
+
+
+$hina
+loadtext("bonsoir")
+infobox()
+
+label('bruh')
+setdirection(39, 'left')
+nop(3)
+setdirection(39, 'up')
+nop(3)
+setdirection(39, 'right')
+nop(3)
+setdirection(39, 'down')
+nop(3)
+goto('bruh')
+$$$
+
+
+$scenic
+loadtext("Placeholder")
+infobox()
+move("player", 'up', 100, True)
+startmoving()
+waitforstop()
+setdirection("player", "down")
+loadtext("Placeholder 2")
+infobox()
+move(91, 'up', 100)
+move("player", 'up', 100)
+startmoving()
+waitforstop()
+loadtext("Placeholder 3")
+infobox()
+move("player", "up", 800, True)
+move(91, 'up', 800, True)
+move(91, 'down', 5)
+move(91, 'down', 20)
+move("player", "right", 800, True)
+startmoving()
+waitforstop()
+warp(9300, (1952, 2272))
+$$$
+
+
+$lionosphere
+// Partons à la découverte du lycée avec Lionel
+checkevent('firstlionel')
+	iftrue("goto('welcome')")
+
+label('introlionel')
+dialogue(self.current_npc, 10)
+loadtext(94)
+infobox()
+raiseevent('firstlionel')
+goto('end')
+
+label('welcome')
+checkevent('bienvenue')
+	iftrue("goto('main')")
+compare_obj_qty(25, 'sup', 1)
+	iffalse("goto('searchchalk')")
+compare_obj_qty(26, 'sup', 1)
+	iffalse("goto('searchchalk')")
+compare_obj_qty(27, 'sup', 1)
+	iffalse("goto('searchchalk')")
+loadtext("indev")
+infobox()
+toss_object(25, 'all')
+toss_object(26, 'all')
+toss_object(27, 'all')
+put(23)
+runscript('object')
+put(28)
+runscript('object')
+raiseevent('bienvenue')
+goto('end')
+
+label('searchchalk')
+dialogue(self.current_npc, 11)
+loadtext(94)
+infobox()
+goto('end')
+
+label('main')
+checkadv(2, 'eq', 4)
+	iftrue("goto('miss2prog')")
+loadtext("Ceci est du texte qui doit défiler en boucle !")
+infobox()
+goto('end')
+
+label('miss2prog')
+dialogue(self.current_npc, 12)
+miadv(2, 5)
+goto('end')
+
+label('end')
+
+$$$
+
+
+$iptdm
+// Script du PNJ de la mission 2
+checkadv(2, 'eq', 6)
+	iftrue("goto('mi26')")
+checkadv(2, 'eq', 1)
+	iftrue("goto('mi2start')")
+goto('normal')
+
+label('mi2start')
+dialogue(self.current_npc, 2)
+miadv(2, 2)
+mistate(2, 2)
+goto('end')
+
+label('mi26')
+dialogue(self.current_npc, 3)
+miadv(2, 7)
+mistate(2, 3)
+toss_object(47, "all")
+put(2)
+runscript("missionnews")
+goto('end')
+
+label('normal')
+dialogue(self.current_npc, 1)
+goto('end')
+
+label('end')
+
+$$$
+
+
+
+eof

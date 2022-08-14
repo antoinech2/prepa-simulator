@@ -1,0 +1,58 @@
+$niv_1_mapscript
+
+$$$
+
+$i108_mapscript
+loadtext("Livraison de posters Lionel !")
+infobox()
+get_object(0, 9)
+put(0)
+runscript('object')
+$$$
+
+
+$i105_mapscript
+loadtext("Livraison de craies !")
+infobox()
+get_object(21, 9)
+put(21)
+runscript('object')
+$$$
+
+
+$i104_mapscript
+loadtext(1)
+infobox()
+$$$
+
+
+$carte_mapscript
+checkevent('init')
+	iftrue("goto('debug')")
+get_object(28, 1)
+runscript('zero')
+raiseevent('init')
+goto('debug')
+// DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG
+checkevent('zero')
+	iffalse("runscript('genesis')")
+
+label('debug')
+$$$
+
+
+$i109_mapscript
+setdirection("player", "left")
+runscript("emoexcl")
+move("player", "left", 200)
+startmoving()
+waitforstop()
+setdirection("player", "up")
+chg_music("title")
+loadtext("Object event.")
+infobox()
+chg_music(-1)
+$$$
+
+
+eof

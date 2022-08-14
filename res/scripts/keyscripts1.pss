@@ -1,0 +1,122 @@
+$explode
+// Script fermant de force le jeu sans sauvegarde
+
+game.quit_game()
+$$$
+
+
+$missionnews
+// Script informant le joueur de l'avancée dans une mission (ID donnée par l'accumulateur)
+sfx("mighty_button")
+checkevent(f"clearedMission{self.acc}")
+	iftrue("goto('cleared')")
+checkevent(f"unclaimedMission{self.acc}")
+	iftrue("goto('unclaimed')")
+checkevent(f"discoveredMission{self.acc}")
+	iftrue("goto('discovered')")
+
+label('cleared')
+loadtext(f"""La mission N°{str(self.acc).zfill(3)} ; "{self.game.mission_manager.dict_of_missions[self.acc].name}" est désormais close.""")
+goto('end')
+
+label('unclaimed')
+loadtext(f"""La mission N°{str(self.acc).zfill(3)} ; "{self.game.mission_manager.dict_of_missions[self.acc].name}" est désormais terminée. Allez chercher votre récompense !""")
+goto('end')
+
+label('discovered')
+loadtext(f"""Nouvelle mission disponible : N°{str(self.acc).zfill(3)} ; "{self.game.mission_manager.dict_of_missions[self.acc].name}" !""")
+
+label('end')
+infobox()
+
+$$$
+
+
+$blackout
+// Script provoquant le blackout du joueur
+
+loadtext("aled")
+infobox()
+pospoint()
+set_energy(20)
+warp(0, (-255, -255))
+recallpos()
+advance(10)
+label('end')
+$$$
+
+
+$snorlax
+// Script pour faire dodo
+
+loadtext("Voulez-vous dormir ?")
+infobox()
+opencb()
+cb_result()
+compare('eq', 0)
+	iffalse("interrupt()")
+move("player", 'down', 100)
+startmoving()
+changelayer('bg')
+nop(10)
+warp(0, (0, 0))
+passtime()
+nop(20)
+warp(11309, (993, 928), 'up')
+nop(10)
+changelayer('fg')
+move("player", 'up', 29)
+startmoving()
+
+$$$
+
+
+$emoexcl
+// Script déclenchant l'apparition d'une boîte "!"
+
+emotion("excl", "player")
+nop(80)
+clearboxes()
+$$$
+
+
+$save
+// Script effectuant une sauvegarde de la partie
+
+loadtext("Voulez-vous sauvegarder la partie ?")
+infobox()
+opencb()
+cb_result()
+compare('eq', 0)
+	iffalse("false()")
+	iffalse("goto('end')")
+true()
+save()
+loadtext("Partie sauvegardée.")
+infobox()
+
+label('end')
+$$$
+
+
+$object
+// Script d'obtention d'un objet unique selon son ID stocké dans l'acc
+
+sfx('jingleV2')
+loadtext(f'Obtenu : {self.game.map_manager.object_manager.list_of_objects[self.acc].name} !')
+infobox()
+get_object(self.acc, 1)
+$$$
+
+
+$quiz
+// Script qui lance le mini-jeu quiz
+
+ran(1, 170)
+launchmgm('select', self.acc)
+$$$
+
+
+
+
+eof

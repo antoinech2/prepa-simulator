@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="113" height="109" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="58">
+<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="113" height="109" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="59">
  <tileset firstgid="1" source="../textures/tiles.tsx"/>
  <layer id="1" name="Calque de Tuiles 1" width="113" height="109">
   <data encoding="csv">
@@ -136,6 +136,6 @@
   <object id="54" type="mur" x="1216" y="1120" width="32" height="352"/>
   <object id="55" type="mur" x="1216" y="1312" width="288" height="64"/>
   <object id="56" type="mur" x="1568" y="1312" width="288" height="64"/>
-  <object id="57" name="to_dk3" x="1636.81" y="1344" width="22.1875" height="32"/>
+  <object id="57" name="to_dk3" type="door" x="1636.81" y="1344" width="22.1875" height="38.7273"/>
  </objectgroup>
 </map>

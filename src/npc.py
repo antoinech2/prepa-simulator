@@ -4,6 +4,8 @@
 # Import externe
 import pygame as pg
 
+import entities
+
 """Gère les NPC du jeu"""
 
 
@@ -16,28 +18,64 @@ class NpcManager():
         # Liste les NPC chargés
         self.npc_group = pg.sprite.Group()
 
+        # Liste des PNJ en train de parler
+        self.talking_npcs = []
+
         # Chargement de tous les NPC de la carte
-        npcs = self.map.game.game_data_db.execute("SELECT npc.id, npc.nom, x_coord, y_coord, default_dia, script_id, sprite FROM npc JOIN maps ON npc.map_id = maps.id WHERE maps.id = ?", (map.map_id,)).fetchall()
+        npcs = self.map.game.game_data_db.execute("SELECT npc.id, npc.nom, x_coord, y_coord, direction, script_id, sprite FROM npc JOIN maps ON npc.map_id = maps.id WHERE maps.id = ?", (map.map_id,)).fetchall()
         for npc in npcs:
-            new_npc = Npc(map, npc[0], npc[1], (npc[2], npc[3]), npc[4], npc[5], npc[6])
+            new_npc = entities.Npc(map, npc[0], npc[1], (npc[2], npc[3]), npc[4], npc[5], npc[6])
             self.npc_group.add(new_npc)
             self.map.object_group.add(new_npc)
+    
+    def flip(self):
+        """Réinitialise l'orientation de tous les PNJs"""
+        for npc in self.npc_group:
+            if npc.direction == 0:
+                disp = "up"
+            if npc.direction == 90:
+                disp = "right"
+            if npc.direction == 180:
+                disp = "down"
+            if npc.direction == 270:
+                disp = "left"
+            self.map.game.script_manager.setdirection(npc.id, disp)
+    
+    def force_flip(self, id, direction):
+        """Force un PNJ à s'orienter selon une direction donnée"""
+        if direction == 0:
+            disp = "up"
+        if direction == 90:
+            disp = "right"
+        if direction == 180:
+            disp = "down"
+        if direction == 270:
+            disp = "left"
+        self.map.game.script_manager.setdirection(self.find_npc(id), disp)
+    
+    def find_npc(self, id):
+        """Cherche un PNJ par son identifiant"""
+        for npc in self.npc_group:
+            if npc.id == id:
+                return(npc)
+        return(None)
 
     def check_talk(self):
         """Démarre le dialogue avec un NPC proche"""
         npc_collide_list = pg.sprite.spritecollide(self.map.game.player, self.npc_group, False)
         if len(npc_collide_list) > 0:
             first_npc = npc_collide_list[0]
-            if self.map.game.running_script is None: # Empêche le joueur d'exécuter deux fois le même script
-                self.map.game.script_manager.execute_script(first_npc.script, first_npc)
+            if first_npc not in self.talking_npcs:
+                self.talking_npcs.append(first_npc)
+                self.map.game.script_manager.execute_script(first_npc.script, "back", first_npc)
 
 
-class Npc(pg.sprite.Sprite):
-    """Représente un NPC"""
+class OldNpc(pg.sprite.Sprite):
+    """Représente un NPC (ancienne version)"""
 
     DEFAULT_SPRITESHEET_LOC = 'res/textures/m2.png'
 
-    def __init__(self, map, id, name, coords, default_dia, script_id, sprite = None):
+    def __init__(self, map, id, name, coords, direction, script_id, sprite = None):
         super().__init__()
 
         # Objet associé
@@ -46,7 +84,7 @@ class Npc(pg.sprite.Sprite):
         # Variables d'état
         self.id = id
         self.name = name
-        self.default_dia = default_dia
+        self.direction = direction
         if script_id is not None:
             self.script = self.map.game.script_manager.get_script_from_id(script_id)
         else:

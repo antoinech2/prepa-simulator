@@ -28,7 +28,6 @@ class Dialogue():
         self.game = game
         self.current_npc = npc # TODO Implémenter mieux les infobox, au lieu de passer en argument un NPC "fantôme"
         self.dialogue_id = dialogue_id # TODO Dialogue "fantôme"
-        # TODO Mettre le contenu des infobox en BDD
         self.is_infobox = is_infobox
 
         # Etat
@@ -58,13 +57,13 @@ class Dialogue():
         if self.is_infobox:
             for line in infobox_text:
                 if type(line) == int:       # Chaîne du fichier locale
-                    self.texts.append(locale.getstring_infobox(line))
+                    self.texts.append(locale.get_substring("infobox", line))
                 if type(line) == str:       # Chaîne en brut
                     self.texts.append(line)
         else:
             self.texts = self.game.game_data_db.execute("SELECT text_id FROM npc_dialogue WHERE id_npc = ? AND id_dialogue = ? ORDER BY ligne_dialogue ASC", (self.current_npc.id, self.dialogue_id)).fetchall()
             for id in range(len(self.texts)):
-                text = locale.getstring_dialogue(self.texts[id][0])
+                text = locale.get_substring("dialogue", self.texts[id][0])
                 self.texts[id] = text  # Conversion de l'ID en texte
             if len(self.texts) == 0: # Le dialogue demandé n'existe pas
                 raise ValueError(f"Erreur : le dialogue d'ID {self.dialogue_id} du NPC {self.current_npc.id} n'existe pas ou est vide")
@@ -118,7 +117,7 @@ class Dialogue():
         self.show_box()
         if self.is_writing:
             # Affichage d'une nouvelle lettre à la fin du cooldown
-            if self.game.tick_count % self.lettre_cooldown == 0:
+            if self.game.internal_clock.ticks_since_epoch % self.lettre_cooldown == 0:
                 self.new_letter()
 
     def nametag_show(self):

@@ -1,0 +1,2008 @@
+### Liste des questions du mini-jeu QCM
+
+### Mots-clés utilisés:
+# aaaabbbb où aaaa est l'identifiant de la matière et bbbb le thème abordé
+
+### Mots-clés Maths
+# mathgene	Mathématiques (divers)
+# mathalgb	Algèbre générale
+# mathanly	Analyse générale
+# mathprob	Probabilités
+
+# mathrebi	Relations binaires
+
+# mathense	Structures usuelles
+# mathevec	Espaces vectoriels (général)
+# mathtopo	Espaces vectoriels normés
+# mathpreh	Espaces préhilbertiens réels
+# mathdiag	Réduction
+# mathsern	Suites et séries numériques
+# mathssef	Suites et séries de fonctions
+# mathmatr	Matrices
+# mathasym  Analyse asymptotique
+
+### Mots-clés Physique-Chimie
+# physfilt	Filtrage linéaire
+# physsine	Signaux numériques
+# physonde	Equation de d'ALEMBERT
+# physopti	Optique géométrique
+# physmich	Interféromètre de MICHELSON
+# physstaf	Statique des fluides
+# physpfth	Premier et deuxième principes de la thermodynamique
+# physmach	Machines thermiques
+# phystrth  Transferts thermiques
+# physcoor	Systèmes de coordonnées et analyse vectorielle
+# physmeca	Mécanique du point en référentiel galiléen
+# physmeng	Mécanique en référentiel non galiléen
+# physemag	Magnéto- et électrostatique
+# physmaxw	Théorie de l'électromagnétisme classique
+# physoema	Ondes électromagnétiques
+# physquan	Quantique
+# physthst  Thermodynamique statistique
+# physosci  Oscillateurs
+
+# chimchim  Chimie classique
+# chimarch	Architecture de la matière
+# chimthch	Thermochimie
+# chimelch	Électrochimie
+
+### Mots-clés Informatique pour tous
+# ifptbase	Fondements du langage Python
+# ifptpifi	Piles et files
+# ifptrecu	Récursivité
+
+### Mots-clés Option Info
+# infobase	Fondements du langage Caml
+# infocomp	Complexité et terminaison
+# infolist	Listes Caml
+# infodivi	Diviser pour régner
+# infogrph	Théorie des graphes
+# infoauto	Automates finis
+
+
+1  :
+  qu: "Citer les hypothèses du CSSA pour la convergence de la série Σun."
+  keys: ["mathsern"]
+  a : "(|un|) est bornée"
+  b : "(un) décroît"
+  c : "(|un|) décroît"
+  d : "(|un|) tend vers 0"
+  e : "(|un|) est équivalente à 1/n"
+  correct: !!set
+     ? 'c'
+     ? 'd'
+
+2  :
+  qu: "Sélectionner la bonne valeur de h/2π."
+  keys: ["physquan"]
+  a : "1,05.10E-34 J.s"
+  b : "1,05.10E-34 J/s"
+  c : "1,05.10E-35 J.s"
+  d : "1,05.10E-35 J/s"
+  e : "1,05.10E-35 J.s²"
+  correct: !!set
+     ? 'a'
+
+3  :
+  qu: "Complexité de l'algorithme de DIJKSTRA."
+  keys: ["infogrph"]
+  a : "O(a + n²)"
+  b : "O((an)²)"
+  c : "O(a + n log(n))"
+  d : "O(n exp(a) + a)"
+  e : "O(n³)"
+  correct: !!set
+     ? 'c'
+
+4  :
+  qu: "Complexité de l'algorithme de FLOYD-WARSHALL."
+  keys: ["infogrph"]
+  a : "O(n²)"
+  b : "O(n³)"
+  c : "O(n² log(n))"
+  d : "O(exp(n))"
+  e : "O(n⁴)"
+  correct: !!set
+     ? 'b'
+
+5  :
+  qu: "Quelles matrices sont diagonalisables à coup sûr ?"
+  keys: ["mathdiag", "mathpreh"]
+  a : "une matrice symétrique"
+  b : "une matrice dont le polynôme caractéristique est scindé dans R"
+  c : "une matrice d'un endomorphisme symétrique d'un espace euclidien"
+  d : "λIn, où λ est un réel"
+  e : "une matrice inversible"
+  correct: !!set
+     ? 'c'
+
+6  :
+  qu: "Quelle est la pulsation de coupure d'un filtre passe-bas RC ?"
+  keys: ["physfilt"]
+  a: "RC"
+  b: "R²/C"
+  c: "C/R"
+  d: "√(1/RC)"
+  e: "1/RC"
+  correct: !!set
+     ? 'e'
+
+7  :
+  qu: "Si Π est un plan de symétrie de la distribution de courants, que peut-on affirmer ?"
+  keys: ["physemag"]
+  a: "Π est un plan de symétrie du champ électrique"
+  b: "Π est un plan de symétrie du champ magnétique"
+  c: "le champ électrique est nul en Π"
+  d: "le champ magnétique est nul en Π"
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'd'
+
+8  :
+  qu: "Quelles fonctions doit-on nécessairement écrire lors de l'implémentation du type pile ?"
+  keys: ["ifptpifi"]
+  a: "ajouter un élément au sommet de la pile"
+  b: "retirer un élément du sommet de la pile"
+  c: "obtenir la liste des éléments de la pile"
+  d: "tester si la pile est vide"
+  e: "regarder l'élément se trouvant au sommet de la pile"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'd'
+
+9  :
+  qu: "Citer le théorème de KLEENE."
+  keys: ["infoauto"]
+  a: "Les langages rationnels sont les langages reconnaissables par un automate déterministe."
+  b: "Si un langage est reconnaissable par un automate, alors il est rationnel."
+  c: "Un langage est rationnel si et seulement s'il est reconnaissable par un automate fini."
+  d: "Si un automate fini reconnaît un langage, alors celui-ci est local."
+  e: "Il existe un automate fini reconnaissant tous les langages rationnels."
+  correct: !!set
+     ? 'c'
+
+10 :
+  qu: "Quels tris ne se font pas en Θ(n log(n)) ?"
+  keys: ["infocomp"]
+  a: "tri bulle"
+  b: "tri partition-fusion"
+  c: "Quicksort"
+  d: "tri par insertion"
+  e: "tri par tas"
+  correct: !!set
+     ? 'a'
+     ? 'd'
+
+11 :
+  qu: "Citer la loi thermodynamique de LAPLACE pour une transformation isentropique."
+  keys: ["physpfth"]
+  a: "V.P^γ = cte"
+  b: "T.V^(γ-1) = cte"
+  c: "T.V^(γ+1) = cte"
+  d: "P.V^γ = cte"
+  e: "T^γ.P^γ = cte"
+  correct: !!set
+     ? 'b'
+     ? 'd'
+
+12 :
+  qu: "Quel est l'ordre de grandeur du rayon d'un atome ?"
+  keys: ["physquan"]
+  a: "10E-8 m"
+  b: "10E-9 m"
+  c: "10E-10 m"
+  d: "10E-11 m"
+  e: "10E-12 m"
+  correct: !!set
+     ? 'c'
+
+13 :
+  qu: "Reconnaître la fonction associée au DSE Σ(-1)ⁿ.x²ⁿ⁺¹/(2n+1)"
+  keys: ["mathssef"]
+  a: "x |→ arctan(x)"
+  b: "x |→ arccos(x)"
+  c: "x |→ ln(2+2x)"
+  d: "x |→ ln(-2x)"
+  e: "x |→ sin(x)"
+  correct: !!set
+     ? 'a'
+
+14 :
+  qu: "Reconnaître la fonction associée au DSE Σ(-1)ⁿ.x²ⁿ⁺¹/(2n+1)!"
+  keys: ["mathssef"]
+  a: "x |→ arctan(x)"
+  b: "x |→ arccos(x)"
+  c: "x |→ ln(2+2x)"
+  d: "x |→ ln(-2x)"
+  e: "x |→ sin(x)"
+  correct: !!set
+     ? 'e'
+
+15 :
+  qu: "Donner l'expression du volume infinitésimal dτ en coordonnées cylindriques."
+  keys: ["physcoor"]
+  a: "dr.dθ.dz"
+  b: "rdr.dθ.dz"
+  c: "rdr.sin(θ)dθ.dz"
+  d: "dr.rdθ.dz"
+  e: "rdr.rsin(θ)dθ.dz"
+  correct: !!set
+     ? 'b'
+
+16 :
+  qu: "Énoncer l'équation fondamentale de la statique des fluides."
+  keys: ["physstaf"]
+  a: "ρ.grad(P) - Fvol = 0"
+  b: "grad(P) - rot(Fvol) = 0"
+  c: "grad(P) - Fvol = ρ"
+  d: "grad(P) - Fvol = 0"
+  e: "ρ(grad(P) - Fvol) = 0"
+  correct: !!set
+     ? 'd'
+
+17 :
+  qu: "Un automorphisme orthogonal :"
+  keys: ["mathpreh"]
+  a: "est une isométrie vectorielle"
+  b: "préserve la norme"
+  c: "préserve le produit scalaire"
+  d: "possède une matrice symétrique dans une base orthonormée"
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'c'
+
+18 :
+  qu: "Une relation d'équivalence est une relation binaire :"
+  keys: ["mathrebi"]
+  a: "symétrique"
+  b: "antisymétrique"
+  c: "positive"
+  d: "transitive"
+  e: "réflexive"
+  correct: !!set
+     ? 'a'
+     ? 'd'
+     ? 'e'
+
+19 :
+  qu: "Quelles configurations électroniques sont fausses ?"
+  keys: ["chimarch"]
+  a: "1s²2s²2p⁶3s²3p⁶4s²3d³"
+  b: "1s²2s²2p⁶3s²3p⁶3d¹⁰4s²4p¹"
+  c: "1s²2s²2p⁶3s²3p⁶4s²4p⁶3d¹⁰5s¹4d³"
+  d: "1s²2s²2p⁶3s²3p⁶3d¹⁰4s²4p⁶5s²4d⁹"
+  e: "1s²2s²2p⁶3s²3p⁶4s²3d¹⁰4p⁶5s¹4d⁵"
+  correct: !!set
+     ? 'b'
+     ? 'c'
+     ? 'd'
+
+20 :
+  qu: "Citer la loi de HOOKE pour un ressort de raideur k et de longueur à vide λ."
+  keys: ["physmeca"]
+  a: "F = k(λ-l)"
+  b: "F = -(λ-l)/k"
+  c: "F = k²(λ-l)"
+  d: "F = -k(λ-l)"
+  e: ""
+  correct: !!set
+      ? 'd'
+
+21 :
+  qu: "On construit un filtre passe-haut avec R = 1800 Ω et C = 47 nF. Que peut-on en déduire ?"
+  keys: ["physfilt"]
+  a: "Un signal de fréquence f = 800 Hz est atténué."
+  b: "Un signal de fréquence f = 5 000 Hz est atténué."
+  c: "La pulsation de coupure vaut 2 600 Hz."
+  d: "La résistance est branchée à la masse."
+  e: "Le condensateur est branché à la masse."
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'd'
+
+22 :
+  qu: "Que peut-on dire de l'interféromètre de MICHELSON configuré en lame d'air ?"
+  keys: ["physmich"]
+  a: "Le miroir réel et le miroir virtuel sont parallèles."
+  b: "On observe à l'écran des franges d'interférences."
+  c: "On observe à l'écran des anneaux d'interférences."
+  d: "On observe les interférences à l'aide d'une lentille de courte focale."
+  e: "On peut charioter le miroir mobile pour trouver une teinte plate."
+  correct: !!set
+     ? 'a'
+     ? 'c'
+     ? 'e'
+
+23 :
+  qu: "Que dire d'une matrice symétrique réelle M ?"
+  keys: ["mathevec"]
+  a: "elle est inversible"
+  b: "elle est diagonalisable"
+  c: "c'est la matrice d'une rotation dans une base orthonormée"
+  d: "det(M) = tr(M)"
+  e: "si elles existent, ses valeurs propres sont toutes non nulles"
+  correct: !!set
+     ? 'b'
+
+24 :
+  qu: "On chariote le miroir mobile d'un MICHELSON. Que peut-il se passer ?"
+  keys: ["physmich"]
+  a: "Les anneaux sont translatés."
+  b: "Les franges sont translatées."
+  c: "Les anneaux changent de taille."
+  d: "Les franges changent de taille."
+  e: ""
+  correct: !!set
+     ? 'b'
+     ? 'd'
+
+25 :
+  qu: "Rappeler le critère de NYQUIST-SHANNON."
+  keys: ["physsine"]
+  a: "f_ech < 3f_min"
+  b: "f_ech < 2f_max"
+  c: "f_ech/2 > f_max"
+  d: "f_ech > 2f_min"
+  e: "f_ech > 2f_max"
+  correct: !!set
+     ? 'e'
+
+26 :
+  qu: "Rappeler l'équation de POISSON."
+  keys: ["physmaxw"]
+  a: "ΔV = ρ/ε₀"
+  b: "ΔV = -ρμ₀"
+  c: "ΔV = -ρ/ε₀"
+  d: "ΔV = μ₀/ρ"
+  e: "ΔV = -ρ/c"
+  correct: !!set
+     ? 'c'
+
+27 :
+  qu: "Calculer le potentiel du couple Fe²⁺/Fe(s). On donne E⁰ = 0,77 V et C = 2,8.10E-2 mol/L."
+  keys: ["chimelch"]
+  a: "0,68 V"
+  b: "0,77 V"
+  c: "0,86 V"
+  d: "0,82 V"
+  e: "0,72 V"
+  correct: !!set
+     ? 'a'
+
+
+28 :
+  qu: "Quelles sont les propriétés d'une partie fermée A ?"
+  keys: ["mathtopo"]
+  a: "L'image réciproque de A par une application continue est fermée."
+  b: "Toute partie incluse dans A est fermée."
+  c: "Son complémentaire est ouvert."
+  d: "Ā = A"
+  e: "Å = A"
+  correct: !!set
+     ? 'a'
+     ? 'c'
+     ? 'd'
+
+29 :
+  qu: "Quelles assertions sont vraies ?"
+  keys: ["mathtopo"]
+  a: "L'union d'un nombre quelconque d'ouverts est ouverte."
+  b: "L'union d'un nombre quelconque de fermés est fermée."
+  c: "L'intersection d'un nombre quelconque d'ouverts est ouverte."
+  d: "L'intersection d'un nombre quelconque de fermés est fermée."
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'd'
+
+30 :
+  qu: "Soit E un espace vectoriel normé quelconque."
+  keys: ["mathtopo"]
+  a: "Si C est un compact de E, alors C est fermé et borné."
+  b: "Si C est une partie fermée et bornée de E, alors c'est un compact."
+  c: "Toute partie fermée d'un compact de E est un compact."
+  d: "L'image d'un compact de E par une application f quelconque de E est un compact."
+  e: "Toute fonction de E continue y est uniformément continue."
+  correct: !!set
+     ? 'a'
+     ? 'c'
+
+31 :
+  qu: "Soit f une application linéaire continue d'un espace vectoriel normé E."
+  keys: ["mathtopo"]
+  a: "f est lipschitzienne"
+  b: "f est bornée sur E"
+  c: "f est bornée sur la boule ouverte de centre 0 et de rayon 1"
+  d: "f est bornée sur la boule fermée de centre 0 et de rayon 1"
+  e: "f est uniformément continue"
+  correct: !!set
+     ? 'a'
+     ? 'd'
+     ? 'e'
+
+32 :
+  qu: "Soit E un espace vectoriel normé. La sphère unité de centre 0 peut être notée :"
+  keys: ["mathtopo"]
+  a: "S(0,1)"
+  b: "B(0,1)"
+  c: "Fr(Bf(0,1))"
+  d: "Bf(0,1-ε) où ε > 0"
+  e: "Bf(0,1) \\ G où G est l'intérieur de Bf(0,1)"
+  correct: !!set
+     ? 'a'
+     ? 'c'
+     ? 'e'
+
+33 :
+  qu: "Sélectionner les parties de R qui ont un intérieur vide."
+  keys: ["mathtopo"]
+  a: "R"
+  b: "Q"
+  c: "]2,8["
+  d: "{2,8}"
+  e: "ø"
+  correct: !!set
+     ? 'b'
+     ? 'd'
+     ? 'e'
+
+34 :
+  qu: "Soit E un evn et N et N' deux normes équivalentes sur E. Qu'est-ce qui est certain ?"
+  keys: ["mathtopo"]
+  a: "E est de dimension finie."
+  b: "Il existe δ,δ' > 0 tels que δN < N' < δ'N"
+  c: "Si (un) est une suite convergente pour N, alors elle converge aussi pour N'."
+  d: "E est compact."
+  e: ""
+  correct: !!set
+     ? 'c'
+
+35 :
+  qu: "▼^(▼^Ψ) ="
+  keys: ["physcoor"]
+  a: "▼^(▼Ψ) + ΔΨ"
+  b: "▼.(▼Ψ)"
+  c: "Δ(2▼.Ψ)"
+  d: "▼(▼.Ψ) - ΔΨ"
+  e: "ΔΨ + 2▼.(▼^Ψ)"
+  correct: !!set
+     ? 'd'
+
+36 :
+  qu: "Combien d'états l'automate des parties non émondé contient-il ?"
+  keys: ["infoauto"]
+  a: "2ⁿ"
+  b: "nⁿ"
+  c: "n²"
+  d: "eⁿ"
+  e: "n(n+1)"
+  correct: !!set
+     ? 'a'
+
+37 :
+  qu: "Soit A une matrice inversible, A⁻¹ ="
+  keys: ["mathmatr"]
+  a: "det(A)² * tcom(A)"
+  b: "tcom(det(A)A)"
+  c: "tcom(A) / det(A)"
+  d: "com(A)tcom(A)"
+  e: "1/tr(A) * com(A)"
+  correct: !!set
+     ? 'c'
+
+38 :
+  qu: "Quelles séries convergent normalement sur R ?"
+  keys: ["mathssef"]
+  a: "Σsin(x(x + 2n))"
+  b: "une série qui converge uniformément sur R"
+  c: "Σ3sin(2nx²) / n²"
+  d: "Σmin(2ⁿx - q)/2ⁿ où q est un entier relatif"
+  e: "Σ(-1)ⁿ/(x + n)"
+  correct: !!set
+     ? 'c'
+     ? 'd'
+
+39 :
+  qu: "Reconnaître la fonction associée au DSE Σxⁿ/n!"
+  keys: ["mathssef"]
+  a: "x |→ exp(x)"
+  b: "x |→ cosh(x)"
+  c: "x |→ sinh(x)"
+  d: "x |→ cos(x)"
+  e: "x |→ sin(x)"
+  correct: !!set
+     ? 'a'
+
+40 :
+  qu: "Rappeler la formule de STIRLING."
+  keys: ["mathasym"]
+  a: "En +∞ : n! ~ nⁿe⁻ⁿ√(2πn)"
+  b: "En +∞ : n! ~ eⁿn⁻ⁿ√(2πn)"
+  c: "En +∞ : n! ~ nⁿeⁿ√(2πn)"
+  d: "En +∞ : n! ~ n⁻ⁿe⁻ⁿ√(2πn)"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+41 :
+  qu: "Reconnaître la fonction associée au DSE Σx²ⁿ/(2n)!"
+  keys: ["mathssef"]
+  a: "x |→ exp(x)"
+  b: "x |→ cosh(x)"
+  c: "x |→ sinh(x)"
+  d: "x |→ cos(x)"
+  e: "x |→ sin(x)"
+  correct: !!set
+     ? 'b'
+
+42 :
+  qu: "Reconnaître la fonction associée au DSE Σx²ⁿ⁺¹/(2n+1)!"
+  keys: ["mathssef"]
+  a: "x |→ exp(x)"
+  b: "x |→ cosh(x)"
+  c: "x |→ sinh(x)"
+  d: "x |→ cos(x)"
+  e: "x |→ sin(x)"
+  correct: !!set
+     ? 'c'
+
+43 :
+  qu: "Reconnaître la fonction associée au DSE Σ(-1)ⁿ.x²ⁿ/(2n)!"
+  keys: ["mathssef"]
+  a: "x |→ exp(x)"
+  b: "x |→ cosh(x)"
+  c: "x |→ sinh(x)"
+  d: "x |→ cos(x)"
+  e: "x |→ sin(x)"
+  correct: !!set
+     ? 'd'
+
+44 :
+  qu: "Reconnaître la fonction associée au DSE Σ(-1)ⁿ.x²ⁿ⁺¹/(2n+1)!"
+  keys: ["mathssef"]
+  a: "x |→ exp(x)"
+  b: "x |→ cosh(x)"
+  c: "x |→ sinh(x)"
+  d: "x |→ cos(x)"
+  e: "x |→ sin(x)"
+  correct: !!set
+     ? 'e'
+
+45 :
+  qu: "Reconnaître la fonction associée au DSE Σxⁿ"
+  keys: ["mathssef"]
+  a: "x |→ 1/(1+x)"
+  b: "x |→ 1/(1-x)"
+  c: "x |→ arctan(x)"
+  d: "x |→ ln(1+x)"
+  e: "x |→ ln(1-x)"
+  correct: !!set
+     ? 'b'
+
+46 :
+  qu: "Reconnaître la fonction associée au DSE Σ(-1)ⁿ⁺¹.xⁿ/n"
+  keys: ["mathssef"]
+  a: "x |→ 1/(1+x)"
+  b: "x |→ 1/(1-x)"
+  c: "x |→ arctan(x)"
+  d: "x |→ ln(1+x)"
+  e: "x |→ ln(1-x)"
+  correct: !!set
+     ? 'd'
+
+47 :
+  qu: "Reconnaître la fonction associée au DSE -Σxⁿ/n"
+  keys: ["mathssef"]
+  a: "x |→ 1/(1+x)"
+  b: "x |→ 1/(1-x)"
+  c: "x |→ arctan(x)"
+  d: "x |→ ln(1+x)"
+  e: "x |→ ln(1-x)"
+  correct: !!set
+     ? 'e'
+
+48 :
+  qu: "Donner la valeur de la constante d'AVOGADRO (en mol⁻¹)."
+  keys: ["chimarch"]
+  a: "6.10E23"
+  b: "6.10E24"
+  c: "6.10E25"
+  d: "6.10E26"
+  e: "6.10E27"
+  correct: !!set
+     ? 'a'
+
+49 :
+  qu: "Donner l'expression de la constante de BOLTZMANN."
+  keys: ["physthst"]
+  a: "RNa"
+  b: "1/RNa"
+  c: "Na/R"
+  d: "R/Na"
+  e: "R²Na"
+  correct: !!set
+     ? 'd'
+
+50 :
+  qu: "Soit f continue sur un segment. D'après le théorème de WEIERSTRAß :"
+  keys: ["mathssef"]
+  a: "f y est linéaire"
+  b: "f y est dérivable"
+  c: "f y est limite uniforme de fonctions polynomiales"
+  d: "il existe une fonction polynomiale équivalente à f sur ce segment"
+  e: "f peut être approchée avec des fonctions trigonométriques"
+  correct: !!set
+     ? 'c'
+
+51 :
+  qu: "Soit (fn) des fonctions CPM sur I. On suppose que cette suite converge simplement vers f et que les |fn| sont tous majorés par une fonction φ CPM positive intégrable. Alors les fn et f sont intégrables sur I, et ∫f = lim (∫fn)"
+  keys: ["mathssef"]
+  a: "théorème d'intégration terme à terme"
+  b: "théorème de FUBINI"
+  c: "théorème de convergence dominée"
+  d: "théorème d'inversion série-intégrale"
+  e: "théorème du changement de variable"
+  correct: !!set
+     ? 'c'
+
+52 :
+  qu: "Soit (fn) des fonctions CPM intégrables sur I. On suppose que Σfn converge simplement vers f, fonction CPM sur I, et Σ∫|fn| converge. Alors f est intégrable sur I et ∫f est égal à la somme de Σ∫fn"
+  keys: ["mathssef"]
+  a: "théorème d'intégration terme à terme"
+  b: "théorème de FUBINI"
+  c: "théorème de convergence dominée"
+  d: "théorème d'inversion série-intégrale"
+  e: "théorème du changement de variable"
+  correct: !!set
+     ? 'a'
+
+53 :
+  qu: "Rappeler la loi de MALUS."
+  keys: ["physoema"]
+  a: "L'onde lumineuse est perpendiculaire aux fronts d'onde."
+  b: "L'onde lumineuse est parallèle aux fronts d'onde."
+  c: "Lors de la propagation de l'onde lumineuse, les fronts d'onde ont toujours la même direction."
+  d: "I = I₀.cos²(α)"
+  e: "I = I₀.sin²(α)"
+  correct: !!set
+     ? 'd'
+
+54 :
+  qu: "Rappeler le théorème de MALUS."
+  keys: ["physopti"]
+  a: "L'onde lumineuse est perpendiculaire aux fronts d'onde."
+  b: "L'onde lumineuse est parallèle aux fronts d'onde."
+  c: "Lors de la propagation de l'onde lumineuse, les fronts d'onde ont toujours la même direction."
+  d: "I = I₀.cos²(α)"
+  e: "I = I₀.sin²(α)"
+  correct: !!set
+     ? 'a'
+
+55 :
+  qu: "On note Z les impédances complexes, C la capacité d'un condensateur et L l'inductance d'une bobine. On peut affirmer que :"
+  keys: ["physfilt"]
+  a: "Zc = 1/jCω"
+  b: "Zc = jCω"
+  c: "Zl = 1/jLω"
+  d: "Zl = jLω"
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'd'
+
+56 :
+  qu: "Dans un filtre passe-bande d'ordre 2 de facteur de qualité Q et de bande passante Δ, quelle relation est vérifiée ?"
+  keys: ["physfilt"]
+  a: "Q = ω₀/Δ"
+  b: "Q = Δ/ω₀"
+  c: "Q = ω₀²/Δ²"
+  d: "Q = Δ²/ω₀²"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+57 :
+  qu: "Pour mesurer la valeur efficace d'un signal périodique de valeur moyenne non nulle, on peut utiliser :"
+  keys: ["physfilt"]
+  a: "un voltmètre RMS en mode AC"
+  b: "un voltmètre RMS en mode DC"
+  c: "un voltmètre TRMS en mode AC"
+  d: "un voltmètre TRMS en mode DC"
+  e: "un oscilloscope"
+  correct: !!set
+     ? 'c'
+     ? 'e'
+
+58 :
+  qu: "Un passe-bande d'ordre 6 est caractérisé sur son diagramme de BODE en gain par une pente à..."
+  keys: ["physfilt"]
+  a: "-120 dB / décade"
+  b: "-60 dB / décade"
+  c: "0 dB / décade"
+  d: "60 dB / décade"
+  e: "120 dB / décade"
+  correct: !!set
+     ? 'a'
+     ? 'e'
+
+59 :
+  qu: "Rappeler l'équation des gaz parfaits."
+  keys: ["physpfth"]
+  a: "PV = nRT"
+  b: "RT = n/PV"
+  c: "PV/RT = cte"
+  d: "P² = RT/nV"
+  e: "P = nRT/(V-nb) - an²/V²"
+  correct: !!set
+     ? 'a'
+
+60 :
+  qu: "Quelles grandeurs sont extensives ?"
+  keys: ["physpfth"]
+  a: "l'énergie libre"
+  b: "l'enthalpie"
+  c: "l'entropie"
+  d: "l'enthalpie libre"
+  e: "le volume"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'c'
+     ? 'd'
+     ? 'e'
+
+61 :
+  qu: "Exprimer le travail élémentaire des forces de pression, avec P la pression appliquée par l'extérieur."
+  keys: ["physpfth"]
+  a: "δW = PdV"
+  b: "δW = -PdV"
+  c: "δW = P/dV"
+  d: "δW = -P/dV"
+  e: ""
+  correct: !!set
+     ? "b"
+
+62 :
+  qu: "Comment peut-on appeler le diagramme représentant la pression P en fonction du volume du système V ? On suppose le récipient d'étude fermé."
+  keys: ["physpfth"]
+  a: "diagramme de CLAPEYRON"
+  b: "diagramme de WATT"
+  c: "diagramme d'AMAGAT"
+  d: "diagramme de POURBAIX"
+  e: "diagramme de RAVEAU"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+
+63 :
+  qu: "Le premier principe de la thermodynamique stipule que tout système peut être doté d'une fonction d'état extensive U appelée énergie interne. Rappeler le bilan d'énergie qui en découle."
+  keys: ["physpfth"]
+  a: "ΔU = W + Q où W est le travail des forces non conservatives"
+  b: "ΔU = W + Q où W est le travail de toutes les forces"
+  c: "ΔEc + ΔEp + ΔU = W + Q où W est le travail des forces non conservatives"
+  d: "ΔEc + ΔEp + ΔU = W + Q où W est le travail de toutes les forces"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+64 :
+  qu: "Rappeler l'expression de l'enthalpie."
+  keys: ["physpfth"]
+  a: "H = Q"
+  b: "H = U + pV"
+  c: "H = W + Q"
+  d: "H = U + Q"
+  e: "H = 0 si le système est fermé"
+  correct: !!set
+     ? 'b'
+
+65 :
+  qu: "Lors d'une transformation monobare d'un système fermé :"
+  keys: ["physpfth"]
+  a: "ΔH = Q"
+  b: "p = pext"
+  c: "W = -pext(Vf - Vi)"
+  d: "ΔU = Q"
+  e: "la pression du système est la même à tout instant"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'c'
+
+66 :
+  qu: "Le transfert thermique δQ dissipé par effet JOULE par un conducteur de résistance R parcouru par un courant I pendant une durée dt vaut :"
+  keys: ["physpfth"]
+  a: "RIdt"
+  b: "R²I²dt"
+  c: "RI²dt"
+  d: "I³dt"
+  e: "R²Idt"
+  correct: !!set
+     ? 'c'
+
+67 :
+  qu: "Rappeler le premier principe industriel. On note w le travail massique fourni par l'organe traversé et Dm le débit massique."
+  keys: ["physpfth"]
+  a: "Dmdh = P(utile) + P(therm)"
+  b: "dh = w + q"
+  c: "Dmdh + w = 0"
+  d: "dh = Dm(wP(utile) + qP(therm))"
+  e: "w + qDm = dh"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+
+68 :
+  qu: "Le second principe de la thermodynamique stipule qu'à tout système fermé, de température à la frontière Θ, on peut associer une fonction d'état extensive S appelée entropie. Caractériser dS."
+  keys: ["physpfth"]
+  a: "dS = δQ / Θ"
+  b: "dS ≤ δQ / Θ"
+  c: "dS ≥ δQ / Θ"
+  d: ""
+  e: ""
+  correct: !!set
+     ? 'c'
+
+69 :
+  qu: "Dans une machine thermique :"
+  keys: ["physmach"]
+  a: "ΔU = 0"
+  b: "W = -Q"
+  c: "ΔS > 0"
+  d: "ΔS = 0"
+  e: "Qc/Tc + Qf/Tf ≤ 0"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'd'
+     ? 'e'
+
+70 :
+  qu: "Quelle est l'efficacité d'un moteur ?"
+  keys: ["physmach"]
+  a: "W / Qc"
+  b: "-W / Qc"
+  c: "W / Qf"
+  d: "Qf / W"
+  e: "-Qc / W"
+  correct: !!set
+     ? 'b'
+
+71 :
+  qu: "Quelle est l'efficacité d'une machine frigorifique ?"
+  keys: ["physmach"]
+  a: "W / Qc"
+  b: "-W / Qc"
+  c: "W / Qf"
+  d: "Qf / W"
+  e: "-Qc / W"
+  correct: !!set
+     ? 'd'
+
+72 :
+  qu: "Quelle est l'efficacité d'une pompe à chaleur ?"
+  keys: ["physmach"]
+  a: "W / Qc"
+  b: "-W / Qc"
+  c: "W / Qf"
+  d: "Qf / W"
+  e: "-Qc / W"
+  correct: !!set
+     ? 'e'
+
+73 :
+  qu: "Quelle est l'efficacité de CARNOT d'un moteur ?"
+  keys: ["physmach"]
+  a: "1 - Tf/Tc"
+  b: "1 + Tf/Tc"
+  c: "Tf / (Tc-Tf)"
+  d: "Tc / (Tc-Tf)"
+  e: "Tc / (Tf-Tc)"
+  correct: !!set
+     ? 'a'
+
+74 :
+  qu: "Quelle est l'efficacité de CARNOT d'une machine frigorifique ?"
+  keys: ["physmach"]
+  a: "1 - Tf/Tc"
+  b: "1 + Tf/Tc"
+  c: "Tf / (Tc-Tf)"
+  d: "Tc / (Tc-Tf)"
+  e: "Tc / (Tf-Tc)"
+  correct: !!set
+     ? 'c'
+
+75 :
+  qu: "Quelle est l'efficacité de CARNOT d'une pompe à chaleur ?"
+  keys: ["physmach"]
+  a: "1 - Tf/Tc"
+  b: "1 + Tf/Tc"
+  c: "Tf / (Tc-Tf)"
+  d: "Tc / (Tc-Tf)"
+  e: "Tc / (Tf-Tc)"
+  correct: !!set
+     ? 'd'
+
+76 :
+  qu: "Qu'est-ce que le diagramme des frigoristes ?"
+  keys: ["physmach"]
+  a: "un diagramme (P,T)"
+  b: "un diagramme (P,h)"
+  c: "un diagramme (T,s)"
+  d: "un diagramme (h,s)"
+  e: "un diagramme (T,V)"
+  correct: !!set
+     ? 'b'
+
+77 :
+  qu: "Rappeler la relation de MAYER pour un gaz parfait."
+  keys: ["physpfth"]
+  a: "Cp + Cv = nR"
+  b: "Cp + Cv = R"
+  c: "Cp - Cv = nR"
+  d: "Cp - Cv = R"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+78 :
+  qu: "Lors d'un changement d'état d'un corps pur à la température T, on note L la chaleur latente massique. Quelles relations sont vérifiées ?"
+  keys: ["physpfth"]
+  a: "L = Δh"
+  b: "L = Q"
+  c: "L = TΔs"
+  d: "L = Δs/T"
+  e: "L = Q + Δh"
+  correct: !!set
+     ? 'a'
+     ? 'c'
+
+79 :
+  qu: "Pour un gaz parfait :"
+  keys: ["physpfth"]
+  a: "ΔH = CpΔT"
+  b: "ΔH = CvΔT"
+  c: "ΔU = CpΔT"
+  d: "ΔU = CvΔT"
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'd'
+
+80 :
+  qu: "Caractériser la puissance transférée par diffusion thermique Φ."
+  keys: ["phystrth"]
+  a: "Φ est le flux du vecteur jth"
+  b: "Φ est la circulation du vecteur jth"
+  c: "Φdt = δQth"
+  d: "Φ est strictement positif"
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'c'
+
+81 :
+  qu: "Rappeler la loi de FOURIER de la diffusion thermique."
+  keys: ["phystrth"]
+  a: "jth = λ.grad(T)"
+  b: "jth = -λ.grad(T)"
+  c: "div(jth) = λ.dT/dt"
+  d: "div(jth) = -λ.dT/dt"
+  e: ""
+  correct: !!set
+     ? 'b'
+
+82 :
+  qu: "Citer le théorème de GREEN-OSTROGRADSKY."
+  keys: ["physcoor"]
+  a: "∫o∫ F.dS = ∫∫∫ div(F).dV"
+  b: "∫o∫ F.dS = ∫∫∫ dF.dV/dt"
+  c: "∫o F.dl = ∫∫ rot(F).dS"
+  d: "∫o F.dl = ∫∫ F.dS"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+83 :
+  qu: "Citer le théorème de STOKES-AMPÈRE."
+  keys: ["physcoor"]
+  a: "∫o∫ F.dS = ∫∫∫ div(F).dV"
+  b: "∫o∫ F.dS = ∫∫∫ dF.dV/dt"
+  c: "∫o F.dl = ∫∫ rot(F).dS"
+  d: "∫o F.dl = ∫∫ F.dS"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+84 :
+  qu: "Rappeler la loi de NEWTON de la conducto-convection, où n est un vecteur dirigé du solide (température Tp) au fluide (température Tf)."
+  keys: ["phystrth"]
+  a: "jth = h(Tp-Tf).n dans le solide"
+  b: "jth = -h(Tp-Tf).n dans le solide"
+  c: "jth = h(Tp-Tf).n à l'interface"
+  d: "jth = -h(Tp-Tf).n à l'interface"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+85 :
+  qu: "Définir la résistance thermique entre un milieu 1 de température T1 et un milieu 2 de température T2 (Φ orienté de 1 à 2)."
+  keys: ["phystrth"]
+  a: "Φ varie de façon quelconque"
+  b: "Φ est conservé"
+  c: "Rth = (T2-T1) / Φ"
+  d: "Rth = (T1-T2) / Φ"
+  e: "Rth = Φ / (T2-T1)"
+  correct: !!set
+     ? 'b'
+     ? 'd'
+
+86 :
+  qu: "Exprimer le facteur de BOLTZMANN intervenant dans le théorème du poids de BOLTZMANN. On note k la constante de BOLTZMANN."
+  keys: ["physthst"]
+  a: "exp(Eα/kT)"
+  b: "exp(-Eα/kT)"
+  c: "exp(kT/Eα)"
+  d: "exp(-kT/Eα)"
+  e: ""
+  correct: !!set
+     ? 'b'
+
+87 :
+  qu: "Quelle relation lie l'énergie d'un système E à sa capacité thermique C ? On note k la constante de BOLTZMANN."
+  keys: ["physthst"]
+  a: "Var(E) = CkT²"
+  b: "Var(E) = CkT"
+  c: "Var(E) = k²C"
+  d: "E = C/k²T²"
+  e: "E = kC²"
+  correct: !!set
+     ? 'a'
+
+88 :
+  qu: "Soit un système en équilibre thermique avec un thermostat T, possédant n degrés de liberté quadratiques. D'après le théorème d'équipartition de l'énergie, l'énergie moyenne d'une particule ε vaut :"
+  keys: ["physthst"]
+  a: "ε = nkT"
+  b: "ε = nkT/2"
+  c: "ε² = nT/2k"
+  d: "ε² = Tnk/2"
+  e: "ε = kT/2"
+  correct: !!set
+     ? 'b'
+
+89 :
+  qu: "Rappeler l'équation de l'oscillateur harmonique selon la dimension z."
+  keys: ["physosci"]
+  a: "d²z/dt² = ω₀²z"
+  b: "d²z/dt² = -ω₀²z"
+  c: "d²z/dt² + ω₀/Q dz/dt + ω₀²z = cte"
+  d: "d²z/dt² - ω₀/Q dz/dt + ω₀²z = cte"
+  e: ""
+  correct: !!set
+     ? 'b'
+
+90 :
+  qu: "Les solutions de l'équation de l'oscillateur harmonique sont de la forme :"
+  keys: ["physosci"]
+  a: "A.cos(ω₀t + φ)"
+  b: "A.sin(ω₀t + φ)"
+  c: "A.cos(ω₀t) + B.sin(ω₀t)"
+  d: "A.cos²(ω₀t + φ)"
+  e: "A.sin²(ω₀t + φ)"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'c'
+
+91 :
+  qu: "L'énergie potentielle élastique d'un point matériel de masse m accroché à l'extrémité d'un ressort s'écrit :"
+  keys: ["physosci"]
+  a: "-k(l-l₀)"
+  b: "k(l-l₀)"
+  c: "k(l-l₀)² / 2"
+  d: "-k(l-l₀)² / 2"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+92 :
+  qu: "Donner l'expression de la vitesse en coordonnées cylindriques."
+  keys: ["physcoor"]
+  a: "dρ/dt uρ + dθ/dt uθ + dz/dt uz"
+  b: "dρ/dt uρ + ρdθ/dt uθ + dz/dt uz"
+  c: "θdρ/dt uρ + dθ/dt uθ + dz/dt uz"
+  d: "ρdρ/dt uρ + θdθ/dt uθ + dz/dt uz"
+  e: "ρdρ/dt uρ + ρdθ/dt uθ + dz/dt uz"
+  correct: !!set
+     ? 'b'
+
+93 :
+  qu: "Rappeler l'expression de l'oscillateur amorti selon la dimension z."
+  keys: ["physosci"]
+  a: "d²z/dt² = ω₀²z"
+  b: "d²z/dt² = -ω₀²z"
+  c: "d²z/dt² + ω₀/Q dz/dt + ω₀²z = cte"
+  d: "d²z/dt² - ω₀/Q dz/dt + ω₀²z = cte"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+94 :
+  qu: "Si ξ est le facteur d'amortissement d'un oscillateur peu amorti, quelle est la durée du régime transitoire ?"
+  keys: ["physosci"]
+  a: "2ξ/ω₀"
+  b: "6ξ/ω₀"
+  c: "1/ξω₀"
+  d: "3/ξω₀"
+  e: "8/ξω₀"
+  correct: !!set
+     ? 'd'
+
+95 :
+  qu: "Quelles assertions sur le facteur de qualité Q d'un oscillateur amorti sont vraies ?"
+  keys: ["physosci"]
+  a: "Q est le nombre d'oscillations visibles"
+  b: "Q est proportionnel à l'amplitude des premières oscillations"
+  c: "Q = 2ξ"
+  d: "Q = 1/ξ"
+  e: "Q = 1/2ξ"
+  correct: !!set
+     ? 'a'
+     ? 'e'
+
+96 :
+  qu: "Si ξ est le facteur d'amortissement d'un oscillateur très amorti, au bout de combien de temps le système atteint-t-il sa valeur finale ?"
+  keys: ["physosci"]
+  a: "2ξ/ω₀"
+  b: "6ξ/ω₀"
+  c: "1/ξω₀"
+  d: "3/ξω₀"
+  e: "8/ξω₀"
+  correct: !!set
+     ? 'b'
+
+97 :
+  qu: "Donner l'expression du travail élémentaire δW."
+  keys: ["physmeca"]
+  a: "Pdt"
+  b: "dt/P"
+  c: "Pvdt"
+  d: "F.dOM"
+  e: "F.vdt"
+  correct: !!set
+     ? 'a'
+     ? 'd'
+
+98 :
+  qu: "Soit F la résultante des forces appliquée en M. D'après le théorème de la puissance cinétique :"
+  keys: ["physmeca"]
+  a: "dEc/dt = P(F)"
+  b: "dEm/dt = P(F)"
+  c: "Ec = dP(F)/dt"
+  d: "Ec = dP(E)/dt où E est la résultante des forces non conservatives"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+99 :
+  qu: "Donner l'expression du moment d'une force F appliquée en M par rapport à un point O."
+  keys: ["physmeca"]
+  a: "OM ^ F"
+  b: "MO ^ F"
+  c: "OM ^ mv"
+  d: "MO ^ mv"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+100:
+  qu: "Qu'est-ce qu'un couple ?"
+  keys: ["physmeca"]
+  a: "un ensemble de forces de résultante nulle"
+  b: "un ensemble de forces d'énergie potentielle nulle"
+  c: "un ensemble de forces de moment résultant non nul"
+  d: "un ensemble de forces d'énergie cinétique non nulle"
+  e: "un ensemble de forces s'appliquant sur deux points matériels"
+  correct: !!set
+     ? 'a'
+     ? 'c'
+
+101:
+  qu: "Donner l'expression du moment cinétique d'un point M en un point O du référentiel R."
+  keys: ["physmeca"]
+  a: "OM ^ F"
+  b: "MO ^ F"
+  c: "OM ^ mv"
+  d: "MO ^ mv"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+102:
+  qu: "Donner l'expression du moment cinétique d'un solide S par rapport à un axe Δ, en rotation à la vitesse angulaire ω."
+  keys: ["physmeca"]
+  a: "Jω"
+  b: "J²ω"
+  c: "Jω²"
+  d: "J²ω²"
+  e: "mω"
+  correct: !!set
+     ? 'a'
+
+103:
+  qu: "Dans R galiléen, si O est un point fixe de R, alors d'après le théorème du moment cinétique :"
+  keys: ["physmeca"]
+  a: "dL₀/dt = M₀(F)"
+  b: "dM₀(F)/dt = L₀"
+  c: "M₀(F) = L₀"
+  d: "dM₀(F)/dt = mvL₀"
+  e: "dM₀(F)/dt = JFL₀"
+  correct: !!set
+     ? 'a'
+
+104:
+  qu: "L'énergie cinétique d'un solide en rotation autour d'un axe Δ à la vitesse angulaire ω est :"
+  keys: ["physmeca"]
+  a: "mω²/2"
+  b: "Jω²/2"
+  c: "mω.|MΔ(F)|"
+  d: "mω.|LΔ|"
+  e: "m.|MΔ(F)|.|LΔ|"
+  correct: !!set
+     ? 'b'
+
+105:
+  qu: "Retrouver l'expression de la constante des aires dans un mouvement à force centrale."
+  keys: ["physmeca"]
+  a: "rθ"
+  b: "r²θ"
+  c: "r²dθ/dt"
+  d: "(dr/dt)²θ"
+  e: "dr/dt.dθ/dt"
+  correct: !!set
+     ? 'c'
+
+106:
+  qu: "Dans le cas d'une orbite circulaire, on note Θ la masse du Soleil. D'après la troisième loi de KEPLER :"
+  keys: ["physmeca"]
+  a: "T/R² est constant"
+  b: "T²/R³ est constant"
+  c: "la constante vaut 4π²/GΘ"
+  d: "la constante vaut 4π²G/Θ"
+  e: "la constante vaut 4π²GΘ"
+  correct: !!set
+     ? 'b'
+     ? 'c'
+
+107:
+  qu: "Donner l'expression de la vitesse en coordonnées sphériques."
+  keys: ["physcoor"]
+  a: "dr/dt ur + dθ/dt uθ + dφ/dt uφ"
+  b: "dr/dt ur + sin(θ)dθ/dt uθ + rsin(θ)dφ/dt uφ"
+  c: "dr/dt ur + rdθ/dt uθ + rsin(θ)dφ/dt uφ"
+  d: "dr/dt ur + rdθ/dt uθ + dφ/dt uφ"
+  e: "dr/dt ur + rsin(θ)dθ/dt uθ + rdφ/dt uφ"
+  correct: !!set
+     ? 'c'
+
+108:
+  qu: "Soit R' en rotation uniforme autour de Δ fixe par rapport à R galiléen, O (resp. O') un point fixe de R (resp. R'). Quelles relations sont vraies ?"
+  keys: ["physmeng"]
+  a: "v(M/R) = v(M/R') + v(O'/R)"
+  b: "v(M/R) = v(M/R') + Ω ^ OM"
+  c: "a(M/R) = a(M/R') + a(O'/R)"
+  d: "a(M/R) = a(M/R') + ae(M,R'/R) + ac(M,R'/R)"
+  e: ""
+  correct: !!set
+     ? 'b'
+     ? 'd'
+
+109:
+  qu: "Si R' est en rotation uniforme par rapport à R galiléen, rappeler l'expression de l'accélération d'entraînement (O est un point fixe de R)."
+  keys: ["physmeng"]
+  a: "-Ω².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
+  b: "Ω ^ (Ω ^ OM)"
+  c: "Ω².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
+  d: "2Ω ^ v(M/R')"
+  e: "2Ω ^ v(M/R)"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+
+110:
+  qu: "Si R' est en rotation uniforme par rapport à R galiléen, rappeler l'expression de l'accélération de CORIOLIS (O est un point fixe de R)."
+  keys: ["physmeng"]
+  a: "-Ω².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
+  b: "Ω ^ (Ω ^ OM)"
+  c: "Ω².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
+  d: "2Ω ^ v(M/R')"
+  e: "2Ω ^ v(M/R)"
+  correct: !!set
+     ? 'd'
+
+111:
+  qu: "Si R' est en rotation uniforme par rapport à R galiléen, rappeler l'expression de la force d'inertie d'entraînement (O est un point fixe de R)."
+  keys: ["physmeng"]
+  a: "-mΩ².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
+  b: "mΩ ^ (Ω ^ OM)"
+  c: "mΩ².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
+  d: "-2mΩ ^ v(M/R')"
+  e: "-2mΩ ^ v(M/R)"
+  correct: !!set
+     ? 'c'
+
+112:
+  qu: "Si R' est en rotation uniforme par rapport à R galiléen, rappeler l'expression de la force d'inertie de CORIOLIS (O est un point fixe de R)."
+  keys: ["physmeng"]
+  a: "-mΩ².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
+  b: "mΩ ^ (Ω ^ OM)"
+  c: "mΩ².HM (H projeté orthogonal de M sur l'axe de rotation fixe Δ)"
+  d: "-2mΩ ^ v(M/R')"
+  e: "-2mΩ ^ v(M/R)"
+  correct: !!set
+     ? 'd'
+
+113:
+  qu: "Une onde plane de longueur d'onde λ passant à travers une fente de largeur a est diffractée d'un angle θ selon la relation :"
+  keys: ["physopti"]
+  a: "sin(θ) = λ/a"
+  b: "tan(θ) = λ/a"
+  c: "sin(θ) = a/λ"
+  d: "tan(θ) = a/λ"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+114:
+  qu: "Dans les conditions de GAUSS :"
+  keys: ["physopti"]
+  a: "les rayons sont peu inclinés par rapport à l'axe optique"
+  b: "les rayons sont peu éloignés de l'axe optique"
+  c: "les angles d'incidence sur les dioptres sont faibles"
+  d: "l'image d'un point par le système est un point"
+  e: "les points situés dans un plan de front donnent une image nette dans un plan de front"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'c'
+
+115:
+  qu: "Donner la relation de conjugaison de DESCARTES. Les distances sont considérées algébriques."
+  keys: ["physopti"]
+  a: "1/OA' - 1/OA = 1/f'"
+  b: "1/OA - 1/OA' = 1/f'"
+  c: "1/OA' + 1/OA = 1/f"
+  d: "1/OA - 1/OA' = 1/f"
+  e: "1/OA + 1/OA' = 1/f'"
+  correct: !!set
+     ? 'a'
+
+116:
+  qu: "Donner la relation de grandissement de DESCARTES. Les distances sont considérées algébriques."
+  keys: ["physopti"]
+  a: "A'B'/AB = OA'/OA"
+  b: "A'B/AB' = OA'/OA"
+  c: "A'B'/OA' = AB/OA"
+  d: "A'B'/AB = OA/OA'"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+117:
+  qu: "Donner les relations de NEWTON. Les distances sont considérées algébriques."
+  keys: ["physopti"]
+  a: "FA.F'A' = -f'²"
+  b: "FA.F'A' = f'²"
+  c: "F'A'/F'O = FO/FA"
+  d: "F'A'/FA = F'O/FO"
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'c'
+
+118:
+  qu: "Donner la plage d'accomodation de l'œil."
+  keys: ["physopti"]
+  a: "[25 cm ; 100 m]"
+  b: "[15 cm ; 2 km]"
+  c: "[25 cm ; +∞["
+  d: "[100 m ; +∞["
+  e: "[15 cm ; +∞["
+  correct: !!set
+     ? 'c'
+
+119:
+  qu: "Rappeler le domaine des fréquences audibles par l'Homme."
+  keys: ["physsine"]
+  a: "[20 Hz ; 2 mHz]"
+  b: "[20 Hz ; 200 kHz]"
+  c: "[20 Hz ; 20 kHz]"
+  d: "[2 Hz ; 2 kHz]"
+  e: "[2 Hz ; 200 Hz]"
+  correct: !!set
+     ? 'c'
+
+120:
+  qu: "Pour projeter l'image d'un objet sur un écran éloigné d'une distance D, une lentille de distance focale f' doit vérifier :"
+  keys: ["physopti"]
+  a: "f' ≥ 4D"
+  b: "f' ≤ 4D"
+  c: "4f' ≥ D"
+  d: "4f' ≤ D"
+  e: ""
+  correct: !!set
+     ? 'd'
+
+121:
+  qu: "Rappeler l'équation de D'ALEMBERT unidimensionnelle pour un champ scalaire A se propageant selon z."
+  keys: ["physonde"]
+  a: "∂²A/∂z² - 1/c² ∂²A/∂t² = 0"
+  b: "∂²A/∂z² - 1/c² ∂²A/∂z² - 2a/c ∂A/∂z - a²A = 0, où a = cte"
+  c: "∂A/∂t - κ∂²A/∂z² = 0 où κ = cte"
+  d: "∂A/∂z + ∂ρ/∂t = 0"
+  e: "∂A/∂z + ∂ω/∂t = -j.E"
+  correct: !!set
+     ? 'a'
+
+122:
+  qu: "Rappeler l'équation locale de POYNTING."
+  keys: ["physoema"]
+  a: "∂²Π/∂z² - 1/c² ∂²Π/∂t² = 0"
+  b: "∂²Π/∂z² - 1/c² ∂²Π/∂z² - 2a/c ∂Π/∂z - a²Π = 0, où a = cte"
+  c: "∂Π/∂t - κ∂²Π/∂z² = 0 où κ = cte"
+  d: "div(Π) + ∂ρ/∂t = 0"
+  e: "div(Π) + ∂ω/∂t = -j.E"
+  correct: !!set
+     ? 'e'
+
+123:
+  qu: "Rappeler l'équation locale de la conservation de la charge."
+  keys: ["physoema"]
+  a: "∂²j/∂z² - 1/c² ∂²j/∂t² = 0"
+  b: "∂²j/∂z² - 1/c² ∂²j/∂z² - 2a/c ∂j/∂z - a²j = 0, où a = cte"
+  c: "∂j/∂t - κ∂²j/∂z² = 0 où κ = cte"
+  d: "div(j) + ∂ρ/∂t = 0"
+  e: "div(j) + ∂ω/∂t = -j.E"
+  correct: !!set
+     ? 'd'
+
+124:
+  qu: "L'indice optique d'un milieu homogène isotrope est lié à la vitesse de phase v d'une OPPM par la relation :"
+  keys: ["physopti"]
+  a: "n = c/v"
+  b: "n = v/c"
+  c: "n = c²/v²"
+  d: "n = v²/c²"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+125:
+  qu: "L'indice optique du verre est environ :"
+  keys: ["physopti"]
+  a: "0,75"
+  b: "1"
+  c: "1,33"
+  d: "1,5"
+  e: "2,5"
+  correct: !!set
+     ? 'd'
+
+126:
+  qu: "L'intensité lumineuse d'une onde s est donnée par la relation :"
+  keys: ["physopti"]
+  a: "2<s>"
+  b: "<s>"
+  c: "2<s²>"
+  d: "<s²>"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+127:
+  qu: "Deux ondes lumineuses monochromatiques sont dites cohérentes si :"
+  keys: ["physopti"]
+  a: "elles sont quasi-synchrones"
+  b: "leur déphasage varie suffisamment lentement"
+  c: "leur amplitude est quasiment identique"
+  d: "elles proviennent du même train d'ondes"
+  e: "leur différence de marche est inférieure à leur longueur de cohérence"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'd'
+     ? 'e'
+
+128:
+  qu: "Rappeler la formule de FRESNEL à deux ondes."
+  keys: ["physopti"]
+  a: "I = I₁ + I₂ + 2I₁I₂"
+  b: "I = I₁ + I₂ + 2cos(Δφ).√I₁I₂"
+  c: "I = 4cos(Δφ).√I₁I₂"
+  d: "I = I₁² + I₂²"
+  e: "I = I₁ + I₂ + 2I₁I₂.√Δφ"
+  correct: !!set
+     ? 'b'
+
+129:
+  qu: "D'après le critère semi-quantitatif du brouillage partiel, les franges d'interférences sont brouillées lorsque :"
+  keys: ["physopti"]
+  a: "Δp < 1/2"
+  b: "Δp > 1/2"
+  c: "|Δp| < 1/2"
+  d: "|Δp| > 1/2"
+  e: ""
+  correct: !!set
+     ? 'd'
+
+130:
+  qu: "Soit une réaction chimique de réactifs A et B et de produits C et D admettant un ordre. Il existe k = cte tel que sa vitesse de réaction est de la forme :"
+  keys: ["chimchim"]
+  a: "k"
+  b: "k.[A]^a.[B]^b.[C]^c.[D]^d"
+  c: "k.[A]^a.[B]^b"
+  d: "k.[A]^a.[B]^b.[C]^-c.[D]^-d"
+  e: "k.([A][B][C][D])^λ"
+  correct: !!set
+     ? 'c'
+
+131:
+  qu: "Rappeler la loi d'ARRHENIUS."
+  keys: ["chimchim"]
+  a: "k = E / RT²"
+  b: "ln(k) = E / T²R"
+  c: "ln(k) = exp(E / RT²)"
+  d: "dln(k)/dT = E / T²R"
+  e: "dln(k)/dT = exp(E / RT²)"
+  correct: !!set
+     ? 'd'
+
+132:
+  qu: "Dans une pile, sélectionner les assertions correctes."
+  keys: ["chimelch"]
+  a: "L'oxydation s'effectue à l'anode."
+  b: "L'oxydation s'effectue à la cathode."
+  c: "La réduction s'effectue à l'anode."
+  d: "La réduction s'effectue à la cathode."
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'd'
+
+133:
+  qu: "Soit la réaction de précipitation CxAy = xC' + yA' de produit de solubilité Ks. Il n'y a pas de précipité tant que :"
+  keys: ["chimchim"]
+  a: "[C']^x.[A']^y < Ks"
+  b: "[C']^x.[A']^y > Ks"
+  c: "[C']^x < [A']^y"
+  d: "[C']^x > [A']^y"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+134:
+  qu: "Un électron est complètement décrit par les nombres quantiques :"
+  keys: ["chimarch"]
+  a: "le nombre quantique principal n > 0"
+  b: "le nombre quantique secondaire 0 ≤ l ≤ n-1"
+  c: "le nombre quantique magnétique -l ≤ ml ≤ l"
+  d: "le nombre quantique magnétique de spin ms = ± 1/2"
+  e: "le nombre quantique de SCHRÖDINGER mh = 0 ou 1"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'c'
+     ? 'd'
+
+135:
+  qu: "On considère l'atome d'azote (Z = 7). D'après la règle de HUND, une configuration électronique possible est :"
+  keys: ["chimarch"]
+  a: "[↑↓] [↑↓] [↑↓][ ↓][  ]"
+  b: "[↑↓] [↑↓] [ ↓][↑ ][↑ ]"
+  c: "[↑↓] [↑↓] [ ↓][ ↓][ ↓]"
+  d: "[↑↓] [↑↓] [↑ ][↑ ][↑ ]"
+  e: "[↑↓] [↑↓] [↑↓][  ][↑ ]"
+  correct: !!set
+     ? 'c'
+     ? 'd'
+
+136:
+  qu: "Quelle colonne du tableau périodique est celle des halogènes ? On rappelle que le tableau comporte 18 colonnes."
+  keys: ["chimarch"]
+  a: "1"
+  b: "2"
+  c: "3"
+  d: "17"
+  e: "18"
+  correct: !!set
+     ? 'd'
+
+137:
+  qu: "Quelle colonne du tableau périodique est celle des alcalins ? On rappelle que le tableau comporte 18 colonnes."
+  keys: ["chimarch"]
+  a: "1"
+  b: "2"
+  c: "3"
+  d: "17"
+  e: "18"
+  correct: !!set
+     ? 'a'
+
+138:
+  qu: "La structure électronique du fluor est 1s²2s²2p⁵. Quelle configuration des électrons de valence est la plus probable ?"
+  keys: ["chimarch"]
+  a: "2 doublets non liants, 1 électron liant"
+  b: "3 doublets non liants, 1 électron liant"
+  c: "1 doublet non liant, 5 électrons liants"
+  d: "3 doublets non liants, 2 électrons liants, 1 lacune électronique"
+  e: "2 doublets non liants, 3 électrons liants"
+  correct: !!set
+     ? 'b'
+
+139:
+  qu: "La longueur d'une liaison covalente est de l'ordre de :"
+  keys: ["chimarch"]
+  a: "1 pm"
+  b: "10 pm"
+  c: "100 pm"
+  d: "1 nm"
+  e: "10 nm"
+  correct: !!set
+     ? 'c'
+
+140:
+  qu: "L'énergie d'une liaison covalente en kJ.mol⁻¹ est de l'ordre de :"
+  keys: ["chimarch"]
+  a: "0,04"
+  b: "0,4"
+  c: "4"
+  d: "400"
+  e: "40000"
+  correct: !!set
+     ? 'd'
+
+141:
+  qu: "Soit une masse m d'une phase condensée de capacité thermique c subissant une transformation monobare adiabatique d'une température T1 à une température T2. Calculer ΔH."
+  keys: ["physpfth"]
+  a: "ΔH = 0"
+  b: "ΔH = mc(T1-T2)"
+  c: "ΔH = mc(T2-T1)"
+  d: "ΔH dépend de la masse volumique de la phase condensée"
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'c'
+
+142:
+  qu: "Que dire de l'enthalpie libre G ?"
+  keys: ["chimthch"]
+  a: "G = H + TS"
+  b: "G = H - TS"
+  c: "G est en J"
+  d: "G est en J.K⁻¹"
+  e: "G est une fonction d'état"
+  correct: !!set
+     ? 'b'
+     ? 'c'
+     ? 'e'
+
+143:
+  qu: "Rappeler la formule de DE DONDER pour un système fermé monoréactionnel isotherme isobare."
+  keys: ["chimthch"]
+  a: "ΔrG - dξ = -TδSc"
+  b: "ΔrG + dξ = TδSc"
+  c: "ΔrG + dξ = -TδSc"
+  d: "TδSc ≥ 0"
+  e: "TδSc ≤ 0"
+  correct: !!set
+     ? 'a'
+     ? 'd'
+
+144:
+  qu: "Par définition, ΔrG⁰(T) ="
+  keys: ["chimthch"]
+  a: "RTln(K⁰(T))"
+  b: "-RTln(K⁰(T))"
+  c: "RTK⁰(T)"
+  d: "-RTK⁰(T)"
+  e: ""
+  correct: !!set
+     ? 'b'
+
+145:
+  qu: "Donner la relation entre ΔrG, K⁰ et Qr."
+  keys: ["chimthch"]
+  a: "ΔrG = RTln(Qr/K⁰(T))"
+  b: "ΔrG = -RTln(Qr/K⁰(T))"
+  c: "ΔrG = RTln(QrK⁰(T))"
+  d: "ΔrG = RTQrK⁰(T)"
+  e: "ΔrG = -RTK⁰(T) / Qr"
+  correct: !!set
+     ? 'a'
+
+146:
+  qu: "Rappeler la relation de VAN'T HOFF."
+  keys: ["chimthch"]
+  a: "ΔrH⁰(T) = RT².dln(K⁰(T))/dT"
+  b: "ΔrH⁰(T) = RT.dln(K⁰(T))/dT"
+  c: "ΔrH⁰(T) = RTln(K⁰(T))"
+  d: "ΔrH⁰(T) = RT².dK⁰(T)/dT"
+  e: "ΔrH⁰(T) = RT².K⁰(T)"
+  correct: !!set
+     ? 'a'
+
+147:
+  qu: "Dans une cellule électrochimique où n électrons sont échangés, q et ξ sont liés par la relation :"
+  keys: ["chimelch"]
+  a: "dq = nFdξ"
+  b: "dq = -nFdξ"
+  c: "dq = n²ξ"
+  d: "dq = -n²ξ"
+  e: "dq = ξ"
+  correct: !!set
+     ? 'a'
+
+148:
+  qu: "Rappeler l'équation de MAXWELL-GAUSS."
+  keys: ["physemag"]
+  a: "div(E) = ρ/ε₀"
+  b: "div(B) = 0"
+  c: "rot(E) = -∂B/∂t"
+  d: "rot(B) = μ₀j + μ₀ε₀.∂E/∂t"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+149:
+  qu: "Rappeler l'équation de MAXWELL-flux."
+  keys: ["physemag"]
+  a: "div(E) = ρ/ε₀"
+  b: "div(B) = 0"
+  c: "rot(E) = -∂B/∂t"
+  d: "rot(B) = μ₀j + μ₀ε₀.∂E/∂t"
+  e: ""
+  correct: !!set
+     ? 'b'
+
+150:
+  qu: "Rappeler l'équation de MAXWELL-FARADAY."
+  keys: ["physemag"]
+  a: "div(E) = ρ/ε₀"
+  b: "div(B) = 0"
+  c: "rot(E) = -∂B/∂t"
+  d: "rot(B) = μ₀j + μ₀ε₀.∂E/∂t"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+151:
+  qu: "Rappeler l'équation de MAXWELL-AMPÈRE."
+  keys: ["physemag"]
+  a: "div(E) = ρ/ε₀"
+  b: "div(B) = 0"
+  c: "rot(E) = -∂B/∂t"
+  d: "rot(B) = μ₀j + μ₀ε₀.∂E/∂t"
+  e: ""
+  correct: !!set
+     ? 'd'
+
+152:
+  qu: "Donner la valeur de 1/4πε₀."
+  keys: ["physemag"]
+  a: "9.10E9 m.F"
+  b: "9.10E9 m.F⁻¹"
+  c: "9.10E9 m.A"
+  d: "4π.10E-7 A.m"
+  e: "4π.10E-7 A.m⁻¹"
+  correct: !!set
+     ? 'b'
+
+153:
+  qu: "Donner la valeur de μ₀."
+  keys: ["physemag"]
+  a: "9.10E9 m.F"
+  b: "9.10E9 m.F⁻¹"
+  c: "9.10E9 m.A"
+  d: "4π.10E-7 A.m"
+  e: "4π.10E-7 A.m⁻¹"
+  correct: !!set
+     ? 'e'
+
+154:
+  qu: "Une charge ponctuelle q placée en O fixe crée un champ électrostatique dirigé selon ur de norme :"
+  keys: ["physemag"]
+  a: "q²/4πε₀OM²"
+  b: "q/4πε₀OM²"
+  c: "q²/4πε₀OM"
+  d: "q/4πε₀OM"
+  e: ""
+  correct: !!set
+     ? 'b'
+
+155:
+  qu: "La capacité d'un condensateur plan idéal formé par deux armatures de surface S et séparées d'une distance h est :"
+  keys: ["physemag"]
+  a: "Sε₀/h"
+  b: "h/ε₀S"
+  c: "S/ε₀h"
+  d: "Sh/ε₀"
+  e: "ε₀/Sh"
+  correct: !!set
+     ? 'a'
+
+156:
+  qu: "Soit un conducteur rectiligne de longueur L parcouru par un courant I orienté et plongé dans un champ B. La force de LAPLACE résultante est :"
+  keys: ["physemag"]
+  a: "IL ^ B"
+  b: "IB ^ L"
+  c: "I(B.L)u où u est un vecteur orienté selon le sens de I"
+  d: "I(B.L)(B^L)"
+  e: "B ^ L"
+  correct: !!set
+     ? 'a'
+
+157:
+  qu: "Lors du passage à une interface :"
+  keys: ["physemag"]
+  a: "E tangentiel et B tangentiel sont conservés"
+  b: "E normal et B normal sont conservés"
+  c: "E tangentiel et B normal sont conservés"
+  d: "E normal et B tangentiel sont conservés"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+158:
+  qu: "Lors du passage à une interface :"
+  keys: ["physemag"]
+  a: "ΔB(tangentiel) = μ₀j ^ n où n est le vecteur normal à l'interface dirigé de (1) à (2)"
+  b: "ΔB(normal) = μ₀j ^ n où n est le vecteur normal à l'interface dirigé de (1) à (2)"
+  c: "ΔE(tangentiel) = σ/ε₀.n où n est le vecteur normal à l'interface dirigé de (1) à (2)"
+  d: "ΔE(normal) = σ/ε₀.n où n est le vecteur normal à l'interface dirigé de (1) à (2)"
+  e: ""
+  correct: !!set
+     ? 'a'
+     ? 'd'
+
+159:
+  qu: "Rappeler l'expression de la densité volumique d'énergie électromagnétique."
+  keys: ["physemag"]
+  a: "E ^ B/μ₀"
+  b: "-j.E"
+  c: "ε₀E²/2 + B²/2μ₀"
+  d: "∫∫ Π.dSm"
+  e: ""
+  correct: !!set
+     ? 'c'
+
+160:
+  qu: "Une onde électromagnétique plane progressive se propageant à la célérité c.u satisfait les équations :"
+  keys: ["physoema"]
+  a: "E.u = 0"
+  b: "B.u = 0"
+  c: "B = u ^ E/c"
+  d: "(u,E,B) forme un trièdre droit direct"
+  e: "(u,B,E) forme un trièdre droit direct"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'c'
+     ? 'd'
+
+161:
+  qu: "La polarisation d'une onde électromagnétique correspond à la direction de :"
+  keys: ["physoema"]
+  a: "E"
+  b: "B"
+  c: "u, le vecteur d'onde"
+  d: ""
+  e: ""
+  correct: !!set
+     ? 'a'
+
+162:
+  qu: "Pour un quanton non localisé d'impulsion p parfaitement déterminée, on pose le vecteur densité de courant de probabilité J ="
+  keys: ["physquan"]
+  a: "|Ψ|².hk/m"
+  b: "|Ψ|².hk/2πm"
+  c: "|Ψ|.hk"
+  d: "|Ψ|.hk/2πm"
+  e: "|Ψ|/hkm"
+  correct: !!set
+     ? 'b'
+
+163:
+  qu: "Donner la variance d'une loi géométrique de paramètre p."
+  keys: ["mathprob"]
+  a: "p(p+2)/12"
+  b: "p(1-p)"
+  c: "p²(1-p)²"
+  d: "(1-p)/p²"
+  e: "p"
+  correct: !!set
+     ? 'd'
+
+164:
+  qu: "Donner la variance d'une loi de POISSON de paramètre p."
+  keys: ["mathprob"]
+  a: "p(p+2)/12"
+  b: "p(1-p)"
+  c: "p²(1-p)²"
+  d: "(1-p)/p²"
+  e: "p"
+  correct: !!set
+     ? 'e'
+
+165:
+  qu: "Si X est une vard admettant une variance, alors d'après le théorème de BIENAYMÉ-TCHEBYCHEV, pour tout ε > 0 :"
+  keys: ["mathprob"]
+  a: "P(|X-E(X)| ≥ ε) ≤ V(X)/ε²"
+  b: "P(|X-E(X)| ≥ ε) ≥ V(X)/ε²"
+  c: "P(|X-E(X)| ≥ ε) ≤ V(X)/ε"
+  d: "P(|X-E(X)| ≥ ε) ≥ V(X)/ε"
+  e: ""
+  correct: !!set
+     ? 'a'
+
+166:
+  qu: "Donner l'expression de Cov(X,Y) où X et Y sont des variables aléatoires admettant des espérances."
+  keys: ["mathprob"]
+  a: "E((X - E(X))(Y - E(Y)))"
+  b: "E(XY) - E(X)E(Y)"
+  c: "(E(X²) - E(Y)²) + (E(Y²) - E(X)²)"
+  d: "0 si X et Y sont indépendantes"
+  e: "0 si X et Y ne sont pas indépendantes"
+  correct: !!set
+     ? 'a'
+     ? 'b'
+     ? 'd'
+
+167:
+  qu: "Donner la dérivée de tan sur son ensemble de dérivabilité."
+  keys: ["mathanly"]
+  a: "tan²"
+  b: "1 + tan²"
+  c: "1/cos²"
+  d: "1/sin²"
+  e: "cos²/sin²"
+  correct: !!set
+     ? 'b'
+     ? 'c'
+
+168:
+  qu: "Donner la dérivée de arcsin sur son ensemble de dérivabilité."
+  keys: ["mathanly"]
+  a: "1/√(1-x²)"
+  b: "-1/√(1-x²)"
+  c: "1/(1+x²)"
+  d: "arccos"
+  e: "-arcsin"
+  correct: !!set
+     ? 'a'
+
+169:
+  qu: "Donner la dérivée de arccos sur son ensemble de dérivabilité."
+  keys: ["mathanly"]
+  a: "1/√(1-x²)"
+  b: "-1/√(1-x²)"
+  c: "1/(1+x²)"
+  d: "arccos"
+  e: "-arcsin"
+  correct: !!set
+     ? 'b'
+
+170:
+  qu: "Donner la dérivée de arctan sur son ensemble de dérivabilité."
+  keys: ["mathanly"]
+  a: "1/√(1-x²)"
+  b: "-1/√(1-x²)"
+  c: "1/(1+x²)"
+  d: "arccos"
+  e: "-arcsin"
+  correct: !!set
+     ? 'c'

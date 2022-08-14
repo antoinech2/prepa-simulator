@@ -5,7 +5,6 @@
 Gestion du Sac et de l'inventaire
 """
 
-import objects
 import numpy as np
 
 class Bag():
@@ -27,7 +26,7 @@ class Bag():
         else:
             self.contents[object_id] += qty
         if self.contents[object_id] <= 0:
-            del(self.contents[object_id]) # Plus d'objets de ce type
+            self.contents[object_id] = 0     # Plus d'objets de ce type
 
     def save(self):
         """Sauvegarde le contenu du sac dans la base de données"""
@@ -37,8 +36,16 @@ class Bag():
 
     def separate(self, interval):
         """Séparation du contenu du Sac en groupes (listes)"""
+        print(self.contents)
         objects = list(self.contents.keys())
         amounts = list(self.contents.values())
+        corrected_obj = []
+        corrected_amt = []
+        for obj in range(len(objects)):
+            if amounts[obj] != 0:
+                corrected_obj.append(objects[obj])
+                corrected_amt.append(amounts[obj])
+        objects, amounts = corrected_obj, corrected_amt
         groups = []
         current_group = []
         while objects != []:
@@ -48,5 +55,6 @@ class Bag():
                 current_group = []
             del(objects[0])
             del(amounts[0])
-        groups.append(current_group)
+        if current_group != []:
+            groups.append(current_group)
         return(groups)

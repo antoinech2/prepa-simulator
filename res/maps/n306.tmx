@@ -110,7 +110,7 @@
   <object id="2" type="mur" x="1216" y="1184" width="128" height="608"/>
   <object id="3" type="mur" x="1664" y="1184" width="96" height="640"/>
   <object id="4" type="mur" x="1248" y="1728" width="512" height="128"/>
-  <object id="5" name="to_niv3_n" x="1664" y="1312" width="32" height="32"/>
+  <object id="5" name="to_niv3_n" type="door" x="1662.36" y="1312" width="33.6364" height="32"/>
   <object id="6" name="spawn_n306" x="1628.33" y="1312">
    <point/>
   </object>

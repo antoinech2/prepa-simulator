@@ -222,10 +222,10 @@
   <object id="8" name="WC" x="1600" y="2080">
    <point/>
   </object>
-  <object id="12" name="to_niv3_n" x="1504" y="2176" width="64" height="32"/>
+  <object id="12" name="to_niv3_n" type="portal" x="1504" y="2176" width="64" height="32"/>
   <object id="13" name="spawn_dl3_n" x="1504" y="2112">
    <point/>
   </object>
-  <object id="14" name="to_niv3_i" x="1504" y="1056" width="64" height="32"/>
+  <object id="14" name="to_niv3_i" type="portal" x="1504" y="1056" width="64" height="32"/>
  </objectgroup>
 </map>

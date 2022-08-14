@@ -37,6 +37,9 @@ class ObjectManager():
             self.map.game.map_manager.sound_manager.play_sfx("jingleV2")        # Musique d'obtention d'un objet
             self.map.game.dialogue = dialogue.Dialogue(self.map.game, None, True, None, [f"Obtenu : {obj_collide_list[0].parent.name} !"])      # Boîte de dialogue informant le joueur
         self.refresh_objects()
+        self.map.game.menu_manager.sidemenu.bagmenu.refresh_groups()     # Mise à jour de l'affichage des objets dans le sac
+        
+        print(self.map.game.menu_manager.sidemenu.bagmenu.groups)
 
     def refresh_objects(self):
         """Suppression du sprite des objets ramassés"""
@@ -49,8 +52,9 @@ class ObjectManager():
         object_ids = self.map.game.game_data_db.execute("select id from object_list;").fetchall()
         object_names = self.map.game.game_data_db.execute("select object_name from object_list;").fetchall()
         object_categories = self.map.game.game_data_db.execute("select object_category from object_list;").fetchall()
+        object_descs = self.map.game.game_data_db.execute("select object_desc from object_list;").fetchall()
         for id in range(len(object_ids)):
-            self.list_of_objects.append(Object(object_ids[id][0], object_names[id][0], object_categories[id][0])) # La liste est considérée dans l'ordre
+            self.list_of_objects.append(Object(object_ids[id][0], object_names[id][0], object_categories[id][0], object_descs[id][0])) # La liste est considérée dans l'ordre
 
 
 class MapObject(pg.sprite.Sprite):
@@ -85,7 +89,6 @@ class MapObject(pg.sprite.Sprite):
     def save(self):
         """Sauvegarde de l'état de l'objet sur la carte pour empêcher sa réapparition"""
         self.map.game.save.execute('replace into mapobjects values (?, 1)', (self.id,))
-        self.map.game.save.commit()
 
 
 class Object():
@@ -94,10 +97,11 @@ class Object():
     OVERWORLD_TEX = "res/textures/objects/overworld.png"
     PLACEHOLDER_TEX_PATH = "res/textures/objects/placeholder.png"
     
-    def __init__(self, id, name, category):
+    def __init__(self, id, name, category, desc):
         self.id = id
         self.name = name
         self.category = category
+        self.desc = desc
         self.path = f"{self.OBJ_TEX_FOLDER}object{self.id}.png"         # Chemin de l'icône dans le Sac de l'objet
 
         # Graphismes

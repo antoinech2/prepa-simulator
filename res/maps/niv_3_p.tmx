@@ -115,16 +115,16 @@
   <object id="4" type="mur" x="1152" y="960" width="1088" height="576"/>
   <object id="6" type="mur" x="992" y="1600" width="1312" height="448"/>
   <object id="7" type="mur" x="2304" y="1408" width="256" height="416"/>
-  <object id="8" name="to_niv3_n" x="960" y="1440" width="32" height="64"/>
+  <object id="8" name="to_niv3_n" type="portal" x="960" y="1440" width="32" height="64"/>
   <object id="9" name="spawn_from3_n" x="1024" y="1440">
    <point/>
   </object>
   <object id="10" type="mur" x="2272" y="1408" width="64" height="96"/>
-  <object id="11" name="to_niv2_p_east" x="2240" y="1472" width="32" height="32"/>
+  <object id="11" name="to_niv2_p_east" type="portal" x="2240" y="1472" width="32" height="32"/>
   <object id="12" name="spawn_3p_east" x="2243" y="1517.75">
    <point/>
   </object>
-  <object id="13" name="to_niv2_p_west" x="1120" y="1376" width="32" height="32"/>
+  <object id="13" name="to_niv2_p_west" type="portal" x="1120" y="1376" width="32" height="32"/>
   <object id="14" name="spawn_3p_west" x="1103" y="1425.75">
    <point/>
   </object>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="87">
+<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="91">
  <tileset firstgid="1" source="../textures/tiles.tsx"/>
  <layer id="1" name="floor_layer" width="150" height="150">
   <data encoding="csv">
@@ -181,8 +181,8 @@
   <object id="16" type="mur" x="2688" y="1248" width="160" height="576"/>
   <object id="18" type="mur" x="2464" y="1952" width="128" height="1024"/>
   <object id="20" type="mur" x="2496" y="3072" width="96" height="1301.67"/>
-  <object id="22" name="to_niv1_i" x="2848" y="1920" width="32" height="64"/>
-  <object id="23" name="to_niv1_n" x="2848" y="3104" width="32" height="64"/>
+  <object id="22" name="to_niv1_i" type="portal" x="2848" y="1920" width="32" height="64"/>
+  <object id="23" name="to_niv1_n" type="portal" x="2848" y="3104" width="32" height="64"/>
   <object id="24" name="spawn_niv2_n" x="2656" y="3040">
    <point/>
   </object>
@@ -191,12 +191,12 @@
   </object>
   <object id="27" type="mur" x="2688" y="1824" width="64" height="32"/>
   <object id="28" type="mur" x="2816" y="1888" width="64" height="32"/>
-  <object id="29" name="to_niv3_i" x="2848" y="1824" width="32" height="64"/>
-  <object id="32" name="to_i211" x="1440" y="1888" width="32" height="32"/>
+  <object id="29" name="to_niv3_i" type="portal" x="2848" y="1824" width="32" height="64"/>
+  <object id="32" name="to_i211" type="door" x="1440" y="1888" width="34" height="32"/>
   <object id="33" name="exit_i211" x="1504" y="1888">
    <point/>
   </object>
-  <object id="34" name="to_i210" x="1701" y="1800.25" width="22.0313" height="55.75"/>
+  <object id="34" name="to_i210" type="door" x="1701" y="1800.25" width="22.0313" height="57.875"/>
   <object id="35" name="exit_i210" x="1696" y="1856">
    <point/>
   </object>
@@ -221,7 +221,7 @@
   <object id="44" name="I204" x="2432" y="1792">
    <point/>
   </object>
-  <object id="45" name="to_l201" x="2688" y="2912" width="32" height="32"/>
+  <object id="45" name="to_l201" type="door" x="2685.09" y="2912" width="34.9091" height="32"/>
   <object id="46" name="exit_l201" x="2656" y="2912">
    <point/>
   </object>
@@ -231,7 +231,7 @@
   <object id="48" name="Fermé inouvrable" x="2707" y="2692">
    <point/>
   </object>
-  <object id="49" name="to_k201" x="2688" y="1728" width="32" height="32"/>
+  <object id="49" name="to_k201" type="door" x="2685.64" y="1728" width="34.3636" height="32"/>
   <object id="50" name="exit_k201" x="2656" y="1728">
    <point/>
   </object>
@@ -269,15 +269,15 @@
   <object id="71" type="mur" x="2816" y="4000" width="64" height="32"/>
   <object id="72" type="mur" x="2752" y="4096" width="128" height="64"/>
   <object id="73" type="mur" x="2752" y="3168" width="128" height="768"/>
-  <object id="74" name="to_niv1_o" x="2848" y="4032" width="32" height="64"/>
+  <object id="74" name="to_niv1_o" type="portal" x="2848" y="4032" width="32" height="64"/>
   <object id="75" name="spawn_from1_o" x="2784" y="4032">
    <point/>
   </object>
-  <object id="76" name="to_niv3_n" x="2848" y="3008" width="32" height="64"/>
+  <object id="76" name="to_niv3_n" type="portal" x="2848" y="3008" width="32" height="64"/>
   <object id="77" name="spawn_from3_n" x="2784" y="3040">
    <point/>
   </object>
-  <object id="78" name="to_niv3_o" x="2848" y="3936" width="32" height="64"/>
+  <object id="78" name="to_niv3_o" type="portal" x="2848" y="3936" width="32" height="64"/>
   <object id="79" name="spawn_from3_o" x="2784" y="3968">
    <point/>
   </object>
@@ -293,11 +293,19 @@
   <object id="83" name="CF" x="2636.33" y="1641">
    <point/>
   </object>
-  <object id="84" name="to_m202" x="2688" y="3712" width="32" height="32"/>
+  <object id="84" name="to_m202" type="door" x="2685.64" y="3712" width="34.3636" height="32"/>
   <object id="85" name="exit_m202" x="2638.5" y="3711">
    <point/>
   </object>
   <object id="86" name="Fermé" x="2704" y="3588.5">
+   <point/>
+  </object>
+  <object id="87" name="to_n205" type="door" x="1632" y="3070" width="32" height="34"/>
+  <object id="88" name="exit_n205" x="1631.67" y="3028.33">
+   <point/>
+  </object>
+  <object id="89" name="to_l204" type="door" x="2686" y="2176" width="34" height="32"/>
+  <object id="90" name="exit_l204" x="2650.75" y="2176.25">
    <point/>
   </object>
  </objectgroup>

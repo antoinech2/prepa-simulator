@@ -1,0 +1,95 @@
+$progress1a
+// Exemple de script de progression d'une mission
+checkevent("discoveredMission1")
+    iftrue("goto('okay')")
+loadtext("Dis oui pour découvrir la mission 1 !")
+infobox()
+opencb()
+cb_result()
+compare('eq', 0)
+    iffalse("goto('refus')")
+mistate(1, 1)
+put(1)
+runscript('missionnews')
+goto('end')
+
+label('refus')
+loadtext("Bon, d'accord...")
+infobox()
+goto('end')
+
+label('okay')
+loadtext("Tu as déjà découvert la mission 1 !")
+infobox()
+
+label('end')
+
+$$$
+
+
+$dens
+// Script de Denis
+checkevent('firstDens')
+    iftrue("goto('missiondens')")
+
+label('introdens')
+dialogue(self.current_npc, 1)
+put(46)
+runscript('object')
+mistate(2, 1)
+put(2)
+runscript('missionnews')
+miadv(2, 1)
+raiseevent('firstDens')
+goto('end')
+
+label('missiondens')
+loadtext('Ceci est le texte que dit Denis lors de la mission 2.')
+infobox()
+checkevent('clearedMission2')
+    iftrue("goto('main')")
+checkevent('unclaimedMission2')
+    iftrue("goto('m2claim')")
+
+
+label('m2claim')
+dialogue(self.current_npc, 2)
+mistate(2, 4)
+put(2)
+runscript("missionnews")
+goto('end')
+
+label('main')
+loadtext("Ceci est le dialogue par défaut de Denis.")
+infobox()
+
+label('end')
+
+
+$$$
+
+
+$prof1
+// Script d'un prof random
+checkadv(2, 'eq', 2)
+    iftrue("goto('mi22')")
+
+goto('main')
+
+label('mi22')
+dialogue(self.current_npc, 2)
+put(47)
+runscript('object')
+miadv(2, 3)
+goto('end')
+
+
+label('main')
+dialogue(self.current_npc, 1)
+
+label('end')
+
+$$$
+
+
+eof
